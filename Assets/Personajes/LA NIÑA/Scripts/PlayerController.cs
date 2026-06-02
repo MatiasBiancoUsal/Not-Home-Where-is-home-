@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,8 +13,9 @@ public class PlayerController : MonoBehaviour
     public float speed;
 
     // MECANICAS
-    public UpdateAnimsPlayer updateAnimsPlayer;
+    [HideInInspector] public UpdateAnimsPlayer updateAnimsPlayer;
     [HideInInspector] public PlayerMovement movement;
+    [HideInInspector] public PlayerJump jump;
 
     private void Awake()
     {
@@ -24,12 +27,13 @@ public class PlayerController : MonoBehaviour
         // Conectar mecanicas
         updateAnimsPlayer = GetComponent<UpdateAnimsPlayer>();  
         movement = GetComponent<PlayerMovement>();
+        jump = GetComponent<PlayerJump>();
     }
 
     private void FixedUpdate()
     {
         movement.Move(); //Movimiento
-        // Salto
+        jump.CheckGround(); // Salto
 
     }
 
@@ -41,10 +45,19 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         controles.Enable();
+
+        controles.Player.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
+        controles.Player.Jump.performed -= OnJump;
+
         controles.Disable();
+    }
+
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        jump.OnUpdate();
     }
 }
