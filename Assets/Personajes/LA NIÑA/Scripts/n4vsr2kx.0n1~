@@ -56,7 +56,7 @@ public class PlayerJump : MonoBehaviour
     //se encarga de actualizar las mejoras del salto; gravedad dinamica, coyote time y buffer jump
     public void JumpUpdates()
     {
-        // este IF ELSE verifica el coyote time
+
         if (isGrounded)
         {
             coyoteCounter = coyoteTime; // reiniciar el contador de coyote time
@@ -64,25 +64,8 @@ public class PlayerJump : MonoBehaviour
         }
         else
         {
-            coyoteCounter -= Time.fixedDeltaTime; // reducir el contador de coyote time
-        }
-
-        // este IF ELSE verifica el buffer jump
-        if (bufferJumpCounter > 0)
-        {
-            bufferJumpCounter -= Time.fixedDeltaTime;
-
-            //si tocamos el suelo y hay un buffer activo, entonces salto automático
-            if (isGrounded)
-            {
-                playerController.rb.linearVelocity = new Vector2(playerController.rb.linearVelocity.x, jumpForce);
-                //ajustar la gravedad normal para el personaje
-                playerController.rb.gravityScale = playerController.normalGravity;
-                coyoteCounter = 0;
-                bufferJumpCounter = 0;
-            }
-        }
-
+            coyoteCounter -= Time.deltaTime; // reducir el contador de coyote time
+        }                   
         // este IF ELSE actualiza la gravedad del personaje
         if (isGrounded)
         {
@@ -97,17 +80,13 @@ public class PlayerJump : MonoBehaviour
 
     public void JumpHold()
     {
-        if(isGrounded || coyoteCounter > 0 && !hasJumped) //realizamos un salto
+        if(isGrounded || coyoteCounter > 0 && !hasJumped)
         {
             playerController.rb.linearVelocity = new Vector2(playerController.rb.linearVelocity.x, jumpForce);
             //ajustar la gravedad normal para el personaje
             playerController.rb.gravityScale = playerController.normalGravity;
-            coyoteCounter = 0;
+            coyoteCounter = 0f;
             hasJumped = true; // marcar que el jugador ha saltado
-        }
-        else //no se ha realizado un salto
-        {
-            bufferJumpCounter = bufferJumpTime; // activar el buffe
         }
     }
 
