@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5294083127719347959}
   - component: {fileID: 7602091039673926116}
   - component: {fileID: 7702964577162047661}
-  - component: {fileID: 7110313447455058744}
+  - component: {fileID: 4957213472863025033}
   m_Layer: 0
   m_Name: Player-------------------------------
   m_TagString: Untagged
@@ -108,7 +108,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d2deee3b66db0b24badd79e637651eab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -210,9 +210,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb: {fileID: 0}
   animPlayer: {fileID: 6796795505620447337}
-  speed: 3
+  speed: 5
+  normalGravity: 1.5
+  fallGravity: 4
   updateAnimsPlayer: {fileID: 5294083127719347959}
   movement: {fileID: 0}
+  jump: {fileID: 0}
 --- !u!114 &7702964577162047661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74900a74a67d97d46baebcd44a766594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
---- !u!114 &7110313447455058744
+--- !u!114 &4957213472863025033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,3 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cdd069444c0a94d8d549acac418149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
+  jumpForce: 7
+  groundRadius: 0.05
+  groundCheckDistance: 1.28
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
