@@ -9,6 +9,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Zona 1");
     }
 
+    // BOTÓN OPTIONS
+    public void Options()
+    {
+        SceneManager.LoadScene("Options");
+    }
+
     // BOTÓN CREDITS
     public void Credits()
     {
