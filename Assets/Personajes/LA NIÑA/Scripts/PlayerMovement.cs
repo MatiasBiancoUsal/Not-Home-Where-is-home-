@@ -1,4 +1,3 @@
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -39,14 +38,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
 
-        if (isFacingRight)
-        {
-            transform.localScale = new Vector2(0.25f, 0.25f);
-        }
-        else
-        {
-            transform.localScale = new Vector2(-0.25f, 0.25f);
-        }
+        // Damos vuelta SOLO el eje X usando un Vector3, para NO tocar la Y ni la Z.
+        // OJO: antes se usaba Vector2, que dejaba la escala Z en 0 y eso rompia
+        // el calculo de la camara (errores "Assertion failed... IsFinite(distanceForSort)").
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (isFacingRight ? 1f : -1f);
+        transform.localScale = scale;
     }
 
     public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
