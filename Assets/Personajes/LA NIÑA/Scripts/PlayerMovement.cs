@@ -6,6 +6,17 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight = true; // variable booleana para verificar si el player esta mirando a la derecha
     private bool isMoving; // verifica si el player se esta moviendo o no
 
+    // Getters
+    public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
+    {
+        get { return isMoving; }
+    }
+
+    public bool IsFacingRight // getter de la variable de isFacingRight que se actualiza en el metodo de Move para saber si el player esta mirando a la derecha o no
+    {
+        get { return isFacingRight; }
+    }
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -38,16 +49,9 @@ public class PlayerMovement : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
 
-        // Damos vuelta SOLO el eje X usando un Vector3, para NO tocar la Y ni la Z.
-        // OJO: antes se usaba Vector2, que dejaba la escala Z en 0 y eso rompia
-        // el calculo de la camara (errores "Assertion failed... IsFinite(distanceForSort)").
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * (isFacingRight ? 1f : -1f);
         transform.localScale = scale;
     }
 
-    public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
-    {
-        get { return isMoving; }
-    }
 }
