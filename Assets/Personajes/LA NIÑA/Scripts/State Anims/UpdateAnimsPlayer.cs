@@ -13,14 +13,28 @@ public class UpdateAnimsPlayer : MonoBehaviour
 
     public void UpdateAnimations()
     {
+        // animacion de DASH: tiene prioridad sobre todo lo demas, por eso va primero
+        if (playerController.dash.IsDash)
+        {
+            animationManager.SetState(new DashPlayerStateAnim(playerController.animPlayer));
+            return; // evita otras animaciones
+        }
+
         // actualizacion animaciones de salto
-        if (!playerController.jump.IsGrounded) // si el jugador está tocando el suelo
+        if (!playerController.jump.IsGrounded) // si el jugador estï¿½ tocando el suelo
         {
             //estamos en el aire
             if (playerController.rb.linearVelocity.y > 0.1)
             {
                 //subiendo
-                animationManager.SetState(new JumpStartPlayerStateAnim(playerController.animPlayer));
+                if (playerController.doubleJump.IsDoubleJumping) // si venimos de un doble salto
+                {
+                    animationManager.SetState(new DoubleJumpPlayerStateAnim(playerController.animPlayer));
+                }
+                else
+                {
+                    animationManager.SetState(new JumpStartPlayerStateAnim(playerController.animPlayer));
+                }
             }
             else if (playerController.rb.linearVelocity.y < -0.1)
             {
@@ -28,7 +42,7 @@ public class UpdateAnimsPlayer : MonoBehaviour
                 animationManager.SetState(new JumpFallPlayerStateAnim(playerController.animPlayer));
             }
 
-            return; // si el jugador no está tocando el suelo, no se actualizan las animaciones de movimiento
+            return; // evita otras animaciones
         }
 
         // actualizacion animaciones de movimiento
