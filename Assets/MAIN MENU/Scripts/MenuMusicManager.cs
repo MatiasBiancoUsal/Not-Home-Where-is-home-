@@ -19,7 +19,6 @@ public class MenuMusicManager : MonoBehaviour
 
     private void Awake()
     {
-        // Evita que se duplique la música si volvés al Main Menu
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -32,7 +31,9 @@ public class MenuMusicManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         audioSource.loop = true;
-        audioSource.spatialBlend = 0f; // 2D
+        audioSource.spatialBlend = 0f;
+
+        ApplySavedVolume();
     }
 
     private void Start()
@@ -57,7 +58,13 @@ public class MenuMusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ApplySavedVolume();
         CheckIfShouldKeepMusic(scene.name);
+    }
+
+    private void ApplySavedVolume()
+    {
+        audioSource.volume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
     }
 
     private void CheckIfShouldKeepMusic(string sceneName)
