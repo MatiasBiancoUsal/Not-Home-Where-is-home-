@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [Header("UI Audio")]
-    [SerializeField] private AudioSource uiAudioSource;
     [SerializeField] private AudioClip clickSound;
 
     [Header("Delay después del click")]
@@ -79,9 +78,10 @@ public class MainMenu : MonoBehaviour
 
     private float PlayClickAndGetDuration()
     {
-        if (uiAudioSource != null && clickSound != null)
+        // El click suena por el AudioManager (grupo SFX), no por un AudioSource suelto.
+        if (clickSound != null && AudioManager.Instance != null)
         {
-            uiAudioSource.PlayOneShot(clickSound);
+            AudioManager.Instance.PlaySFX(clickSound);
             return clickSound.length;
         }
 
