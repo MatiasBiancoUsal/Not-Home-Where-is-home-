@@ -9925,15 +9925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9d84edb09704d4bb117f134c6c79b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZoneSkipByKey
-  zones:
-  - Zona 1
-  - Zona 2
-  - Zona 3
-  - Zona 4
-  - Zona 5
-  - Zona 6
-  volverAlMenuAlFinal: 1
-  mainMenuSceneName: Main Menu
 --- !u!4 &804241648
 Transform:
   m_ObjectHideFlags: 0
@@ -23370,6 +23361,10 @@ PrefabInstance:
     - target: {fileID: 3262061808179921011, guid: f3f7848d0ab6f446892f4e332f7424d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089459907313588509, guid: f3f7848d0ab6f446892f4e332f7424d6, type: 3}
+      propertyPath: m_text
+      value: ZONA 1
       objectReference: {fileID: 0}
     - target: {fileID: 8502997751104611875, guid: f3f7848d0ab6f446892f4e332f7424d6, type: 3}
       propertyPath: m_Name
