@@ -3,9 +3,6 @@ using UnityEngine.EventSystems;
 
 public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
-    [Header("Audio Source")]
-    [SerializeField] private AudioSource uiAudioSource;
-
     [Header("Sonidos")]
     [SerializeField] private AudioClip hoverSound;
     [SerializeField] private AudioClip clickSound;
@@ -29,17 +26,18 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     private void PlayHoverSound()
     {
-        if (uiAudioSource != null && hoverSound != null)
+        // Ahora suena por el AudioManager (grupo SFX), no por un AudioSource suelto.
+        if (hoverSound != null && AudioManager.Instance != null)
         {
-            uiAudioSource.PlayOneShot(hoverSound, hoverVolume);
+            AudioManager.Instance.PlaySFX(hoverSound, hoverVolume);
         }
     }
 
     private void PlayClickSound()
     {
-        if (uiAudioSource != null && clickSound != null)
+        if (clickSound != null && AudioManager.Instance != null)
         {
-            uiAudioSource.PlayOneShot(clickSound, clickVolume);
+            AudioManager.Instance.PlaySFX(clickSound, clickVolume);
         }
     }
 }
