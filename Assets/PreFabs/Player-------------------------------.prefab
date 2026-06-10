@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7602091039673926116}
   - component: {fileID: 7702964577162047661}
   - component: {fileID: 4957213472863025033}
+  - component: {fileID: 5290522873258388837}
+  - component: {fileID: 1468157336648026100}
   m_Layer: 0
   m_Name: Player-------------------------------
   m_TagString: Untagged
@@ -132,8 +134,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.4504881, y: -0.9845581}
-  m_Size: {x: 0.5289211, y: 8.058264}
+  m_Offset: {x: 0.8162298, y: -0.5792756}
+  m_Size: {x: 1.2604046, y: 8.868829}
   m_Direction: 0
 --- !u!50 &8966050854190810306
 Rigidbody2D:
@@ -150,7 +152,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -216,6 +218,8 @@ MonoBehaviour:
   updateAnimsPlayer: {fileID: 5294083127719347959}
   movement: {fileID: 0}
   jump: {fileID: 0}
+  doubleJump: {fileID: 0}
+  dash: {fileID: 0}
 --- !u!114 &7702964577162047661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,9 +244,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cdd069444c0a94d8d549acac418149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 7
+  jumpForce: 8.5
   groundRadius: 0.05
   groundCheckDistance: 1.28
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  coyoteTime: 0.3
+  coyoteCounter: 0
+  bufferJumpTime: 0.3
+  bufferJumpCounter: 0
+--- !u!114 &5290522873258388837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9cef449c9d67a4eb4088bd7f99ece9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDoubleJump
+  canDoubleJump: 1
+  doubleJumpForce: 10
+  maxAirJumps: 1
+--- !u!114 &1468157336648026100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a7cc54fbcdc7f4c8762de688e8c760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashForce: 20
+  dashDuration: 0.35
+  coolDownDash: 1
+  isDash: 0

@@ -72,7 +72,7 @@ public class PlayerJump : MonoBehaviour
         {
             bufferJumpCounter -= Time.fixedDeltaTime;
 
-            //si tocamos el suelo y hay un buffer activo, entonces salto automático
+            //si tocamos el suelo y hay un buffer activo, entonces salto automï¿½tico
             if (isGrounded)
             {
                 playerController.rb.linearVelocity = new Vector2(playerController.rb.linearVelocity.x, jumpForce);
@@ -97,7 +97,7 @@ public class PlayerJump : MonoBehaviour
 
     public void JumpHold()
     {
-        if(isGrounded || coyoteCounter > 0 && !hasJumped) //realizamos un salto
+        if (CanGroundJump()) //realizamos un salto
         {
             playerController.rb.linearVelocity = new Vector2(playerController.rb.linearVelocity.x, jumpForce);
             //ajustar la gravedad normal para el personaje
@@ -107,8 +107,21 @@ public class PlayerJump : MonoBehaviour
         }
         else //no se ha realizado un salto
         {
-            bufferJumpCounter = bufferJumpTime; // activar el buffe
+            BufferJump();
         }
+    }
+
+    // Â¿hay un salto desde el piso o coyote disponible? El PlayerController lo usa para
+    // decidir si hace un salto normal o uno en el aire (doble salto). Es la MISMA condicion de arriba.
+    public bool CanGroundJump()
+    {
+        return isGrounded || coyoteCounter > 0 && !hasJumped;
+    }
+
+    // activa el buffer del salto (lo guarda para ejecutarlo apenas toquemos el piso)
+    public void BufferJump()
+    {
+        bufferJumpCounter = bufferJumpTime;
     }
 
     public void JumpRelease()

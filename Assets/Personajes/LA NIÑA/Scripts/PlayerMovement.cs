@@ -1,4 +1,3 @@
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -6,6 +5,17 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController playerController;
     private bool isFacingRight = true; // variable booleana para verificar si el player esta mirando a la derecha
     private bool isMoving; // verifica si el player se esta moviendo o no
+
+    // Getters
+    public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
+    {
+        get { return isMoving; }
+    }
+
+    public bool IsFacingRight // getter de la variable de isFacingRight que se actualiza en el metodo de Move para saber si el player esta mirando a la derecha o no
+    {
+        get { return isFacingRight; }
+    }
 
     private void Awake()
     {
@@ -39,18 +49,9 @@ public class PlayerMovement : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
 
-        if (isFacingRight)
-        {
-            transform.localScale = new Vector2(0.25f, 0.25f);
-        }
-        else
-        {
-            transform.localScale = new Vector2(-0.25f, 0.25f);
-        }
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (isFacingRight ? 1f : -1f);
+        transform.localScale = scale;
     }
 
-    public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
-    {
-        get { return isMoving; }
-    }
 }
