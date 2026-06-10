@@ -8,16 +8,11 @@ public class ZoneSkipByKey : MonoBehaviour
     {
         if (Keyboard.current == null) return;
 
-        // Tecla N -> pasa a la SIGUIENTE escena. Despues de la ultima, vuelve a la primera (la 0).
+        // Tecla N -> pasa a la siguiente escena.
+        // Después de la última, vuelve a la primera escena del Build Settings.
         if (Keyboard.current.nKey.wasPressedThisFrame)
         {
             LoadNextScene();
-        }
-
-        // Tecla ESC -> vuelve directo al Main Menu. Sirve como "por las dudas" en cualquier escena.
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            SceneManager.LoadScene(0); // 0 = Main Menu (la primera en tu Build Settings)
         }
     }
 
@@ -25,8 +20,7 @@ public class ZoneSkipByKey : MonoBehaviour
     {
         int next = SceneManager.GetActiveScene().buildIndex + 1;
 
-        // si nos pasamos de la ultima escena, volvemos a la primera (escena 0 = Main Menu)
-        // asi se puede dar toda la vuelta a todas las escenas del juego
+        // Si nos pasamos de la última escena, volvemos a la primera.
         if (next >= SceneManager.sceneCountInBuildSettings)
         {
             next = 0;
