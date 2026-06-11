@@ -2420,7 +2420,7 @@ GameObject:
   - component: {fileID: 176180022}
   m_Layer: 0
   m_Name: Paredes (51)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3602,6 +3602,63 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.7172798}
   m_EdgeRadius: 0
+--- !u!1001 &235065138
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -87.11571
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -185.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036986228248132772, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_Name
+      value: Monstruo_CAT2_1 (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
 --- !u!4 &254350226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
@@ -7300,6 +7357,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &543636835
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.539276
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -185.3031
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036986228248132772, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_Name
+      value: Monstruo_CAT2_1 (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
 --- !u!1 &548331889
 GameObject:
   m_ObjectHideFlags: 0
@@ -8865,7 +8979,7 @@ GameObject:
   - component: {fileID: 615467300}
   m_Layer: 0
   m_Name: Paredes (55)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20951,7 +21065,7 @@ GameObject:
   - component: {fileID: 1534668474}
   m_Layer: 0
   m_Name: Paredes (62)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22259,6 +22373,63 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1001 &1625972174
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -134.31746
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -184.91621
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036986228248132772, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_Name
+      value: Monstruo_CAT2_1 (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
 --- !u!1001 &1631313400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25975,7 +26146,7 @@ GameObject:
   - component: {fileID: 1930886949}
   m_Layer: 0
   m_Name: Paredes (61)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28574,3 +28745,6 @@ SceneRoots:
   - {fileID: 1008997557}
   - {fileID: 1345361043}
   - {fileID: 1631313400}
+  - {fileID: 235065138}
+  - {fileID: 1625972174}
+  - {fileID: 543636835}
