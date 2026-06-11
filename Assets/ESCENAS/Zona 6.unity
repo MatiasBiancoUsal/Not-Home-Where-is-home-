@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 52364944}
   m_Layer: 3
   m_Name: Piso (91)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10034,7 +10034,7 @@ GameObject:
   - component: {fileID: 710127106}
   m_Layer: 3
   m_Name: Paredes (81)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19504,7 +19504,7 @@ GameObject:
   - component: {fileID: 1404748178}
   m_Layer: 3
   m_Name: Piso (44)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21083,7 +21083,7 @@ GameObject:
   - component: {fileID: 1500010643}
   m_Layer: 3
   m_Name: Piso (41)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22826,7 +22826,7 @@ GameObject:
   - component: {fileID: 1647103155}
   m_Layer: 0
   m_Name: Square (10)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23636,6 +23636,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1892388815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1001 &1688448571
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -196.03482
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -61.891792
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115642556041987247, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036986228248132772, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+      propertyPath: m_Name
+      value: Monstruo_CAT2_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
 --- !u!1 &1696700029
 GameObject:
   m_ObjectHideFlags: 0
@@ -24226,8 +24283,8 @@ Transform:
   m_GameObject: {fileID: 1726164915}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: -312.71002, y: -64.5, z: 0}
-  m_LocalScale: {x: 109.53606, y: 31.790379, z: 1}
+  m_LocalPosition: {x: -312.7194, y: -64.5, z: 0}
+  m_LocalScale: {x: 109.51415, y: 31.790379, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1892388815}
@@ -31070,3 +31127,4 @@ SceneRoots:
   - {fileID: 1819869177}
   - {fileID: 1975051665}
   - {fileID: 2026900098}
+  - {fileID: 1688448571}
