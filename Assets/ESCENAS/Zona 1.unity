@@ -19831,11 +19831,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.7551558}
   m_EdgeRadius: 0
---- !u!1 &1686768638 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-  m_PrefabInstance: {fileID: 3397900970644247167}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1692596018
 GameObject:
   m_ObjectHideFlags: 0
@@ -24317,10 +24312,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player-------------------------------
       objectReference: {fileID: 0}
-    - target: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.51
@@ -24364,35 +24355,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3397900970644247179}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
 --- !u!4 &3397900970644247168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
   m_PrefabInstance: {fileID: 3397900970644247167}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3397900970644247179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686768638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef9f6a578e4424468a21e3bb84c4681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerClimb
-  climbSpeed: 3
-  jumpOffForce: 8
-  wallTag: Wall
-  wallCheckDistance: 0.5
-  wallCheckRadius: 0.2
-  climbColliderOffset: {x: 1.8, y: -0.6}
-  climbColliderSize: {x: 2.5, y: 8.8}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

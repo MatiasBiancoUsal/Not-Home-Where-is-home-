@@ -19,7 +19,8 @@ GameObject:
   - component: {fileID: 4957213472863025033}
   - component: {fileID: 5290522873258388837}
   - component: {fileID: 1468157336648026100}
-  m_Layer: 0
+  - component: {fileID: 5212340119754789098}
+  m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,6 +221,7 @@ MonoBehaviour:
   jump: {fileID: 0}
   doubleJump: {fileID: 0}
   dash: {fileID: 0}
+  climb: {fileID: 0}
 --- !u!114 &7702964577162047661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,3 +287,22 @@ MonoBehaviour:
   dashDuration: 0.35
   coolDownDash: 1
   isDash: 0
+--- !u!114 &5212340119754789098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef9f6a578e4424468a21e3bb84c4681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerClimb
+  climbSpeed: 3
+  jumpOffForce: 8
+  wallTag: Wall
+  wallCheckDistance: 0.5
+  wallCheckRadius: 0.2
+  climbColliderOffset: {x: 1.8, y: -0.6}
+  climbColliderSize: {x: 2.5, y: 8.8}
