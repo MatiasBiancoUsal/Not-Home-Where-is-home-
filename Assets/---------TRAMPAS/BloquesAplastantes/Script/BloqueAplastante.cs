@@ -4,11 +4,15 @@ using UnityEngine;
 public class BloqueAplastante : MonoBehaviour
 {
     [Header("Configuración")]
-    public float distanciaDeteccion = 30f;
     public float delayAntesDeCaer = 0.8f;
+    public float velocidadCaida = 3f; // mas alto = cae mas rapido (multiplica la gravedad)
     public float tiempoEnElPiso = 2f;
     public float tiempoFade = 0.8f;
     public string tagJugador = "Player";
+
+    [Header("Detección (caja DEBAJO del bloque)")]
+    public Vector2 offsetDeteccion = new Vector2(0f, -5f); // centro de la caja relativo al bloque (abajo = Y negativo)
+    public Vector2 tamanoDeteccion = new Vector2(3f, 10f); // tamaño de la caja (ancho, alto)
 
     [Header("Shake")]
     public float shakeDuracion = 0.5f;
@@ -17,7 +21,6 @@ public class BloqueAplastante : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 posicionOriginal;
     private bool activado = false;
-    private Transform jugador;
     private SpriteRenderer sprite;
 
     void Start()
@@ -27,23 +30,24 @@ public class BloqueAplastante : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         posicionOriginal = transform.position;
         sprite = GetComponent<SpriteRenderer>();
-
-        GameObject obj = GameObject.FindWithTag(tagJugador);
-        if (obj != null)
-            jugador = obj.transform;
-        else
-            Debug.LogError("BLOQUE: no encontró tag: " + tagJugador);
     }
 
     void Update()
     {
-        if (activado || jugador == null) return;
+        if (activado) return;
 
-        float distancia = Vector2.Distance(transform.position, jugador.position);
-        if (distancia <= distanciaDeteccion)
+        // Caja de deteccion DEBAJO del bloque: solo se activa si el player entra ahi (no si esta arriba).
+        Vector2 centro = (Vector2)transform.position + offsetDeteccion;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(centro, tamanoDeteccion, 0f);
+
+        foreach (Collider2D hit in hits)
         {
-            activado = true;
-            StartCoroutine(SecuenciaCaida());
+            if (hit.CompareTag(tagJugador))
+            {
+                activado = true;
+                StartCoroutine(SecuenciaCaida());
+                break;
+            }
         }
     }
 
@@ -65,6 +69,7 @@ public class BloqueAplastante : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         rb.mass = 9999f;
+        rb.gravityScale = velocidadCaida; // controla que tan rapido cae (parametro del Inspector)
 
         yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f);
@@ -110,5 +115,17 @@ public class BloqueAplastante : MonoBehaviour
         }
 
         sprite.color = new Color(color.r, color.g, color.b, hasta);
+    }
+
+    // Dibuja la caja de deteccion en el editor (para verla y acomodarla).
+    private void OnDrawGizmos()
+    {
+        Vector2 centro = (Vector2)transform.position + offsetDeteccion;
+
+        Gizmos.color = new Color(1f, 0f, 0f, 0.25f);
+        Gizmos.DrawCube(centro, tamanoDeteccion);     // relleno semi-transparente
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(centro, tamanoDeteccion); // contorno
     }
 }

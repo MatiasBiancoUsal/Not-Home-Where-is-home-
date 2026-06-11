@@ -12,6 +12,7 @@ public class PlayerClimb : MonoBehaviour
     public string wallTag = "Wall";        // pared trepable (solida, con este tag)
     public float wallCheckDistance = 0.5f; // que tan adelante mira la pared
     public float wallCheckRadius = 0.2f;
+    public float bottomCheckOffset = 0.5f; // que tan abajo mira para frenar al llegar al fondo de la pared
 
     [Header("Collider al trepar")]
     public Vector2 climbColliderOffset = new Vector2(1.8f, -0.6f);
@@ -89,8 +90,13 @@ public class PlayerClimb : MonoBehaviour
 
         float vy = verticalInput * climbSpeed;
 
-        // "topado arriba": si quiere SUBIR pero ya no hay pared adelante, no lo dejamos pasar el tope
+        // Tope ARRIBA: si quiere SUBIR pero ya no hay pared, lo frenamos.
         if (vy > 0f && !HayPared())
+        {
+            vy = 0f;
+        }
+        // Tope ABAJO: si quiere BAJAR pero ya no hay pared mas abajo, lo frenamos (no seguir bajando en el aire).
+        if (vy < 0f && !HayPared(-bottomCheckOffset))
         {
             vy = 0f;
         }
@@ -139,10 +145,10 @@ public class PlayerClimb : MonoBehaviour
     }
 
     // Busca una pared SOLIDA (no trigger) con el tag, adelante del player (segun hacia donde mira)
-    private bool HayPared()
+    private bool HayPared(float yOffset = 0f)
     {
         float dir = playerController.movement.IsFacingRight ? 1f : -1f;
-        Vector2 checkPos = (Vector2)transform.position + new Vector2(dir * wallCheckDistance, 0f);
+        Vector2 checkPos = (Vector2)transform.position + new Vector2(dir * wallCheckDistance, yOffset);
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(checkPos, wallCheckRadius);
         foreach (Collider2D hit in hits)

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5336980088018230991}
   - component: {fileID: 7593919886305069867}
   - component: {fileID: 4015301441096702460}
+  - component: {fileID: 4793111621572032121}
   m_Layer: 0
   m_Name: CM FollowPlayer
   m_TagString: Untagged
@@ -101,9 +102,25 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 3, y: 2, z: 0}
-  Damping: {x: 1, y: 1, z: 1}
+  Damping: {x: 1, y: 0.9999997, z: 1}
   Lookahead:
-    Enabled: 0
-    Time: 0
-    Smoothing: 0
+    Enabled: 1
+    Time: 0.04
+    Smoothing: 6.9
     IgnoreY: 0
+--- !u!114 &4793111621572032121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851695300654886782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9228e1363eadd7b4185fd5d7d99d4e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFallCatchUp
+  fallSpeed: -10
+  normalDampingY: 1
+  fastFallDampingY: 0.01
+  changeSpeed: 8
