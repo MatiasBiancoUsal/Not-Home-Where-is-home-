@@ -33,14 +33,14 @@ public class VolumeSettings : MonoBehaviour
     public void SetMusicVolume(float value)
     {
         // El mixer trabaja en decibeles (escala logaritmica), por eso convertimos el 0-1 del slider.
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20f);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20f);
         PlayerPrefs.SetFloat("MusicVolume", value); // guardamos para la proxima vez
     }
 
     // Se llama desde el evento "On Value Changed" del slider de SONIDOS.
     public void SetSFXVolume(float value)
     {
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20f);
+        audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20f);
         PlayerPrefs.SetFloat("SFXVolume", value);
     }
 }

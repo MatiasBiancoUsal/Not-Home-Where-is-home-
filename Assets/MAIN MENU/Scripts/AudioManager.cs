@@ -56,7 +56,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        ApplySavedVolumes(); // aplica el volumen guardado apenas arranca (sin abrir Opciones)
+        ApplySavedVolumes();
         UpdateMusicForScene(SceneManager.GetActiveScene().name);
     }
 
@@ -70,15 +70,11 @@ public class AudioManager : MonoBehaviour
     {
         if (EsEscenaDeMenu(sceneName))
         {
-            // Si NO esta sonando, la arrancamos. Si YA esta sonando, la dejamos -> NO se reinicia.
             if (!musicSource.isPlaying)
-            {
                 musicSource.Play();
-            }
         }
         else
         {
-            // En gameplay paramos la musica del menu
             musicSource.Stop();
         }
     }
@@ -101,10 +97,10 @@ public class AudioManager : MonoBehaviour
         if (audioMixer == null) return;
 
         float music = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        float sfx = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float sfx   = PlayerPrefs.GetFloat("SFXVolume",   1f);
 
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(music) * 20f);
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(sfx) * 20f);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(Mathf.Max(music, 0.0001f)) * 20f);
+        audioMixer.SetFloat("SFXVolume",   Mathf.Log10(Mathf.Max(sfx,   0.0001f)) * 20f);
     }
 
     // Para reproducir un efecto desde cualquier script: AudioManager.Instance.PlaySFX(miClip)
