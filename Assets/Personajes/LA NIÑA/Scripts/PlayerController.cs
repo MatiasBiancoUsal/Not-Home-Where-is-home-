@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerJump jump;
     [HideInInspector] public PlayerDoubleJump doubleJump;
     [HideInInspector] public PlayerDash dash;
+    [HideInInspector] public PlayerClimb climb;
 
     private void Awake()
     {
@@ -36,10 +37,16 @@ public class PlayerController : MonoBehaviour
         jump = GetComponent<PlayerJump>();
         doubleJump = GetComponent<PlayerDoubleJump>();
         dash = GetComponent<PlayerDash>();
+        climb = GetComponent<PlayerClimb>();
     }
 
     private void FixedUpdate()
     {
+        jump.CheckGround(); // mantiene actualizado si esta en el piso (lo usa tambien el climb)
+
+        climb.OnUpdate(); // Trepar
+        if (climb.IsClimbing) return; // mientras trepa, se pausan las demas mecanicas
+
         movement.Move(); //Movimiento
         jump.OnUpdate(); // Salto
         doubleJump.OnUpdate(); // Doble salto
@@ -74,6 +81,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
+        // Si estamos trepando, ESPACIO nos despega saltando de la pared (y queda el doble salto).
+        if (climb.IsClimbing)
+        {
+            climb.JumpOffWall();
+            return;
+        }
+
         // El controller decide que tipo de salto hacer:
         if (jump.CanGroundJump())             // si hay un salto desde el piso o coyote disponible
         {
@@ -87,11 +101,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpRelease(InputAction.CallbackContext context)
     {
+        if (climb.IsClimbing) return; // trepando no aplica el release del salto
         jump.JumpRelease();
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
+        if (climb.IsClimbing) return; // no se puede dashear mientras trepa
         dash.DashHold();
     }
 }

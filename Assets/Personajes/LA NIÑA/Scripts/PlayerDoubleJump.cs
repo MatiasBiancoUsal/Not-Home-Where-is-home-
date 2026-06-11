@@ -34,6 +34,13 @@ public class PlayerDoubleJump : MonoBehaviour
         }
     }
 
+    // Recarga los saltos de aire. Lo usa el climb: al saltar de la pared, queda el doble salto disponible.
+    public void ResetAirJumps()
+    {
+        airJumpsLeft = maxAirJumps;
+        isDoubleJumping = false;
+    }
+
     // intenta hacer un salto en el aire. Devuelve true si lo hizo, false si no pudo.
     public bool TryDoubleJump()
     {

@@ -13,6 +13,20 @@ public class UpdateAnimsPlayer : MonoBehaviour
 
     public void UpdateAnimations()
     {
+        // animacion de TREPAR: maxima prioridad
+        if (playerController.climb.IsClimbing)
+        {
+            if (playerController.climb.IsClimbWalking) // subiendo o bajando
+            {
+                animationManager.SetState(new ClimbWalkPlayerStateAnim(playerController.animPlayer));
+            }
+            else // pegado quieto
+            {
+                animationManager.SetState(new ClimbIdlePlayerStateAnim(playerController.animPlayer));
+            }
+            return;
+        }
+
         // animacion de DASH: tiene prioridad sobre todo lo demas, por eso va primero
         if (playerController.dash.IsDash)
         {
