@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9cc2d0862a8a19a4387ebbde443206ed
+guid: ed410afc726f94b9aa33bee026e37309
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -692341606979499407
-    second: Monstruo Unity3_0
+      213: -8486371788640302541
+    second: enemigo estatico 3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,66 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Monstruo Unity3_0
+      name: enemigo estatico 3_0
       rect:
         serializedVersion: 2
-        x: 350
-        y: 367
-        width: 865
-        height: 560
+        x: 94
+        y: 106
+        width: 328
+        height: 396
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 17a83c40afe4466f0800000000000000
-      internalID: -692341606979499407
+      spriteID: 33ac23a22d95a3a80800000000000000
+      internalID: -8486371788640302541
       vertices: []
       indices: 
       edges: []
@@ -164,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b0ab73d8e49a97b4b82ec90a39880774
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Monstruo Unity3_0: -692341606979499407
+      enemigo estatico 3_0: -8486371788640302541
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
