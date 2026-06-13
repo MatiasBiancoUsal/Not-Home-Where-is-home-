@@ -14,10 +14,23 @@ public class Damageable : MonoBehaviour
     public bool IsKnockedBack { get; private set; }
 
     // Flash
+    [Header("Flash")]
+    public bool activeFlash = true; //esta variable determina si el efecto flash aplica a este gameobject
+    public float flashDuration = 0.1f; //duracion del efecto flash
+    public Material flashMaterial; // material que pinta de blanco nuestro game object
+    private Material originalMaterial; // material original del game object
+    private SpriteRenderer spriteRenderer;
 
     // Freeze Time
+    [Header("Freeze Time")]
+    public bool activeFreezeTime = true; //esta variable determina si el efecto freeze time aplica a este gameobject
+    public float freezeDuration = 0.05f; //tiempo que congelamos el juego cuando atacamos
 
     // Invulnerability
+    [Header("Invulnerability")]
+    public bool activeInvulnerability = false; //esta variable determina si el efecto de invulnerabilidad aplica a este gameobject
+    private bool isInvulnerability;
+    public float timeInvulnerability = 1f; // si estamos o no invulnerables
 
     // Particles
 
@@ -26,13 +39,43 @@ public class Damageable : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         healthHandler = GetComponent<HealthHandler>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            originalMaterial = spriteRenderer.material;
+        }
     }
 
     public void ApplyDamage(int damageAmount, Vector2 sourcePosition, float sourceKnockBackForce)
     {
+        if (isInvulnerability)
+        {
+            return;
+        }
+
+        // efecto knockback
         if (activeKnockBack)
         {
             KnockBackApply(sourcePosition, sourceKnockBackForce);
+        }
+
+        //efecto flash
+        if (activeFlash)
+        {
+            StartCoroutine(FlashEffect());
+        }
+
+        // efecto freeze time
+        if (activeFreezeTime)
+        {
+            StartCoroutine(FreezeTimeEffect());
+        }
+
+        // efecto invulnerabilidad
+        if (activeInvulnerability)
+        {
+            StartCoroutine(InvulnerabilityEffect());
         }
 
         // acceder a health y quitar damageAmount
@@ -58,5 +101,42 @@ public class Damageable : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero;
         IsKnockedBack = false;
+    }
+
+    IEnumerator FlashEffect()
+    {
+        if (spriteRenderer == null || flashMaterial == null)
+        {
+            yield break;
+        }
+
+        spriteRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(flashDuration);
+        spriteRenderer.material = originalMaterial;
+    }
+
+    IEnumerator FreezeTimeEffect()
+    {
+
+        if (Time.timeScale == 0)
+        {
+            yield break;
+        }
+
+        float originalTime = Time.timeScale;
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(freezeDuration);
+
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = originalTime;
+        }
+    }
+
+    IEnumerator InvulnerabilityEffect()
+    {
+        isInvulnerability = true;
+        yield return new WaitForSeconds(timeInvulnerability);
+        isInvulnerability = false;
     }
 }

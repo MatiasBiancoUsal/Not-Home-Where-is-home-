@@ -125,10 +125,10 @@ MonoBehaviour:
     m_Bits: 64
   topDetectionTolerance: 0.12
   visualRoot: {fileID: 3397761739889988265}
-  shakeDuration: 0.7
+  shakeDuration: 0.3
   shakeStrength: 0.06
   shakeSpeed: 35
-  fallDelay: 0.2
+  fallDelay: 0.1
   fallGravityScale: 3
   destroyAfterFall: 1
   destroyDelay: 3
@@ -142,7 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3397761739889988265}
   - component: {fileID: 6812153851806491778}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

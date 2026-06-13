@@ -12,7 +12,7 @@ public class BloqueAplastante : MonoBehaviour
 
     [Header("Detección (caja DEBAJO del bloque)")]
     public Vector2 offsetDeteccion = new Vector2(0f, -5f); // centro de la caja relativo al bloque (abajo = Y negativo)
-    public Vector2 tamanoDeteccion = new Vector2(3f, 10f); // tamaño de la caja (ancho, alto)
+    public Vector2 tamanoDeteccion = new Vector2(3f, 10f);  // tamaño de la caja (ancho, alto)
 
     [Header("Shake")]
     public float shakeDuracion = 0.5f;
@@ -30,6 +30,18 @@ public class BloqueAplastante : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         posicionOriginal = transform.position;
         sprite = GetComponent<SpriteRenderer>();
+
+        // Evitar que los bloques se traben ENTRE SI al caer: cuando estan pegados en fila, sus
+        // colliders se tocan y, con la posicion X congelada, el motor de fisica los frena
+        // mutuamente. Ignoramos las colisiones entre bloques (siguen chocando con piso/paredes).
+        Collider2D[] misColliders = GetComponents<Collider2D>();
+        foreach (BloqueAplastante otro in FindObjectsByType<BloqueAplastante>(FindObjectsSortMode.None))
+        {
+            if (otro == this) continue;
+            foreach (Collider2D suyo in otro.GetComponents<Collider2D>())
+                foreach (Collider2D mio in misColliders)
+                    Physics2D.IgnoreCollision(mio, suyo);
+        }
     }
 
     void Update()
@@ -63,13 +75,18 @@ public class BloqueAplastante : MonoBehaviour
         }
         transform.position = posicionOriginal;
 
-        yield return new WaitForSeconds(delayAntesDeCaer - shakeDuracion);
+        // el delay restante nunca puede ser negativo (si el shake dura mas que el delay, no esperamos)
+        float restante = delayAntesDeCaer - shakeDuracion;
+        if (restante > 0) yield return new WaitForSeconds(restante);
 
         // Cae
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         rb.mass = 9999f;
         rb.gravityScale = velocidadCaida; // controla que tan rapido cae (parametro del Inspector)
+        // al pasar de Kinematic a Dynamic el cuerpo arranca dormido: lo despertamos y empujamos.
+        rb.WakeUp();
+        rb.linearVelocity = new Vector2(0f, -2f);
 
         yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f);

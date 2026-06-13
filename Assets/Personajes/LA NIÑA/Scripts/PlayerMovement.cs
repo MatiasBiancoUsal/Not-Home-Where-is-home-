@@ -3,8 +3,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerController playerController;
+
+    [Header("Movement")]
     private bool isFacingRight = true; // variable booleana para verificar si el player esta mirando a la derecha
     private bool isMoving; // verifica si el player se esta moviendo o no
+
+    [HideInInspector] public bool onKnockBack;
 
     // Getters
     public bool IsMoving // getter de la variable de isMoving que se actualiza en el metodo de Move para saber si el player se esta moviendo o no
@@ -25,6 +29,13 @@ public class PlayerMovement : MonoBehaviour
     
     public void Move() // controla el movimiento del player
     {
+
+        // si ocurre un knock back return
+        if (onKnockBack)
+        {
+            return;
+        }
+
         // vector donde se almacena el valor del movimiento del player que se recibe desde el playerController
         Vector2 move = playerController.controles.Player.Move.ReadValue<Vector2>();
 
