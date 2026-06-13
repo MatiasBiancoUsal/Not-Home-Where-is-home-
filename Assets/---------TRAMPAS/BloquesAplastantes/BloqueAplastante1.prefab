@@ -29,9 +29,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3830088287823488855}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.38, y: 8.57, z: 0}
-  m_LocalScale: {x: 0.69948, y: 0.69948, z: 0.69948}
+  m_LocalScale: {x: 1.6933048, y: 1.6933048, z: 1.6933048}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 372819869387635620, guid: 1a7a9b8993ec442e1879efca525a9be7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -107,11 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808550750548c429ba9e5d9ea6430358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BloqueAplastante
-  distanciaDeteccion: 10
   delayAntesDeCaer: 0.04
+  velocidadCaida: 3
   tiempoEnElPiso: 3
   tiempoFade: 2
   tagJugador: Player
+  offsetDeteccion: {x: 0, y: -5}
+  tamanoDeteccion: {x: 3, y: 10}
   shakeDuracion: 0.14
   shakeFuerza: 0.2
 --- !u!50 &3359584487490214038
@@ -129,7 +131,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -185,7 +187,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.48, y: 5.453957}
+  m_Size: {x: 4.48, y: 5.67}
   m_EdgeRadius: 0
 --- !u!61 &2626337564762655977
 BoxCollider2D:
@@ -221,7 +223,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -8.82}
+  m_Offset: {x: 0, y: -7.9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -231,5 +233,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.48, y: 32.04}
+  m_Size: {x: 4.48, y: 21.91}
   m_EdgeRadius: 0

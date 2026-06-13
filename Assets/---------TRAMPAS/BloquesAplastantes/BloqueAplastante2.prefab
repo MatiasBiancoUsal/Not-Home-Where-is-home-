@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 39.34826, y: -26.34, z: 0}
-  m_LocalScale: {x: 0.75446045, y: 0.75446045, z: 0.75446045}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2235721156590268544, guid: 424148e6ab65b4c43a197881404f9c27, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -114,8 +114,8 @@ MonoBehaviour:
   tagJugador: Player
   offsetDeteccion: {x: 0, y: -5}
   tamanoDeteccion: {x: 7.66, y: 10}
-  shakeDuracion: 0.5
-  shakeFuerza: 0.2
+  shakeDuracion: 0.17
+  shakeFuerza: 0.08
 --- !u!50 &1917065041390613000
 Rigidbody2D:
   serializedVersion: 5
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

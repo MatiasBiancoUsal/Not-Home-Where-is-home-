@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerDoubleJump doubleJump;
     [HideInInspector] public PlayerDash dash;
     [HideInInspector] public PlayerClimb climb;
+    [HideInInspector] public PlayerAttacks attacks;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         doubleJump = GetComponent<PlayerDoubleJump>();
         dash = GetComponent<PlayerDash>();
         climb = GetComponent<PlayerClimb>();
+        attacks = GetComponent<PlayerAttacks>();
     }
 
     private void FixedUpdate()
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         jump.OnUpdate(); // Salto
         doubleJump.OnUpdate(); // Doble salto
         dash.OnUpdate(); // Dash
+        attacks.OnUpdate(); // Ataques
 
     }
 
@@ -67,6 +70,8 @@ public class PlayerController : MonoBehaviour
         controles.Player.Jump.canceled += OnJumpRelease;
 
         controles.Player.Dash.performed += OnDash;
+
+        controles.Player.Attack.performed += OnAttack;
     }
 
 
@@ -75,10 +80,12 @@ public class PlayerController : MonoBehaviour
         controles.Player.Jump.performed -= OnJump;
         controles.Player.Jump.canceled -= OnJumpRelease;
         controles.Player.Dash.performed -= OnDash;
+        controles.Player.Attack.performed -= OnAttack;
 
         controles.Disable();
     }
 
+    // Metodos Inputs
     private void OnJump(InputAction.CallbackContext context)
     {
         // Si estamos trepando, ESPACIO nos despega saltando de la pared (y queda el doble salto).
@@ -110,4 +117,10 @@ public class PlayerController : MonoBehaviour
         if (climb.IsClimbing) return; // no se puede dashear mientras trepa
         dash.DashHold();
     }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        attacks.AttackHold();
+    }
+
 }

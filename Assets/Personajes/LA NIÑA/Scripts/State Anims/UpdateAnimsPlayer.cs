@@ -13,6 +13,29 @@ public class UpdateAnimsPlayer : MonoBehaviour
 
     public void UpdateAnimations()
     {
+        // Actualizar animaciones de ataque
+        if (playerController.attacks.IsAttack)
+        {
+            if (playerController.attacks.AttackDirection == Vector2.up)
+            {
+                animationManager.SetState(new AttackUpPlayerStateAnims(playerController.animPlayer));
+            }
+            else if (playerController.attacks.AttackDirection == Vector2.down)
+            {
+                animationManager.SetState(new AttackDownPlayerStateAnims(playerController.animPlayer));
+            }
+            else
+            {
+                switch (playerController.attacks.ComboStep)
+                {
+                    case 1:  animationManager.SetState(new AttackStandingTwoPlayerStateAnim(playerController.animPlayer));   break;
+                    case 2:  animationManager.SetState(new AttackStandingThreePlayerStateAnim(playerController.animPlayer)); break;
+                    default: animationManager.SetState(new AttackStandingOnePlayerStateAnim(playerController.animPlayer));   break;
+                }
+            }
+            return; // evita otras animaciones
+        }
+
         // animacion de TREPAR: maxima prioridad
         if (playerController.climb.IsClimbing)
         {
