@@ -1759,6 +1759,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: offsetDeteccion.y
+      value: -5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: tamanoDeteccion.y
+      value: 9.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -7224,6 +7232,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: offsetDeteccion.y
+      value: -5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: tamanoDeteccion.y
+      value: 9.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -9390,6 +9406,18 @@ PrefabInstance:
       propertyPath: tamanoDeteccion.y
       value: 19.87
       objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 2.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 6594634669553692082, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -9775,6 +9803,18 @@ PrefabInstance:
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: tamanoDeteccion.y
       value: 19.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 2.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 6594634669553692082, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_SortingLayer
@@ -10488,25 +10528,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
-    - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1675054641
-      objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante2 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6963630444605760501, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10550,14 +10574,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6963630444605760501, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 742960778}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1640311930}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
 --- !u!4 &724843882 stripped
 Transform:
@@ -11001,59 +11019,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
---- !u!1 &742960777
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 742960778}
-  - component: {fileID: 742960779}
-  m_Layer: 9
-  m_Name: HurtBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &742960778
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742960777}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 724843882}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &742960779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742960777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31370e5b70ce81c4c800cf55cb3551aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
-  damageHurtBox: 10
-  knockBackHurtBox: 0
-  timeKnockBack: 0.15
-  hurtBoxSize: {x: 5.93, y: 3.58}
-  hurtBoxOffset: {x: -0.03, y: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  damageCoolDown: 0
 --- !u!1 &745615723
 GameObject:
   m_ObjectHideFlags: 0
@@ -14056,6 +14021,18 @@ PrefabInstance:
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: tamanoDeteccion.y
       value: 19.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 2.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 6594634669553692082, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_SortingLayer
@@ -22756,32 +22733,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1892388815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 269.99}
---- !u!1 &1640311924 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
-  m_PrefabInstance: {fileID: 724843881}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1640311930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640311924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2ad2c63007145c44980906b76db5c95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Damageable
-  activeKnockBack: 0
-  knockBackDuration: 0.2
-  activeFlash: 0
-  flashDuration: 0.1
-  flashMaterial: {fileID: 0}
-  activeFreezeTime: 0
-  freezeDuration: 0.05
-  activeInvulnerability: 0
-  timeInvulnerability: 1
 --- !u!1 &1647103154
 GameObject:
   m_ObjectHideFlags: 0
@@ -24546,6 +24497,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: offsetDeteccion.y
+      value: -5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: tamanoDeteccion.y
+      value: 9.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -26681,6 +26640,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: offsetDeteccion.y
+      value: -5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: tamanoDeteccion.y
+      value: 9.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4813515490036691494, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_SortingLayer
       value: 2

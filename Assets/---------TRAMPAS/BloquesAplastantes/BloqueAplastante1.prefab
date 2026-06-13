@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 3359584487490214038}
   - component: {fileID: 5138332127130871636}
   - component: {fileID: 2626337564762655977}
-  m_Layer: 0
+  - component: {fileID: 1404148496207191441}
+  m_Layer: 3
   m_Name: BloqueAplastante1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,9 +32,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.38, y: 8.57, z: 0}
-  m_LocalScale: {x: 1.6933048, y: 1.6933048, z: 1.6933048}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_LocalScale: {x: 0.47, y: 0.379337, z: 0.47}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 8162910320343931010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6594634669553692082
@@ -112,8 +114,8 @@ MonoBehaviour:
   tiempoEnElPiso: 3
   tiempoFade: 2
   tagJugador: Player
-  offsetDeteccion: {x: 0, y: -5}
-  tamanoDeteccion: {x: 3, y: 10}
+  offsetDeteccion: {x: 0, y: -3.36}
+  tamanoDeteccion: {x: 3, y: 6.94}
   shakeDuracion: 0.14
   shakeFuerza: 0.2
 --- !u!50 &3359584487490214038
@@ -235,3 +237,77 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.48, y: 21.91}
   m_EdgeRadius: 0
+--- !u!114 &1404148496207191441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3830088287823488855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ad2c63007145c44980906b76db5c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  activeKnockBack: 0
+  knockBackDuration: 0.2
+  activeFlash: 0
+  flashDuration: 0.1
+  flashMaterial: {fileID: 0}
+  activeFreezeTime: 1
+  freezeDuration: 0.05
+  activeInvulnerability: 0
+  timeInvulnerability: 1
+--- !u!1 &8019728673685844617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8162910320343931010}
+  - component: {fileID: 5253252377007597019}
+  m_Layer: 3
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8162910320343931010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019728673685844617}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3358245158675509638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5253252377007597019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019728673685844617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31370e5b70ce81c4c800cf55cb3551aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  damageHurtBox: 5
+  knockBackHurtBox: 12
+  timeKnockBack: 0.15
+  hurtBoxSize: {x: 1.54, y: 1.99}
+  hurtBoxOffset: {x: 0, y: 0.07}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageCoolDown: 0.5

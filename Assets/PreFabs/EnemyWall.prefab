@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3364043665438276626}
   - component: {fileID: 9000318393271859282}
   - component: {fileID: 5568481994256872456}
+  - component: {fileID: 2099003591672290402}
+  - component: {fileID: 1099584628494794758}
   m_Layer: 0
   m_Name: EnemyWall
   m_TagString: Untagged
@@ -33,6 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6395847259076318358}
+  - {fileID: 3438578971473610010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3364043665438276626
@@ -133,6 +136,41 @@ MonoBehaviour:
   firePoint: {fileID: 6395847259076318358}
   detectionRange: 10
   fireRate: 2
+--- !u!114 &2099003591672290402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751921963197232537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717515f625520d44e90d29a2b9111809, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthHandler
+  maxHealth: 5
+  currentHealth: 0
+--- !u!114 &1099584628494794758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751921963197232537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ad2c63007145c44980906b76db5c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  activeKnockBack: 1
+  knockBackDuration: 0.2
+  activeFlash: 1
+  flashDuration: 0.1
+  flashMaterial: {fileID: 0}
+  activeFreezeTime: 1
+  freezeDuration: 0.05
+  activeInvulnerability: 0
+  timeInvulnerability: 1
 --- !u!1 &2710830506541826482
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,3 +202,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 45986892217992033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6420441049964133395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3438578971473610010}
+  - component: {fileID: 4087013170458418674}
+  m_Layer: 0
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3438578971473610010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6420441049964133395}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 45986892217992033}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4087013170458418674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6420441049964133395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31370e5b70ce81c4c800cf55cb3551aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  damageHurtBox: 1
+  knockBackHurtBox: 12
+  timeKnockBack: 0.15
+  hurtBoxSize: {x: 2.48, y: 1.12}
+  hurtBoxOffset: {x: 0.09, y: -0.43}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageCoolDown: 0.5

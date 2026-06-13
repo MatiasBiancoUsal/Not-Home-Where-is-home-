@@ -7,7 +7,12 @@ public class EnemyWallShooter : MonoBehaviour
     public GameObject ballPrefab;
     public Transform firePoint;
 
-    public float detectionRange = 5f;
+    [Header("Detección")]
+    public float detectionRange = 5f;       // radio del rango de detección
+    public Vector2 detectionOffset;         // corre el centro del rango respecto al enemigo
+    public Color gizmoColor = Color.cyan;    // color del gizmo (editable desde el inspector)
+
+    [Header("Disparo")]
     public float fireRate = 2f;
 
     private float nextFireTime;
@@ -22,7 +27,8 @@ public class EnemyWallShooter : MonoBehaviour
     {
         if (player == null) return;
 
-        float distance = Vector2.Distance(transform.position, player.position);
+        Vector2 center = (Vector2)transform.position + detectionOffset;
+        float distance = Vector2.Distance(center, player.position);
 
         if (distance <= detectionRange)
         {
@@ -56,6 +62,21 @@ public class EnemyWallShooter : MonoBehaviour
         {
             Vector2 direction = player.position - firePoint.position;
             enemyBall.SetDirection(direction);
+        }
+    }
+
+    // Dibuja el rango de detección en el editor (siempre visible) para verlo y ajustarlo.
+    private void OnDrawGizmos()
+    {
+        Vector2 center = (Vector2)transform.position + detectionOffset;
+
+        Gizmos.color = gizmoColor;
+        Gizmos.DrawWireSphere(center, detectionRange);
+
+        // si el player está asignado y dentro del rango, lo marca con una línea
+        if (player != null && Vector2.Distance(center, player.position) <= detectionRange)
+        {
+            Gizmos.DrawLine(center, player.position);
         }
     }
 }
