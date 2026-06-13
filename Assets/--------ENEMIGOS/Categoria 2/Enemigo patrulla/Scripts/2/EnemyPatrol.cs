@@ -15,11 +15,13 @@ public class EnemyPatrol : MonoBehaviour
     public string wallTag = "Wall";        // se da vuelta al tocar algo con este tag
 
     private Rigidbody2D rb;
+    private Damageable damageable;
     private bool movingRight = true;       // el prefab arranca mirando a la derecha (escala por defecto)
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        damageable = GetComponent<Damageable>();
 
         // Si queremos que arranque hacia la izquierda, lo damos vuelta una vez al inicio.
         if (!startMovingRight)
@@ -31,6 +33,9 @@ public class EnemyPatrol : MonoBehaviour
     void FixedUpdate()
     {
         if (rb == null) return;
+
+        // pausar movimiento durante knockback para no cancelar la fuerza
+        if (damageable != null && damageable.IsKnockedBack) return;
 
         // Movimiento horizontal (mantiene su velocidad vertical)
         rb.linearVelocity = new Vector2(movingRight ? speed : -speed, rb.linearVelocity.y);

@@ -5,14 +5,19 @@ public class PlayerAttacks : MonoBehaviour
     private PlayerController playerController;
 
     [Header("Ataque Player")]
-    public int hitPower; // cantidad de daño que generan los ataques del jugador
-    public float attackRange = 0.6f;
+    public int hitPower = 1; // cantidad de daño que generan los ataques del jugador
+    public int knockBackForce = 6; // fuerza con la que se empujan los enemigos
+    public float attackRange = 0.6f; //radio del hitbox
+    public Vector2 hitBoxOffset; // distancia u offset del hitbox
+    public float pogoForce = 10f;
     public LayerMask enemyLayer;
+
     public float attackCooldown = 0.05f;
 
     [Header("Combo")]
     public float comboWindowDuration = 0.25f;
 
+    //cooldowns
     private float timerAttackCoolDown = 0;
     private bool isAttack;
     private Vector2 attackDirection;
@@ -80,20 +85,39 @@ public class PlayerAttacks : MonoBehaviour
 
     public void ActiveHitbox()
     {
-        Vector2 attackPos = (Vector2)transform.position + attackDirection * attackRange;
+        Vector2 attackPos = (Vector2)transform.position + attackDirection * attackRange + Vector2.Scale(hitBoxOffset, attackDirection);
 
         Collider2D[] hurtEnemies = Physics2D.OverlapCircleAll(attackPos, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hurtEnemies)
         {
             // aplicar el dano al enemigo
+            Damageable damageable = enemy.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                damageable.ApplyDamage(hitPower, transform.position, knockBackForce);
+            }
+            /*
             // Health Handler
             HealthHandler healthEnemy = enemy.GetComponent<HealthHandler>();
             if (healthEnemy != null)
             {
                 healthEnemy.TakeDamage(hitPower);
+            }*/
+
+            if (attackDirection == Vector2.down) // si la direccion de ataque es hacia abajo
+            {
+                Pogo();
             }
         }
+    }
+
+    private void Pogo()
+    {
+        // cancelar las fuerzas y velociades del rb
+        playerController.rb.linearVelocity = new Vector2(playerController.rb.linearVelocity.x, 0);
+        // aplicamos un impulso hacia arriba de nuestro jugador
+        playerController.rb.AddForce(Vector2.up * pogoForce, ForceMode2D.Impulse);
     }
 
     public void EndAttack()
@@ -124,7 +148,7 @@ public class PlayerAttacks : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Vector2 gizmosPos = (Vector2)transform.position + attackDirection * attackRange;
+        Vector2 gizmosPos = (Vector2)transform.position + attackDirection * attackRange + Vector2.Scale(hitBoxOffset, attackDirection);
         Gizmos.DrawWireSphere(gizmosPos, attackRange);
     }
 }
