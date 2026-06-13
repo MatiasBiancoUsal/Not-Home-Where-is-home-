@@ -42,6 +42,29 @@ public class BloqueAplastante : MonoBehaviour
                 foreach (Collider2D mio in misColliders)
                     Physics2D.IgnoreCollision(mio, suyo);
         }
+
+        // Ignorar la colision FISICA con el player: con masa enorme, el collider solido lo
+        // empujaria a posiciones infinitas (el player "desaparece"). Lo aplastamos via el
+        // collider TRIGGER (abajo), no empujandolo. El trigger sigue detectando normal.
+        GameObject playerObj = GameObject.FindGameObjectWithTag(tagJugador);
+        if (playerObj != null)
+        {
+            Collider2D playerCol = playerObj.GetComponent<Collider2D>();
+            if (playerCol != null)
+                foreach (Collider2D mio in misColliders)
+                    if (!mio.isTrigger) // solo el collider solido (el que empuja)
+                        Physics2D.IgnoreCollision(mio, playerCol);
+        }
+    }
+
+    // Mientras el bloque CAE, si su trigger alcanza al player, lo aplasta (muerte).
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (activado && rb.bodyType == RigidbodyType2D.Dynamic && other.CompareTag(tagJugador))
+        {
+            HealthHandler hh = other.GetComponent<HealthHandler>();
+            if (hh != null) hh.TakeDamage(9999); // aplastado = muerte instantanea
+        }
     }
 
     void Update()

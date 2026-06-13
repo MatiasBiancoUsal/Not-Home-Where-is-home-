@@ -54,28 +54,35 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        // efecto knockback
-        if (activeKnockBack)
-        {
-            KnockBackApply(sourcePosition, sourceKnockBackForce);
-        }
+        // Si este golpe es MORTAL, salteamos TODOS los efectos (knockback, flash, freeze,
+        // invulnerabilidad) para que la muerte sea limpia: solo muere y reaparece.
+        bool esGolpeMortal = healthHandler != null && healthHandler.CurrentHealth - damageAmount <= 0;
 
-        //efecto flash
-        if (activeFlash)
+        if (!esGolpeMortal)
         {
-            StartCoroutine(FlashEffect());
-        }
+            // efecto knockback
+            if (activeKnockBack)
+            {
+                KnockBackApply(sourcePosition, sourceKnockBackForce);
+            }
 
-        // efecto freeze time
-        if (activeFreezeTime)
-        {
-            StartCoroutine(FreezeTimeEffect());
-        }
+            //efecto flash
+            if (activeFlash)
+            {
+                StartCoroutine(FlashEffect());
+            }
 
-        // efecto invulnerabilidad
-        if (activeInvulnerability)
-        {
-            StartCoroutine(InvulnerabilityEffect());
+            // efecto freeze time
+            if (activeFreezeTime)
+            {
+                StartCoroutine(FreezeTimeEffect());
+            }
+
+            // efecto invulnerabilidad
+            if (activeInvulnerability)
+            {
+                StartCoroutine(InvulnerabilityEffect());
+            }
         }
 
         // acceder a health y quitar damageAmount

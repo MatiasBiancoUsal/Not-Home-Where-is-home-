@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 4553904984407775237}
   - component: {fileID: 3147509105279337330}
   - component: {fileID: 5269341795716009696}
+  - component: {fileID: 7732166607692326833}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -456,6 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxHealth: 10
   currentHealth: 0
+  destroyOnDeath: 1
 --- !u!114 &5269341795716009696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +479,21 @@ MonoBehaviour:
   freezeDuration: 0.05
   activeInvulnerability: 0
   timeInvulnerability: 1
+--- !u!114 &7732166607692326833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65073ecc2bbfc24380b0dd4749e854c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeath
+  deathStateAnim: 9
+  deathAnimDuration: 1
+  fadeDuration: 0.6
 --- !u!1 &4010254672160369909
 GameObject:
   m_ObjectHideFlags: 0

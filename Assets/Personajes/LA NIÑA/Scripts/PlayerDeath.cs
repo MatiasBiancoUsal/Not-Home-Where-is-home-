@@ -5,14 +5,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 // ============================================================
-//  Muerte del player. Se dispara cuando pierde TODAS las vidas
-//  (escucha HealthHandler.OnDeath) o con la tecla T para testear.
-//  Reproduce la animacion "death", funde a negro y reinicia la zona.
+//  Muerte del player. Va EN el player, asi funciona en TODAS las
+//  escenas sin tener que poner un objeto suelto en cada una.
+//  Se dispara al perder todas las vidas (HealthHandler.OnDeath)
+//  o con la tecla T (test). Anima, funde a negro y reinicia la zona.
 // ============================================================
-public class DeathTest : MonoBehaviour
+[RequireComponent(typeof(HealthHandler))]
+public class PlayerDeath : MonoBehaviour
 {
     [Header("Animacion de muerte")]
-    public int deathStateAnim = 9;        // valor de stateAnim para la animacion death (engancharlo en el Animator)
+    public int deathStateAnim = 9;        // valor de stateAnim para la animacion death
     public float deathAnimDuration = 1f;  // cuanto se ve la animacion antes del fundido
 
     [Header("Fundido a negro")]
@@ -20,11 +22,24 @@ public class DeathTest : MonoBehaviour
 
     private Image fadeImage;
     private bool isDying = false;
-    private HealthHandler playerHealth;
+    private PlayerController playerController;
+    private HealthHandler healthHandler;
 
     private void Awake()
     {
         CreateFadeOverlay();
+        playerController = GetComponent<PlayerController>();
+        healthHandler = GetComponent<HealthHandler>();
+    }
+
+    private void OnEnable()
+    {
+        if (healthHandler != null) healthHandler.OnDeath += HandleDeath;
+    }
+
+    private void OnDisable()
+    {
+        if (healthHandler != null) healthHandler.OnDeath -= HandleDeath;
     }
 
     private void Start()
@@ -32,37 +47,25 @@ public class DeathTest : MonoBehaviour
         // Al cargar la escena arrancamos en negro y aclaramos (fundido de entrada).
         StartCoroutine(Fade(1f, 0f));
 
-        // Enganchamos la vida del player: la muerte se dispara al perder TODAS las vidas.
-        PlayerController player = FindFirstObjectByType<PlayerController>();
-        if (player != null)
-        {
-            playerHealth = player.GetComponent<HealthHandler>();
-            if (playerHealth != null)
-            {
-                playerHealth.destroyOnDeath = false;       // el player NO se destruye: reaparece
-                playerHealth.OnDeath += HandlePlayerDeath;
-            }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (playerHealth != null) playerHealth.OnDeath -= HandlePlayerDeath;
-    }
-
-    private void HandlePlayerDeath()
-    {
-        if (!isDying) StartCoroutine(DeathSequence());
+        // el player NO se destruye al morir: hace la secuencia y reaparece.
+        if (healthHandler != null) healthHandler.destroyOnDeath = false;
     }
 
     private void Update()
     {
         if (isDying) return;
 
+        // tecla T: testear la muerte sin perder vidas.
         if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             StartCoroutine(DeathSequence());
         }
+    }
+
+    // se llama cuando la vida llega a 0 (lo dispara el HealthHandler).
+    private void HandleDeath()
+    {
+        if (!isDying) StartCoroutine(DeathSequence());
     }
 
     private IEnumerator DeathSequence()
@@ -70,13 +73,12 @@ public class DeathTest : MonoBehaviour
         isDying = true;
 
         // 1) Frenamos al player y reproducimos la animacion de muerte.
-        PlayerController player = FindFirstObjectByType<PlayerController>();
-        if (player != null)
+        if (playerController != null)
         {
-            player.enabled = false;                  // corta el control (movimiento, salto, anims, etc.)
-            player.rb.linearVelocity = Vector2.zero;
-            player.rb.gravityScale = 0f;             // que no se caiga mientras "muere"
-            player.animPlayer.SetInteger("stateAnim", deathStateAnim);
+            playerController.enabled = false;            // corta el control (movimiento, salto, anims, etc.)
+            playerController.rb.linearVelocity = Vector2.zero;
+            playerController.rb.gravityScale = 0f;       // que no se caiga mientras "muere"
+            playerController.animPlayer.SetInteger("stateAnim", deathStateAnim);
         }
 
         // 2) Esperamos a que se vea la animacion de muerte.
@@ -86,6 +88,7 @@ public class DeathTest : MonoBehaviour
         yield return Fade(0f, 1f);
 
         // 4) Reiniciamos la zona actual (el player reaparece en el inicio).
+        //    >> A FUTURO: aca va la logica de checkpoint / punto de entrada. <<
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -116,7 +119,7 @@ public class DeathTest : MonoBehaviour
     // Crea por codigo un Canvas + una Image negra a pantalla completa (asi no hay que armar UI a mano).
     private void CreateFadeOverlay()
     {
-        GameObject canvasGO = new GameObject("FadeCanvas (temp)");
+        GameObject canvasGO = new GameObject("FadeCanvas (player)");
         Canvas canvas = canvasGO.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 9999; // por encima de todo
