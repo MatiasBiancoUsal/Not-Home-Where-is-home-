@@ -15,10 +15,12 @@ public class PlayerDeath : MonoBehaviour
 {
     [Header("Animacion de muerte")]
     public int deathStateAnim = 9;        // valor de stateAnim para la animacion death
-    public float deathAnimDuration = 1f;  // cuanto se ve la animacion antes del fundido
 
-    [Header("Fundido a negro")]
-    public float fadeDuration = 0.6f;
+    [Header("Tiempos de la muerte (ajustables)")]
+    [Tooltip("Segundos que el player queda 'muerto' en pantalla ANTES de que empiece el fundido a negro.")]
+    public float tiempoAntesDelFundido = 1.5f;
+    [Tooltip("Cuanto tarda el fundido a negro antes de reaparecer.")]
+    public float duracionFundido = 0.6f;
 
     private Image fadeImage;
     private bool isDying = false;
@@ -81,8 +83,8 @@ public class PlayerDeath : MonoBehaviour
             playerController.animPlayer.SetInteger("stateAnim", deathStateAnim);
         }
 
-        // 2) Esperamos a que se vea la animacion de muerte.
-        yield return new WaitForSeconds(deathAnimDuration);
+        // 2) El player queda "muerto" en pantalla un momento antes del fundido.
+        yield return new WaitForSeconds(tiempoAntesDelFundido);
 
         // 3) Fundido a negro.
         yield return Fade(0f, 1f);
@@ -97,10 +99,10 @@ public class PlayerDeath : MonoBehaviour
         SetFadeAlpha(from);
 
         float t = 0f;
-        while (t < fadeDuration)
+        while (t < duracionFundido)
         {
             t += Time.deltaTime;
-            SetFadeAlpha(Mathf.Lerp(from, to, t / fadeDuration));
+            SetFadeAlpha(Mathf.Lerp(from, to, t / duracionFundido));
             yield return null;
         }
 
