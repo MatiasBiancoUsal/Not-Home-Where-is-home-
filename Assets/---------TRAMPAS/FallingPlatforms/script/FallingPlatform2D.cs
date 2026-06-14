@@ -6,7 +6,7 @@ using UnityEngine;
 public sealed class FallingPlatform2D : MonoBehaviour
 {
     [Header("Detection")]
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private string playerTag = "Player";
     [SerializeField] private float topDetectionTolerance = 0.12f;
 
     [Header("Warning")]
@@ -59,7 +59,7 @@ public sealed class FallingPlatform2D : MonoBehaviour
     private void TryActivate(Collider2D other)
     {
         if (activated) return;
-        if (((1 << other.gameObject.layer) & playerLayer) == 0) return;
+        if (!other.CompareTag(playerTag)) return;
         if (!IsStandingOnTop(other)) return;
 
         activated = true;
