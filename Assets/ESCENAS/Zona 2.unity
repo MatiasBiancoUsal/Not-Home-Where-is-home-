@@ -7948,6 +7948,18 @@ PrefabInstance:
       propertyPath: tamanoDeteccion.x
       value: 5.03
       objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante2
@@ -8093,6 +8105,14 @@ PrefabInstance:
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: tamanoDeteccion.x
       value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11689,8 +11709,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -218825549
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -14005,7 +14025,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999999
+      value: 0.9969791
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -16860,6 +16880,18 @@ PrefabInstance:
       propertyPath: tamanoDeteccion.x
       value: 5.03
       objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante2 (5)
@@ -17005,6 +17037,14 @@ PrefabInstance:
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: tamanoDeteccion.x
       value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23647,6 +23687,18 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 2.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante2 (1)
@@ -25130,6 +25182,18 @@ PrefabInstance:
     - target: {fileID: 1917065041390613000, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_GravityScale
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 3.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
@@ -28342,8 +28406,8 @@ Transform:
   m_GameObject: {fileID: 1774195844}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -16.5878, y: -1.6506, z: 0}
-  m_LocalScale: {x: 4.724306, y: 5.37549, z: 1}
+  m_LocalPosition: {x: -16.5878, y: -1.6205, z: 0}
+  m_LocalScale: {x: 4.784777, y: 5.37549, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1062945138}
@@ -32199,6 +32263,18 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 2.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante2 (2)
@@ -33767,6 +33843,18 @@ PrefabInstance:
     - target: {fileID: 1917065041390613000, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_GravityScale
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 3.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
@@ -35380,11 +35468,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
-      value: -3.36
+      value: -4.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: tamanoDeteccion.x
+      value: 2.55
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: tamanoDeteccion.y
-      value: 6.94
+      value: 8.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

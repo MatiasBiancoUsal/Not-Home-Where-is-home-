@@ -4067,7 +4067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358245158675509638, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -17.7
+      value: -16.6
       objectReference: {fileID: 0}
     - target: {fileID: 3358245158675509638, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11093,9 +11093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f307b64139264bebbd5dabf4bf08dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform2D
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  playerTag: Player
   topDetectionTolerance: 0.12
   visualRoot: {fileID: 0}
   shakeDuration: 0.8
@@ -16886,7 +16884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358245158675509638, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -50.051456
+      value: -48
       objectReference: {fileID: 0}
     - target: {fileID: 3358245158675509638, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23039,10 +23037,6 @@ PrefabInstance:
     - target: {fileID: 6036986228248132772, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
       propertyPath: m_Name
       value: Monstruo_CAT2_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7733208114201228721, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
-      propertyPath: maxHealth
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29803,7 +29797,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9998918
+      value: 0.9999995
       objectReference: {fileID: 0}
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: TargetOffset.x

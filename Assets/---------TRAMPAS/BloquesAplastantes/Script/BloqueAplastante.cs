@@ -22,6 +22,9 @@ public class BloqueAplastante : MonoBehaviour
     private Vector3 posicionOriginal;
     private bool activado = false;
     private SpriteRenderer sprite;
+    private Collider2D[] misColliders;
+    private Collider2D playerCol;   // collider del player, para activar/desactivar el choque
+    private HurtBox hurtBox;        // el HurtBox solo daña mientras el bloque CAE
 
     void Start()
     {
@@ -30,11 +33,11 @@ public class BloqueAplastante : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         posicionOriginal = transform.position;
         sprite = GetComponent<SpriteRenderer>();
+        misColliders = GetComponents<Collider2D>();
 
         // Evitar que los bloques se traben ENTRE SI al caer: cuando estan pegados en fila, sus
         // colliders se tocan y, con la posicion X congelada, el motor de fisica los frena
         // mutuamente. Ignoramos las colisiones entre bloques (siguen chocando con piso/paredes).
-        Collider2D[] misColliders = GetComponents<Collider2D>();
         foreach (BloqueAplastante otro in FindObjectsByType<BloqueAplastante>(FindObjectsSortMode.None))
         {
             if (otro == this) continue;
@@ -43,28 +46,26 @@ public class BloqueAplastante : MonoBehaviour
                     Physics2D.IgnoreCollision(mio, suyo);
         }
 
-        // Ignorar la colision FISICA con el player: con masa enorme, el collider solido lo
-        // empujaria a posiciones infinitas (el player "desaparece"). Lo aplastamos via el
-        // collider TRIGGER (abajo), no empujandolo. El trigger sigue detectando normal.
+        // Guardar el collider del player. Mientras el bloque NO esta apoyado, ignoramos el choque
+        // (con masa enorme te empujaria al infinito). Lo restauramos al aterrizar para que te
+        // puedas PARAR ENCIMA del bloque caido.
         GameObject playerObj = GameObject.FindGameObjectWithTag(tagJugador);
-        if (playerObj != null)
-        {
-            Collider2D playerCol = playerObj.GetComponent<Collider2D>();
-            if (playerCol != null)
-                foreach (Collider2D mio in misColliders)
-                    if (!mio.isTrigger) // solo el collider solido (el que empuja)
-                        Physics2D.IgnoreCollision(mio, playerCol);
-        }
+        if (playerObj != null) playerCol = playerObj.GetComponent<Collider2D>();
+        IgnorarChoqueConPlayer(true);
+
+        // El HurtBox solo debe matar MIENTRAS CAE (no cuando esta quieto arriba ni cuando te
+        // parás encima). Arranca apagado y lo prendemos al caer.
+        hurtBox = GetComponentInChildren<HurtBox>();
+        if (hurtBox != null) hurtBox.enabled = false;
     }
 
-    // Mientras el bloque CAE, si su trigger alcanza al player, lo aplasta (muerte).
-    private void OnTriggerStay2D(Collider2D other)
+    // Activa o desactiva el choque fisico entre el bloque (collider solido) y el player.
+    private void IgnorarChoqueConPlayer(bool ignorar)
     {
-        if (activado && rb.bodyType == RigidbodyType2D.Dynamic && other.CompareTag(tagJugador))
-        {
-            HealthHandler hh = other.GetComponent<HealthHandler>();
-            if (hh != null) hh.TakeDamage(9999); // aplastado = muerte instantanea
-        }
+        if (playerCol == null) return;
+        foreach (Collider2D mio in misColliders)
+            if (!mio.isTrigger) // solo el collider solido (el que empuja / sostiene)
+                Physics2D.IgnoreCollision(mio, playerCol, ignorar);
     }
 
     void Update()
@@ -111,8 +112,15 @@ public class BloqueAplastante : MonoBehaviour
         rb.WakeUp();
         rb.linearVelocity = new Vector2(0f, -2f);
 
+        // MIENTRAS CAE: el HurtBox mata al aplastarte (segun el daño que le pusiste a cada bloque).
+        if (hurtBox != null) hurtBox.enabled = true;
+
         yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+
+        // ATERRIZÓ: apagamos el HurtBox (ya no mata) y restauramos el choque -> te podes PARAR ENCIMA.
+        if (hurtBox != null) hurtBox.enabled = false;
+        IgnorarChoqueConPlayer(false);
 
         // Espera en el piso
         yield return new WaitForSeconds(tiempoEnElPiso);
@@ -121,7 +129,7 @@ public class BloqueAplastante : MonoBehaviour
         yield return StartCoroutine(Fade(1f, 0f));
 
         // Desactivar colliders mientras está invisible
-        foreach (Collider2D col in GetComponents<Collider2D>())
+        foreach (Collider2D col in misColliders)
             col.enabled = false;
 
         // Vuelve arriba
@@ -131,9 +139,10 @@ public class BloqueAplastante : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        // Reactivar colliders
-        foreach (Collider2D col in GetComponents<Collider2D>())
+        // Reactivar colliders y volver a ignorar el choque con el player para el proximo ciclo.
+        foreach (Collider2D col in misColliders)
             col.enabled = true;
+        IgnorarChoqueConPlayer(true);
 
         // Fade in
         yield return StartCoroutine(Fade(0f, 1f));
