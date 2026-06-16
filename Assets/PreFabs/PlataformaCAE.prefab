@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4926565692315633489}
   - component: {fileID: 3484769527996761337}
   - component: {fileID: 134811199737220727}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: PlataformaCAE
   m_TagString: FallingPlatform
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.2815316, y: 0.23788008}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -79,7 +79,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4369368, y: 0.52423984}
   m_EdgeRadius: 0
 --- !u!50 &3484769527996761337
 Rigidbody2D:
@@ -120,9 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f307b64139264bebbd5dabf4bf08dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform2D
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  playerTag: Player
   topDetectionTolerance: 0.12
   visualRoot: {fileID: 3397761739889988265}
   shakeDuration: 0.3
@@ -158,8 +156,8 @@ Transform:
   m_GameObject: {fileID: 4287575392490840351}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.27981, y: 0.2039, z: 0}
+  m_LocalScale: {x: 0.44037768, y: 0.5922, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1968565819688087481}
@@ -214,7 +212,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.18319027, g: 0.23141721, b: 0.64420474, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
