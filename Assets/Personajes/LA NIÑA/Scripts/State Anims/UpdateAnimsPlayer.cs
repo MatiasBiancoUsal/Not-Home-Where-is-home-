@@ -57,6 +57,14 @@ public class UpdateAnimsPlayer : MonoBehaviour
             return; // evita otras animaciones
         }
 
+        // FLOTE post-dash: aunque todavia no cae (velocity.y = 0), mostramos la pose de CAIDA
+        // asi no queda congelada en el dash y se ve mejor cuando flota antes de caer.
+        if (playerController.dash.IsFloating)
+        {
+            animationManager.SetState(new JumpFallPlayerStateAnim(playerController.animPlayer));
+            return;
+        }
+
         // actualizacion animaciones de salto
         if (!playerController.jump.IsGrounded) // si el jugador est� tocando el suelo
         {

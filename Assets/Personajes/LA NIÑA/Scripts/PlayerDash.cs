@@ -12,6 +12,12 @@ public class PlayerDash : MonoBehaviour
     private float timerDashDuration = 0f; // ooldown o timer que verifica el dashDuration
     private float timerCoolDownDash = 0f; // timer que verifica el coolDownDash
 
+    [Header("Flote post-dash en el aire")]
+    [Tooltip("Segundos que el player queda flotando luego de un dash EN EL AIRE, antes de empezar a caer. 0 = sin flote.")]
+    public float floteDuracion = 1f;
+    private bool isFloating = false;
+    private float timerFlote = 0f;
+
     private Vector2 dashDirection;
     private PlayerController playerController;
 
@@ -19,6 +25,10 @@ public class PlayerDash : MonoBehaviour
     public bool IsDash // para saber si estamos dasheando
     {
         get { return isDash; }
+    }
+    public bool IsFloating // por si las animaciones quieren saber si esta flotando
+    {
+        get { return isFloating; }
     }
 
     private void Awake()
@@ -36,6 +46,10 @@ public class PlayerDash : MonoBehaviour
         if (isDash)
         {
            DashUpdate();
+        }
+        else if (isFloating)
+        {
+            FloteUpdate();
         }
     }
 
@@ -120,13 +134,52 @@ public class PlayerDash : MonoBehaviour
     void DashEnd()
     {
         isDash = false;
-        playerController.rb.gravityScale = playerController.normalGravity; // restauramos la gravedad normal del player
+
+        // Si el dash termino EN EL AIRE, flotamos un momento antes de caer (dash mas estrategico).
+        if (!playerController.jump.IsGrounded && floteDuracion > 0f)
+        {
+            isFloating = true;
+            timerFlote = floteDuracion;
+            playerController.rb.gravityScale = 0f;              // sin gravedad: no cae
+            playerController.rb.linearVelocity = Vector2.zero;  // queda suspendido en el aire
+        }
+        else
+        {
+            playerController.rb.gravityScale = playerController.normalGravity; // en el piso: gravedad normal
+        }
+    }
+
+    void FloteUpdate()
+    {
+        // si tocamos el piso durante el flote, lo cortamos.
+        if (playerController.jump.IsGrounded)
+        {
+            EndFlote();
+            return;
+        }
+
+        // anulamos solo la caida vertical; el movimiento horizontal sigue libre (para reposicionarse).
+        Vector2 v = playerController.rb.linearVelocity;
+        v.y = 0f;
+        playerController.rb.linearVelocity = v;
+
+        timerFlote -= Time.fixedDeltaTime;
+        if (timerFlote <= 0f)
+        {
+            EndFlote();
+        }
+    }
+
+    void EndFlote()
+    {
+        isFloating = false;
+        playerController.rb.gravityScale = playerController.normalGravity; // ahora si, empieza a caer
     }
 
     public void DashHold() // se llama cuando el juego detecta que se presiono la tecla de dash
     {
         // OJO: el cooldown se chequea con timerCoolDownDash (NO con timerDashDuration).
-        if (!isDash && timerCoolDownDash <= 0f) // solo si no estamos dasheando Y el cooldown ya termino
+        if (!isDash && !isFloating && timerCoolDownDash <= 0f) // no si estamos dasheando/flotando y el cooldown termino
         {
             DashStart();
         }
