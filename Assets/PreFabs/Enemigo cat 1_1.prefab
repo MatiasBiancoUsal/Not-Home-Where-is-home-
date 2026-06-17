@@ -68,7 +68,6 @@ GameObject:
   - component: {fileID: 8638233871427402873}
   - component: {fileID: 3701145879617187415}
   - component: {fileID: 1602074219360804361}
-  - component: {fileID: 1935363592697905316}
   m_Layer: 9
   m_Name: Enemigo cat 1_1
   m_TagString: Untagged
@@ -282,17 +281,3 @@ MonoBehaviour:
   freezeDuration: 0.05
   activeInvulnerability: 0
   timeInvulnerability: 1
---- !u!114 &1935363592697905316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8721099878720038520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78e43be7d9e31c4eb5448b30e26fc9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeath
-  triggerMuerte: Die
-  duracionAnimMuerte: 1.2

@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5902215119689089421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5103110631899785311}
+  - component: {fileID: 1806756175497234413}
+  m_Layer: 0
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5103110631899785311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902215119689089421}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3483737817851031347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1806756175497234413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902215119689089421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31370e5b70ce81c4c800cf55cb3551aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  damageHurtBox: 1
+  knockBackHurtBox: 10
+  timeKnockBack: 0.15
+  hurtBoxSize: {x: 1.62, y: 0.82}
+  hurtBoxOffset: {x: 0, y: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageCoolDown: 0.5
 --- !u!1 &7849372393907065972
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +63,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3483737817851031347}
   - component: {fileID: 7780207603673060775}
+  - component: {fileID: 5294073773704618987}
   m_Layer: 0
   m_Name: Pinchos cortos_0
   m_TagString: Untagged
@@ -25,11 +79,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7849372393907065972}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.9469986, y: 0, z: 0}
   m_LocalScale: {x: 0.11908159, y: 0.11908159, z: 0.11908159}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5103110631899785311}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7780207603673060775
@@ -91,3 +146,24 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5294073773704618987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849372393907065972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ad2c63007145c44980906b76db5c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  activeKnockBack: 0
+  knockBackDuration: 0.2
+  activeFlash: 0
+  flashDuration: 0.1
+  flashMaterial: {fileID: 0}
+  activeFreezeTime: 1
+  freezeDuration: 0.05
+  activeInvulnerability: 0
+  timeInvulnerability: 1
