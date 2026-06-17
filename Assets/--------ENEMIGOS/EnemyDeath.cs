@@ -1,12 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-// ============================================================
-//  Muerte animada de un enemigo. Cuando la vida llega a 0,
-//  en vez de desaparecer al instante: frena al enemigo,
-//  reproduce la animacion de muerte y recien ahi lo destruye.
-//  Sirve para cualquier enemigo que tenga HealthHandler.
-// ============================================================
 [RequireComponent(typeof(HealthHandler))]
 public class EnemyDeath : MonoBehaviour
 {
@@ -15,6 +9,9 @@ public class EnemyDeath : MonoBehaviour
     public string triggerMuerte = "Die";
     [Tooltip("Cuanto dura la animacion de muerte antes de que el enemigo desaparezca.")]
     public float duracionAnimMuerte = 1f;
+
+    [Header("Puntos")]
+    public int puntosPorMatar = 10;
 
     private Animator animator;
     private HealthHandler healthHandler;
@@ -39,7 +36,6 @@ public class EnemyDeath : MonoBehaviour
 
     private void Start()
     {
-        // el enemigo NO se destruye al instante: primero reproduce la animacion.
         if (healthHandler != null) healthHandler.destroyOnDeath = false;
     }
 
@@ -64,6 +60,11 @@ public class EnemyDeath : MonoBehaviour
 
         // 3) Esperar a que se vea y desaparecer.
         yield return new WaitForSeconds(duracionAnimMuerte);
+
+        // 4) Sumar puntos.
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.AddPoints(puntosPorMatar);
+
         Destroy(gameObject);
     }
 }
