@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 3147509105279337330}
   - component: {fileID: 5269341795716009696}
   - component: {fileID: 7732166607692326833}
+  - component: {fileID: 5772618782023576063}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -313,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb: {fileID: 0}
   animPlayer: {fileID: 6796795505620447337}
-  speed: 5
+  speed: 7
   normalGravity: 1.5
   fallGravity: 4
   updateAnimsPlayer: {fileID: 5294083127719347959}
@@ -399,8 +400,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
   dashForce: 20
   dashDuration: 0.35
-  coolDownDash: 1
+  coolDownDash: 0.5
   isDash: 0
+  floteDuracion: 0.1
 --- !u!114 &5212340119754789098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +496,18 @@ MonoBehaviour:
   deathStateAnim: 9
   tiempoAntesDelFundido: 2.5
   duracionFundido: 0.6
+--- !u!114 &5772618782023576063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0985ff1b6babc9240a36fbe205cc5d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraShake
 --- !u!1 &4010254672160369909
 GameObject:
   m_ObjectHideFlags: 0

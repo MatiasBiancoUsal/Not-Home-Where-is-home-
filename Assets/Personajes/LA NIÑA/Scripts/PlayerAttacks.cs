@@ -95,6 +95,11 @@ public class PlayerAttacks : MonoBehaviour
             Damageable damageable = enemy.GetComponent<Damageable>();
             if (damageable != null)
             {
+                // si este golpe lo deja en 0 vida, sacudimos la camara (feedback de derrota)
+                HealthHandler enemyHealth = enemy.GetComponent<HealthHandler>();
+                if (enemyHealth != null && enemyHealth.CurrentHealth - hitPower <= 0)
+                    CameraShaker.Instance?.ShakeEnemyKill();
+
                 damageable.ApplyDamage(hitPower, transform.position, knockBackForce);
             }
             /*
