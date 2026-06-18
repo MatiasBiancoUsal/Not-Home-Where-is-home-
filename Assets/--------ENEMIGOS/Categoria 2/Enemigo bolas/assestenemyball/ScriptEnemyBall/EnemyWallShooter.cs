@@ -3,29 +3,37 @@ using UnityEngine;
 
 public class EnemyWallShooter : MonoBehaviour
 {
-    public Transform player;
     public GameObject ballPrefab;
     public Transform firePoint;
 
     [Header("Detección")]
     public float detectionRange = 5f;       // radio del rango de detección
     public Vector2 detectionOffset;         // corre el centro del rango respecto al enemigo
+    [Tooltip("Tag del player. El enemigo lo busca SOLO en la escena, no hace falta asignarlo a mano.")]
+    public string playerTag = "Player";
     public Color gizmoColor = Color.cyan;    // color del gizmo (editable desde el inspector)
 
     [Header("Disparo")]
     public float fireRate = 2f;
 
+    private Transform player;                // se busca solo por tag (no se asigna en el inspector)
     private float nextFireTime;
     private Animator animator;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        BuscarPlayer();
     }
 
     void Update()
     {
-        if (player == null) return;
+        // si no tenemos al player (o se recreo al reaparecer), lo volvemos a buscar por tag.
+        if (player == null)
+        {
+            BuscarPlayer();
+            if (player == null) return;
+        }
 
         Vector2 center = (Vector2)transform.position + detectionOffset;
         float distance = Vector2.Distance(center, player.position);
@@ -46,6 +54,13 @@ public class EnemyWallShooter : MonoBehaviour
         }
     }
 
+    // Busca al player en la escena por su tag.
+    private void BuscarPlayer()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+        if (playerObj != null) player = playerObj.transform;
+    }
+
     IEnumerator ShootWithDelay()
     {
         yield return new WaitForSeconds(0.4f);
@@ -54,6 +69,8 @@ public class EnemyWallShooter : MonoBehaviour
 
     void Shoot()
     {
+        if (player == null) return; // por si el player desaparecio justo en el delay
+
         GameObject ball = Instantiate(ballPrefab, firePoint.position, Quaternion.identity);
 
         EnemyBall enemyBall = ball.GetComponent<EnemyBall>();
@@ -73,7 +90,7 @@ public class EnemyWallShooter : MonoBehaviour
         Gizmos.color = gizmoColor;
         Gizmos.DrawWireSphere(center, detectionRange);
 
-        // si el player está asignado y dentro del rango, lo marca con una línea
+        // si el player ya esta referenciado (en Play) y dentro del rango, lo marca con una línea
         if (player != null && Vector2.Distance(center, player.position) <= detectionRange)
         {
             Gizmos.DrawLine(center, player.position);
