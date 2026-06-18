@@ -4700,38 +4700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWall (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxSize.x
-      value: 1.94
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxSize.y
-      value: 2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.x
-      value: 0.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.y
-      value: -0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionRange
-      value: 15.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: -11.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: -2.79
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17250,26 +17222,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWall (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.x
-      value: -0.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.y
-      value: 0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: 0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: -7.97
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19118,19 +19074,7 @@ PrefabInstance:
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionRange
-      value: 15.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: -0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: 1.27
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20118,14 +20062,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1928161471}
     m_Modifications:
     - target: {fileID: 45986892217992033, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7232999
-      objectReference: {fileID: 0}
-    - target: {fileID: 45986892217992033, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7232999
-      objectReference: {fileID: 0}
-    - target: {fileID: 45986892217992033, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -261.30002
       objectReference: {fileID: 0}
@@ -20172,19 +20108,7 @@ PrefabInstance:
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionRange
-      value: 13.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: 12.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: -0.15
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27077,19 +27001,7 @@ PrefabInstance:
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionRange
-      value: 15.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: -0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: 1.27
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30419,34 +30331,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWall (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxSize.x
-      value: 3.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxSize.y
-      value: 1.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.x
-      value: -0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087013170458418674, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: hurtBoxOffset.y
-      value: 0.37
-      objectReference: {fileID: 0}
     - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.x
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568481994256872456, guid: 1ae4166e391c74096bce04a7f7602aa8, type: 3}
-      propertyPath: detectionOffset.y
-      value: -7.31
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1388689800}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

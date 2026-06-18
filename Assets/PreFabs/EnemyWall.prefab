@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -106.55, y: 89.54, z: 0}
-  m_LocalScale: {x: 0.7233, y: 0.7233, z: 0.7233}
+  m_LocalScale: {x: 0.7232999, y: 0.7232999, z: 0.7233}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6395847259076318358}
@@ -134,7 +134,9 @@ MonoBehaviour:
   player: {fileID: 0}
   ballPrefab: {fileID: 3492648493294777531, guid: bbe66eaf984034dec9ee53bb4f0c1759, type: 3}
   firePoint: {fileID: 6395847259076318358}
-  detectionRange: 10
+  detectionRange: 13.76
+  detectionOffset: {x: 0.48, y: -7.97}
+  gizmoColor: {r: 0, g: 1, b: 1, a: 1}
   fireRate: 2
 --- !u!114 &2099003591672290402
 MonoBehaviour:
@@ -150,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthHandler
   maxHealth: 5
   currentHealth: 0
+  destroyOnDeath: 1
 --- !u!114 &1099584628494794758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,8 +252,8 @@ MonoBehaviour:
   damageHurtBox: 1
   knockBackHurtBox: 12
   timeKnockBack: 0.15
-  hurtBoxSize: {x: 2.48, y: 1.12}
-  hurtBoxOffset: {x: 0.09, y: -0.43}
+  hurtBoxSize: {x: 3.29, y: 1.12}
+  hurtBoxOffset: {x: -0.11, y: 0.25}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
