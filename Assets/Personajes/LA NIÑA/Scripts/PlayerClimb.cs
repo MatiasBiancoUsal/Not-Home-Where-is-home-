@@ -81,6 +81,7 @@ public class PlayerClimb : MonoBehaviour
         SetClimbCollider(true);           // collider de la pose de trepar
 
         playerController.doubleJump.ResetAirJumps(); // recarga el doble salto para cuando salte de la pared
+        playerController.superJump.CancelSuperJump(); // el super salto termina al pegarse a la pared (sino su animacion queda al saltar de la pared)
     }
 
     private void Climbing()

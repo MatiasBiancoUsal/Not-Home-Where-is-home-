@@ -21,9 +21,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerMovement movement;
     [HideInInspector] public PlayerJump jump;
     [HideInInspector] public PlayerDoubleJump doubleJump;
+    [HideInInspector] public PlayerSuperJump superJump;
     [HideInInspector] public PlayerDash dash;
     [HideInInspector] public PlayerClimb climb;
     [HideInInspector] public PlayerAttacks attacks;
+    [HideInInspector] public PlayerStomp stomp;
 
     private void Awake()
     {
@@ -37,9 +39,11 @@ public class PlayerController : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         jump = GetComponent<PlayerJump>();
         doubleJump = GetComponent<PlayerDoubleJump>();
+        superJump = GetComponent<PlayerSuperJump>();
         dash = GetComponent<PlayerDash>();
         climb = GetComponent<PlayerClimb>();
         attacks = GetComponent<PlayerAttacks>();
+        stomp = GetComponent<PlayerStomp>();
     }
 
     private void FixedUpdate()
@@ -50,10 +54,12 @@ public class PlayerController : MonoBehaviour
         if (climb.IsClimbing) return; // mientras trepa, se pausan las demas mecanicas
 
         movement.Move(); //Movimiento
+        superJump.OnUpdate(); // Super salto (corre despues del movimiento: lo frena mientras carga)
         jump.OnUpdate(); // Salto
         doubleJump.OnUpdate(); // Doble salto
         dash.OnUpdate(); // Dash
         attacks.OnUpdate(); // Ataques
+        stomp.OnUpdate(); // Stomp
 
     }
 
@@ -71,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
         controles.Player.Dash.performed += OnDash;
 
+        controles.Player.Stomp.performed += OnStomp;
+
         controles.Player.Attack.performed += OnAttack;
     }
 
@@ -79,11 +87,17 @@ public class PlayerController : MonoBehaviour
     {
         controles.Player.Jump.performed -= OnJump;
         controles.Player.Jump.canceled -= OnJumpRelease;
+
         controles.Player.Dash.performed -= OnDash;
+
+        controles.Player.Stomp.performed -= OnStomp;
+
         controles.Player.Attack.performed -= OnAttack;
 
         controles.Disable();
     }
+
+
 
     // Metodos Inputs
     private void OnJump(InputAction.CallbackContext context)
@@ -92,6 +106,21 @@ public class PlayerController : MonoBehaviour
         if (climb.IsClimbing)
         {
             climb.JumpOffWall();
+            return;
+        }
+
+        // Si estamos cargando el super salto: con carga suficiente lo EJECUTA; si fue muy rapido
+        // (carga insuficiente), TryExecute devuelve false y caemos a un salto NORMAL aca abajo.
+        if (superJump.IsPreparing && superJump.TryExecute())
+        {
+            return;
+        }
+
+        // Si venimos en pleno super salto, el ESPACIO en el aire es un DOBLE salto (con su animacion),
+        // sin que el coyote del piso lo convierta en un salto normal.
+        if (superJump.IsSuperJumping)
+        {
+            doubleJump.TryDoubleJump();
             return;
         }
 
@@ -116,6 +145,11 @@ public class PlayerController : MonoBehaviour
     {
         if (climb.IsClimbing) return; // no se puede dashear mientras trepa
         dash.DashHold();
+    }
+
+    private void OnStomp(InputAction.CallbackContext context)
+    {
+        stomp.StompHold();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
