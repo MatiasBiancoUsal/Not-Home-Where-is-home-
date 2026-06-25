@@ -7,6 +7,10 @@ public class PauseMenuManager : MonoBehaviour
     [Header("Canvas de pausa")]
     [SerializeField] private GameObject pauseMenuCanvas;
 
+    [Header("Transicion de apertura (opcional)")]
+    [Tooltip("Componente PauseMenuTransition del panel. Si lo dejas vacio, la pausa abre sin animacion.")]
+    [SerializeField] private PauseMenuTransition transition;
+
     [Header("Nombre exacto de la escena Main Menu")]
     [SerializeField] private string mainMenuSceneName = "Main Menu";
 
@@ -50,6 +54,12 @@ public class PauseMenuManager : MonoBehaviour
         if (pauseMenuCanvas != null)
         {
             pauseMenuCanvas.SetActive(true);
+        }
+
+        // animacion de apertura (fade + escala, y botones escalonados si esta configurado)
+        if (transition != null)
+        {
+            transition.PlayOpen();
         }
 
         Time.timeScale = 0f;

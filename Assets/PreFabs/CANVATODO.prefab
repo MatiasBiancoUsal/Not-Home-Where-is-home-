@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee719ad5cf073447b73c913fba1be6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  teclaRegenerar: 98
 --- !u!1 &5888197032030312079
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +196,100 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreUI
   scoreText: {fileID: 3650244930420391856}
+--- !u!1 &8075953022808862929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 846394747549443495}
+  - component: {fileID: 4029845189322283469}
+  - component: {fileID: 4423067927052313358}
+  - component: {fileID: 3587890959819626836}
+  m_Layer: 5
+  m_Name: BotonMenuPausa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &846394747549443495
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075953022808862929}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8621235715233505601}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 875, y: 446}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4029845189322283469
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075953022808862929}
+  m_CullTransparentMesh: 1
+--- !u!114 &4423067927052313358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075953022808862929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 6225232959178427505, guid: c534ac2bf2ff8c74e8ec69148e26be4e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3587890959819626836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075953022808862929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797c9eda474562741bbeb0eb0e5d7053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BotonPausa
+  pauseMenu: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 446bb872cb0e3044bbf59c0a0a0a4adb, type: 3}
+  hoverVolume: 0.4
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
+  clickVolume: 0.7
+  extraDelay: 0.05
 --- !u!1001 &8930854011082125234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -300,6 +395,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 888348578933329651, guid: 20ab16721847d634683d164613df2eb2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7700598729166011503}
+    - targetCorrespondingSourceObject: {fileID: 888348578933329651, guid: 20ab16721847d634683d164613df2eb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 846394747549443495}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20ab16721847d634683d164613df2eb2, type: 3}
 --- !u!224 &8621235715233505601 stripped
