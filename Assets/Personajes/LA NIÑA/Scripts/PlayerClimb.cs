@@ -8,6 +8,14 @@ public class PlayerClimb : MonoBehaviour
     public float climbSpeed = 3f;      // velocidad al subir/bajar por la pared
     public float jumpOffForce = 8f;    // impulso hacia arriba al saltar de la pared (con ESPACIO)
 
+    [Header("Salto de pared direccional")]
+    [Tooltip("Impulso HORIZONTAL al saltar hacia el lado contrario a la pared (presionando A/D en contra).")]
+    public float wallJumpHorizontalForce = 9f;
+    [Tooltip("Segundos en que el movimiento NO pisa el envion horizontal del salto (para que se sienta el impulso).")]
+    public float wallJumpLockTime = 0.2f;
+    [Tooltip("Segundos sin poder re-pegarse a la pared despues de saltar.")]
+    public float reStickTime = 0.25f;
+
     [Header("Deteccion de pared")]
     public string wallTag = "Wall";        // pared trepable (solida, con este tag)
     public float wallCheckDistance = 0.5f; // que tan adelante mira la pared
@@ -26,10 +34,12 @@ public class PlayerClimb : MonoBehaviour
     private bool isClimbing = false;
     private float verticalInput = 0f;     // W/S (lo usa la animacion)
     private float reStickTimer = 0f;      // evita re-pegarse justo despues de saltar de la pared
+    private float wallJumpLockTimer = 0f; // mientras corre, el movimiento no pisa el envion del salto de pared
 
     //Getters
     public bool IsClimbing { get { return isClimbing; } }
     public bool IsClimbWalking { get { return isClimbing && Mathf.Abs(verticalInput) > 0.1f; } }
+    public bool IsWallJumpLocked => wallJumpLockTimer > 0f; // lo consulta el PlayerMovement
 
     private void Awake()
     {
@@ -49,6 +59,10 @@ public class PlayerClimb : MonoBehaviour
         if (reStickTimer > 0f)
         {
             reStickTimer -= Time.fixedDeltaTime;
+        }
+        if (wallJumpLockTimer > 0f)
+        {
+            wallJumpLockTimer -= Time.fixedDeltaTime;
         }
 
         if (isClimbing)
@@ -111,12 +125,35 @@ public class PlayerClimb : MonoBehaviour
         }
     }
 
-    // Se llama desde el PlayerController cuando se aprieta ESPACIO estando pegado a la pared
+    // Se llama desde el PlayerController cuando se aprieta ESPACIO estando pegado a la pared.
+    // La direccion depende del input horizontal (A/D):
+    //  - empuja CONTRA la pared          -> se queda pegado (no salta).
+    //  - empuja para el lado CONTRARIO   -> salto con impulso horizontal hacia ese lado + arriba.
+    //  - sin A/D (neutro)                -> salto recto hacia arriba.
     public void JumpOffWall()
     {
+        float wallDir = playerController.movement.IsFacingRight ? 1f : -1f; // hacia donde esta la pared
+        float inputX = playerController.controles.Player.Move.ReadValue<Vector2>().x;
+
+        // Empuja CONTRA la pared (ej: pared a la izquierda y aprieta A): se queda pegado.
+        if (inputX * wallDir > 0.3f)
+        {
+            return;
+        }
+
         ExitClimb();
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpOffForce); // salto hacia arriba
-        reStickTimer = 0.25f; // un ratito para no re-pegarnos al instante
+
+        float horizontal = 0f;
+        if (inputX * wallDir < -0.3f) // empuja para el lado contrario a la pared
+        {
+            float awayDir = -wallDir;
+            horizontal = awayDir * wallJumpHorizontalForce;
+            wallJumpLockTimer = wallJumpLockTime;         // que el movimiento no pise el envion
+            playerController.movement.SetFacing(awayDir); // que mire hacia donde salta
+        }
+
+        rb.linearVelocity = new Vector2(horizontal, jumpOffForce);
+        reStickTimer = reStickTime; // un ratito para no re-pegarnos al instante
     }
 
     private void ExitClimb()

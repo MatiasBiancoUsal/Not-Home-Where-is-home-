@@ -36,6 +36,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // mientras corre el envion del salto de pared, no pisamos la velocidad horizontal
+        if (playerController.climb.IsWallJumpLocked)
+        {
+            return;
+        }
+
         // vector donde se almacena el valor del movimiento del player que se recibe desde el playerController
         Vector2 move = playerController.controles.Player.Move.ReadValue<Vector2>();
 
@@ -63,6 +69,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * (isFacingRight ? 1f : -1f);
         transform.localScale = scale;
+    }
+
+    // Fuerza hacia donde mira el player (1 = derecha, -1 = izquierda). Lo usa el salto de pared.
+    public void SetFacing(float dir)
+    {
+        if (dir > 0f && !isFacingRight) Flip();
+        else if (dir < 0f && isFacingRight) Flip();
     }
 
 }

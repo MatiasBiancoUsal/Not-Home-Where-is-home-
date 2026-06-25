@@ -10,11 +10,18 @@ public class PlayerStomp : MonoBehaviour
     public float timeImpulseUp = 0.5f; // tiempo que dura el impulso hacia arriba
     private float counterImpulseUp = 0f; // timer del impulso hacia arriba
 
+    [Tooltip("Ventana (seg) tras impactar en la que un ObjetoRompible con tag 'Stomp' todavia cuenta como golpeado. Cubre el desfasaje entre el chequeo de piso y la colision fisica.")]
+    public float graciaRompible = 0.2f;
+    private float impactoTimer = 0f;
+
     private bool isImpulse;
     private bool isStomp = false; // variable que indica si estamos haciendo el stomp
 
     //Getter para que la animacion sepa si estamos en pleno stomp (impulso arriba + caida)
     public bool IsStomping => isStomp;
+    // Igual que IsStomping pero queda true un ratito DESPUES de impactar. Lo usa ObjetoRompible:
+    // el chequeo de piso corta el stomp un instante antes de que se dispare la colision fisica.
+    public bool IsStompImpacting => isStomp || impactoTimer > 0f;
 
     private void Start()
     {
@@ -23,6 +30,7 @@ public class PlayerStomp : MonoBehaviour
 
     public void OnUpdate()
     {
+        if (impactoTimer > 0f) impactoTimer -= Time.fixedDeltaTime;
         UpdateStomp();
     }
 
@@ -74,6 +82,8 @@ public class PlayerStomp : MonoBehaviour
     void EndStomp()
     {
         CameraShaker.Instance?.ShakeStompImpact(); // sacudon por el impacto del stomp contra el piso
+
+        impactoTimer = graciaRompible; // ventana para que el ObjetoRompible alcance a detectar la colision
 
         playerController.controles.Player.Move.Enable(); // activar controles movimiento
         isStomp = false; // termina el stomp
