@@ -18896,6 +18896,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 672093659696427641, guid: a4cc79a8f7104f9439ab90b497680283, type: 3}
+      propertyPath: minimapUI
+      value: 
+      objectReference: {fileID: 8972213150418275107}
     - target: {fileID: 2713080987438707976, guid: a4cc79a8f7104f9439ab90b497680283, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1088.9845
@@ -45135,6 +45139,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+--- !u!114 &8972213150418275107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+  m_PrefabInstance: {fileID: 8972213150418275106}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb31361b92a443049e53d50e59d8ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapUI
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
