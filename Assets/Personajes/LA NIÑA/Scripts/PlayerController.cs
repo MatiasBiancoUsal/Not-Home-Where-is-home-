@@ -124,6 +124,14 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        // Si venimos del REBOTE del stomp (pogo), el ESPACIO es un DOBLE salto (no un salto de piso/coyote),
+        // asi el rebote chico se encadena con el doble salto.
+        if (stomp.EnPogo)
+        {
+            doubleJump.TryDoubleJump();
+            return;
+        }
+
         // El controller decide que tipo de salto hacer:
         if (jump.CanGroundJump())             // si hay un salto desde el piso o coyote disponible
         {

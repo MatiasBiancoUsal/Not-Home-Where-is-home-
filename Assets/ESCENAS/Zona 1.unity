@@ -6331,6 +6331,8 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 373087452}
+    - targetCorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1979045357}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
@@ -8330,7 +8332,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 1, b: 1, a: 1}
@@ -16316,7 +16318,7 @@ GameObject:
   - component: {fileID: 628552387}
   m_Layer: 3
   m_Name: Piso (1)
-  m_TagString: Wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20059,7 +20061,7 @@ GameObject:
   - component: {fileID: 811493434}
   m_Layer: 3
   m_Name: Paredes (10)
-  m_TagString: Wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20917,11 +20919,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
   m_PrefabInstance: {fileID: 1052870237}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &842575423 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
-  m_PrefabInstance: {fileID: 270535498}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &843640782
 PrefabInstance:
@@ -24039,12 +24036,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6902308003852988110, guid: 318268247d8b1544383688292c9e6624, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.77
+      propertyPath: m_Size.y
+      value: 2.589619
       objectReference: {fileID: 0}
     - target: {fileID: 6902308003852988110, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: m_Offset.y
-      value: 6.46
+      value: 0.50476825
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36012,8 +36009,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -218825549
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -49678,16 +49675,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979045356}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 842575423}
+  m_Father: {fileID: 270535499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -14, y: 234}
   m_SizeDelta: {x: 945.809, y: 492.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979045358
@@ -53474,7 +53471,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999967
+      value: 0.9999984
       objectReference: {fileID: 0}
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: TargetOffset.x
@@ -53641,6 +53638,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialMovimiento
   cartel: {fileID: 1979045356}
+  delayAntesDeAparecer: 1.5
+  tiempoAntesDeOcultar: 3
+  fadeIn: 0.4
+  fadeOut: 0.5
 --- !u!1001 &4221891231410378747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53772,9 +53773,9 @@ SceneRoots:
   - {fileID: 863298570}
   - {fileID: 1730299566}
   - {fileID: 4221891231410378747}
+  - {fileID: 270535498}
   - {fileID: 1091991572}
   - {fileID: 3397900970644247167}
   - {fileID: 373132793}
   - {fileID: 38635848}
-  - {fileID: 270535498}
   - {fileID: 952769091}

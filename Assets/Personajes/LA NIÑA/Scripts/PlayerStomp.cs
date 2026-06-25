@@ -6,6 +6,8 @@ public class PlayerStomp : MonoBehaviour
 
     [Header("Stomp")]
     public float stompForce = 20f; // fuerza con la que cae hacia abajo
+    [Tooltip("Fuerza del REBOTE (pogo) hacia arriba al impactar. Chico, para un envion corto que se encadene con el doble salto.")]
+    public float pogoForce = 7f;
     public float impulseUpForce = 5f; // fuerza del mini impulso hacia arriba antes de hacer stomp
     public float timeImpulseUp = 0.5f; // tiempo que dura el impulso hacia arriba
     private float counterImpulseUp = 0f; // timer del impulso hacia arriba
@@ -16,12 +18,15 @@ public class PlayerStomp : MonoBehaviour
 
     private bool isImpulse;
     private bool isStomp = false; // variable que indica si estamos haciendo el stomp
+    private bool enPogo = false;  // rebote post-impacto: no se puede re-stompear y el espacio hace doble salto
 
     //Getter para que la animacion sepa si estamos en pleno stomp (impulso arriba + caida)
     public bool IsStomping => isStomp;
     // Igual que IsStomping pero queda true un ratito DESPUES de impactar. Lo usa ObjetoRompible:
     // el chequeo de piso corta el stomp un instante antes de que se dispare la colision fisica.
     public bool IsStompImpacting => isStomp || impactoTimer > 0f;
+    // True durante el rebote (pogo) post-stomp. Lo usa el PlayerController para que el espacio sea doble salto.
+    public bool EnPogo => enPogo;
 
     private void Start()
     {
@@ -31,6 +36,14 @@ public class PlayerStomp : MonoBehaviour
     public void OnUpdate()
     {
         if (impactoTimer > 0f) impactoTimer -= Time.fixedDeltaTime;
+
+        // Si ya rebotamos y volvimos a tocar el piso (sin subir), termina el estado de pogo:
+        // recien ahi se puede volver a stompear.
+        if (enPogo && !isStomp && playerController.jump.IsGrounded && playerController.rb.linearVelocity.y <= 0.1f)
+        {
+            enPogo = false;
+        }
+
         UpdateStomp();
     }
 
@@ -85,6 +98,10 @@ public class PlayerStomp : MonoBehaviour
 
         impactoTimer = graciaRompible; // ventana para que el ObjetoRompible alcance a detectar la colision
 
+        // REBOTE (pogo): pequeño envion hacia arriba al impactar, para poder encadenar un doble salto.
+        playerController.rb.linearVelocity = Vector2.up * pogoForce;
+        enPogo = true; // mientras dure el rebote NO se puede re-stompear (no spamear)
+
         playerController.controles.Player.Move.Enable(); // activar controles movimiento
         isStomp = false; // termina el stomp
         isImpulse = false;
@@ -93,8 +110,8 @@ public class PlayerStomp : MonoBehaviour
 
     public void StompHold()
     {
-        //condiciones para iniciar el stomp
-        if (!isStomp && !playerController.jump.IsGrounded && !playerController.climb.IsClimbing)
+        //condiciones para iniciar el stomp (no durante el rebote, asi no se spamea)
+        if (!isStomp && !enPogo && !playerController.jump.IsGrounded && !playerController.climb.IsClimbing)
         {
             StartStomp();
         }
