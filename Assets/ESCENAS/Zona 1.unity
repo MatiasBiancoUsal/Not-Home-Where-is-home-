@@ -2327,7 +2327,7 @@ GameObject:
   - component: {fileID: 114031429}
   m_Layer: 3
   m_Name: Piso (54)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6331,6 +6331,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 373087452}
+      addedObject: {fileID: 1979045357}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
 --- !u!224 &270535499 stripped
@@ -20917,6 +20918,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
   m_PrefabInstance: {fileID: 1052870237}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &842575423 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+  m_PrefabInstance: {fileID: 270535498}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &843640782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24384,7 +24390,7 @@ GameObject:
   - component: {fileID: 996710354}
   m_Layer: 3
   m_Name: Piso (55)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26583,7 +26589,7 @@ GameObject:
   - component: {fileID: 1057530838}
   m_Layer: 3
   m_Name: Piso (66)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49582,6 +49588,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1723328336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1979045356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1979045357}
+  - component: {fileID: 1979045359}
+  - component: {fileID: 1979045358}
+  m_Layer: 5
+  m_Name: Bienvendia_cartel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1979045357
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979045356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 842575423}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 945.809, y: 492.37}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1979045358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979045356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -7580442690681352266, guid: 01b12bc7845fa42e6a7a36f740ef0529, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1979045359
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979045356}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1979305316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53467,13 +53548,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3397900970644247170}
   m_SourcePrefab: {fileID: 100100000, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
 --- !u!4 &3397900970644247168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
   m_PrefabInstance: {fileID: 3397900970644247167}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3397900970644247169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+  m_PrefabInstance: {fileID: 3397900970644247167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3397900970644247170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3397900970644247169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace4a0bf53147448ba97c247a3bfe22b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialMovimiento
+  cartel: {fileID: 1979045356}
 --- !u!1001 &4221891231410378747
 PrefabInstance:
   m_ObjectHideFlags: 0
