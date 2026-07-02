@@ -26,6 +26,18 @@ public class CameraShaker : MonoBehaviour
     [Tooltip("Duracion del sacudon de derrota.")]
     public float killDuration = 0.4f;
 
+    [Header("Shake al SUPER SALTO")]
+    [Tooltip("Fuerza del sacudon al ejecutar un super salto (se escala con la carga).")]
+    public float superJumpForce = 1.2f;
+    [Tooltip("Duracion del sacudon del super salto.")]
+    public float superJumpDuration = 0.35f;
+
+    [Header("Shake al IMPACTO del STOMP")]
+    [Tooltip("Fuerza del sacudon cuando el stomp golpea el piso.")]
+    public float stompImpactForce = 1.5f;
+    [Tooltip("Duracion del sacudon del impacto del stomp.")]
+    public float stompImpactDuration = 0.3f;
+
     private CinemachineImpulseSource impulse;
 
     private void Awake()
@@ -44,6 +56,18 @@ public class CameraShaker : MonoBehaviour
     public void ShakeEnemyKill()
     {
         DoShake(killForce, killDuration);
+    }
+
+    // Super salto ejecutado. 'intensity' (0 a 1) escala la fuerza segun la carga.
+    public void ShakeSuperJump(float intensity = 1f)
+    {
+        DoShake(superJumpForce * intensity, superJumpDuration);
+    }
+
+    // El stomp golpeo el piso.
+    public void ShakeStompImpact()
+    {
+        DoShake(stompImpactForce, stompImpactDuration);
     }
 
     private void DoShake(float force, float duration)

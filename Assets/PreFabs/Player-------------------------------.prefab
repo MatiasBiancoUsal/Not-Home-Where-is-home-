@@ -117,6 +117,8 @@ GameObject:
   - component: {fileID: 5269341795716009696}
   - component: {fileID: 7732166607692326833}
   - component: {fileID: 5772618782023576063}
+  - component: {fileID: 2475589522967946327}
+  - component: {fileID: 8527755624867755126}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -321,9 +323,11 @@ MonoBehaviour:
   movement: {fileID: 0}
   jump: {fileID: 0}
   doubleJump: {fileID: 0}
+  superJump: {fileID: 0}
   dash: {fileID: 0}
   climb: {fileID: 0}
   attacks: {fileID: 0}
+  stomp: {fileID: 0}
 --- !u!114 &1455493757831350644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +512,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0985ff1b6babc9240a36fbe205cc5d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraShake
+--- !u!114 &2475589522967946327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408bba0ed2a81054baf01b2672cf6084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSuperJump
+  fuerzaMinima: 12
+  fuerzaMaxima: 28
+  tiempoMinimoParaSuperSalto: 0.15
+  tiempoCargaMaxima: 1
+  tiempoLimite: 1.5
+  duracionIntro: 0.25
+  duracionCaduca: 0.4
+  umbralW: 0.5
+  bloquearMovimientoAlCargar: 1
+  umbralCargaParaShake: 0.95
+--- !u!114 &8527755624867755126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f7bb098388be54291bc42bc67a1533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStomp
+  stompForce: 40
+  impulseUpForce: 5
+  timeImpulseUp: 0.2
 --- !u!1 &4010254672160369909
 GameObject:
   m_ObjectHideFlags: 0

@@ -150,8 +150,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.044167697, y: 0.03863816}
-  m_Radius: 0.6315476
+  m_Offset: {x: -0.044167697, y: 0.052869014}
+  m_Radius: 0.93987656
 --- !u!114 &4350975993819074419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,3 +166,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Coleccionable
   puntos: 10
   tagJugador: Player
+  triggerRecolectado: Obtained
+  duracionAnimRecolectado: 0.52

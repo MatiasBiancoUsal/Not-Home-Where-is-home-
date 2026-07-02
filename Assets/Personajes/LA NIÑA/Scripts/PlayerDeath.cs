@@ -79,7 +79,10 @@ public class PlayerDeath : MonoBehaviour
         {
             playerController.enabled = false;            // corta el control (movimiento, salto, anims, etc.)
             playerController.rb.linearVelocity = Vector2.zero;
-            playerController.rb.gravityScale = 0f;       // que no se caiga mientras "muere"
+            // Congelamos la X para que NINGUN empuje (pared sombra, knockback, etc.) lo deslice al
+            // morir. Dejamos la gravedad para que caiga al suelo si murio en el aire (no queda flotando).
+            playerController.rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+            playerController.rb.gravityScale = playerController.normalGravity;
             playerController.animPlayer.SetInteger("stateAnim", deathStateAnim);
         }
 

@@ -65,6 +65,36 @@ public class UpdateAnimsPlayer : MonoBehaviour
             return;
         }
 
+        // SUPER SALTO: animacion de SALIDA cuando se vencio el tiempo (caduca). Si el player
+        // se pone a caminar, la cortamos (no la dejamos pisar al run).
+        if (playerController.superJump.IsExpiring && !playerController.movement.IsMoving)
+        {
+            animationManager.SetState(new SuperJumpExpirePlayerStateAnim(playerController.animPlayer));
+            return;
+        }
+
+        // SUPER SALTO: preparacion. Arranca con el INICIO (una vez) y al toque pasa al LOOP de espera.
+        if (playerController.superJump.IsPreparing)
+        {
+            if (playerController.superJump.IsWaitingLoop)
+            {
+                animationManager.SetState(new SuperJumpLoopPlayerStateAnim(playerController.animPlayer));
+            }
+            else
+            {
+                animationManager.SetState(new SuperJumpPreparationPlayerStateAnim(playerController.animPlayer));
+            }
+            return;
+        }
+
+        // STOMP: pisoton en el aire. Mientras dura (impulso arriba + caida fuerte) mostramos
+        // su animacion, por encima del salto/caida normal.
+        if (playerController.stomp.IsStomping)
+        {
+            animationManager.SetState(new StompPlayerStateAnim(playerController.animPlayer));
+            return;
+        }
+
         // actualizacion animaciones de salto
         if (!playerController.jump.IsGrounded) // si el jugador est� tocando el suelo
         {
@@ -72,9 +102,13 @@ public class UpdateAnimsPlayer : MonoBehaviour
             if (playerController.rb.linearVelocity.y > 0.1)
             {
                 //subiendo
-                if (playerController.doubleJump.IsDoubleJumping) // si venimos de un doble salto
+                if (playerController.doubleJump.IsDoubleJumping) // doble salto primero (puede venir DESPUES de un super salto)
                 {
                     animationManager.SetState(new DoubleJumpPlayerStateAnim(playerController.animPlayer));
+                }
+                else if (playerController.superJump.IsSuperJumping) // si venimos de un SUPER salto
+                {
+                    animationManager.SetState(new SuperJumpPlayerStateAnim(playerController.animPlayer));
                 }
                 else
                 {

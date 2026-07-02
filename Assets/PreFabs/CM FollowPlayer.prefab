@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7593919886305069867}
   - component: {fileID: 4015301441096702460}
   - component: {fileID: 4793111621572032121}
+  - component: {fileID: 5412662911546806590}
   m_Layer: 0
   m_Name: CM FollowPlayer
   m_TagString: Untagged
@@ -102,7 +103,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 3, y: 2, z: 0}
-  Damping: {x: 1, y: 0.9999997, z: 1}
+  Damping: {x: 1, y: 0.99999, z: 1}
   Lookahead:
     Enabled: 1
     Time: 0.04
@@ -124,3 +125,27 @@ MonoBehaviour:
   normalDampingY: 1
   fastFallDampingY: 0.01
   changeSpeed: 8
+--- !u!114 &5412662911546806590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851695300654886782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
