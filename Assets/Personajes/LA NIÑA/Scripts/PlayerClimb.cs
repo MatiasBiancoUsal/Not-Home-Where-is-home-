@@ -56,6 +56,12 @@ public class PlayerClimb : MonoBehaviour
 
     public void OnUpdate()
     {
+        if (!playerController.TieneHabilidad(PlayerController.Habilidad.Escalar))
+        {
+            if (isClimbing) ExitClimb();
+            return;
+        }
+
         if (reStickTimer > 0f)
         {
             reStickTimer -= Time.fixedDeltaTime;
