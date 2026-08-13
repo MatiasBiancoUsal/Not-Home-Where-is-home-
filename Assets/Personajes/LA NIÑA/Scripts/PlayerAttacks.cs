@@ -17,6 +17,13 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Combo")]
     public float comboWindowDuration = 0.25f;
 
+    [Header("Desbloqueo del ataque")]
+    [Tooltip("Si esta DESACTIVADO, la niña todavia no sabe pelear: el boton de ataque no hace nada. " +
+             "Lo prende la cinematica del osito (con DesbloquearAtaque) y queda guardado para siempre.")]
+    public bool puedeAtacar = false;
+    [Tooltip("Con que nombre se recuerda que ya desbloqueo el ataque. Se borra con 'Not Home > Borrar progreso guardado'.")]
+    public string claveDesbloqueo = "HabilidadAtaque";
+
     //cooldowns
     private float timerAttackCoolDown = 0;
     private bool isAttack;
@@ -32,6 +39,22 @@ public class PlayerAttacks : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+
+        // Si ya lo habia desbloqueado antes (otra zona, u otra sesion de juego),
+        // arranca pudiendo atacar sin tener que volver a ver la cinematica.
+        if (!puedeAtacar && ProgresoJuego.YaMostrado(claveDesbloqueo))
+        {
+            puedeAtacar = true;
+        }
+    }
+
+    // POST-CINEMATICA: la niña encontro el osito y ya puede pelear.
+    // Se conecta al evento "Al Terminar" de la cinematica (arrastrar la niña y elegir
+    // PlayerAttacks > DesbloquearAtaque).
+    public void DesbloquearAtaque()
+    {
+        puedeAtacar = true;
+        ProgresoJuego.MarcarMostrado(claveDesbloqueo);
     }
 
     public void OnUpdate()
@@ -49,6 +72,9 @@ public class PlayerAttacks : MonoBehaviour
 
     public void AttackHold()
     {
+        // PRE-CINEMATICA: todavia no sabe pelear, el boton no hace nada.
+        if (!puedeAtacar) return;
+
         if (isAttack)
         {
             // solo buffear si es ataque de pie (los ataques up/down no tienen combo)

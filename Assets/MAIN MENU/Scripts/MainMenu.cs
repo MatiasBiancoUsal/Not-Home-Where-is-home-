@@ -10,12 +10,55 @@ public class MainMenu : MonoBehaviour
     [Header("Delay después del click")]
     [SerializeField] private float extraDelay = 0.05f;
 
+    [Header("Botón CONTINUE")]
+    [Tooltip("El botón 'continue'. Se esconde solo si el jugador todavía no empezó ninguna partida.")]
+    [SerializeField] private GameObject botonContinue;
+
     private bool isChangingScene = false;
 
-    // BOTÓN PLAY
+    private void Start()
+    {
+        // Si nunca jugó, no tiene sentido mostrarle "continue".
+        if (botonContinue != null)
+        {
+            botonContinue.SetActive(ProgresoJuego.HayProgreso());
+        }
+    }
+
+    // BOTÓN PLAY (el de siempre: arranca en la Zona 1 sin tocar el progreso)
     public void PlayGame()
     {
-        LoadSceneWithClick("Zona 1");
+        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL);
+    }
+
+    // BOTÓN CONTINUE: vuelve a la zona donde había quedado, con sus monedas y cinemáticas.
+    public void ContinueGame()
+    {
+        LoadSceneWithClick(ProgresoJuego.CargarZona());
+    }
+
+    // BOTÓN NEW GAME: borra el progreso guardado y empieza de cero en la Zona 1.
+    public void NewGame()
+    {
+        ScoreManager.NuevaPartida();
+        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL);
+    }
+
+    // TESTING: borra el progreso sin tener que jugar nada.
+    // Clic derecho en el título del componente "Main Menu" (en el Inspector) y elegir esta opción.
+    // Es lo mismo que el menú de arriba: Not Home > Borrar progreso guardado.
+    [ContextMenu("Borrar progreso guardado")]
+    public void BorrarProgresoGuardado()
+    {
+        ScoreManager.NuevaPartida();
+
+        // Si estamos en Play, escondemos el botón continue al toque.
+        if (botonContinue != null)
+        {
+            botonContinue.SetActive(ProgresoJuego.HayProgreso());
+        }
+
+        Debug.Log("Progreso borrado: el juego arranca como si fuera la primera vez.");
     }
 
     // BOTÓN OPTIONS

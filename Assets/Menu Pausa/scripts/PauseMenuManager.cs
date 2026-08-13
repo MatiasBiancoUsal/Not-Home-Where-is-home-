@@ -45,6 +45,13 @@ public class PauseMenuManager : MonoBehaviour
             return;
         }
 
+        // Durante una cinematica, ESC tampoco abre la pausa (la cinematica ya congela el juego
+        // y el menu de pausa le devolveria el timeScale a 1 en el medio).
+        if (CinematicaFrames.EnCurso)
+        {
+            return;
+        }
+
         // ESC SOLO pausa o despausa. NO va al Main Menu.
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
