@@ -4,6 +4,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum Habilidad
+    {
+        DobleSalto,
+        Dash,
+        Escalar,
+        Pisoton,
+        SuperSalto
+    }
+
     // Componentes
     [HideInInspector] public Rigidbody2D rb;
     public Animator animPlayer;
@@ -27,6 +36,38 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerAttacks attacks;
     [HideInInspector] public PlayerStomp stomp;
 
+    [Header("Habilidades desbloqueadas al comenzar")]
+    [Tooltip("Para una partida nueva deben quedar todas desactivadas. El progreso guardado las activa automaticamente.")]
+    [SerializeField] private bool dobleSaltoDesbloqueado;
+    [SerializeField] private bool dashDesbloqueado;
+    [SerializeField] private bool escalarDesbloqueado;
+    [SerializeField] private bool pisotonDesbloqueado;
+    [SerializeField] private bool superSaltoDesbloqueado;
+
+    public bool TieneHabilidad(Habilidad habilidad)
+    {
+        switch (habilidad)
+        {
+            case Habilidad.DobleSalto: return dobleSaltoDesbloqueado;
+            case Habilidad.Dash: return dashDesbloqueado;
+            case Habilidad.Escalar: return escalarDesbloqueado;
+            case Habilidad.Pisoton: return pisotonDesbloqueado;
+            case Habilidad.SuperSalto: return superSaltoDesbloqueado;
+            default: return false;
+        }
+    }
+
+    public void DesbloquearHabilidad(Habilidad habilidad)
+    {
+        EstablecerHabilidad(habilidad, true);
+        ProgresoJuego.MarcarMostrado(ClaveHabilidad(habilidad));
+
+        if (habilidad == Habilidad.DobleSalto && doubleJump != null)
+        {
+            doubleJump.ResetAirJumps();
+        }
+    }
+
     private void Awake()
     {
         // Componentes
@@ -44,6 +85,36 @@ public class PlayerController : MonoBehaviour
         climb = GetComponent<PlayerClimb>();
         attacks = GetComponent<PlayerAttacks>();
         stomp = GetComponent<PlayerStomp>();
+
+        CargarHabilidadesGuardadas();
+    }
+
+    private void CargarHabilidadesGuardadas()
+    {
+        foreach (Habilidad habilidad in Enum.GetValues(typeof(Habilidad)))
+        {
+            if (ProgresoJuego.YaMostrado(ClaveHabilidad(habilidad)))
+            {
+                EstablecerHabilidad(habilidad, true);
+            }
+        }
+    }
+
+    private void EstablecerHabilidad(Habilidad habilidad, bool valor)
+    {
+        switch (habilidad)
+        {
+            case Habilidad.DobleSalto: dobleSaltoDesbloqueado = valor; break;
+            case Habilidad.Dash: dashDesbloqueado = valor; break;
+            case Habilidad.Escalar: escalarDesbloqueado = valor; break;
+            case Habilidad.Pisoton: pisotonDesbloqueado = valor; break;
+            case Habilidad.SuperSalto: superSaltoDesbloqueado = valor; break;
+        }
+    }
+
+    private static string ClaveHabilidad(Habilidad habilidad)
+    {
+        return "Habilidad_" + habilidad;
     }
 
     private void FixedUpdate()
