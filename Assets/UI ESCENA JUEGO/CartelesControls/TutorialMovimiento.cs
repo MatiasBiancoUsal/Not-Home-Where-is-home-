@@ -20,6 +20,12 @@ public class TutorialMovimiento : MonoBehaviour
     [Tooltip("Duracion del fade out (desaparecer), en segundos.")]
     public float fadeOut = 0.5f;
 
+    [Header("Mostrar una sola vez")]
+    [Tooltip("Si esta activo, el cartel se muestra UNA sola vez y no vuelve a aparecer, ni al recargar la zona ni al reabrir el juego. Se borra con el menu 'Not Home > Borrar progreso guardado'.")]
+    public bool unaSolaVez = true;
+    [Tooltip("Con que nombre se recuerda que este cartel ya se mostro. Si haces otro cartel, ponele una clave distinta.")]
+    public string claveGuardado = "TutorialMovimiento";
+
     private PlayerJump jump;
     private PlayerMovement movement;
     private CanvasGroup cg;
@@ -40,6 +46,14 @@ public class TutorialMovimiento : MonoBehaviour
     private void Start()
     {
         if (cartel == null) return;
+
+        // Si el jugador ya lo vio en esta partida (o en otra sesion), no se muestra mas.
+        if (unaSolaVez && ProgresoJuego.YaMostrado(claveGuardado))
+        {
+            cartel.SetActive(false);
+            enabled = false;
+            return;
+        }
 
         // Para hacer fade necesitamos un CanvasGroup; si el cartel no tiene, se lo agregamos solos.
         cg = cartel.GetComponent<CanvasGroup>();
@@ -89,6 +103,12 @@ public class TutorialMovimiento : MonoBehaviour
 
         visible = true;
         FadeTo(1f, fadeIn, false);
+
+        // Ya se mostro: queda anotado para que no vuelva a aparecer.
+        if (unaSolaVez)
+        {
+            ProgresoJuego.MarcarMostrado(claveGuardado);
+        }
     }
 
     private void FadeTo(float objetivo, float dur, bool apagarAlFinal)
