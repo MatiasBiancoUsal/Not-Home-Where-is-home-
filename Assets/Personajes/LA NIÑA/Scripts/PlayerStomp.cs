@@ -110,6 +110,8 @@ public class PlayerStomp : MonoBehaviour
 
     public void StompHold()
     {
+        if (!playerController.TieneHabilidad(PlayerController.Habilidad.Pisoton)) return;
+
         //condiciones para iniciar el stomp (no durante el rebote, asi no se spamea)
         if (!isStomp && !enPogo && !playerController.jump.IsGrounded && !playerController.climb.IsClimbing)
         {

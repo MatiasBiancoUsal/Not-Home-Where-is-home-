@@ -178,6 +178,8 @@ public class PlayerDash : MonoBehaviour
 
     public void DashHold() // se llama cuando el juego detecta que se presiono la tecla de dash
     {
+        if (!playerController.TieneHabilidad(PlayerController.Habilidad.Dash)) return;
+
         // OJO: el cooldown se chequea con timerCoolDownDash (NO con timerDashDuration).
         if (!isDash && !isFloating && timerCoolDownDash <= 0f) // no si estamos dasheando/flotando y el cooldown termino
         {

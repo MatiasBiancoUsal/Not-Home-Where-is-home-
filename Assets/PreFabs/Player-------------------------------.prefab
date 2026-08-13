@@ -112,13 +112,14 @@ GameObject:
   - component: {fileID: 5290522873258388837}
   - component: {fileID: 1468157336648026100}
   - component: {fileID: 5212340119754789098}
+  - component: {fileID: 2475589522967946327}
+  - component: {fileID: 8527755624867755126}
   - component: {fileID: 4553904984407775237}
   - component: {fileID: 3147509105279337330}
   - component: {fileID: 5269341795716009696}
   - component: {fileID: 7732166607692326833}
   - component: {fileID: 5772618782023576063}
-  - component: {fileID: 2475589522967946327}
-  - component: {fileID: 8527755624867755126}
+  - component: {fileID: 882106163897167723}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -365,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cdd069444c0a94d8d549acac418149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 8.5
+  jumpForce: 9.5
   groundRadius: 0.05
   groundCheckDistance: 1.28
   groundMask:
@@ -387,7 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9cef449c9d67a4eb4088bd7f99ece9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDoubleJump
-  canDoubleJump: 1
+  canDoubleJump: 0
   doubleJumpForce: 10
   maxAirJumps: 1
 --- !u!114 &1468157336648026100
@@ -421,12 +422,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerClimb
   climbSpeed: 3
   jumpOffForce: 8
+  wallJumpHorizontalForce: 9
+  wallJumpLockTime: 0.2
+  reStickTime: 0.25
   wallTag: Wall
   wallCheckDistance: 0.5
   wallCheckRadius: 0.2
   bottomCheckOffset: 0.5
   climbColliderOffset: {x: 1.8, y: -0.6}
   climbColliderSize: {x: 2.5, y: 8.8}
+--- !u!114 &2475589522967946327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408bba0ed2a81054baf01b2672cf6084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSuperJump
+  fuerzaMinima: 12
+  fuerzaMaxima: 28
+  tiempoMinimoParaSuperSalto: 0.15
+  tiempoCargaMaxima: 1
+  tiempoLimite: 1.5
+  duracionIntro: 0.25
+  duracionCaduca: 0.4
+  umbralW: 0.5
+  bloquearMovimientoAlCargar: 1
+--- !u!114 &8527755624867755126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f7bb098388be54291bc42bc67a1533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStomp
+  stompForce: 40
+  pogoForce: 7
+  impulseUpForce: 5
+  timeImpulseUp: 0.2
+  graciaRompible: 0.2
 --- !u!114 &4553904984407775237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,7 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0985ff1b6babc9240a36fbe205cc5d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraShake
---- !u!114 &2475589522967946327
+--- !u!114 &882106163897167723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -521,34 +563,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131308747041925141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 408bba0ed2a81054baf01b2672cf6084, type: 3}
+  m_Script: {fileID: 11500000, guid: ace4a0bf53147448ba97c247a3bfe22b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSuperJump
-  fuerzaMinima: 12
-  fuerzaMaxima: 28
-  tiempoMinimoParaSuperSalto: 0.15
-  tiempoCargaMaxima: 1
-  tiempoLimite: 1.5
-  duracionIntro: 0.25
-  duracionCaduca: 0.4
-  umbralW: 0.5
-  bloquearMovimientoAlCargar: 1
-  umbralCargaParaShake: 0.95
---- !u!114 &8527755624867755126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131308747041925141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f7bb098388be54291bc42bc67a1533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStomp
-  stompForce: 40
-  impulseUpForce: 5
-  timeImpulseUp: 0.2
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialMovimiento
+  cartel: {fileID: 0}
+  delayAntesDeAparecer: 1.5
+  tiempoAntesDeOcultar: 3
+  fadeIn: 0.4
+  fadeOut: 0.5
 --- !u!1 &4010254672160369909
 GameObject:
   m_ObjectHideFlags: 0

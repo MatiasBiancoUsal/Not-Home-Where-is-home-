@@ -37,9 +37,17 @@ public class PauseMenuManager : MonoBehaviour
             return;
         }
 
-        // Si el minimapa esta abierto, ESC no abre/cierra el menu de pausa.
-        // El minimapa se cierra con su propia X.
-        if (minimapUI != null && minimapUI.IsOpen)
+        // Si el mapa esta abierto, ESC lo maneja MinimapUI. LastClosedFrame evita
+        // que este mismo ESC abra la pausa inmediatamente despues de cerrarlo.
+        if (minimapUI != null &&
+            (minimapUI.IsOpen || minimapUI.LastClosedFrame == Time.frameCount))
+        {
+            return;
+        }
+
+        // Durante una cinematica, ESC tampoco abre la pausa (la cinematica ya congela el juego
+        // y el menu de pausa le devolveria el timeScale a 1 en el medio).
+        if (CinematicaFrames.EnCurso)
         {
             return;
         }
@@ -106,9 +114,7 @@ public class PauseMenuManager : MonoBehaviour
 
         isPaused = false;
 
-        // Volvemos el tiempo a 1 antes de abrir el minimapa.
-        // Si el minimapa tiene "Pause Game While Map Is Open" activado,
-        // el propio MinimapUI lo vuelve a pausar.
+        // El mapa guarda este estado y mantiene el juego pausado mientras esta abierto.
         Time.timeScale = 1f;
 
         if (minimapUI != null)

@@ -68,6 +68,12 @@ public class PlayerSuperJump : MonoBehaviour
 
     public void OnUpdate()
     {
+        if (!playerController.TieneHabilidad(PlayerController.Habilidad.SuperSalto))
+        {
+            CancelAllStates();
+            return;
+        }
+
         // Si veniamos de un super salto y ya aterrizamos (en el piso y sin subir), lo damos por terminado.
         if (isSuperJumping && playerController.jump.IsGrounded && playerController.rb.linearVelocity.y <= 0.1f)
         {
@@ -131,6 +137,8 @@ public class PlayerSuperJump : MonoBehaviour
     // (en ese caso cancela la preparacion y el PlayerController hace un salto normal).
     public bool TryExecute()
     {
+        if (!playerController.TieneHabilidad(PlayerController.Habilidad.SuperSalto)) return false;
+
         // Carga insuficiente (W + espacio muy rapido): NO es super salto, dejamos paso al salto normal.
         if (chargeTimer < tiempoMinimoParaSuperSalto)
         {
@@ -162,6 +170,16 @@ public class PlayerSuperJump : MonoBehaviour
     public void CancelSuperJump()
     {
         isSuperJumping = false;
+    }
+
+    private void CancelAllStates()
+    {
+        isPreparing = false;
+        isSuperJumping = false;
+        isExpiring = false;
+        waitingRelease = false;
+        chargeTimer = 0f;
+        expireTimer = 0f;
     }
 
     // Evita malos seteos en el Inspector.
