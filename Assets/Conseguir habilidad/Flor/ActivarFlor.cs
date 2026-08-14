@@ -15,6 +15,8 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("La animacion actual dura 2 segundos.")]
     [SerializeField] private float esperaAntesDelCartel = 2f;
     [SerializeField] private Sprite imagenCartel;
+    [Tooltip("Ilustracion que reemplaza el rectangulo negro en todos los carteles de habilidad.")]
+    [SerializeField] private Sprite fondoCartel;
     [SerializeField] private string tituloCartel = "NUEVA HABILIDAD";
     [TextArea(2, 5)]
     [SerializeField] private string descripcionCartel = "Proba tu nueva habilidad.";
@@ -72,6 +74,7 @@ public class ActivarFlor : MonoBehaviour
         yield return new WaitForSecondsRealtime(Mathf.Max(0f, esperaAntesDelCartel));
         CartelHabilidadUI.Mostrar(
             imagenCartel,
+            fondoCartel,
             tituloCartel,
             descripcionCartel,
             textoParaCerrar,
