@@ -5,6 +5,7 @@ public class Damageable : MonoBehaviour
 {
     private Rigidbody2D rb;
     private HealthHandler healthHandler;
+    private PlayerShield shield; // solo el player lo tiene; en los enemigos queda null
 
     // Knockback
 
@@ -39,6 +40,7 @@ public class Damageable : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         healthHandler = GetComponent<HealthHandler>();
+        shield = GetComponent<PlayerShield>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
@@ -47,11 +49,21 @@ public class Damageable : MonoBehaviour
         }
     }
 
-    public void ApplyDamage(int damageAmount, Vector2 sourcePosition, float sourceKnockBackForce)
+    // Devuelve TRUE si el golpe entro de verdad (se descontó vida).
+    // Devuelve FALSE si lo frenó el escudo o la invulnerabilidad: el que golpea puede
+    // usar esto para no empujar ni frenar al player.
+    public bool ApplyDamage(int damageAmount, Vector2 sourcePosition, float sourceKnockBackForce)
     {
         if (isInvulnerability)
         {
-            return;
+            return false;
+        }
+
+        // ESCUDO: si esta en pie, se come el golpe entero y el player no pierde vida
+        // ni sufre ninguno de los efectos de abajo.
+        if (shield != null && shield.AbsorberGolpe(damageAmount, sourcePosition))
+        {
+            return false;
         }
 
         // Si este golpe es MORTAL, salteamos TODOS los efectos (knockback, flash, freeze,
@@ -88,6 +100,7 @@ public class Damageable : MonoBehaviour
         // acceder a health y quitar damageAmount
         healthHandler.TakeDamage(damageAmount);
 
+        return true;
     }
 
     private void KnockBackApply(Vector2 sourcePosition, float sourceKnockBackForce)

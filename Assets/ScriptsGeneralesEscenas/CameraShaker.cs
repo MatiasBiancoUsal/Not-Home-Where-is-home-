@@ -32,6 +32,18 @@ public class CameraShaker : MonoBehaviour
     [Tooltip("Duracion del sacudon del super salto.")]
     public float superJumpDuration = 0.35f;
 
+    [Header("Shake cuando el ESCUDO frena un golpe")]
+    [Tooltip("Fuerza del sacudon cada vez que el escudo aguanta un golpe (suele ser chico).")]
+    public float shieldHitForce = 0.3f;
+    [Tooltip("Duracion del sacudon del escudo.")]
+    public float shieldHitDuration = 0.15f;
+
+    [Header("Shake cuando el ESCUDO se ROMPE")]
+    [Tooltip("Fuerza del sacudon cuando el escudo se rompe (mas fuerte que el de aguantar).")]
+    public float shieldBreakForce = 1.1f;
+    [Tooltip("Duracion del sacudon de rotura del escudo.")]
+    public float shieldBreakDuration = 0.4f;
+
     [Header("Shake al IMPACTO del STOMP")]
     [Tooltip("Fuerza del sacudon cuando el stomp golpea el piso.")]
     public float stompImpactForce = 1.5f;
@@ -62,6 +74,18 @@ public class CameraShaker : MonoBehaviour
     public void ShakeSuperJump(float intensity = 1f)
     {
         DoShake(superJumpForce * intensity, superJumpDuration);
+    }
+
+    // El escudo aguanto un golpe.
+    public void ShakeShieldHit()
+    {
+        DoShake(shieldHitForce, shieldHitDuration);
+    }
+
+    // El escudo se rompio.
+    public void ShakeShieldBreak()
+    {
+        DoShake(shieldBreakForce, shieldBreakDuration);
     }
 
     // El stomp golpeo el piso.
