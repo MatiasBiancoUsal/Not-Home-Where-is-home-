@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class HeartUI : MonoBehaviour
 {
-    public Image[] hearts;   // 5 imágenes de corazón
+    public Image[] hearts;   // 5 imï¿½genes de corazï¿½n
     public Sprite fullHeart;
     public Sprite halfHeart;
     public Sprite emptyHeart;
@@ -16,6 +16,18 @@ public class HeartUI : MonoBehaviour
         if (playerObj != null)
         {
             playerHealth = playerObj.GetComponent<HealthHandler>();
+
+            // Si el objeto con el tag "Player" NO es la niÃ±a (paso: un cuadrado del piso
+            // quedo tagueado como Player en Zona 4), avisamos en vez de tirar un
+            // NullReferenceException suelto que no se entiende de donde viene.
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("HeartUI: el objeto con el tag 'Player' de esta escena es '" + playerObj.name +
+                                 "', y no tiene HealthHandler. Seguramente hay otro objeto tagueado como Player " +
+                                 "por error. Los corazones no se van a actualizar.", playerObj);
+                return;
+            }
+
             playerHealth.OnHealthChanged += UpdateHearts;
             UpdateHearts(playerHealth.CurrentHealth);
         }

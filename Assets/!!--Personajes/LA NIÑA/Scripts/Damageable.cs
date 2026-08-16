@@ -54,6 +54,13 @@ public class Damageable : MonoBehaviour
     // usar esto para no empujar ni frenar al player.
     public bool ApplyDamage(int damageAmount, Vector2 sourcePosition, float sourceKnockBackForce)
     {
+        // Cruzando una puerta entre zonas la niña no puede recibir daño: seria injusto
+        // morirse mientras camina sola y no responde a los controles. (Ver TransicionZonas.)
+        if (TransicionZonas.InvulnerablePorTransicion && CompareTag("Player"))
+        {
+            return false;
+        }
+
         if (isInvulnerability)
         {
             return false;
