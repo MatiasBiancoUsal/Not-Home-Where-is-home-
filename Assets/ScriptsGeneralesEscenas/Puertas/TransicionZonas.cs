@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 // ============================================================
 //  TRANSICION ENTRE ZONAS (estilo Hollow Knight)
@@ -53,6 +54,13 @@ public class TransicionZonas : MonoBehaviour
 
     private AjustesTransicion ajustes;
     private Image negro;
+
+    // Cartel con el nombre de la zona.
+    private TextMeshProUGUI cartel;
+    private Coroutine cartelCo;
+    private Image fondoDelCartel;
+    private Sprite spriteDelFondo;
+    private float suavidadDelFondoUsada = -1f;
 
     // Oscurecimiento por cercania a una puerta.
     private Image degradado;
@@ -158,6 +166,283 @@ public class TransicionZonas : MonoBehaviour
         negro.raycastTarget = false;             // que no tape los clicks de la UI
 
         EstirarATodaLaPantalla(negro.rectTransform);
+
+        CrearCartel(canvasGo.transform);
+    }
+
+    // El cartel va ULTIMO: se dibuja por ENCIMA del negro, asi puede aparecer sobre la
+    // pantalla oscura mientras la zona nueva todavia se esta revelando.
+    private void CrearCartel(Transform padre)
+    {
+        // La mancha difuminada va PRIMERO: se dibuja detras del texto.
+        GameObject fondoGo = new GameObject("FondoDelCartel");
+        fondoGo.transform.SetParent(padre, false);
+
+        fondoDelCartel = fondoGo.AddComponent<Image>();
+        fondoDelCartel.raycastTarget = false;
+        fondoDelCartel.color = new Color(0f, 0f, 0f, 0f);
+
+        RectTransform rtFondo = fondoDelCartel.rectTransform;
+        rtFondo.anchorMin = new Vector2(0.5f, 0.5f);
+        rtFondo.anchorMax = new Vector2(0.5f, 0.5f);
+        rtFondo.pivot = new Vector2(0.5f, 0.5f);
+
+        GameObject cartelGo = new GameObject("CartelDeZona");
+        cartelGo.transform.SetParent(padre, false);
+
+        cartel = cartelGo.AddComponent<TextMeshProUGUI>();
+        cartel.raycastTarget = false;
+        cartel.alignment = TextAlignmentOptions.Center;
+        cartel.enableWordWrapping = true;
+        cartel.text = "";
+
+        // Ancho de casi toda la pantalla, centrado verticalmente (despues lo corre el ajuste).
+        RectTransform rt = cartel.rectTransform;
+        rt.anchorMin = new Vector2(0f, 0.5f);
+        rt.anchorMax = new Vector2(1f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(-200f, 220f); // 100px de margen a cada lado
+        rt.anchoredPosition = Vector2.zero;
+
+        PonerAlphaCartel(0f);
+    }
+
+    // ---------- El cartel con el nombre de la zona ----------
+
+    // ¿El cartel con el nombre de la zona esta en pantalla ahora mismo?
+    // Lo usa la IntroDeZona para no encimar el cartel del tutorial con el nombre.
+    public bool CartelDeZonaVisible
+    {
+        get { return cartelCo != null; }
+    }
+
+    // Para mostrar el nombre de la zona desde afuera (lo usa la IntroDeZona al arrancar el juego).
+    // Sin parametros muestra el nombre de la escena que esta cargada.
+    public void MostrarNombreDeLaZona()
+    {
+        MostrarCartelDeZona(SceneManager.GetActiveScene().name);
+    }
+
+    private void MostrarCartelDeZona(string nombreDeLaEscena)
+    {
+        if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
+
+        if (ajustes.mostrarSoloLaPrimeraVez)
+        {
+            string clave = "CartelZona_" + nombreDeLaEscena;
+            if (ProgresoJuego.YaMostrado(clave)) return;
+            ProgresoJuego.MarcarMostrado(clave);
+        }
+
+        if (cartelCo != null) StopCoroutine(cartelCo);
+        cartelCo = StartCoroutine(RutinaDelCartel(TextoDeLaZona(nombreDeLaEscena)));
+    }
+
+    // Busca el nombre lindo de la zona en la lista de los ajustes.
+    private string TextoDeLaZona(string nombreDeLaEscena)
+    {
+        string texto = nombreDeLaEscena;
+
+        if (ajustes.nombresDeLasZonas != null)
+        {
+            foreach (NombreDeZona n in ajustes.nombresDeLasZonas)
+            {
+                if (n != null && n.escena == nombreDeLaEscena && !string.IsNullOrEmpty(n.textoQueSeMuestra))
+                {
+                    texto = n.textoQueSeMuestra;
+                    break;
+                }
+            }
+        }
+
+        return ajustes.pasarAMinuscula ? texto.ToLower() : texto;
+    }
+
+    private IEnumerator RutinaDelCartel(string texto)
+    {
+        // Estilo (se lee cada vez, asi se puede tocar en vivo desde el Inspector).
+        if (ajustes.fuenteDelCartel != null) cartel.font = ajustes.fuenteDelCartel;
+        cartel.fontSize = ajustes.tamanioDeLetra;
+        cartel.text = texto;
+
+        ActualizarFondoDelCartel();
+
+        RectTransform rt = cartel.rectTransform;
+        Vector2 posFinal = ajustes.posicionDelCartel;
+        Vector2 posInicial = posFinal - new Vector2(0f, ajustes.subidaDelCartel);
+
+        float opInicial = ajustes.opacidadInicialDelCartel;
+        float opFinal = ajustes.opacidadFinalDelCartel;
+        float blur = ajustes.desenfocarAlEntrar ? ajustes.desenfoqueInicial : 0f;
+        float grosor = ajustes.desenfocarAlEntrar ? ajustes.engrosadoInicial : 0f;
+
+        rt.anchoredPosition = posInicial;
+        cartel.characterSpacing = ajustes.separacionInicialDeLetras;
+        PonerAlphaCartel(opInicial);
+        PonerDesenfoque(blur, grosor);
+
+        // Espera antes de aparecer.
+        yield return EsperarReal(ajustes.retrasoDelCartel);
+
+        // ENTRADA: gana opacidad, sube despacio, las letras se juntan y se va enfocando.
+        float t = 0f;
+        float dur = Mathf.Max(0.01f, ajustes.entradaDelCartel);
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float e = SuavizarSalida(Mathf.Clamp01(t / dur));
+
+            PonerAlphaCartel(Mathf.Lerp(opInicial, opFinal, e));
+            rt.anchoredPosition = Vector2.Lerp(posInicial, posFinal, e);
+            cartel.characterSpacing = Mathf.Lerp(ajustes.separacionInicialDeLetras, 0f, e);
+            PonerDesenfoque(Mathf.Lerp(blur, 0f, e), Mathf.Lerp(grosor, 0f, e));
+
+            yield return null;
+        }
+
+        PonerAlphaCartel(opFinal);
+        rt.anchoredPosition = posFinal;
+        cartel.characterSpacing = 0f;
+        PonerDesenfoque(0f, 0f);
+
+        // SE QUEDA.
+        yield return EsperarReal(ajustes.sostenerElCartel);
+
+        // SALIDA: se desvanece lento, sin moverse. Si esta activado, se desenfoca de nuevo
+        // mientras se va, como si se disolviera en el aire.
+        float blurSalida = ajustes.desenfocarAlSalir ? ajustes.desenfoqueInicial : 0f;
+        float grosorSalida = ajustes.desenfocarAlSalir ? ajustes.engrosadoInicial : 0f;
+
+        t = 0f;
+        dur = Mathf.Max(0.01f, ajustes.salidaDelCartel);
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float e = Mathf.Clamp01(t / dur);
+
+            PonerAlphaCartel(Mathf.Lerp(opFinal, 0f, e));
+            PonerDesenfoque(Mathf.Lerp(0f, blurSalida, e), Mathf.Lerp(0f, grosorSalida, e));
+
+            yield return null;
+        }
+
+        PonerAlphaCartel(0f);
+        PonerDesenfoque(0f, 0f);
+        cartel.text = "";
+        cartelCo = null;
+    }
+
+    // Desenfoque del texto usando el shader SDF de TextMeshPro.
+    //
+    // No es un blur de pantalla completa (eso necesitaria post-procesado, y lo descartamos
+    // para que ande en itch.io/WebGL). Es el suavizado del borde de las letras: al subirlo,
+    // el texto se ve fuera de foco. El "engrosado" compensa que, al desenfocarse, las letras
+    // se ven mas flacas de lo que son.
+    private void PonerDesenfoque(float suavidad, float engrosado)
+    {
+        if (cartel == null) return;
+
+        Material mat = cartel.fontMaterial;
+        if (mat == null) return;
+
+        if (mat.HasProperty(ShaderUtilities.ID_OutlineSoftness))
+        {
+            mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, suavidad);
+        }
+        if (mat.HasProperty(ShaderUtilities.ID_FaceDilate))
+        {
+            mat.SetFloat(ShaderUtilities.ID_FaceDilate, engrosado);
+        }
+
+        // Sin esto, el borde suavizado se corta contra el borde de cada letra.
+        cartel.UpdateMeshPadding();
+    }
+
+    // Pone la opacidad del texto Y de su fondo difuminado, para que entren y salgan juntos.
+    private void PonerAlphaCartel(float a)
+    {
+        if (cartel != null)
+        {
+            Color c = ajustes != null ? ajustes.colorDelCartel : Color.white;
+            c.a = a;
+            cartel.color = c;
+        }
+
+        if (fondoDelCartel != null && ajustes != null)
+        {
+            Color f = ajustes.colorDelFondoDelCartel;
+            f.a = ajustes.fondoDetrasDelCartel ? a * ajustes.opacidadDelFondoDelCartel : 0f;
+            fondoDelCartel.color = f;
+        }
+    }
+
+    // Ubica y arma la mancha difuminada. Se llama al empezar cada cartel, asi los
+    // cambios del Inspector se ven en vivo.
+    private void ActualizarFondoDelCartel()
+    {
+        if (fondoDelCartel == null || ajustes == null) return;
+
+        fondoDelCartel.rectTransform.sizeDelta = ajustes.tamanioDelFondoDelCartel;
+        fondoDelCartel.rectTransform.anchoredPosition = ajustes.posicionDelCartel;
+
+        if (spriteDelFondo == null || suavidadDelFondoUsada != ajustes.suavidadDelFondoDelCartel)
+        {
+            suavidadDelFondoUsada = ajustes.suavidadDelFondoDelCartel;
+            spriteDelFondo = GenerarManchaDifuminada(suavidadDelFondoUsada);
+            fondoDelCartel.sprite = spriteDelFondo;
+        }
+    }
+
+    // Una mancha redonda que se desvanece hacia los bordes. Estirada a un rectangulo
+    // ancho queda un ovalo difuminado, que es lo que se ve detras del texto.
+    private Sprite GenerarManchaDifuminada(float suavidad)
+    {
+        const int LADO = 128;
+
+        Texture2D tex = new Texture2D(LADO, LADO);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Bilinear;
+
+        // Hasta donde se mantiene opaca antes de empezar a desvanecerse.
+        float centroSolido = 1f - Mathf.Clamp01(suavidad);
+
+        for (int y = 0; y < LADO; y++)
+        {
+            for (int x = 0; x < LADO; x++)
+            {
+                float dx = (x + 0.5f) / LADO - 0.5f;
+                float dy = (y + 0.5f) / LADO - 0.5f;
+
+                // 0 en el centro, 1 en el borde.
+                float distancia = Mathf.Sqrt(dx * dx + dy * dy) / 0.5f;
+
+                // SmoothStep hace que el desvanecido no tenga un corte visible.
+                float alpha = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(centroSolido, 1f, distancia));
+
+                tex.SetPixel(x, y, new Color(1f, 1f, 1f, alpha));
+            }
+        }
+
+        tex.Apply();
+
+        return Sprite.Create(tex, new Rect(0, 0, LADO, LADO), new Vector2(0.5f, 0.5f));
+    }
+
+    // Arranca rapido y frena suave: da la sensacion de que "se posa" en lugar de aparecer.
+    private float SuavizarSalida(float x)
+    {
+        return 1f - Mathf.Pow(1f - x, 3f);
+    }
+
+    // Espera en tiempo REAL: el cartel sigue andando aunque algo haya puesto el timeScale en 0.
+    private IEnumerator EsperarReal(float segundos)
+    {
+        float t = 0f;
+        while (t < segundos)
+        {
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     private void EstirarATodaLaPantalla(RectTransform rt)
@@ -384,6 +669,9 @@ public class TransicionZonas : MonoBehaviour
         PlayerController pcNuevo = playerEnLaZonaNueva != null ? playerEnLaZonaNueva : BuscarPlayer();
 
         StartCoroutine(Fundir(0f, ajustes.fadeDesdeNegro));
+
+        // El cartel con el nombre de la zona entra junto con la zona nueva.
+        MostrarCartelDeZona(SceneManager.GetActiveScene().name);
 
         if (puertaDeLlegada != null && pcNuevo != null)
         {

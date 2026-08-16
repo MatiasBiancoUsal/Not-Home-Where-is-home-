@@ -18,9 +18,51 @@ MonoBehaviour:
   velocidadCaminata: 0
   impulsoAlSubir: 14
   empujeAlCaer: 4
+  pegarAlPisoAlLlegar: 1
+  distanciaMaximaAlPiso: 30
   animIdle: 1
   animCorrer: 2
   animSaltar: 3
   animCaer: 4
+  oscurecerAlAcercarse: 1
+  colorDelOscurecimiento: {r: 0, g: 0, b: 0, a: 1}
+  anchoDelDegradado: 0.45
+  durezaDelDegradado: 1
+  suavizadoDelOscurecimiento: 8
+  spriteDelDegradado: {fileID: 0}
+  mostrarCartelDeZona: 1
+  fuenteDelCartel: {fileID: 11400000, guid: 0c052c739437a4410bed16638d727157, type: 2}
+  nombresDeLasZonas:
+  - escena: Zona 1
+    textoQueSeMuestra: el descenso
+  - escena: Zona 2
+    textoQueSeMuestra: los vestigios
+  - escena: Zona 3
+    textoQueSeMuestra: las corrientes
+  - escena: Zona 4
+    textoQueSeMuestra: la quebrada
+  - escena: Zona 5
+    textoQueSeMuestra: los ecos
+  - escena: Zona 6
+    textoQueSeMuestra: el nido
+  pasarAMinuscula: 1
+  tamanioDeLetra: 200
+  colorDelCartel: {r: 1, g: 1, b: 1, a: 1}
+  posicionDelCartel: {x: 0, y: 300}
+  retrasoDelCartel: 1.2
+  entradaDelCartel: 3
+  sostenerElCartel: 3
+  salidaDelCartel: 1.8
+  subidaDelCartel: 30
+  separacionInicialDeLetras: 25
+  mostrarSoloLaPrimeraVez: 0
+  opacidadInicialDelCartel: 0
+  opacidadFinalDelCartel: 1
+  desenfocarAlEntrar: 1
+  desenfoqueInicial: 0.8
+  engrosadoInicial: 0.35
+  desenfocarAlSalir: 1
+  mostrarDiagnosticoEnConsola: 1
+  avisarSiNoSeMueve: 1
   invulnerableDuranteLaTransicion: 1
   graciaEntrePuertas: 0.5

@@ -33236,6 +33236,62 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1246534742011909075, guid: 168b1345293205244b267822a56e4915, type: 3}
   m_PrefabInstance: {fileID: 1412368671}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1417152605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1417152607}
+  - component: {fileID: 1417152606}
+  m_Layer: 0
+  m_Name: INTRO
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1417152606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417152605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 042d7eb0bb477bf41853310bd3b0015e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntroDeZona
+  jugador: {fileID: 3397900970644247169}
+  cartelTutorial: {fileID: 0}
+  soloUnaVezPorPartida: 1
+  claveGuardado: IntroZona1
+  soloAlArrancarElJuego: 1
+  esperaAlTocarElPiso: 0.4
+  esperarQueTermineElNombre: 1
+  esperaDespuesDelNombre: 1.5
+  esperaAntesDeDevolverElControl: 0.3
+  segundosMaximosCayendo: 15
+  animIdle: 1
+  animCaer: 4
+--- !u!4 &1417152607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417152605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1417810054
 GameObject:
   m_ObjectHideFlags: 0
@@ -50280,11 +50336,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -132.96527
+      value: 1.7247243
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -185.3511
+      value: 45.0089
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50427,11 +50483,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -132.96527
+      value: 1.7247243
       objectReference: {fileID: 0}
     - target: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -185.3511
+      value: 45.0089
       objectReference: {fileID: 0}
     - target: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50497,11 +50553,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -139.92
+      value: -5.23
       objectReference: {fileID: 0}
     - target: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -186.36
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_LocalPosition.z
@@ -50705,3 +50761,4 @@ SceneRoots:
   - {fileID: 38635848}
   - {fileID: 952769091}
   - {fileID: 900067829}
+  - {fileID: 1417152607}

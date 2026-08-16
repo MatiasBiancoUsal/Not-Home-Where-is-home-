@@ -1,4 +1,15 @@
 using UnityEngine;
+using TMPro;
+
+// El nombre "lindo" de una zona: el que ve el jugador, no el de la escena.
+[System.Serializable]
+public class NombreDeZona
+{
+    [Tooltip("El nombre EXACTO de la escena. Ej: 'Zona 3'.")]
+    public string escena;
+    [Tooltip("Lo que se muestra en pantalla. Ej: 'el jardin de las agujas'. Si lo dejas vacio se muestra el nombre de la escena.")]
+    public string textoQueSeMuestra;
+}
 
 // ============================================================
 //  AJUSTES DE LA TRANSICION ENTRE ZONAS
@@ -74,6 +85,81 @@ public class AjustesTransicion : ScriptableObject
     [Tooltip("Opcional: tu propia imagen de degradado. Si lo dejas vacio, se genera una por codigo " +
              "(negro pegado al borde que se desvanece hacia el centro).")]
     public Sprite spriteDelDegradado;
+
+    [Header("Cartel con el nombre de la zona")]
+    public bool mostrarCartelDeZona = true;
+    [Tooltip("LA tipografia del juego. Arrastrar aca el Font Asset de TextMeshPro. " +
+             "Si lo dejas vacio usa la fuente por defecto de TMP (fea, pero sirve para probar).")]
+    public TMP_FontAsset fuenteDelCartel;
+    [Tooltip("Los nombres lindos de cada zona. La escena tiene que escribirse EXACTO ('Zona 3'). " +
+             "Las zonas que no esten en esta lista muestran el nombre de su escena.")]
+    public NombreDeZona[] nombresDeLasZonas;
+    [Tooltip("Fuerza todo a minuscula, sin importar como este escrito arriba.")]
+    public bool pasarAMinuscula = true;
+
+    [Header("Cartel: como se ve")]
+    public float tamanioDeLetra = 64f;
+    public Color colorDelCartel = Color.white;
+    [Tooltip("Donde se ubica en la pantalla respecto del centro. Y negativo = mas abajo.")]
+    public Vector2 posicionDelCartel = new Vector2(0f, -220f);
+
+    [Header("Cartel: tiempos (todo en segundos)")]
+    [Tooltip("Cuanto espera desde que empieza a verse la zona nueva hasta que aparece el cartel.")]
+    public float retrasoDelCartel = 0.3f;
+    [Tooltip("Cuanto tarda en aparecer.")]
+    public float entradaDelCartel = 1.2f;
+    [Tooltip("Cuanto se queda quieto y bien visible.")]
+    public float sostenerElCartel = 2f;
+    [Tooltip("Cuanto tarda en desvanecerse. Alto = lento y tranquilo.")]
+    public float salidaDelCartel = 1.8f;
+
+    [Header("Cartel: la animacion de entrada")]
+    [Tooltip("Cuantos pixeles SUBE mientras aparece. 0 = queda quieto.")]
+    public float subidaDelCartel = 30f;
+    [Tooltip("Las letras arrancan separadas y se van juntando: da esa sensacion de 'aura'. " +
+             "0 = sin efecto. 20-30 esta bueno.")]
+    public float separacionInicialDeLetras = 25f;
+    [Tooltip("Si esta activo, el cartel de cada zona se ve UNA sola vez por partida " +
+             "(se borra con 'Not Home > Borrar progreso guardado').")]
+    public bool mostrarSoloLaPrimeraVez = false;
+
+    [Header("Cartel: fondo difuminado detras del texto")]
+    [Tooltip("Una mancha oscura y difuminada detras del nombre de la zona, para que se lea " +
+             "sobre fondos claros. Cuando esten las visuales definitivas se puede destildar.")]
+    public bool fondoDetrasDelCartel = true;
+    [Tooltip("Color de la mancha. Negro normalmente.")]
+    public Color colorDelFondoDelCartel = Color.black;
+    [Range(0f, 1f)]
+    [Tooltip("Cuanto se llega a ver la mancha. 0.6 tapa bastante sin taparlo todo.")]
+    public float opacidadDelFondoDelCartel = 0.6f;
+    [Tooltip("Tamaño de la mancha en pixeles (ancho, alto). Que sea bastante mas grande que el texto.")]
+    public Vector2 tamanioDelFondoDelCartel = new Vector2(1100f, 300f);
+    [Range(0.05f, 1f)]
+    [Tooltip("Que tan difuminados son los bordes. 1 = se desvanece desde el centro mismo (muy suave). " +
+             "0.1 = casi un ovalo solido con el borde apenas suavizado.")]
+    public float suavidadDelFondoDelCartel = 0.6f;
+
+    [Header("Cartel: opacidad")]
+    [Range(0f, 1f)]
+    [Tooltip("Con cuanta opacidad ARRANCA la entrada. 0 = invisible del todo.")]
+    public float opacidadInicialDelCartel = 0f;
+    [Range(0f, 1f)]
+    [Tooltip("A cuanta opacidad LLEGA. 1 = solido. Bajalo a 0.8 si lo queres un poco fantasmal.")]
+    public float opacidadFinalDelCartel = 1f;
+
+    [Header("Cartel: desenfoque (blur)")]
+    [Tooltip("El texto entra DESENFOCADO y se va enfocando. Usa el desenfoque propio de " +
+             "TextMeshPro (shader SDF): no necesita post-procesado, asi que anda en itch.io.")]
+    public bool desenfocarAlEntrar = true;
+    [Range(0f, 1f)]
+    [Tooltip("Cuanto desenfoque tiene al aparecer. 0 = nitido. 0.4-0.6 se ve lindo.")]
+    public float desenfoqueInicial = 0.45f;
+    [Range(0f, 0.5f)]
+    [Tooltip("Cuanto se ENGROSAN las letras mientras estan desenfocadas. Ayuda a que el borroso " +
+             "no se vea flaquito y desaparecido. 0 = sin engrosar.")]
+    public float engrosadoInicial = 0.1f;
+    [Tooltip("Si esta activo, al desvanecerse tambien se va desenfocando (se disuelve en el aire).")]
+    public bool desenfocarAlSalir = true;
 
     [Header("Diagnostico (mientras se prueba)")]
     [Tooltip("Escribe en la Console cada paso de la transicion: por que puerta sale, donde aparece, hacia donde camina. " +
