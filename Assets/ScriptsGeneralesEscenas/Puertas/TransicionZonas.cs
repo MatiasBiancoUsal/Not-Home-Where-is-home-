@@ -608,6 +608,31 @@ public class TransicionZonas : MonoBehaviour
 
     // ---------- La transicion ----------
 
+    // Entrada al juego desde el menu principal. Reutiliza la misma pantalla negra de
+    // las puertas, pero deja EnCurso apagado al cargar la zona para que IntroDeZona
+    // reconozca que es el comienzo de la partida y reproduzca la caida inicial.
+    public void CargarEscenaDesdeMenu(string nombreEscena)
+    {
+        if (EnCurso || string.IsNullOrWhiteSpace(nombreEscena)) return;
+        StartCoroutine(RutinaDesdeMenu(nombreEscena));
+    }
+
+    private IEnumerator RutinaDesdeMenu(string nombreEscena)
+    {
+        EnCurso = true;
+
+        yield return Fundir(1f, ajustes.fadeANegro);
+        yield return new WaitForSecondsRealtime(ajustes.esperaEnNegro);
+
+        // IntroDeZona consulta este valor durante su Awake.
+        EnCurso = false;
+        SceneManager.LoadScene(nombreEscena);
+
+        // Espera un frame para revelar la zona ya inicializada.
+        yield return null;
+        yield return Fundir(0f, ajustes.fadeDesdeNegro);
+    }
+
     // La llama la PuertaZona cuando la niña la toca.
     public void Cruzar(PuertaZona salida)
     {
