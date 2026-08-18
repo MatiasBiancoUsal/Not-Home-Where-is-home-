@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ActivarFlor : MonoBehaviour
@@ -9,6 +10,21 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("Si ya fue recogida, se oculta al volver a entrar a la zona.")]
     [SerializeField] private bool ocultarSiYaFueRecogida = true;
 
+    [Header("Cartel despues de la animacion")]
+    [SerializeField] private bool mostrarCartel = true;
+    [Tooltip("La animacion actual dura 2 segundos.")]
+    [SerializeField] private float esperaAntesDelCartel = 2f;
+    [SerializeField] private Sprite imagenCartel;
+    [SerializeField] private string tituloCartel = "NUEVA HABILIDAD";
+    [TextArea(2, 5)]
+    [SerializeField] private string descripcionCartel = "Proba tu nueva habilidad.";
+    [SerializeField] private string textoParaCerrar = "Presiona ESPACIO, ENTER o ESC para continuar";
+    [SerializeField] private bool pausarMientrasSeMuestra = true;
+
+    [Header("Diseño del cartel")]
+    [Tooltip("Desplega esta seccion para modificar posiciones, tamaños, tipografias y colores.")]
+    [SerializeField] private EstiloCartelHabilidad estiloCartel = new EstiloCartelHabilidad();
+
     private Animator animator;
     private bool recogida;
 
@@ -16,6 +32,7 @@ public class ActivarFlor : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         if (detectarPorNombre) DetectarHabilidadPorNombre();
+        CompletarTextoPredeterminado();
     }
 
     private void Start()
@@ -43,6 +60,23 @@ public class ActivarFlor : MonoBehaviour
 
         Collider2D flowerCollider = GetComponent<Collider2D>();
         if (flowerCollider != null) flowerCollider.enabled = false;
+
+        if (mostrarCartel)
+        {
+            StartCoroutine(MostrarCartelDespuesDeAnimacion());
+        }
+    }
+
+    private IEnumerator MostrarCartelDespuesDeAnimacion()
+    {
+        yield return new WaitForSecondsRealtime(Mathf.Max(0f, esperaAntesDelCartel));
+        CartelHabilidadUI.Mostrar(
+            imagenCartel,
+            tituloCartel,
+            descripcionCartel,
+            textoParaCerrar,
+            pausarMientrasSeMuestra,
+            estiloCartel);
     }
 
     private void DetectarHabilidadPorNombre()
@@ -59,5 +93,34 @@ public class ActivarFlor : MonoBehaviour
     private string ClaveProgreso()
     {
         return "Habilidad_" + habilidad;
+    }
+
+    private void CompletarTextoPredeterminado()
+    {
+        if (tituloCartel != "NUEVA HABILIDAD" || descripcionCartel != "Proba tu nueva habilidad.") return;
+
+        switch (habilidad)
+        {
+            case PlayerController.Habilidad.DobleSalto:
+                tituloCartel = "DOBLE SALTO";
+                descripcionCartel = "Presiona SALTO nuevamente mientras estas en el aire.";
+                break;
+            case PlayerController.Habilidad.Dash:
+                tituloCartel = "DASH";
+                descripcionCartel = "Presiona SHIFT para impulsarte en la direccion elegida.";
+                break;
+            case PlayerController.Habilidad.Escalar:
+                tituloCartel = "ESCALAR";
+                descripcionCartel = "Acercate a una pared y usa W o S para trepar.";
+                break;
+            case PlayerController.Habilidad.Pisoton:
+                tituloCartel = "PISOTON";
+                descripcionCartel = "En el aire, presiona S para caer con fuerza.";
+                break;
+            case PlayerController.Habilidad.SuperSalto:
+                tituloCartel = "SUPER SALTO";
+                descripcionCartel = "En el suelo, manten W para cargar y presiona SALTO.";
+                break;
+        }
     }
 }
