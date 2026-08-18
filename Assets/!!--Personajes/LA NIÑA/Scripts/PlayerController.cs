@@ -61,10 +61,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void DesbloquearHabilidad(Habilidad habilidad)
+    // guardarProgreso = false lo usan las herramientas de testeo: desbloquea la habilidad
+    // SOLO para esta partida, sin dejarla anotada en el progreso guardado.
+    public void DesbloquearHabilidad(Habilidad habilidad, bool guardarProgreso = true)
     {
         EstablecerHabilidad(habilidad, true);
-        ProgresoJuego.MarcarMostrado(ClaveHabilidad(habilidad));
+        if (guardarProgreso) ProgresoJuego.MarcarMostrado(ClaveHabilidad(habilidad));
 
         if (habilidad == Habilidad.DobleSalto && doubleJump != null)
         {

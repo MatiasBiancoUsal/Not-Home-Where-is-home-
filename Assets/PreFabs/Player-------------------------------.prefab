@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 7732166607692326833}
   - component: {fileID: 5772618782023576063}
   - component: {fileID: 882106163897167723}
+  - component: {fileID: 7509069849632988548}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -618,6 +619,23 @@ MonoBehaviour:
   fadeOut: 0.5
   unaSolaVez: 1
   claveGuardado: TutorialMovimiento
+--- !u!114 &7509069849632988548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 946207d24773796498c65d6815468012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesbloquearHabilidadesPorZona
+  tecla: 22
+  activo: 1
+  ordenPorZona: 000000000200000001000000030000000400000005000000
+  guardarProgreso: 0
+  mostrarLogs: 1
 --- !u!1 &1423773860996500974
 GameObject:
   m_ObjectHideFlags: 0
