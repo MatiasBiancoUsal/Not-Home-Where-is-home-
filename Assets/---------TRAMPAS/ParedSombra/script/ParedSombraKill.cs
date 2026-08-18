@@ -15,6 +15,10 @@ public class ParedSombraKill : MonoBehaviour
     [Tooltip("Que tan fuerte te empuja para avanzar. Si corrés más rápido que esto, podés escapar.")]
     public float fuerzaEmpuje = 7f;
 
+    [Header("Escudo")]
+    [Tooltip("Activo: el escudo frena el daño de la pared (pero te sigue empujando). Desactivo: la pared atraviesa el escudo.")]
+    public bool elEscudoProtege = true;
+
     private float timerDanio = 0f;
 
     private void OnTriggerStay2D(Collider2D other)
@@ -36,9 +40,17 @@ public class ParedSombraKill : MonoBehaviour
         timerDanio -= Time.deltaTime;
         if (timerDanio <= 0f)
         {
+            timerDanio = intervaloDanio;
+
+            // Si el escudo esta en pie, se come el golpe (la pared te sigue empujando igual).
+            if (elEscudoProtege)
+            {
+                PlayerShield escudo = other.GetComponent<PlayerShield>();
+                if (escudo != null && escudo.AbsorberGolpe(danio, transform.position)) return;
+            }
+
             HealthHandler hh = other.GetComponent<HealthHandler>();
             if (hh != null) hh.TakeDamage(danio);
-            timerDanio = intervaloDanio;
         }
     }
 

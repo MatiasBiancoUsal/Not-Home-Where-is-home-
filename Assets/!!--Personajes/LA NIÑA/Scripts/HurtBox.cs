@@ -7,7 +7,7 @@ public class HurtBox : MonoBehaviour
     public int damageHurtBox; //cantidad del hurtbox con cada golpe
     public float knockBackHurtBox; // fuerza de retroceso que aplica el hurt box
     public float timeKnockBack = 0.15f; // duracion del knock back
-    public Vector2 hurtBoxSize; // tamaño del hurt box
+    public Vector2 hurtBoxSize; // tamaï¿½o del hurt box
     public Vector2 hurtBoxOffset; // posicion del hurt box
     public LayerMask targetLayer; // layers de los game objects afectados por el hurt box
 
@@ -45,6 +45,15 @@ public class HurtBox : MonoBehaviour
                     contactPoint = center;
                 }
                 damage.ApplyDamage(damageHurtBox, contactPoint, knockBackHurtBox);
+            }
+
+            // Si el ESCUDO del player esta bancando el golpe, no lo frenamos ni lo empujamos:
+            // el golpe rebota contra el escudo y la niÃ±a sigue como si nada.
+            PlayerShield shield = hit.GetComponent<PlayerShield>();
+            if (shield != null && shield.BloqueaKnockbackAhora)
+            {
+                coolDownTimer = damageCoolDown;
+                continue;
             }
 
             // en caso de que el hit detectado sea Player Movement
