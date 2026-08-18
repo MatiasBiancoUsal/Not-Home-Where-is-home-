@@ -21,6 +21,15 @@ public class ActivarFlor : MonoBehaviour
     [SerializeField] private Sprite imagenCartel;
     [Tooltip("Ilustracion que reemplaza el rectangulo negro en todos los carteles de habilidad.")]
     [SerializeField] private Sprite fondoCartel;
+
+    [Header("Cartel correspondiente a cada habilidad")]
+    [Tooltip("Estos carteles se eligen automaticamente segun la habilidad de la flor.")]
+    [SerializeField] private Sprite cartelDobleSalto;
+    [SerializeField] private Sprite cartelDash;
+    [SerializeField] private Sprite cartelEscalar;
+    [SerializeField] private Sprite cartelPisoton;
+    [SerializeField] private Sprite cartelSuperSalto;
+    [SerializeField] private Sprite cartelEscudo;
     [SerializeField] private string tituloCartel = "NUEVA HABILIDAD";
     [TextArea(2, 5)]
     [SerializeField] private string descripcionCartel = "Proba tu nueva habilidad.";
@@ -42,6 +51,7 @@ public class ActivarFlor : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (detectarPorNombre) DetectarHabilidadPorNombre();
+        AsignarCartelDeHabilidad();
         CompletarTextoPredeterminado();
     }
 
@@ -159,6 +169,27 @@ public class ActivarFlor : MonoBehaviour
     private string ClaveProgreso()
     {
         return "Habilidad_" + habilidad;
+    }
+
+    private void AsignarCartelDeHabilidad()
+    {
+        Sprite cartelCorrespondiente = null;
+
+        switch (habilidad)
+        {
+            case PlayerController.Habilidad.DobleSalto: cartelCorrespondiente = cartelDobleSalto; break;
+            case PlayerController.Habilidad.Dash: cartelCorrespondiente = cartelDash; break;
+            case PlayerController.Habilidad.Escalar: cartelCorrespondiente = cartelEscalar; break;
+            case PlayerController.Habilidad.Pisoton: cartelCorrespondiente = cartelPisoton; break;
+            case PlayerController.Habilidad.SuperSalto: cartelCorrespondiente = cartelSuperSalto; break;
+            case PlayerController.Habilidad.Escudo: cartelCorrespondiente = cartelEscudo; break;
+        }
+
+        if (cartelCorrespondiente != null)
+        {
+            fondoCartel = cartelCorrespondiente;
+            imagenCartel = null;
+        }
     }
 
     private void CompletarTextoPredeterminado()

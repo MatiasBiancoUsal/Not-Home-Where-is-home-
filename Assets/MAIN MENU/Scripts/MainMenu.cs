@@ -28,20 +28,20 @@ public class MainMenu : MonoBehaviour
     // BOTÓN PLAY (el de siempre: arranca en la Zona 1 sin tocar el progreso)
     public void PlayGame()
     {
-        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL);
+        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 
     // BOTÓN CONTINUE: vuelve a la zona donde había quedado, con sus monedas y cinemáticas.
     public void ContinueGame()
     {
-        LoadSceneWithClick(ProgresoJuego.CargarZona());
+        LoadSceneWithClick(ProgresoJuego.CargarZona(), true);
     }
 
     // BOTÓN NEW GAME: borra el progreso guardado y empieza de cero en la Zona 1.
     public void NewGame()
     {
         ScoreManager.NuevaPartida();
-        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL);
+        LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 
     // TESTING: borra el progreso sin tener que jugar nada.
@@ -85,14 +85,14 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(QuitWithClick());
     }
 
-    private void LoadSceneWithClick(string sceneName)
+    private void LoadSceneWithClick(string sceneName, bool usarFundido = false)
     {
         if (isChangingScene) return;
 
-        StartCoroutine(LoadSceneAfterClick(sceneName));
+        StartCoroutine(LoadSceneAfterClick(sceneName, usarFundido));
     }
 
-    private IEnumerator LoadSceneAfterClick(string sceneName)
+    private IEnumerator LoadSceneAfterClick(string sceneName, bool usarFundido)
     {
         isChangingScene = true;
 
@@ -100,7 +100,14 @@ public class MainMenu : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(waitTime + extraDelay);
 
-        SceneManager.LoadScene(sceneName);
+        if (usarFundido && TransicionZonas.Instancia != null)
+        {
+            TransicionZonas.Instancia.CargarEscenaDesdeMenu(sceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     private IEnumerator QuitWithClick()
