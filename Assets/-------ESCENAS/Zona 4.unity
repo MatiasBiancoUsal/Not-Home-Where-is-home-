@@ -7955,6 +7955,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1246534742011909075, guid: 168b1345293205244b267822a56e4915, type: 3}
   m_PrefabInstance: {fileID: 558258347}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &564383015 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4438687972707177254, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
+  m_PrefabInstance: {fileID: 5906278419238091929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &565999621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26525,7 +26530,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999999
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -28012,8 +28017,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1042225785
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -31279,7 +31284,7 @@ PrefabInstance:
     - target: {fileID: 8516433710828098511, guid: 068ecb3a40f221d4594d5d1e3409cf43, type: 3}
       propertyPath: groundCheck
       value: 
-      objectReference: {fileID: 2112733539}
+      objectReference: {fileID: 564383015}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

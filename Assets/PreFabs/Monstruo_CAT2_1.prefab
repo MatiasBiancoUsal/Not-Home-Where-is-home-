@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2622399550601954236}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.27, z: 0}
+  m_LocalPosition: {x: 3.4, y: -2.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
   speed: 2
   startMovingRight: 0
-  groundCheck: {fileID: 0}
+  groundCheck: {fileID: 4438687972707177254}
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
@@ -296,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeath
   triggerMuerte: Die
   duracionAnimMuerte: 1.2
+  puntosPorMatar: 10
 --- !u!1 &8902539623952096947
 GameObject:
   m_ObjectHideFlags: 0
