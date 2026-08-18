@@ -34,7 +34,7 @@ public class PlayerShield : MonoBehaviour
 
     [Header("Duracion y cooldown")]
     [Tooltip("Segundos que dura el escudo si no lo rompen. Poné 0 para que dure hasta que se rompa a golpes.")]
-    public float duracion = 0f;
+    public float duracion = 10f;
     [Tooltip("Segundos que hay que esperar para volver a invocarlo.")]
     public float cooldown = 8f;
     [Tooltip("Activo: el cooldown empieza cuando el escudo se cae. Desactivo: empieza en el momento de invocarlo.")]
@@ -60,7 +60,7 @@ public class PlayerShield : MonoBehaviour
     [Tooltip("El escudo parpadea cuando le queda esta cantidad de golpes (o menos). 0 = nunca.")]
     public int parpadearConGolpesRestantes = 1;
     [Tooltip("Si tiene duracion, tambien parpadea durante estos ultimos segundos. 0 = nunca.")]
-    public float parpadearUltimosSegundos = 1.5f;
+    public float parpadearUltimosSegundos = 3f;
 
     [Header("Sonidos")]
     [Tooltip("Se puede dejar vacio. Si no hay AudioSource en el player, se crea uno solo.")]
@@ -201,7 +201,7 @@ public class PlayerShield : MonoBehaviour
         if (!activo) return;
 
         activo = false;
-        if (visual != null) visual.Ocultar();
+        if (visual != null) visual.Desvanecer();
         if (cooldownEmpiezaAlCaerse) timerCooldown = cooldown;
 
         if (mostrarLogs) Debug.Log("[Escudo] Se cayo sin romperse.");

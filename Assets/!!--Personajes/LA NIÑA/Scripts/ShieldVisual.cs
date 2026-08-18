@@ -93,13 +93,18 @@ public class ShieldVisual : MonoBehaviour
     public float parpadeoVelocidad = 6f;
     [Range(0f, 1f)]
     [Tooltip("Hasta que opacidad baja en cada parpadeo.")]
-    public float parpadeoOpacidadMinima = 0.25f;
+    public float parpadeoOpacidadMinima = 0.55f;
+
+    [Header("Desvanecido al agotarse el tiempo")]
+    [Tooltip("Segundos que tarda en apagarse cuando se le acaba el tiempo. 0 = desaparece de golpe.")]
+    public float fadeSalidaDuracion = 0.4f;
 
     private SpriteRenderer sr;
     private Color colorBase;
     private Coroutine rutinaAnimacion;
     private Coroutine rutinaShake;
     private Coroutine rutinaFlash;
+    private Coroutine rutinaFade;
     private bool parpadeando;
 
     // Getter por si la logica quiere esperar a que termine una animacion.
@@ -213,6 +218,39 @@ public class ShieldVisual : MonoBehaviour
         transform.localPosition = OffsetActual();
     }
 
+    // Se apaga con un fade suave. Es lo que corre cuando al escudo se le acaba el tiempo:
+    // arranca desde la opacidad que tenga en ese momento, asi enlaza con el parpadeo
+    // de aviso sin pegar un salto.
+    public void Desvanecer()
+    {
+        if (!sr.enabled || fadeSalidaDuracion <= 0f)
+        {
+            Ocultar();
+            return;
+        }
+
+        DetenerRutinas();
+        parpadeando = false;
+        rutinaFade = StartCoroutine(FadeSalidaRutina());
+    }
+
+    private IEnumerator FadeSalidaRutina()
+    {
+        float alphaInicial = sr.color.a;
+        float t = 0f;
+
+        while (t < fadeSalidaDuracion)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(alphaInicial, 0f, t / fadeSalidaDuracion);
+            sr.color = new Color(colorBase.r, colorBase.g, colorBase.b, alpha);
+            yield return null;
+        }
+
+        rutinaFade = null;
+        Ocultar();
+    }
+
     // Prende o apaga el parpadeo de aviso ("se me esta por caer").
     public void SetParpadeo(bool activo)
     {
@@ -231,7 +269,7 @@ public class ShieldVisual : MonoBehaviour
     {
         // El parpadeo se calcula todos los frames, asi se puede prender y apagar
         // sin cortar ninguna corutina.
-        if (!parpadeando || !sr.enabled || rutinaFlash != null) return;
+        if (!parpadeando || !sr.enabled || rutinaFlash != null || rutinaFade != null) return;
 
         float t = (Mathf.Sin(Time.time * parpadeoVelocidad * Mathf.PI * 2f) + 1f) * 0.5f;
         float alpha = Mathf.Lerp(parpadeoOpacidadMinima, opacidad, t);
@@ -316,6 +354,7 @@ public class ShieldVisual : MonoBehaviour
         if (rutinaAnimacion != null) { StopCoroutine(rutinaAnimacion); rutinaAnimacion = null; }
         if (rutinaShake != null)     { StopCoroutine(rutinaShake);     rutinaShake = null; }
         if (rutinaFlash != null)     { StopCoroutine(rutinaFlash);     rutinaFlash = null; }
+        if (rutinaFade != null)      { StopCoroutine(rutinaFade);      rutinaFade = null; }
 
         transform.localPosition = OffsetActual();
     }

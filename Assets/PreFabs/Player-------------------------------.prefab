@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7078050413871878844, guid: b8fadccdf5ba40a43be58accbff76d74, type: 3}
@@ -114,8 +114,8 @@ GameObject:
   - component: {fileID: 5212340119754789098}
   - component: {fileID: 2475589522967946327}
   - component: {fileID: 8527755624867755126}
-  - component: {fileID: 4553904984407775237}
   - component: {fileID: 5135303306065935079}
+  - component: {fileID: 4553904984407775237}
   - component: {fileID: 3147509105279337330}
   - component: {fileID: 5269341795716009696}
   - component: {fileID: 7732166607692326833}
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7712566379098205193, guid: dfb319fb09edd3647a510b09ffdb4e75, type: 3}
@@ -478,6 +478,40 @@ MonoBehaviour:
   impulseUpForce: 5
   timeImpulseUp: 0.2
   graciaRompible: 0.2
+--- !u!114 &5135303306065935079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9bab2724d040a42b0f2290c42ab2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerShield
+  teclaActivar: 19
+  sePuedeBajarAMano: 0
+  golpesQueAguanta: 6
+  golpesPorEtapa: 2
+  duracion: 10
+  cooldown: 5
+  cooldownEmpiezaAlCaerse: 1
+  bloquearKnockback: 1
+  freezeFrame: 1
+  freezeDuracion: 0.05
+  sacudirCamara: 1
+  invulnerabilidadAlRomper: 1
+  sacudirCamaraAlRomper: 1
+  parpadearConGolpesRestantes: 1
+  parpadearUltimosSegundos: 3
+  audioSource: {fileID: 0}
+  sonidoActivar: {fileID: 0}
+  sonidoGolpeFrenado: {fileID: 0}
+  sonidoRotura: {fileID: 0}
+  volumen: 1
+  ignorarCooldown: 0
+  mostrarLogs: 0
 --- !u!114 &4553904984407775237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,40 +536,6 @@ MonoBehaviour:
   comboWindowDuration: 0.25
   puedeAtacar: 0
   claveDesbloqueo: HabilidadAtaque
---- !u!114 &5135303306065935079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131308747041925141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb9bab2724d040a42b0f2290c42ab2a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerShield
-  teclaActivar: 19
-  sePuedeBajarAMano: 0
-  golpesQueAguanta: 6
-  golpesPorEtapa: 2
-  duracion: 0
-  cooldown: 8
-  cooldownEmpiezaAlCaerse: 1
-  bloquearKnockback: 1
-  freezeFrame: 1
-  freezeDuracion: 0.05
-  sacudirCamara: 1
-  invulnerabilidadAlRomper: 1
-  sacudirCamaraAlRomper: 1
-  parpadearConGolpesRestantes: 1
-  parpadearUltimosSegundos: 1.5
-  audioSource: {fileID: 0}
-  sonidoActivar: {fileID: 0}
-  sonidoGolpeFrenado: {fileID: 0}
-  sonidoRotura: {fileID: 0}
-  volumen: 1
-  ignorarCooldown: 0
-  mostrarLogs: 0
 --- !u!114 &3147509105279337330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ Transform:
   m_GameObject: {fileID: 1423773860996500974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.42, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -697,7 +697,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
@@ -744,7 +744,8 @@ MonoBehaviour:
   - {fileID: -7125375626226260809, guid: 830104eed0383384aacc6a8523181e51, type: 3}
   - {fileID: -3973714981084552948, guid: 830104eed0383384aacc6a8523181e51, type: 3}
   fpsRompe: 10
-  offset: {x: 0.42, y: 0}
+  offsetMirandoDerecha: {x: 0, y: 0}
+  offsetMirandoIzquierda: {x: 0, y: 0}
   escala: 1
   ignorarFlipDelPlayer: 1
   sortingLayer: Player
@@ -758,8 +759,9 @@ MonoBehaviour:
   colorFlash: {r: 1, g: 1, b: 1, a: 1}
   flashDuracion: 0.08
   parpadearAlFinal: 1
-  parpadeoVelocidad: 6
+  parpadeoVelocidad: 2
   parpadeoOpacidadMinima: 0.25
+  fadeSalidaDuracion: 0.4
 --- !u!1 &4010254672160369909
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +840,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 507246676355283403, guid: 11ddfa299aee92742bae51c5410cc51c, type: 3}
@@ -929,7 +931,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8686075936120835421, guid: 275e5f812004133449df3e14093f26b2, type: 3}
@@ -1020,7 +1022,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8686075936120835421, guid: 275e5f812004133449df3e14093f26b2, type: 3}
