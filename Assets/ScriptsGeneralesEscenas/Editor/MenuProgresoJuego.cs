@@ -32,9 +32,16 @@ public static class MenuProgresoJuego
             return;
         }
 
+        string puntajesPorZona = "";
+        for (int numeroZona = 1; numeroZona <= ProgresoJuego.CANTIDAD_ZONAS; numeroZona++)
+        {
+            string nombreZona = "Zona " + numeroZona;
+            puntajesPorZona += "\n    " + nombreZona + ": " + ProgresoJuego.CargarPuntaje(nombreZona);
+        }
+
         Debug.Log("PROGRESO GUARDADO" +
-                  "\n  Zona: " + ProgresoJuego.CargarZona() +
-                  "\n  Puntaje: " + ProgresoJuego.CargarPuntaje() +
+                  "\n  Ultima zona: " + ProgresoJuego.CargarZona() +
+                  "\n  Puntajes por zona:" + puntajesPorZona +
                   "\n  Monedas agarradas: " + ProgresoJuego.CargarMonedas().Count +
                   "\n  Cinematicas vistas: " + ProgresoJuego.CargarCinematicas().Count);
     }
