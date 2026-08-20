@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 //  PROGRESO DEL JUEGO (guardado en disco)
 //  Guarda lo que el jugador ya logro, para que siga estando cuando CIERRA el juego
 //  y lo vuelve a abrir:
-//    - el puntaje
+//    - el puntaje separado de cada zona
 //    - las monedas que ya agarro
 //    - las cinematicas que ya vio
 //
@@ -16,7 +16,10 @@ using UnityEngine.SceneManagement;
 // ============================================================
 public static class ProgresoJuego
 {
+    // KEY_PUNTAJE es la clave del sistema anterior, que tenia un solo total global.
+    // Se conserva para poder migrar partidas existentes.
     private const string KEY_PUNTAJE     = "Progreso_Puntaje";
+    private const string PREFIJO_PUNTAJE = "Progreso_PuntajeZona_";
     private const string KEY_MONEDAS     = "Progreso_Monedas";
     private const string KEY_CINEMATICAS = "Progreso_Cinematicas";
     private const string KEY_ZONA        = "Progreso_Zona";
@@ -25,20 +28,36 @@ public static class ProgresoJuego
     // Con que zona arranca una partida nueva.
     public const string ZONA_INICIAL = "Zona 1";
 
+    // Zonas actuales del juego. Tambien se usa para borrar y mostrar sus puntajes.
+    public const int CANTIDAD_ZONAS = 6;
+
     // Con esto separamos los ids dentro de un mismo texto guardado.
     // No puede aparecer en un id (los ids son "escena@x,y" o el nombre del objeto).
     private const char SEPARADOR = '|';
 
     // ---------- Puntaje ----------
 
-    public static int CargarPuntaje()
+    public static int CargarPuntaje(string nombreZona)
     {
-        return PlayerPrefs.GetInt(KEY_PUNTAJE, 0);
+        if (string.IsNullOrEmpty(nombreZona)) return 0;
+
+        MigrarPuntajeAnteriorSiHaceFalta();
+        return PlayerPrefs.GetInt(ClavePuntaje(nombreZona), 0);
     }
 
-    public static void GuardarPuntaje(int puntaje)
+    public static void GuardarPuntaje(string nombreZona, int puntaje)
     {
-        PlayerPrefs.SetInt(KEY_PUNTAJE, puntaje);
+        if (string.IsNullOrEmpty(nombreZona)) return;
+
+        PlayerPrefs.SetInt(ClavePuntaje(nombreZona), Mathf.Max(0, puntaje));
+        PlayerPrefs.Save();
+    }
+
+    public static void BorrarPuntaje(string nombreZona)
+    {
+        if (string.IsNullOrEmpty(nombreZona)) return;
+
+        PlayerPrefs.DeleteKey(ClavePuntaje(nombreZona));
         PlayerPrefs.Save();
     }
 
@@ -93,6 +112,19 @@ public static class ProgresoJuego
         GuardarLista(KEY_MONEDAS, ids);
     }
 
+    public static void BorrarMonedasDeZona(string nombreZona)
+    {
+        if (string.IsNullOrEmpty(nombreZona)) return;
+
+        HashSet<string> monedas = CargarMonedas();
+        string prefijoZona = nombreZona + "@";
+
+        if (monedas.RemoveWhere(id => id.StartsWith(prefijoZona)) > 0)
+        {
+            GuardarMonedas(monedas);
+        }
+    }
+
     // ---------- Cinematicas ----------
 
     public static HashSet<string> CargarCinematicas()
@@ -135,6 +167,12 @@ public static class ProgresoJuego
     public static void BorrarTodo()
     {
         PlayerPrefs.DeleteKey(KEY_PUNTAJE);
+
+        for (int numeroZona = 1; numeroZona <= CANTIDAD_ZONAS; numeroZona++)
+        {
+            PlayerPrefs.DeleteKey(ClavePuntaje("Zona " + numeroZona));
+        }
+
         PlayerPrefs.DeleteKey(KEY_MONEDAS);
         PlayerPrefs.DeleteKey(KEY_CINEMATICAS);
         PlayerPrefs.DeleteKey(KEY_ZONA);
@@ -145,10 +183,45 @@ public static class ProgresoJuego
     // ¿Hay una partida empezada? La usa el boton "continue" para saber si mostrarse o no.
     public static bool HayProgreso()
     {
-        return PlayerPrefs.HasKey(KEY_ZONA) || PlayerPrefs.HasKey(KEY_PUNTAJE) || PlayerPrefs.HasKey(KEY_MONEDAS);
+        if (PlayerPrefs.HasKey(KEY_ZONA) ||
+            PlayerPrefs.HasKey(KEY_PUNTAJE) ||
+            PlayerPrefs.HasKey(KEY_MONEDAS))
+        {
+            return true;
+        }
+
+        for (int numeroZona = 1; numeroZona <= CANTIDAD_ZONAS; numeroZona++)
+        {
+            if (PlayerPrefs.HasKey(ClavePuntaje("Zona " + numeroZona))) return true;
+        }
+
+        return false;
     }
 
     // ---------- Auxiliares ----------
+
+    private static string ClavePuntaje(string nombreZona)
+    {
+        return PREFIJO_PUNTAJE + nombreZona;
+    }
+
+    // El guardado viejo no tenia informacion suficiente para repartir el acumulado.
+    // Para no perderlo, se asigna una sola vez a la ultima zona jugada.
+    private static void MigrarPuntajeAnteriorSiHaceFalta()
+    {
+        if (!PlayerPrefs.HasKey(KEY_PUNTAJE)) return;
+
+        string ultimaZona = CargarZona();
+        string claveNueva = ClavePuntaje(ultimaZona);
+
+        if (!PlayerPrefs.HasKey(claveNueva))
+        {
+            PlayerPrefs.SetInt(claveNueva, Mathf.Max(0, PlayerPrefs.GetInt(KEY_PUNTAJE, 0)));
+        }
+
+        PlayerPrefs.DeleteKey(KEY_PUNTAJE);
+        PlayerPrefs.Save();
+    }
 
     // Los ids se guardan como un solo texto: "id1|id2|id3".
     private static HashSet<string> CargarLista(string key)
