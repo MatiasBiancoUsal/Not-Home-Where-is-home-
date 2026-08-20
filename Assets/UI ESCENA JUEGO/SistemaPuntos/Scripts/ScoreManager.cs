@@ -8,16 +8,17 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    // ESTATICOS: el puntaje y las monedas ya recolectadas persisten entre escenas.
-    // No se reinician al cambiar de zona ni al morir/recargar (siguen vivos mientras
-    // corre el juego). Ademas se GUARDAN EN DISCO (ProgresoJuego), asi siguen estando
-    // cuando el jugador cierra el juego y lo vuelve a abrir.
-    // Para arrancar de cero en una partida nueva: ResetScore().
-    private static int currentScore = 0;
+    // El puntaje pertenece solamente a la zona activa. Cada vez que se entra a una
+    // escena se carga el valor guardado para esa zona, sin mezclarlo con las demas.
+    private int currentScore = 0;
+    private string zonaActual;
+
+    // Las monedas pueden mantenerse en una sola lista porque su ID ya incluye el
+    // nombre de la escena (por ejemplo "Zona 3@12.0,5.0").
     private static HashSet<string> recolectadas = new HashSet<string>();
 
-    // Para leer el guardado una sola vez por partida (no en cada cambio de zona).
-    private static bool progresoCargado = false;
+    // La lista de monedas se lee del disco una sola vez por partida.
+    private static bool monedasCargadas = false;
 
     // El proyecto tiene "Enter Play Mode Options" con Reload Domain DESACTIVADO
     // (Edit > Project Settings > Editor): eso hace que el Play arranque rapido, pero deja
@@ -26,19 +27,19 @@ public class ScoreManager : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ReiniciarStatics()
     {
-        currentScore = 0;
+        Instance = null;
         recolectadas = new HashSet<string>();
-        progresoCargado = false;
+        monedasCargadas = false;
     }
 
     public int CurrentScore => currentScore;
 
-    // NO estatico a proposito: el total de puntos posibles cambia en cada nivel,
-    // asi que cada escena tiene su propio ScoreManager (dentro del CANVATODO) con
-    // su propio valor seteado a mano en el Inspector.
-    [Header("Puntaje Total del Nivel")]
-    [Tooltip("Puntaje maximo posible de ESTA escena/nivel. Se edita a mano en el Inspector, cambia en cada nivel.")]
-    public int puntajeTotal = 100;
+    // Se calcula en Awake sumando el valor real de todas las monedas de la zona. De
+    // esta manera contempla automaticamente monedas de 1, 10, 50 o cualquier otro
+    // valor que se configure en el Inspector.
+    [Header("Puntaje Total de Monedas del Nivel (automatico)")]
+    [Tooltip("Se calcula solo al cargar la zona, antes de que desaparezcan las monedas ya recolectadas.")]
+    public int puntajeTotal = 0;
 
     public int PuntajeTotal => puntajeTotal;
 
@@ -50,18 +51,39 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        // Cada escena tiene su ScoreManager (dentro del CANVATODO), pero el puntaje es
-        // compartido (estatico), asi que no importa cual instancia sea la "actual".
+        // Cada zona tiene su propio ScoreManager dentro del CANVATODO.
         Instance = this;
+        zonaActual = SceneManager.GetActiveScene().name;
 
-        // La primera zona que se carga en la partida lee el progreso guardado.
-        // Corre en Awake para que el ScoreUI ya lo encuentre cargado en su Start.
-        if (!progresoCargado)
+        // Todos los Awake corren antes que los Start. Las monedas guardadas todavia
+        // existen en este momento, asi que el total incluye tambien las ya recogidas.
+        CalcularPuntajeTotalDeMonedas();
+
+        // El puntaje se carga siempre para la zona que acaba de entrar.
+        currentScore = ProgresoJuego.CargarPuntaje(zonaActual);
+
+        if (!monedasCargadas)
         {
-            currentScore = ProgresoJuego.CargarPuntaje();
             recolectadas = ProgresoJuego.CargarMonedas();
-            progresoCargado = true;
+            monedasCargadas = true;
         }
+    }
+
+    private void CalcularPuntajeTotalDeMonedas()
+    {
+        int total = 0;
+        Coleccionable[] monedas = UnityEngine.Object.FindObjectsByType<Coleccionable>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        foreach (Coleccionable moneda in monedas)
+        {
+            if (moneda == null || moneda.gameObject.scene.name != zonaActual) continue;
+            total += Mathf.Max(0, moneda.puntos);
+        }
+
+        puntajeTotal = total;
     }
 
     private void Update()
@@ -73,8 +95,8 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    // Si cambiás puntajeTotal a mano en el Inspector durante Play mode, esto avisa
-    // a la UI para que se refresque (por ej. el texto "puntaje / total").
+    // Si el valor cambia en el Inspector durante Play mode, esto avisa a la UI.
+    // Al recargar la zona vuelve a calcularse automaticamente.
     private void OnValidate()
     {
         OnScoreChanged?.Invoke(currentScore);
@@ -86,7 +108,7 @@ public class ScoreManager : MonoBehaviour
         currentScore += points;
         OnScoreChanged?.Invoke(currentScore);
 
-        ProgresoJuego.GuardarPuntaje(currentScore);
+        ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
     }
 
     // Suma puntos de una MONEDA identificada: si ya se recolecto antes, NO vuelve a sumar.
@@ -97,7 +119,7 @@ public class ScoreManager : MonoBehaviour
         currentScore += points;
         OnScoreChanged?.Invoke(currentScore);
 
-        ProgresoJuego.GuardarPuntaje(currentScore);
+        ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
         ProgresoJuego.GuardarMonedas(recolectadas);
     }
 
@@ -115,16 +137,16 @@ public class ScoreManager : MonoBehaviour
     // al menu despues de jugar y apretar "new game" el puntaje viejo seguiria ahi.
     public static void NuevaPartida()
     {
-        currentScore = 0;
         recolectadas = new HashSet<string>();
-        progresoCargado = false; // que la proxima zona lo vuelva a leer (ya vacio)
+        monedasCargadas = false;
 
         ProgresoJuego.BorrarTodo();
         TriggerCinematica.OlvidarVistas();
 
         if (Instance != null)
         {
-            Instance.OnScoreChanged?.Invoke(currentScore);
+            Instance.currentScore = 0;
+            Instance.OnScoreChanged?.Invoke(0);
         }
     }
 
@@ -134,13 +156,19 @@ public class ScoreManager : MonoBehaviour
         NuevaPartida();
     }
 
-    // TESTING: borra TODO el progreso guardado (monedas, puntaje y cinematicas vistas)
-    // y recarga la zona, asi todo vuelve a aparecer para probarlo.
+    // TESTING: borra solamente el puntaje y las monedas de la zona actual. El
+    // progreso de las otras zonas y las cinematicas se conservan.
     // (Tecla del inspector o boton del menu contextual del componente.)
     [ContextMenu("Regenerar Puntos (reaparecer monedas)")]
     public void RegenerarPuntos()
     {
-        NuevaPartida();
+        ProgresoJuego.BorrarPuntaje(zonaActual);
+        ProgresoJuego.BorrarMonedasDeZona(zonaActual);
+
+        string prefijoZona = zonaActual + "@";
+        recolectadas.RemoveWhere(id => id.StartsWith(prefijoZona));
+        currentScore = 0;
+        OnScoreChanged?.Invoke(currentScore);
 
         if (Application.isPlaying)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
