@@ -13,7 +13,8 @@ public class ScoreUI : MonoBehaviour
 
     private void UpdateScore(int score)
     {
-        scoreText.text = score.ToString();
+        // Un solo texto con puntaje actual + total del nivel, ej: "30 / 100"
+        scoreText.text = score + " / " + ScoreManager.Instance.PuntajeTotal;
     }
 
     private void OnDestroy()
