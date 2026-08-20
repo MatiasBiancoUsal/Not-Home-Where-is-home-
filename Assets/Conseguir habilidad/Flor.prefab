@@ -180,33 +180,40 @@ MonoBehaviour:
   mostrarCartel: 1
   esperaAntesDelCartel: 2
   imagenCartel: {fileID: 0}
+  fondoCartel: {fileID: 4055991091240671334, guid: 0a2b2984d6a28420d9c773dcfa7cbebc, type: 3}
+  cartelDobleSalto: {fileID: 4055991091240671334, guid: 0a2b2984d6a28420d9c773dcfa7cbebc, type: 3}
+  cartelDash: {fileID: 4055991091240671334, guid: b4fff0363849543f4a8f1ea293dec992, type: 3}
+  cartelEscalar: {fileID: 4055991091240671334, guid: 40a49abe7271a446a9b5810d48dfda6e, type: 3}
+  cartelPisoton: {fileID: 4055991091240671334, guid: 36e984539a05d412d843adff6d8adbfd, type: 3}
+  cartelSuperSalto: {fileID: 4055991091240671334, guid: b09edb7eeec00458eb32e53f6a407ce6, type: 3}
+  cartelEscudo: {fileID: 4055991091240671334, guid: d9d72ed922587492b82f0ea8ca739f0c, type: 3}
   tituloCartel: NUEVA HABILIDAD
   descripcionCartel: Proba tu nueva habilidad.
   textoParaCerrar: Presiona ESPACIO, ENTER o ESC para continuar
   pausarMientrasSeMuestra: 1
   estiloCartel:
-    posicionPanel: {x: 0, y: 220}
-    tamanoPanel: {x: 900, y: 300}
+    posicionPanel: {x: 0, y: 150}
+    tamanoPanel: {x: 1120, y: 490}
     colorFondo: {r: 0.035, g: 0.04, b: 0.065, a: 0.97}
     colorBorde: {r: 0, g: 0, b: 0, a: 0.9}
     grosorBorde: {x: 4, y: -4}
     posicionImagen: {x: 0, y: 90}
     tamanoImagen: {x: 220, y: 220}
     tipografiaTitulo: {fileID: 11400000, guid: 0c052c739437a4410bed16638d727157, type: 2}
-    tamanoTitulo: 46
+    tamanoTitulo: 60
     colorTitulo: {r: 1, g: 1, b: 1, a: 1}
-    posicionTitulo: {x: 0, y: 75.2}
-    cajaTitulo: {x: 760, y: 1074.9}
+    posicionTitulo: {x: 70, y: 45}
+    cajaTitulo: {x: 800, y: 100}
     estiloTitulo: 1
     tipografiaDescripcion: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-    tamanoDescripcion: 20
+    tamanoDescripcion: 24
     colorDescripcion: {r: 1, g: 1, b: 1, a: 1}
-    posicionDescripcion: {x: 0, y: 10.7}
-    cajaDescripcion: {x: 760, y: 45.5}
+    posicionDescripcion: {x: 100, y: -25}
+    cajaDescripcion: {x: 720, y: 90}
     estiloDescripcion: 0
     tipografiaAyuda: {fileID: 11400000, guid: 0c052c739437a4410bed16638d727157, type: 2}
     tamanoAyuda: 21
     colorAyuda: {r: 1, g: 1, b: 1, a: 1}
-    posicionAyuda: {x: 0, y: -100}
+    posicionAyuda: {x: 80, y: -105}
     cajaAyuda: {x: 760, y: 45}
     estiloAyuda: 2

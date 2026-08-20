@@ -76,7 +76,8 @@ public class EnemyPatrol : MonoBehaviour
         }
     }
 
-    // Da vuelta al monstruo: cambia la direccion, espeja el sprite y mueve el groundCheck al frente.
+    // Da vuelta al monstruo: cambia la direccion y espeja el sprite.
+    // El groundCheck es hijo, asi que la escala negativa ya lo lleva al frente solo.
     void Flip()
     {
         movingRight = !movingRight;
@@ -84,13 +85,6 @@ public class EnemyPatrol : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
-
-        if (groundCheck != null)
-        {
-            Vector3 checkPos = groundCheck.localPosition;
-            checkPos.x *= -1;
-            groundCheck.localPosition = checkPos;
-        }
     }
 
     private void OnDrawGizmosSelected()

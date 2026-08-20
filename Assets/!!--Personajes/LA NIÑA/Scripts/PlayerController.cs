@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
         Dash,
         Escalar,
         Pisoton,
-        SuperSalto
+        SuperSalto,
+        Escudo
     }
 
     // Componentes
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerClimb climb;
     [HideInInspector] public PlayerAttacks attacks;
     [HideInInspector] public PlayerStomp stomp;
+    [HideInInspector] public PlayerShield shield;
 
     [Header("Habilidades desbloqueadas al comenzar")]
     [Tooltip("Para una partida nueva deben quedar todas desactivadas. El progreso guardado las activa automaticamente.")]
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool escalarDesbloqueado;
     [SerializeField] private bool pisotonDesbloqueado;
     [SerializeField] private bool superSaltoDesbloqueado;
+    [SerializeField] private bool escudoDesbloqueado;
 
     public bool TieneHabilidad(Habilidad habilidad)
     {
@@ -53,14 +56,17 @@ public class PlayerController : MonoBehaviour
             case Habilidad.Escalar: return escalarDesbloqueado;
             case Habilidad.Pisoton: return pisotonDesbloqueado;
             case Habilidad.SuperSalto: return superSaltoDesbloqueado;
+            case Habilidad.Escudo: return escudoDesbloqueado;
             default: return false;
         }
     }
 
-    public void DesbloquearHabilidad(Habilidad habilidad)
+    // guardarProgreso = false lo usan las herramientas de testeo: desbloquea la habilidad
+    // SOLO para esta partida, sin dejarla anotada en el progreso guardado.
+    public void DesbloquearHabilidad(Habilidad habilidad, bool guardarProgreso = true)
     {
         EstablecerHabilidad(habilidad, true);
-        ProgresoJuego.MarcarMostrado(ClaveHabilidad(habilidad));
+        if (guardarProgreso) ProgresoJuego.MarcarMostrado(ClaveHabilidad(habilidad));
 
         if (habilidad == Habilidad.DobleSalto && doubleJump != null)
         {
@@ -85,6 +91,7 @@ public class PlayerController : MonoBehaviour
         climb = GetComponent<PlayerClimb>();
         attacks = GetComponent<PlayerAttacks>();
         stomp = GetComponent<PlayerStomp>();
+        shield = GetComponent<PlayerShield>(); // el escudo se maneja solo: lee su tecla y sus timers en su propio Update
 
         CargarHabilidadesGuardadas();
     }
@@ -109,6 +116,7 @@ public class PlayerController : MonoBehaviour
             case Habilidad.Escalar: escalarDesbloqueado = valor; break;
             case Habilidad.Pisoton: pisotonDesbloqueado = valor; break;
             case Habilidad.SuperSalto: superSaltoDesbloqueado = valor; break;
+            case Habilidad.Escudo: escudoDesbloqueado = valor; break;
         }
     }
 

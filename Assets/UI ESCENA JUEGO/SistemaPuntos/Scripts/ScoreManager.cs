@@ -33,6 +33,15 @@ public class ScoreManager : MonoBehaviour
 
     public int CurrentScore => currentScore;
 
+    // NO estatico a proposito: el total de puntos posibles cambia en cada nivel,
+    // asi que cada escena tiene su propio ScoreManager (dentro del CANVATODO) con
+    // su propio valor seteado a mano en el Inspector.
+    [Header("Puntaje Total del Nivel")]
+    [Tooltip("Puntaje maximo posible de ESTA escena/nivel. Se edita a mano en el Inspector, cambia en cada nivel.")]
+    public int puntajeTotal = 100;
+
+    public int PuntajeTotal => puntajeTotal;
+
     public event Action<int> OnScoreChanged;
 
     [Header("Testing (solo para probar en el editor)")]
@@ -62,6 +71,13 @@ public class ScoreManager : MonoBehaviour
         {
             RegenerarPuntos();
         }
+    }
+
+    // Si cambiás puntajeTotal a mano en el Inspector durante Play mode, esto avisa
+    // a la UI para que se refresque (por ej. el texto "puntaje / total").
+    private void OnValidate()
+    {
+        OnScoreChanged?.Invoke(currentScore);
     }
 
     // Suma puntos SIN control de duplicados (enemigos: reaparecen y se pueden volver a matar).
