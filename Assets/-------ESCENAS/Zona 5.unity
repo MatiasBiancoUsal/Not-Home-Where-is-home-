@@ -3123,6 +3123,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1025148892368488186, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 390.62497
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025148892368488186, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3137,7 +3141,35 @@ PrefabInstance:
     - target: {fileID: 3426958770479769157, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2103627913257926346, guid: 68674b208aa2c4cb0a11994d79d46e52, type: 3}
+      objectReference: {fileID: 21300000, guid: 6ae2770f5e0b536418eb34bf5f260dc6, type: 3}
+    - target: {fileID: 3426958770479769157, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: mapImageRect
+      value: 
+      objectReference: {fileID: 120247143}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: exactWorldMax.x
+      value: 165.44615
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: exactWorldMax.y
+      value: 29.663536
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: exactWorldMin.x
+      value: -81.107285
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: exactWorldMin.y
+      value: -90.73256
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: useExactWorldBounds
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4898506246556254798, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 738
@@ -3186,6 +3218,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb31361b92a443049e53d50e59d8ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapUI
+--- !u!224 &120247143 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1025148892368488186, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+  m_PrefabInstance: {fileID: 120247141}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &122258803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
