@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.LowLevel;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,33 +15,48 @@ using UnityEditor;
 public static class NotHomeFontRuntimeFix
 {
     private const string NombreFuente = "Nothomefont";
+    private static readonly Dictionary<TMP_FontAsset, TMP_FontAsset> FuentesRegeneradas =
+        new Dictionary<TMP_FontAsset, TMP_FontAsset>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void InicializarRuntime()
     {
         SceneManager.sceneLoaded -= AlCargarEscena;
         SceneManager.sceneLoaded += AlCargarEscena;
+
+        // Con "Reload Scene" desactivado la escena inicial no vuelve a cargarse y,
+        // por lo tanto, sceneLoaded no se dispara. Preparamos lo que ya esta abierto.
+        PrepararTextos(Resources.FindObjectsOfTypeAll<TMP_Text>(), true);
     }
 
     private static void AlCargarEscena(Scene escena, LoadSceneMode modo)
     {
-        PrepararTextos(Resources.FindObjectsOfTypeAll<TMP_Text>());
+        PrepararTextos(Resources.FindObjectsOfTypeAll<TMP_Text>(), true);
     }
 
-    private static void PrepararTextos(IEnumerable<TMP_Text> textos)
+    private static void PrepararTextos(IEnumerable<TMP_Text> textos, bool regenerarFuente)
     {
+        List<TMP_Text> lista = new List<TMP_Text>(textos);
         HashSet<TMP_FontAsset> fuentesActualizadas = new HashSet<TMP_FontAsset>();
 
-        foreach (TMP_Text texto in textos)
+        foreach (TMP_Text texto in lista)
         {
-            if (texto == null || texto.font == null || !EsFuenteNotHome(texto.font)) continue;
+            if (texto == null || !texto.gameObject.scene.IsValid() || texto.font == null ||
+                !EsFuenteNotHome(texto.font)) continue;
 
-            if (fuentesActualizadas.Add(texto.font))
+            TMP_FontAsset fuente = texto.font;
+            if (regenerarFuente)
             {
-                string caracteres = CaracteresUsadosPor(textos, texto.font);
+                fuente = ObtenerFuenteRegenerada(texto.font);
+                if (fuente != null) texto.font = fuente;
+            }
+
+            if (fuentesActualizadas.Add(fuente))
+            {
+                string caracteres = CaracteresUsadosPor(lista);
                 if (!string.IsNullOrEmpty(caracteres))
                 {
-                    texto.font.TryAddCharacters(caracteres, out _);
+                    fuente.TryAddCharacters(caracteres, out _);
                 }
             }
 
@@ -50,13 +66,34 @@ public static class NotHomeFontRuntimeFix
         }
     }
 
-    private static string CaracteresUsadosPor(IEnumerable<TMP_Text> textos, TMP_FontAsset fuente)
+    private static TMP_FontAsset ObtenerFuenteRegenerada(TMP_FontAsset original)
+    {
+        if (FuentesRegeneradas.TryGetValue(original, out TMP_FontAsset existente)) return existente;
+        if (original.sourceFontFile == null) return original;
+
+        TMP_FontAsset nueva = TMP_FontAsset.CreateFontAsset(
+            original.sourceFontFile,
+            90,
+            9,
+            GlyphRenderMode.SDFAA,
+            1024,
+            1024,
+            AtlasPopulationMode.Dynamic,
+            true);
+
+        if (nueva == null) return original;
+        nueva.name = NombreFuente + " Runtime";
+        FuentesRegeneradas.Add(original, nueva);
+        return nueva;
+    }
+
+    private static string CaracteresUsadosPor(IEnumerable<TMP_Text> textos)
     {
         HashSet<char> caracteres = new HashSet<char>();
 
         foreach (TMP_Text texto in textos)
         {
-            if (texto == null || texto.font != fuente || string.IsNullOrEmpty(texto.text)) continue;
+            if (texto == null || string.IsNullOrEmpty(texto.text)) continue;
             foreach (char caracter in texto.text) caracteres.Add(caracter);
         }
 
@@ -83,7 +120,7 @@ public static class NotHomeFontRuntimeFix
     private static void PrepararEscenaEnEditor()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode) return;
-        PrepararTextos(Resources.FindObjectsOfTypeAll<TMP_Text>());
+        PrepararTextos(Resources.FindObjectsOfTypeAll<TMP_Text>(), false);
         SceneView.RepaintAll();
     }
 #endif
