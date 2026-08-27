@@ -19428,7 +19428,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.999998
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -45440,15 +45440,31 @@ PrefabInstance:
     - target: {fileID: 3426958770479769157, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0da634795fb93424e8fd0c5df56d4452, type: 3}
+      objectReference: {fileID: 21300000, guid: 663e28342967b4359874b4f1e9307ccf, type: 3}
     - target: {fileID: 3426958770479769157, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: zoomMaximo
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: zoomMinimo
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: zoomInicial
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: mapImageRect
       value: 
       objectReference: {fileID: 8972213150418275108}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: markerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 511b66152d9194449bce447236a01d7a, type: 3}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.x
       value: 49.5
@@ -45468,6 +45484,10 @@ PrefabInstance:
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: useExactWorldBounds
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
+      propertyPath: elMarcadorCreceConElZoom
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6959363238349428713, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: m_IsActive
