@@ -56,12 +56,19 @@ MonoBehaviour:
   subidaDelCartel: 30
   separacionInicialDeLetras: 25
   mostrarSoloLaPrimeraVez: 0
+  fondoDetrasDelCartel: 1
+  colorDelFondoDelCartel: {r: 0, g: 0, b: 0, a: 1}
+  opacidadDelFondoDelCartel: 0.6
+  tamanioDelFondoDelCartel: {x: 1100, y: 300}
+  suavidadDelFondoDelCartel: 0.6
   opacidadInicialDelCartel: 0
   opacidadFinalDelCartel: 1
   desenfocarAlEntrar: 1
   desenfoqueInicial: 0.8
   engrosadoInicial: 0.35
   desenfocarAlSalir: 1
+  saltearIntroDeZona: 1
+  saltearCartelDeZona: 1
   mostrarDiagnosticoEnConsola: 1
   avisarSiNoSeMueve: 1
   invulnerableDuranteLaTransicion: 1

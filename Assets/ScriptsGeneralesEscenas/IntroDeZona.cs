@@ -66,6 +66,15 @@ public class IntroDeZona : MonoBehaviour
 
     private void Awake()
     {
+        // Saltear la intro esta tildado en los ajustes (Assets/Resources/AjustesTransicion).
+        // Nos apagamos antes de tocar nada: la niña arranca con el control puesto y el
+        // cartel del tutorial queda como estaba. Ver la nota de SaltearPorAjustes().
+        if (SaltearPorAjustes())
+        {
+            enabled = false;
+            return;
+        }
+
         // Llegue por una puerta: de esto se encarga la transicion, no la intro.
         if (soloAlArrancarElJuego && TransicionZonas.EnCurso)
         {
@@ -86,6 +95,20 @@ public class IntroDeZona : MonoBehaviour
         // nombre de la zona. Se hace en Awake porque asi su Start todavia no corrio.
         if (cartelTutorial == null) cartelTutorial = Object.FindFirstObjectByType<TutorialMovimiento>();
         if (cartelTutorial != null) cartelTutorial.enabled = false;
+    }
+
+    // Lee el check "Saltear Intro De Zona" del asset de ajustes.
+    //
+    // A proposito NO marcamos la intro como vista cuando se saltea: si la anotaramos,
+    // al destildar el check la intro seguiria sin aparecer (quedaria "gastada") y habria
+    // que ir a borrar el progreso a mano para volver a probarla.
+    //
+    // Si el asset no existe, no salteamos nada: ante la duda, el juego se comporta como
+    // en la version final.
+    private bool SaltearPorAjustes()
+    {
+        AjustesTransicion ajustes = Resources.Load<AjustesTransicion>("AjustesTransicion");
+        return ajustes != null && ajustes.saltearIntroDeZona;
     }
 
     private void Start()

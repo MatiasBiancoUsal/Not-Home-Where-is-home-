@@ -161,6 +161,18 @@ public class AjustesTransicion : ScriptableObject
     [Tooltip("Si esta activo, al desvanecerse tambien se va desenfocando (se disuelve en el aire).")]
     public bool desenfocarAlSalir = true;
 
+    [Header("Pruebas (saltear partes que quitan el control)")]
+    [Tooltip("SALTEA LA INTRO DE ZONA: la niña arranca pudiendo moverse, sin la caida inicial, " +
+             "sin el nombre de la zona y sin el cartel del tutorial. Sirve para probar un nivel sin " +
+             "esperar la apertura cada vez.\n\n" +
+             "Es un ajuste normal: si haces la build con esto tildado, la build sale con la intro salteada.\n\n" +
+             "Mientras esta tildado NO se anota la intro como vista, asi al destildarlo vuelve a aparecer.")]
+    public bool saltearIntroDeZona = false;
+
+    [Tooltip("SALTEA EL CARTEL con el nombre de la zona al cruzar una puerta. No toca la caminata " +
+             "automatica ni el fundido: solo evita que aparezca el titulo.")]
+    public bool saltearCartelDeZona = false;
+
     [Header("Diagnostico (mientras se prueba)")]
     [Tooltip("Escribe en la Console cada paso de la transicion: por que puerta sale, donde aparece, hacia donde camina. " +
              "Destildalo cuando ya funcione todo.")]
