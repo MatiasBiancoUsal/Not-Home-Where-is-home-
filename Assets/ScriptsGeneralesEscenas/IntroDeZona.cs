@@ -59,6 +59,11 @@ public class IntroDeZona : MonoBehaviour
 
     private bool corriendo = false;
 
+    // ============================================================
+    //  1. CICLO DE VIDA
+    //  Decide si la intro tiene que correr en esta escena, y la arranca.
+    // ============================================================
+
     private void Awake()
     {
         // Llegue por una puerta: de esto se encarga la transicion, no la intro.
@@ -103,6 +108,12 @@ public class IntroDeZona : MonoBehaviour
 
         StartCoroutine(Rutina());
     }
+
+    // ============================================================
+    //  2. LA SECUENCIA DE LA INTRO
+    //  Los pasos en orden: caer, tocar el piso, mostrar el nombre de la zona,
+    //  mostrar el cartel del tutorial y recien ahi devolver el control.
+    // ============================================================
 
     private IEnumerator Rutina()
     {
@@ -176,6 +187,12 @@ public class IntroDeZona : MonoBehaviour
         // 5) Ya puede jugar.
         SoltarTodo();
     }
+
+    // ============================================================
+    //  3. CIERRE Y AYUDANTES
+    //  Devolver el control pase lo que pase, incluso si la intro se corta por la
+    //  mitad (por eso OnDisable tambien llama a SoltarTodo).
+    // ============================================================
 
     // Devuelve el control y prende lo que haya quedado apagado. Se llama siempre,
     // tambien si algo salio mal: nunca hay que dejar al jugador sin poder moverse.

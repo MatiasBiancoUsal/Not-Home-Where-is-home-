@@ -87,6 +87,11 @@ public class PuertaZona : MonoBehaviour
     [Tooltip("Largo de la flecha celeste que se dibuja en la ventana Scene. Subilo si te queda muy chica para verla.")]
     public float largoFlecha = 3f;
 
+    // ============================================================
+    //  1. CICLO DE VIDA
+    //  Preparar la puerta al arrancar la escena y detectar cuando la niña la toca.
+    // ============================================================
+
     private void Awake()
     {
         if (ocultarSpriteEnElJuego)
@@ -130,6 +135,12 @@ public class PuertaZona : MonoBehaviour
             TransicionZonas.Instancia.Cruzar(this);
         }
     }
+
+    // ============================================================
+    //  2. DATOS QUE LE PIDE LA TRANSICION
+    //  Donde plantar a la niña, hacia donde tiene que caminar, y que borde de la
+    //  pantalla oscurecer a medida que se acerca.
+    // ============================================================
 
     // Donde aparece la niña cuando LLEGA por esta puerta.
     public Vector3 PosicionDeAparicion
@@ -187,6 +198,11 @@ public class PuertaZona : MonoBehaviour
         return t * opacidadMaxima;
     }
 
+    // ============================================================
+    //  3. BUSQUEDA POR ID
+    //  La usa la transicion al cargar la escena nueva para encontrar su destino.
+    // ============================================================
+
     // Busca en la escena YA CARGADA la puerta con ese id.
     public static PuertaZona Buscar(string idBuscado)
     {
@@ -199,6 +215,11 @@ public class PuertaZona : MonoBehaviour
         }
         return null;
     }
+
+    // ============================================================
+    //  4. DIBUJO EN EL EDITOR (no afecta al juego)
+    //  Ayudas visuales en la ventana Scene para configurar la puerta a ojo.
+    // ============================================================
 
     // FLECHA DE AYUDA en la ventana Scene: sale desde donde aparece la niña y apunta
     // hacia donde CAMINA AL SALIR. La bolita llena es la punta.
