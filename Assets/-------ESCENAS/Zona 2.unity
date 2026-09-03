@@ -474,7 +474,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -497,6 +497,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -1313,6 +1317,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (32)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -1527,6 +1535,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -2013,7 +2025,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 14
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -3541,11 +3553,11 @@ Transform:
   m_GameObject: {fileID: 127254016}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -68.01, y: 43.63, z: 0}
+  m_LocalPosition: {x: -20.357063, y: 39.25621, z: 0}
   m_LocalScale: {x: 0.38371998, y: 0.38371998, z: 0.38371998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1341801534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127970651
 GameObject:
@@ -3718,8 +3730,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -3928,8 +3940,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -4021,7 +4033,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 22
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -4964,6 +4976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (40)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -5040,6 +5056,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -6020,7 +6040,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -6717,6 +6737,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -7586,7 +7610,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 11
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -7598,6 +7622,90 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &265353362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265353364}
+  - component: {fileID: 265353363}
+  m_Layer: 0
+  m_Name: Global Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &265353363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265353362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 4
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: c7c267414b6d2d7ed77f01e85b06c15b57ee2b079dd185d5338049a5dfcb1e1d00000000f3df6bb687e5e0c1477a2ede837235c6314ed763b3fcf4f299ac4925450e7319
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!4 &265353364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265353362}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -56.88076, y: 26.98558, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &266220116
 GameObject:
   m_ObjectHideFlags: 0
@@ -7991,7 +8099,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 19
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -8019,6 +8127,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -8159,6 +8271,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -8235,6 +8351,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -8654,8 +8774,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -8807,8 +8927,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -9756,6 +9876,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -10839,6 +10963,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (34)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -11042,6 +11170,97 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &415024465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 415024467}
+  - component: {fileID: 415024466}
+  m_Layer: 0
+  m_Name: "Sin ti\u0301tulo-1_0 (2)"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &415024466
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415024465}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -712650339
+  m_SortingLayer: -3
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -5513490521914028434, guid: 1a1d6459647f34dca8c3ceb53a4dbfa7, type: 3}
+  m_Color: {r: 0.2746084, g: 0.32557976, b: 0.4811321, a: 0.5372549}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 38.399998, y: 21.599998}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &415024467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415024465}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -84.380554, y: 49.68519, z: 1.4}
+  m_LocalScale: {x: 1.3633963, y: 1.1767, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397402382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &417650232
 GameObject:
   m_ObjectHideFlags: 0
@@ -11119,8 +11338,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -11726,6 +11945,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -13191,7 +13414,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 17
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -13846,7 +14069,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 18
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -14629,7 +14852,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 21
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -14790,6 +15013,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -15604,8 +15831,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -15768,6 +15995,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -15910,8 +16141,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -16827,6 +17058,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -17080,6 +17315,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -17946,7 +18185,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -18376,7 +18615,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -18388,84 +18627,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1001 &724905683
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1955783671}
-    m_Modifications:
-    - target: {fileID: 1837547625969343675, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_Name
-      value: PlataformaCAE (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -18.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -10.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 3397761739889988265, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.45636976
-      objectReference: {fileID: 0}
-    - target: {fileID: 3397761739889988265, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926565692315633489, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_Size.x
-      value: 0.45460546
-      objectReference: {fileID: 0}
-    - target: {fileID: 4926565692315633489, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
---- !u!4 &724905684 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1968565819688087481, guid: 087e2659d566145cc933f91e9f609b09, type: 3}
-  m_PrefabInstance: {fileID: 724905683}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &725567908
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18477,6 +18638,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -18673,6 +18838,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -18888,6 +19057,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -19236,8 +19409,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -19261,6 +19434,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -19542,8 +19719,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -19635,7 +19812,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -20506,6 +20683,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -22660,6 +22841,97 @@ Transform:
   - {fileID: 940111020}
   m_Father: {fileID: 1955783671}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &861858177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 861858179}
+  - component: {fileID: 861858178}
+  m_Layer: 0
+  m_Name: "Sin ti\u0301tulo-1_0 (3)"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &861858178
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861858177}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -712650339
+  m_SortingLayer: -3
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -5513490521914028434, guid: 1a1d6459647f34dca8c3ceb53a4dbfa7, type: 3}
+  m_Color: {r: 0.2746084, g: 0.32557976, b: 0.4811321, a: 0.5372549}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 38.399998, y: 21.599998}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &861858179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861858177}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -86.28845, y: 74.5237, z: 1.4}
+  m_LocalScale: {x: 1.462788, y: 1.3754447, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397402382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &863178714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23939,6 +24211,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (38)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -25053,8 +25329,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -25208,7 +25484,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -25431,6 +25707,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -26778,6 +27058,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -27307,6 +27591,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -27520,6 +27808,97 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8621235715233505601, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
   m_PrefabInstance: {fileID: 382875060}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1110758718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1110758720}
+  - component: {fileID: 1110758719}
+  m_Layer: 0
+  m_Name: "Sin ti\u0301tulo-1_0 (1)"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1110758719
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110758718}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -712650339
+  m_SortingLayer: -3
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -5513490521914028434, guid: 1a1d6459647f34dca8c3ceb53a4dbfa7, type: 3}
+  m_Color: {r: 0.2746084, g: 0.32557976, b: 0.4811321, a: 0.5372549}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 38.399998, y: 21.599998}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &1110758720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110758718}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -83.009254, y: 28.658512, z: 1.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397402382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1116067374
 GameObject:
   m_ObjectHideFlags: 0
@@ -27669,6 +28048,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -28209,6 +28592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (36)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -28420,7 +28807,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 22
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -29324,8 +29711,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -30325,8 +30712,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -32709,11 +33096,11 @@ Transform:
   m_GameObject: {fileID: 1324060386}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -53.43, y: 41.41, z: 0}
+  m_LocalPosition: {x: -5.7770615, y: 37.03621, z: 0}
   m_LocalScale: {x: 0.38371998, y: 0.38371998, z: 0.38371998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1341801534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1325766764
 PrefabInstance:
@@ -33166,6 +33553,10 @@ Transform:
   - {fileID: 1537771968}
   - {fileID: 1590766102}
   - {fileID: 1618733112}
+  - {fileID: 1439780370}
+  - {fileID: 1324060391}
+  - {fileID: 1415770643}
+  - {fileID: 127254021}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1341965838 stripped
@@ -33250,8 +33641,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -33691,6 +34082,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -34679,6 +35074,10 @@ Transform:
   - {fileID: 540652726}
   - {fileID: 142639636}
   - {fileID: 1148086545}
+  - {fileID: 1494830498}
+  - {fileID: 1110758720}
+  - {fileID: 415024467}
+  - {fileID: 861858179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400413375
@@ -35403,11 +35802,11 @@ Transform:
   m_GameObject: {fileID: 1415770638}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -62.52, y: 41.41, z: 0}
+  m_LocalPosition: {x: -14.867062, y: 37.03621, z: 0}
   m_LocalScale: {x: 0.38371998, y: 0.38371998, z: 0.38371998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1341801534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1417944183
 GameObject:
@@ -35558,6 +35957,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -36070,11 +36473,11 @@ Transform:
   m_GameObject: {fileID: 1439780365}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -44.56, y: 41.35, z: 0}
+  m_LocalPosition: {x: 3.0929375, y: 36.976208, z: 0}
   m_LocalScale: {x: 0.38371998, y: 0.38371998, z: 0.38371998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1341801534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1443125337
 PrefabInstance:
@@ -36149,6 +36552,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -36437,7 +36844,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 12
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -36460,6 +36867,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -37267,6 +37678,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (39)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -37527,6 +37942,97 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1494830496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494830498}
+  - component: {fileID: 1494830497}
+  m_Layer: 0
+  m_Name: "Sin ti\u0301tulo-1_0"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1494830497
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494830496}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: -712650339
+  m_SortingLayer: -3
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -5513490521914028434, guid: 1a1d6459647f34dca8c3ceb53a4dbfa7, type: 3}
+  m_Color: {r: 0.2746084, g: 0.32557976, b: 0.4811321, a: 0.5372549}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 38.399998, y: 21.599998}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &1494830498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494830496}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -47.21925, y: 28.658512, z: 1.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1397402382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1494931519
 GameObject:
   m_ObjectHideFlags: 0
@@ -37871,6 +38377,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -38501,6 +39011,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (41)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -38830,6 +39344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -38968,6 +39486,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -39198,8 +39720,8 @@ Transform:
   m_GameObject: {fileID: 1555643977}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.71023035, w: 0.7039694}
-  m_LocalPosition: {x: -18.91, y: 9.81, z: 10.3}
-  m_LocalScale: {x: 1.6200001, y: 1.3780972, z: 0.90993726}
+  m_LocalPosition: {x: -20.03, y: 10.38, z: 10.3}
+  m_LocalScale: {x: 1.9861201, y: 1.4843485, z: 0.90993726}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1397402382}
@@ -39251,7 +39773,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -39274,6 +39796,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (27)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -43708,7 +44234,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -44182,8 +44708,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -44690,7 +45216,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 8
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -45703,6 +46229,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -46856,8 +47386,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -47015,8 +47545,8 @@ Transform:
   m_GameObject: {fileID: 1849912404}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.0010065822, w: 0.9999995}
-  m_LocalPosition: {x: -46.0309, y: 30.1109, z: 10.3}
-  m_LocalScale: {x: 1.6200001, y: 1.6053891, z: 0.8468042}
+  m_LocalPosition: {x: -45.11, y: 32.29, z: 10.3}
+  m_LocalScale: {x: 2.1742585, y: 2.144305, z: 0.8468042}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1397402382}
@@ -47068,7 +47598,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 13
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -47955,7 +48485,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -47978,6 +48508,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -48264,8 +48798,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -48340,8 +48874,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1097319111
-  m_SortingLayer: -8
+  m_SortingLayerID: 2116906315
+  m_SortingLayer: -7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 7b109030f79a948e092ab9970f7f19e0, type: 3}
@@ -48363,7 +48897,7 @@ Transform:
   m_GameObject: {fileID: 1912967685}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -43.609253, y: 19.17729, z: 0}
+  m_LocalPosition: {x: -54.8, y: 34.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48715,7 +49249,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 16
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -48953,7 +49487,6 @@ Transform:
   m_Children:
   - {fileID: 861577699}
   - {fileID: 451069460}
-  - {fileID: 724905684}
   - {fileID: 1143106847}
   - {fileID: 491016403}
   m_Father: {fileID: 0}
@@ -49097,8 +49630,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -49877,8 +50410,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -51231,6 +51764,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinchos largos (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
       value: 2.65
@@ -52530,8 +53067,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 2116906315
-  m_SortingLayer: -7
+  m_SortingLayerID: 1097319111
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8432557282190356071, guid: c894202559cda4fa19430766377d2298, type: 3}
@@ -52693,6 +53230,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (37)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -53176,7 +53717,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -53281,8 +53822,8 @@ Transform:
   m_GameObject: {fileID: 2112977808}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.71023035, w: 0.7039694}
-  m_LocalPosition: {x: -5.2562, y: 10.481, z: 11.6}
-  m_LocalScale: {x: 1.6200001, y: 1.4750009, z: 0.85311925}
+  m_LocalPosition: {x: -5.3237004, y: 11.202701, z: 11.6}
+  m_LocalScale: {x: 1.9861201, y: 1.5887235, z: 0.85311925}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1397402382}
@@ -53334,7 +53875,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -712650339
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6247775320738937709, guid: ecd2334ed6b6444fab4eebb4eb9746dd, type: 3}
   m_Color: {r: 0.095185116, g: 0.65882355, b: 0.6509434, a: 1}
@@ -53700,6 +54241,10 @@ PrefabInstance:
     - target: {fileID: 124274797749442710, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: m_Name
       value: Pinchos largos (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385298186664657805, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492294580043099162, guid: 7b1f79f719ec2fa458d477001a33439b, type: 3}
       propertyPath: hurtBoxSize.x
@@ -54144,6 +54689,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 662679324}
+  - {fileID: 265353364}
   - {fileID: 369819712}
   - {fileID: 1955783671}
   - {fileID: 688488014}
@@ -54155,7 +54701,3 @@ SceneRoots:
   - {fileID: 1397402382}
   - {fileID: 839354766}
   - {fileID: 1341801534}
-  - {fileID: 1439780370}
-  - {fileID: 1324060391}
-  - {fileID: 1415770643}
-  - {fileID: 127254021}
