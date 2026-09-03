@@ -590,6 +590,10 @@ public class TransicionZonas : MonoBehaviour
     {
         if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
 
+        // Check de pruebas. Va ANTES de marcar el cartel como visto, a proposito: si lo
+        // anotaramos, al destildar el check el cartel seguiria sin aparecer.
+        if (ajustes.saltearCartelDeZona) return;
+
         if (ajustes.mostrarSoloLaPrimeraVez)
         {
             string clave = "CartelZona_" + nombreDeLaEscena;
