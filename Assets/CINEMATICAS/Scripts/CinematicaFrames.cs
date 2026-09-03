@@ -72,8 +72,24 @@ public class CinematicaFrames : MonoBehaviour
     public Image imagenA;
     public Image imagenB;
 
+    [Header("Animacion de la niña antes de la cinematica")]
+    [Tooltip("Activo: en vez de quedarse quieta en IDLE, la niña reproduce la animacion de ENCUENTRO " +
+             "CON EL OSITO (stateAnim 15) mientras el juego esta congelado, y recien despues arranca " +
+             "el fundido a negro.\n\n" +
+             "Tildalo solo en la cinematica del osito. Para cualquier otra cinematica dejalo apagado, " +
+             "asi la niña se queda en su pose de parada.")]
+    public bool animacionDeEncuentroDelOsito = false;
+    [Tooltip("Escribe en la Console que paso con la animacion: si encontro al player, que numero " +
+             "escribio en el Animator y en que estado quedo un frame despues. Sirve para saber donde " +
+             "se corta si la animacion no se ve. Destildalo cuando ya funcione.")]
+    public bool diagnosticarLaAnimacion = false;
+
     [Header("Entrada: juego -> negro -> primer frame")]
-    [Tooltip("Segundos que el juego queda CONGELADO con la niña quieta, antes de empezar el fundido a negro. Le da el momento de 'se detiene todo'.")]
+    [Tooltip("Segundos que el juego queda CONGELADO con la niña quieta (o reproduciendo la animacion de " +
+             "encuentro, si esta tildada arriba), antes de empezar el fundido a negro. Le da el momento " +
+             "de 'se detiene todo'.\n\n" +
+             "Si usas la animacion de encuentro, poné acá lo que DURA esa animacion, asi el fundido " +
+             "no la corta por la mitad.")]
     public float esperaConElJuegoCongelado = 1f;
     [Tooltip("Segundos que tarda la pantalla en ponerse NEGRA cuando arranca la cinematica.")]
     public float fadeAlNegro = 0.7f;
@@ -127,10 +143,14 @@ public class CinematicaFrames : MonoBehaviour
     private bool salteando = false;
     private float timeScalePrevio = 1f;
 
-    // El Animator de la niña se maneja con un entero llamado "stateAnim" (lo setean las
-    // clases de State Anims). El 1 es la animacion de IDLE (ver IdlePlayerStateAnim).
+    // El Animator de la niña se maneja con un entero llamado "stateAnim". El numero de
+    // cada animacion no se escribe aca: vive en su clase de State Anim
+    // (IdlePlayerStateAnim = 1, EncuentroOsoPlayerStateAnim = 20, etc).
     private const string PARAM_ANIM = "stateAnim";
-    private const int ANIM_IDLE = 1;
+
+    // Valor "ninguna animacion pedida". El 0 no lo escucha NINGUNA transicion del Animator,
+    // asi que dejarlo ahi no dispara nada. Ver SoltarElParametro().
+    private const int ANIM_NINGUNA = 0;
 
     private void Awake()
     {
@@ -296,7 +316,8 @@ public class CinematicaFrames : MonoBehaviour
         }
     }
 
-    // La niña FRENA en seco y queda quieta en IDLE, sin responder a los controles.
+    // La niña FRENA en seco y se queda sin responder a los controles: quieta en IDLE, o
+    // reproduciendo la animacion de encuentro con el osito si esta tildada.
     // Se hace ANTES de congelar el tiempo, asi la pose queda tomada.
     private void FrenarYPonerEnIdle()
     {
@@ -315,12 +336,90 @@ public class CinematicaFrames : MonoBehaviour
 
         if (playerController.animPlayer != null)
         {
-            // Pasar a la animacion de parada.
-            playerController.animPlayer.SetInteger(PARAM_ANIM, ANIM_IDLE);
+            // El numero de cada animacion vive en su clase de State Anim, no aca:
+            // construir la clase es lo que escribe el parametro en el Animator.
+            if (animacionDeEncuentroDelOsito)
+            {
+                new EncuentroOsoPlayerStateAnim(playerController.animPlayer);
 
-            // Que el idle SIGA animando aunque el juego este congelado (timeScale 0).
+                // Ver el comentario de SoltarElParametro(): sin esto la animacion se
+                // reinicia todos los frames y parece que loopeara.
+                StartCoroutine(SoltarElParametro());
+            }
+            else
+            {
+                new IdlePlayerStateAnim(playerController.animPlayer);
+            }
+
+            // Que la animacion SIGA corriendo aunque el juego este congelado (timeScale 0).
             // Si no, la niña queda como una estatua en el fundido de vuelta al juego.
             playerController.animPlayer.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+            if (diagnosticarLaAnimacion) StartCoroutine(Diagnostico());
+        }
+        else if (diagnosticarLaAnimacion)
+        {
+            Debug.LogWarning("[Cinematica] La niña no tiene Animator (animPlayer es null): " +
+                             "no se puede reproducir ninguna animacion.", playerController);
+        }
+    }
+
+    // Suelta el parametro una vez que el Animator YA entro en la animacion de encuentro.
+    //
+    // Por que hace falta: la transicion de esa animacion sale de AnyState y se dispara con
+    // "stateAnim Equals 20". Como durante toda la cinematica nadie cambia ese valor, la
+    // condicion se sigue cumpliendo y el Animator vuelve a entrar al estado en CADA frame,
+    // reiniciando la animacion desde el principio. Se ve como si el clip loopeara, aunque
+    // el clip no loopea: en realidad se esta re-disparando.
+    //
+    // Dejandolo en 0 (un valor que NINGUNA transicion escucha) la condicion deja de
+    // cumplirse, la animacion se reproduce UNA vez y queda quieta en su ultimo cuadro.
+    // Cuando la cinematica termina, Restaurar() reactiva el PlayerController y el sistema
+    // de animaciones vuelve a escribir el valor que corresponda.
+    //
+    // Se hace por codigo y no destildando "Can Transition To Self" en el Animator para que
+    // no dependa de un check que es facil de perder entre las 20 transiciones de AnyState.
+    private IEnumerator SoltarElParametro()
+    {
+        // Un frame para que el Animator procese la transicion. Anda con timeScale en 0
+        // porque "yield return null" cuenta frames, no segundos.
+        yield return null;
+
+        if (playerController != null && playerController.animPlayer != null)
+        {
+            playerController.animPlayer.SetInteger(PARAM_ANIM, ANIM_NINGUNA);
+        }
+    }
+
+    // Cuenta en la Console que paso con la animacion de la niña. Espera un frame porque el
+    // Animator no evalua la transicion en el mismo frame en que se escribe el parametro.
+    private IEnumerator Diagnostico()
+    {
+        Animator anim = playerController.animPlayer;
+
+        int pedido = anim.GetInteger("stateAnim");
+        Debug.Log("[Cinematica] Le pedi al Animator stateAnim = " + pedido +
+                  (animacionDeEncuentroDelOsito ? " (EncuentroOso)" : " (Idle)") +
+                  ". Animator enabled = " + anim.enabled +
+                  ", updateMode = " + anim.updateMode, playerController);
+
+        yield return null; // dejamos que el Animator procese la transicion
+
+        AnimatorStateInfo st = anim.GetCurrentAnimatorStateInfo(0);
+        bool esElQueQueriamos = st.IsName("EncuentroOso_animation");
+
+        if (animacionDeEncuentroDelOsito && !esElQueQueriamos)
+        {
+            Debug.LogWarning("[Cinematica] El Animator NO entro en 'EncuentroOso_animation'. " +
+                             "Revisa que exista una transicion desde AnyState con la condicion " +
+                             "stateAnim Equals " + pedido + " apuntando a ese estado, y que el nombre " +
+                             "del estado sea exactamente 'EncuentroOso_animation'.", playerController);
+        }
+        else
+        {
+            Debug.Log("[Cinematica] El Animator entro en el estado esperado. " +
+                      "Dura " + st.length.ToString("F2") + "s y la espera antes del fundido es de " +
+                      esperaConElJuegoCongelado.ToString("F2") + "s.", playerController);
         }
     }
 
