@@ -5736,6 +5736,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CM FollowPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7593919886305069867, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+      propertyPath: Lens.ModeOverride
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.130001
@@ -19578,6 +19582,10 @@ PrefabInstance:
     - target: {fileID: 7122565620615428911, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465356682601820614, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
+      propertyPath: orthographic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.x
