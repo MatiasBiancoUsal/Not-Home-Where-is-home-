@@ -59,8 +59,22 @@ public class IntroDeZona : MonoBehaviour
 
     private bool corriendo = false;
 
+    // ============================================================
+    //  1. CICLO DE VIDA
+    //  Decide si la intro tiene que correr en esta escena, y la arranca.
+    // ============================================================
+
     private void Awake()
     {
+        // Saltear la intro esta tildado en los ajustes (Assets/Resources/AjustesTransicion).
+        // Nos apagamos antes de tocar nada: la niña arranca con el control puesto y el
+        // cartel del tutorial queda como estaba. Ver la nota de SaltearPorAjustes().
+        if (SaltearPorAjustes())
+        {
+            enabled = false;
+            return;
+        }
+
         // Llegue por una puerta: de esto se encarga la transicion, no la intro.
         if (soloAlArrancarElJuego && TransicionZonas.EnCurso)
         {
@@ -83,6 +97,20 @@ public class IntroDeZona : MonoBehaviour
         if (cartelTutorial != null) cartelTutorial.enabled = false;
     }
 
+    // Lee el check "Saltear Intro De Zona" del asset de ajustes.
+    //
+    // A proposito NO marcamos la intro como vista cuando se saltea: si la anotaramos,
+    // al destildar el check la intro seguiria sin aparecer (quedaria "gastada") y habria
+    // que ir a borrar el progreso a mano para volver a probarla.
+    //
+    // Si el asset no existe, no salteamos nada: ante la duda, el juego se comporta como
+    // en la version final.
+    private bool SaltearPorAjustes()
+    {
+        AjustesTransicion ajustes = Resources.Load<AjustesTransicion>("AjustesTransicion");
+        return ajustes != null && ajustes.saltearIntroDeZona;
+    }
+
     private void Start()
     {
         if (!corriendo) return;
@@ -103,6 +131,12 @@ public class IntroDeZona : MonoBehaviour
 
         StartCoroutine(Rutina());
     }
+
+    // ============================================================
+    //  2. LA SECUENCIA DE LA INTRO
+    //  Los pasos en orden: caer, tocar el piso, mostrar el nombre de la zona,
+    //  mostrar el cartel del tutorial y recien ahi devolver el control.
+    // ============================================================
 
     private IEnumerator Rutina()
     {
@@ -176,6 +210,12 @@ public class IntroDeZona : MonoBehaviour
         // 5) Ya puede jugar.
         SoltarTodo();
     }
+
+    // ============================================================
+    //  3. CIERRE Y AYUDANTES
+    //  Devolver el control pase lo que pase, incluso si la intro se corta por la
+    //  mitad (por eso OnDisable tambien llama a SoltarTodo).
+    // ============================================================
 
     // Devuelve el control y prende lo que haya quedado apagado. Se llama siempre,
     // tambien si algo salio mal: nunca hay que dejar al jugador sin poder moverse.
