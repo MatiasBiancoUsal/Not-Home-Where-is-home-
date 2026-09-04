@@ -16,6 +16,10 @@ public class AudioManager : MonoBehaviour
     [Header("Escenas donde suena la musica del menu")]
     public string[] menuScenes = { "Main Menu", "Options", "Controls", "Credits" };
 
+    [Header("Musica por zona")]
+    public AudioClip musicaMenu;
+    public AudioClip musicaZona1;
+
     // Crea el AudioManager AUTOMATICAMENTE al arrancar el juego (en cualquier escena),
     // antes de que cargue la primera escena. Por eso NO hace falta ponerlo en ninguna escena.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -65,18 +69,36 @@ public class AudioManager : MonoBehaviour
         UpdateMusicForScene(scene.name);
     }
 
-    // Decide si la musica del menu debe sonar segun la escena actual
+    // Decide que musica debe sonar segun la escena actual.
     private void UpdateMusicForScene(string sceneName)
     {
         if (EsEscenaDeMenu(sceneName))
         {
-            if (!musicSource.isPlaying)
-                musicSource.Play();
+            ReproducirMusica(musicaMenu);
+        }
+        else if (sceneName == "Zona 1")
+        {
+            ReproducirMusica(musicaZona1);
         }
         else
         {
             musicSource.Stop();
         }
+    }
+
+    private void ReproducirMusica(AudioClip clip)
+    {
+        if (clip == null || musicSource == null)
+            return;
+
+        // No reinicia el tema si otra escena usa el mismo clip.
+        if (musicSource.clip == clip && musicSource.isPlaying)
+            return;
+
+        musicSource.Stop();
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     private bool EsEscenaDeMenu(string sceneName)

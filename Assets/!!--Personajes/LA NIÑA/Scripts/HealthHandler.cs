@@ -33,6 +33,29 @@ public class HealthHandler : MonoBehaviour
         }
     }
 
+    // Cura al personaje sin pasarse de maxHealth.
+    //
+    // Devuelve CUANTA vida se recupero de verdad: 0 si ya estaba llena, si esta muerto,
+    // o si le pasamos un valor invalido. El orbe de vida usa ese numero para decidir si
+    // se deja agarrar o si se queda en el mapa para mas adelante.
+    public int Heal(int amount)
+    {
+        if (amount <= 0) return 0;
+        if (currentHealth <= 0) return 0;          // ya murio: no se revive curando
+        if (currentHealth >= maxHealth) return 0;  // ya esta al maximo
+
+        int antes = currentHealth;
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+
+        int curado = currentHealth - antes;
+        if (curado > 0) OnHealthChanged?.Invoke(currentHealth);
+
+        return curado;
+    }
+
+    // Cuanta vida le falta para llegar al maximo.
+    public int VidaQueFalta => Mathf.Max(0, maxHealth - currentHealth);
+
     private void Die()
     {
         if (Time.timeScale == 0)

@@ -3,29 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
-// ============================================================
-//  TRANSICION ENTRE ZONAS (estilo Hollow Knight)
-//
-//  La secuencia, cuando la niña toca el trigger de una PuertaZona:
-//    1. Se le cortan los inputs, pero SIGUE CAMINANDO sola hacia afuera.
-//    2. Mientras camina, la pantalla se funde a negro.
-//    3. Se carga la otra zona.
-//    4. Se la ubica en la puerta de llegada (todavia en negro) mirando hacia adentro.
-//    5. Camina sola hacia adentro mientras la pantalla se aclara.
-//    6. Recupera el control.
-//  Nunca queda quieta ni hay un corte seco.
-//
-//  NO hay que poner nada en las escenas: este objeto se crea SOLO al arrancar el
-//  juego y sobrevive a los cambios de escena (igual que el AudioManager). El
-//  rectangulo negro tambien se arma solo por codigo: tiene que sobrevivir al cambio
-//  de escena, si viviera adentro de una escena se destruiria justo en el medio.
-//
-//  Los tiempos y velocidades se ajustan en el asset AjustesTransicion
-//  (Assets/Resources/AjustesTransicion.asset). Ver la nota del equipo en ese archivo.
-// ============================================================
 public class TransicionZonas : MonoBehaviour
 {
+    //  1. ESTADO COMPARTIDO
+    //  Lo que otros scripts consultan desde afuera: la PuertaZona para saber si
+    //  puede activarse, y el Damageable de la niña para no matarla cruzando.
+
     public static TransicionZonas Instancia { get; private set; }
 
     // Lo mira la PuertaZona (y el Damageable, para que la niña no muera cruzando).
@@ -52,8 +35,15 @@ public class TransicionZonas : MonoBehaviour
         }
     }
 
+    //  2. CAMPOS
+    //  Agrupados por la parte del sistema que los usa.
+
+    // --- Generales ---
+
     private AjustesTransicion ajustes;
     private Image negro;
+
+    // --- Cartel con el nombre de la zona (seccion 6) ---
 
     // Cartel con el nombre de la zona.
     private TextMeshProUGUI cartel;
@@ -61,6 +51,8 @@ public class TransicionZonas : MonoBehaviour
     private Image fondoDelCartel;
     private Sprite spriteDelFondo;
     private float suavidadDelFondoUsada = -1f;
+
+    // --- Oscurecimiento por cercania a una puerta (seccion 7) ---
 
     // Oscurecimiento por cercania a una puerta.
     private Image degradado;
@@ -84,11 +76,17 @@ public class TransicionZonas : MonoBehaviour
     // Al cargar una escena la sombra se pone de una, sin transicion.
     private bool ponerLaSombraDeGolpe = true;
 
+    // Datos que viajan de una escena a la otra (seccion 5)
+
     // Datos que viajan de una escena a la otra.
     private string idDeLlegada = "";
     private PuertaZona puertaDeLlegada;
     private PlayerController playerEnLaZonaNueva;
     private bool escenaLista = false;
+
+    //  3. ARRANQUE Y CICLO DE VIDA
+    //  El objeto se crea solo al iniciar el juego y sobrevive a los cambios de
+    //  escena, asi que no hay que ponerlo a mano en ninguna zona.
 
     // Con Reload Domain desactivado los static se arrastran entre sesiones de Play.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -124,6 +122,12 @@ public class TransicionZonas : MonoBehaviour
         CrearPantallaNegra();
     }
 
+    // Lo unico que corre todos los frames es el oscurecimiento por cercania (seccion 7).
+    private void Update()
+    {
+        ActualizarOscurecimiento();
+    }
+
     private void CargarAjustes()
     {
         ajustes = Resources.Load<AjustesTransicion>("AjustesTransicion");
@@ -137,6 +141,10 @@ public class TransicionZonas : MonoBehaviour
                       "'Not Home > Puertas > Configurar desde los nombres'.");
         }
     }
+    //  4. ARMADO DE LA PANTALLA (por codigo)
+    //  El Canvas, el rectangulo negro y el cartel se construyen por codigo porque
+    //  tienen que sobrevivir al cambio de escena: si vivieran dentro de una escena
+    //  se destruirian justo en el medio de la transicion.
 
     // El rectangulo negro que tapa la pantalla, armado por codigo.
     private void CrearPantallaNegra()
@@ -207,244 +215,6 @@ public class TransicionZonas : MonoBehaviour
         PonerAlphaCartel(0f);
     }
 
-    // ---------- El cartel con el nombre de la zona ----------
-
-    // ¿El cartel con el nombre de la zona esta en pantalla ahora mismo?
-    // Lo usa la IntroDeZona para no encimar el cartel del tutorial con el nombre.
-    public bool CartelDeZonaVisible
-    {
-        get { return cartelCo != null; }
-    }
-
-    // Para mostrar el nombre de la zona desde afuera (lo usa la IntroDeZona al arrancar el juego).
-    // Sin parametros muestra el nombre de la escena que esta cargada.
-    public void MostrarNombreDeLaZona()
-    {
-        MostrarCartelDeZona(SceneManager.GetActiveScene().name);
-    }
-
-    private void MostrarCartelDeZona(string nombreDeLaEscena)
-    {
-        if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
-
-        if (ajustes.mostrarSoloLaPrimeraVez)
-        {
-            string clave = "CartelZona_" + nombreDeLaEscena;
-            if (ProgresoJuego.YaMostrado(clave)) return;
-            ProgresoJuego.MarcarMostrado(clave);
-        }
-
-        if (cartelCo != null) StopCoroutine(cartelCo);
-        cartelCo = StartCoroutine(RutinaDelCartel(TextoDeLaZona(nombreDeLaEscena)));
-    }
-
-    // Busca el nombre lindo de la zona en la lista de los ajustes.
-    private string TextoDeLaZona(string nombreDeLaEscena)
-    {
-        string texto = nombreDeLaEscena;
-
-        if (ajustes.nombresDeLasZonas != null)
-        {
-            foreach (NombreDeZona n in ajustes.nombresDeLasZonas)
-            {
-                if (n != null && n.escena == nombreDeLaEscena && !string.IsNullOrEmpty(n.textoQueSeMuestra))
-                {
-                    texto = n.textoQueSeMuestra;
-                    break;
-                }
-            }
-        }
-
-        return ajustes.pasarAMinuscula ? texto.ToLower() : texto;
-    }
-
-    private IEnumerator RutinaDelCartel(string texto)
-    {
-        // Estilo (se lee cada vez, asi se puede tocar en vivo desde el Inspector).
-        if (ajustes.fuenteDelCartel != null) cartel.font = ajustes.fuenteDelCartel;
-        cartel.fontSize = ajustes.tamanioDeLetra;
-        cartel.text = texto;
-
-        ActualizarFondoDelCartel();
-
-        RectTransform rt = cartel.rectTransform;
-        Vector2 posFinal = ajustes.posicionDelCartel;
-        Vector2 posInicial = posFinal - new Vector2(0f, ajustes.subidaDelCartel);
-
-        float opInicial = ajustes.opacidadInicialDelCartel;
-        float opFinal = ajustes.opacidadFinalDelCartel;
-        float blur = ajustes.desenfocarAlEntrar ? ajustes.desenfoqueInicial : 0f;
-        float grosor = ajustes.desenfocarAlEntrar ? ajustes.engrosadoInicial : 0f;
-
-        rt.anchoredPosition = posInicial;
-        cartel.characterSpacing = ajustes.separacionInicialDeLetras;
-        PonerAlphaCartel(opInicial);
-        PonerDesenfoque(blur, grosor);
-
-        // Espera antes de aparecer.
-        yield return EsperarReal(ajustes.retrasoDelCartel);
-
-        // ENTRADA: gana opacidad, sube despacio, las letras se juntan y se va enfocando.
-        float t = 0f;
-        float dur = Mathf.Max(0.01f, ajustes.entradaDelCartel);
-        while (t < dur)
-        {
-            t += Time.unscaledDeltaTime;
-            float e = SuavizarSalida(Mathf.Clamp01(t / dur));
-
-            PonerAlphaCartel(Mathf.Lerp(opInicial, opFinal, e));
-            rt.anchoredPosition = Vector2.Lerp(posInicial, posFinal, e);
-            cartel.characterSpacing = Mathf.Lerp(ajustes.separacionInicialDeLetras, 0f, e);
-            PonerDesenfoque(Mathf.Lerp(blur, 0f, e), Mathf.Lerp(grosor, 0f, e));
-
-            yield return null;
-        }
-
-        PonerAlphaCartel(opFinal);
-        rt.anchoredPosition = posFinal;
-        cartel.characterSpacing = 0f;
-        PonerDesenfoque(0f, 0f);
-
-        // SE QUEDA.
-        yield return EsperarReal(ajustes.sostenerElCartel);
-
-        // SALIDA: se desvanece lento, sin moverse. Si esta activado, se desenfoca de nuevo
-        // mientras se va, como si se disolviera en el aire.
-        float blurSalida = ajustes.desenfocarAlSalir ? ajustes.desenfoqueInicial : 0f;
-        float grosorSalida = ajustes.desenfocarAlSalir ? ajustes.engrosadoInicial : 0f;
-
-        t = 0f;
-        dur = Mathf.Max(0.01f, ajustes.salidaDelCartel);
-        while (t < dur)
-        {
-            t += Time.unscaledDeltaTime;
-            float e = Mathf.Clamp01(t / dur);
-
-            PonerAlphaCartel(Mathf.Lerp(opFinal, 0f, e));
-            PonerDesenfoque(Mathf.Lerp(0f, blurSalida, e), Mathf.Lerp(0f, grosorSalida, e));
-
-            yield return null;
-        }
-
-        PonerAlphaCartel(0f);
-        PonerDesenfoque(0f, 0f);
-        cartel.text = "";
-        cartelCo = null;
-    }
-
-    // Desenfoque del texto usando el shader SDF de TextMeshPro.
-    //
-    // No es un blur de pantalla completa (eso necesitaria post-procesado, y lo descartamos
-    // para que ande en itch.io/WebGL). Es el suavizado del borde de las letras: al subirlo,
-    // el texto se ve fuera de foco. El "engrosado" compensa que, al desenfocarse, las letras
-    // se ven mas flacas de lo que son.
-    private void PonerDesenfoque(float suavidad, float engrosado)
-    {
-        if (cartel == null) return;
-
-        Material mat = cartel.fontMaterial;
-        if (mat == null) return;
-
-        if (mat.HasProperty(ShaderUtilities.ID_OutlineSoftness))
-        {
-            mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, suavidad);
-        }
-        if (mat.HasProperty(ShaderUtilities.ID_FaceDilate))
-        {
-            mat.SetFloat(ShaderUtilities.ID_FaceDilate, engrosado);
-        }
-
-        // Sin esto, el borde suavizado se corta contra el borde de cada letra.
-        cartel.UpdateMeshPadding();
-    }
-
-    // Pone la opacidad del texto Y de su fondo difuminado, para que entren y salgan juntos.
-    private void PonerAlphaCartel(float a)
-    {
-        if (cartel != null)
-        {
-            Color c = ajustes != null ? ajustes.colorDelCartel : Color.white;
-            c.a = a;
-            cartel.color = c;
-        }
-
-        if (fondoDelCartel != null && ajustes != null)
-        {
-            Color f = ajustes.colorDelFondoDelCartel;
-            f.a = ajustes.fondoDetrasDelCartel ? a * ajustes.opacidadDelFondoDelCartel : 0f;
-            fondoDelCartel.color = f;
-        }
-    }
-
-    // Ubica y arma la mancha difuminada. Se llama al empezar cada cartel, asi los
-    // cambios del Inspector se ven en vivo.
-    private void ActualizarFondoDelCartel()
-    {
-        if (fondoDelCartel == null || ajustes == null) return;
-
-        fondoDelCartel.rectTransform.sizeDelta = ajustes.tamanioDelFondoDelCartel;
-        fondoDelCartel.rectTransform.anchoredPosition = ajustes.posicionDelCartel;
-
-        if (spriteDelFondo == null || suavidadDelFondoUsada != ajustes.suavidadDelFondoDelCartel)
-        {
-            suavidadDelFondoUsada = ajustes.suavidadDelFondoDelCartel;
-            spriteDelFondo = GenerarManchaDifuminada(suavidadDelFondoUsada);
-            fondoDelCartel.sprite = spriteDelFondo;
-        }
-    }
-
-    // Una mancha redonda que se desvanece hacia los bordes. Estirada a un rectangulo
-    // ancho queda un ovalo difuminado, que es lo que se ve detras del texto.
-    private Sprite GenerarManchaDifuminada(float suavidad)
-    {
-        const int LADO = 128;
-
-        Texture2D tex = new Texture2D(LADO, LADO);
-        tex.wrapMode = TextureWrapMode.Clamp;
-        tex.filterMode = FilterMode.Bilinear;
-
-        // Hasta donde se mantiene opaca antes de empezar a desvanecerse.
-        float centroSolido = 1f - Mathf.Clamp01(suavidad);
-
-        for (int y = 0; y < LADO; y++)
-        {
-            for (int x = 0; x < LADO; x++)
-            {
-                float dx = (x + 0.5f) / LADO - 0.5f;
-                float dy = (y + 0.5f) / LADO - 0.5f;
-
-                // 0 en el centro, 1 en el borde.
-                float distancia = Mathf.Sqrt(dx * dx + dy * dy) / 0.5f;
-
-                // SmoothStep hace que el desvanecido no tenga un corte visible.
-                float alpha = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(centroSolido, 1f, distancia));
-
-                tex.SetPixel(x, y, new Color(1f, 1f, 1f, alpha));
-            }
-        }
-
-        tex.Apply();
-
-        return Sprite.Create(tex, new Rect(0, 0, LADO, LADO), new Vector2(0.5f, 0.5f));
-    }
-
-    // Arranca rapido y frena suave: da la sensacion de que "se posa" en lugar de aparecer.
-    private float SuavizarSalida(float x)
-    {
-        return 1f - Mathf.Pow(1f - x, 3f);
-    }
-
-    // Espera en tiempo REAL: el cartel sigue andando aunque algo haya puesto el timeScale en 0.
-    private IEnumerator EsperarReal(float segundos)
-    {
-        float t = 0f;
-        while (t < segundos)
-        {
-            t += Time.unscaledDeltaTime;
-            yield return null;
-        }
-    }
-
     private void EstirarATodaLaPantalla(RectTransform rt)
     {
         rt.anchorMin = Vector2.zero;
@@ -452,161 +222,10 @@ public class TransicionZonas : MonoBehaviour
         rt.offsetMin = Vector2.zero;
         rt.offsetMax = Vector2.zero;
     }
-
-    // ---------- Oscurecimiento por cercania ----------
-
-    private void Update()
-    {
-        ActualizarOscurecimiento();
-    }
-
-    private void ActualizarOscurecimiento()
-    {
-        if (degradado == null || ajustes == null) return;
-
-        float objetivo = 0f;
-        PuertaZona ganadora = null;
-
-        // La deteccion corre SIEMPRE, tambien durante la transicion. Gracias a eso, al
-        // llegar a una zona nueva la niña ya aparece parada en la zona de degrade y la
-        // sombra esta puesta desde el primer frame: se va disolviendo mientras camina
-        // hacia adentro, en vez de aparecer de la nada cuando volves a acercarte.
-        if (ajustes.oscurecerAlAcercarse)
-        {
-            RefrescarCacheSiCambioLaEscena();
-
-            if (jugador != null && puertasDeLaEscena != null)
-            {
-                Vector2 posJugador = jugador.transform.position;
-
-                // Gana la puerta que mas oscurezca (o sea, la mas cerca).
-                foreach (PuertaZona p in puertasDeLaEscena)
-                {
-                    if (p == null) continue;
-
-                    float valor = p.OscuridadSegunDistancia(posJugador);
-                    if (valor > objetivo)
-                    {
-                        objetivo = valor;
-                        ganadora = p;
-                    }
-                }
-            }
-        }
-
-        // Que puerta manda la FORMA de la sombra (lado y largo).
-        //
-        // Si es la MISMA de antes, los cambios se aplican al toque: asi podes mover los
-        // valores en el Inspector con el juego corriendo y ver el resultado en vivo.
-        // Si es OTRA puerta, esperamos a que la sombra este apagada para cambiar, si no
-        // se veria saltar de un borde de la pantalla al otro.
-        if (ganadora != null && (ganadora == ultimaGanadora || alphaDegradado <= 0.02f))
-        {
-            ultimaGanadora = ganadora;
-            ladoDelDegradado = ganadora.LadoResuelto;
-            anchoDeseado = ganadora.largoDelNegro > 0f ? ganadora.largoDelNegro : ajustes.anchoDelDegradado;
-        }
-
-        PrepararSpriteDelDegradado();
-
-        if (ponerLaSombraDeGolpe)
-        {
-            // Recien cargo una escena: la sombra tiene que estar YA puesta, sin subir de a
-            // poco. Si no, al aparecer se veria "encenderse" en vez de estar desde el arranque.
-            alphaDegradado = objetivo;
-            ponerLaSombraDeGolpe = false;
-        }
-        else
-        {
-            // Acompaña suave en vez de pegar saltos.
-            float velocidad = Mathf.Max(0.01f, ajustes.suavizadoDelOscurecimiento);
-            alphaDegradado = Mathf.MoveTowards(alphaDegradado, objetivo, velocidad * Time.unscaledDeltaTime);
-        }
-
-        Color c = ajustes.colorDelOscurecimiento;
-        c.a = alphaDegradado;
-        degradado.color = c;
-    }
-
-    private void RefrescarCacheSiCambioLaEscena()
-    {
-        string actual = SceneManager.GetActiveScene().name;
-        if (actual == escenaCacheada && jugador != null && puertasDeLaEscena != null) return;
-
-        escenaCacheada = actual;
-        puertasDeLaEscena = Object.FindObjectsByType<PuertaZona>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        jugador = BuscarPlayer();
-        ponerLaSombraDeGolpe = true;
-    }
-
-    // Arma la imagen del degradado. Si el equipo puso su propia imagen en los ajustes, usamos esa;
-    // si no, la generamos por codigo: una tirita de pixeles que va de opaco (pegado al borde)
-    // a transparente. Al estirarse a toda la pantalla queda un degradado perfecto y no depende
-    // de ningun asset ni de post-procesado (importante para que ande en itch.io).
-    private void PrepararSpriteDelDegradado()
-    {
-        if (ajustes.spriteDelDegradado != null)
-        {
-            if (degradado.sprite != ajustes.spriteDelDegradado) degradado.sprite = ajustes.spriteDelDegradado;
-            return;
-        }
-
-        // Solo regeneramos la imagen si cambio el lado, el largo o la dureza.
-        if (spriteGenerado != null &&
-            ladoUsado == ladoDelDegradado &&
-            anchoUsado == anchoDeseado &&
-            durezaUsada == ajustes.durezaDelDegradado) return;
-
-        ladoUsado = ladoDelDegradado;
-        anchoUsado = anchoDeseado;
-        durezaUsada = ajustes.durezaDelDegradado;
-
-        spriteGenerado = GenerarDegradado(ladoDelDegradado, anchoUsado, durezaUsada);
-        degradado.sprite = spriteGenerado;
-    }
-
-    private Sprite GenerarDegradado(LadoOscuro lado, float ancho, float dureza)
-    {
-        const int PASOS = 128;
-
-        if (lado == LadoOscuro.PantallaEntera)
-        {
-            Texture2D plano = new Texture2D(1, 1);
-            plano.SetPixel(0, 0, Color.white);
-            plano.Apply();
-            return Sprite.Create(plano, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
-        }
-
-        bool horizontal = (lado == LadoOscuro.Izquierda || lado == LadoOscuro.Derecha);
-        bool desdeElPrincipio = (lado == LadoOscuro.Izquierda || lado == LadoOscuro.Abajo);
-
-        Texture2D tex = horizontal ? new Texture2D(PASOS, 1) : new Texture2D(1, PASOS);
-        tex.wrapMode = TextureWrapMode.Clamp;
-        tex.filterMode = FilterMode.Bilinear;
-
-        for (int i = 0; i < PASOS; i++)
-        {
-            float f = (i + 0.5f) / PASOS;                         // 0 = borde izquierdo / abajo
-            float distanciaAlBorde = desdeElPrincipio ? f : 1f - f;
-
-            // 1 pegado al borde, 0 al terminar el "largo del negro".
-            float t = 1f - Mathf.Clamp01(distanciaAlBorde / Mathf.Max(ancho, 0.001f));
-
-            // La dureza curva ese desvanecido: 1 = recto, mas alto = el negro se
-            // concentra pegado al borde, mas bajo = se estira hacia el centro.
-            float alpha = Mathf.Pow(t, Mathf.Max(0.05f, dureza));
-
-            Color pixel = new Color(1f, 1f, 1f, alpha);
-            if (horizontal) tex.SetPixel(i, 0, pixel);
-            else            tex.SetPixel(0, i, pixel);
-        }
-
-        tex.Apply();
-
-        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-    }
-
-    // ---------- La transicion ----------
+    //  5. LA TRANSICION ENTRE ZONAS
+    //  El corazon del script: cortar el control, caminar hacia afuera, fundir a
+    //  negro, cargar la zona nueva, ubicar a la niña en la puerta de llegada,
+    //  caminar hacia adentro y devolverle el control.
 
     // Entrada al juego desde el menu principal. Reutiliza la misma pantalla negra de
     // las puertas, pero deja EnCurso apagado al cargar la zona para que IntroDeZona
@@ -784,8 +403,6 @@ public class TransicionZonas : MonoBehaviour
         escenaLista = true;
     }
 
-    // ---------- Piezas ----------
-
     // Donde plantamos a la niña al llegar.
     //
     // El marcador de la puerta es una barra vertical: su CENTRO esta flotando a media
@@ -889,22 +506,6 @@ public class TransicionZonas : MonoBehaviour
         }
     }
 
-    private string NombreDeDireccion(Vector2 d)
-    {
-        if (d.x > 0f) return "DERECHA";
-        if (d.x < 0f) return "IZQUIERDA";
-        if (d.y > 0f) return "ARRIBA";
-        return "ABAJO";
-    }
-
-    private void Diagnostico(string mensaje)
-    {
-        if (ajustes != null && ajustes.mostrarDiagnosticoEnConsola)
-        {
-            Debug.Log("[Puertas] " + mensaje);
-        }
-    }
-
     // Apaga los controles y frena en seco (el PlayerController desactivado corta los inputs).
     private void TomarElControl(PlayerController pc)
     {
@@ -967,6 +568,403 @@ public class TransicionZonas : MonoBehaviour
         negro.color = c;
     }
 
+    //  6. CARTEL CON EL NOMBRE DE LA ZONA
+    //  Aparece al entrar a una zona nueva. Lo dispara la propia transicion, y
+    //  tambien la IntroDeZona cuando arranca la partida.
+
+    // ¿El cartel con el nombre de la zona esta en pantalla ahora mismo?
+    // Lo usa la IntroDeZona para no encimar el cartel del tutorial con el nombre.
+    public bool CartelDeZonaVisible
+    {
+        get { return cartelCo != null; }
+    }
+
+    // Para mostrar el nombre de la zona desde afuera (lo usa la IntroDeZona al arrancar el juego).
+    // Sin parametros muestra el nombre de la escena que esta cargada.
+    public void MostrarNombreDeLaZona()
+    {
+        MostrarCartelDeZona(SceneManager.GetActiveScene().name);
+    }
+
+    private void MostrarCartelDeZona(string nombreDeLaEscena)
+    {
+        if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
+
+        // Check de pruebas. Va ANTES de marcar el cartel como visto, a proposito: si lo
+        // anotaramos, al destildar el check el cartel seguiria sin aparecer.
+        if (ajustes.saltearCartelDeZona) return;
+
+        if (ajustes.mostrarSoloLaPrimeraVez)
+        {
+            string clave = "CartelZona_" + nombreDeLaEscena;
+            if (ProgresoJuego.YaMostrado(clave)) return;
+            ProgresoJuego.MarcarMostrado(clave);
+        }
+
+        if (cartelCo != null) StopCoroutine(cartelCo);
+        cartelCo = StartCoroutine(RutinaDelCartel(TextoDeLaZona(nombreDeLaEscena)));
+    }
+
+    // Busca el nombre lindo de la zona en la lista de los ajustes.
+    private string TextoDeLaZona(string nombreDeLaEscena)
+    {
+        string texto = nombreDeLaEscena;
+
+        if (ajustes.nombresDeLasZonas != null)
+        {
+            foreach (NombreDeZona n in ajustes.nombresDeLasZonas)
+            {
+                if (n != null && n.escena == nombreDeLaEscena && !string.IsNullOrEmpty(n.textoQueSeMuestra))
+                {
+                    texto = n.textoQueSeMuestra;
+                    break;
+                }
+            }
+        }
+
+        return ajustes.pasarAMinuscula ? texto.ToLower() : texto;
+    }
+
+    private IEnumerator RutinaDelCartel(string texto)
+    {
+        // Estilo (se lee cada vez, asi se puede tocar en vivo desde el Inspector).
+        if (ajustes.fuenteDelCartel != null) cartel.font = ajustes.fuenteDelCartel;
+        cartel.fontSize = ajustes.tamanioDeLetra;
+        cartel.text = texto;
+
+        ActualizarFondoDelCartel();
+
+        RectTransform rt = cartel.rectTransform;
+        Vector2 posFinal = ajustes.posicionDelCartel;
+        Vector2 posInicial = posFinal - new Vector2(0f, ajustes.subidaDelCartel);
+
+        float opInicial = ajustes.opacidadInicialDelCartel;
+        float opFinal = ajustes.opacidadFinalDelCartel;
+        float blur = ajustes.desenfocarAlEntrar ? ajustes.desenfoqueInicial : 0f;
+        float grosor = ajustes.desenfocarAlEntrar ? ajustes.engrosadoInicial : 0f;
+
+        rt.anchoredPosition = posInicial;
+        cartel.characterSpacing = ajustes.separacionInicialDeLetras;
+        PonerAlphaCartel(opInicial);
+        PonerDesenfoque(blur, grosor);
+
+        // Espera antes de aparecer.
+        yield return EsperarReal(ajustes.retrasoDelCartel);
+
+        // ENTRADA: gana opacidad, sube despacio, las letras se juntan y se va enfocando.
+        float t = 0f;
+        float dur = Mathf.Max(0.01f, ajustes.entradaDelCartel);
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float e = SuavizarSalida(Mathf.Clamp01(t / dur));
+
+            PonerAlphaCartel(Mathf.Lerp(opInicial, opFinal, e));
+            rt.anchoredPosition = Vector2.Lerp(posInicial, posFinal, e);
+            cartel.characterSpacing = Mathf.Lerp(ajustes.separacionInicialDeLetras, 0f, e);
+            PonerDesenfoque(Mathf.Lerp(blur, 0f, e), Mathf.Lerp(grosor, 0f, e));
+
+            yield return null;
+        }
+
+        PonerAlphaCartel(opFinal);
+        rt.anchoredPosition = posFinal;
+        cartel.characterSpacing = 0f;
+        PonerDesenfoque(0f, 0f);
+
+        // SE QUEDA.
+        yield return EsperarReal(ajustes.sostenerElCartel);
+
+        // SALIDA: se desvanece lento, sin moverse. Si esta activado, se desenfoca de nuevo
+        // mientras se va, como si se disolviera en el aire.
+        float blurSalida = ajustes.desenfocarAlSalir ? ajustes.desenfoqueInicial : 0f;
+        float grosorSalida = ajustes.desenfocarAlSalir ? ajustes.engrosadoInicial : 0f;
+
+        t = 0f;
+        dur = Mathf.Max(0.01f, ajustes.salidaDelCartel);
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float e = Mathf.Clamp01(t / dur);
+
+            PonerAlphaCartel(Mathf.Lerp(opFinal, 0f, e));
+            PonerDesenfoque(Mathf.Lerp(0f, blurSalida, e), Mathf.Lerp(0f, grosorSalida, e));
+
+            yield return null;
+        }
+
+        PonerAlphaCartel(0f);
+        PonerDesenfoque(0f, 0f);
+        cartel.text = "";
+        cartelCo = null;
+    }
+
+    // Ubica y arma la mancha difuminada. Se llama al empezar cada cartel, asi los
+    // cambios del Inspector se ven en vivo.
+    private void ActualizarFondoDelCartel()
+    {
+        if (fondoDelCartel == null || ajustes == null) return;
+
+        fondoDelCartel.rectTransform.sizeDelta = ajustes.tamanioDelFondoDelCartel;
+        fondoDelCartel.rectTransform.anchoredPosition = ajustes.posicionDelCartel;
+
+        if (spriteDelFondo == null || suavidadDelFondoUsada != ajustes.suavidadDelFondoDelCartel)
+        {
+            suavidadDelFondoUsada = ajustes.suavidadDelFondoDelCartel;
+            spriteDelFondo = GenerarManchaDifuminada(suavidadDelFondoUsada);
+            fondoDelCartel.sprite = spriteDelFondo;
+        }
+    }
+
+    // Pone la opacidad del texto Y de su fondo difuminado, para que entren y salgan juntos.
+    private void PonerAlphaCartel(float a)
+    {
+        if (cartel != null)
+        {
+            Color c = ajustes != null ? ajustes.colorDelCartel : Color.white;
+            c.a = a;
+            cartel.color = c;
+        }
+
+        if (fondoDelCartel != null && ajustes != null)
+        {
+            Color f = ajustes.colorDelFondoDelCartel;
+            f.a = ajustes.fondoDetrasDelCartel ? a * ajustes.opacidadDelFondoDelCartel : 0f;
+            fondoDelCartel.color = f;
+        }
+    }
+
+    // Desenfoque del texto usando el shader SDF de TextMeshPro.
+    //
+    // No es un blur de pantalla completa (eso necesitaria post-procesado, y lo descartamos
+    // para que ande en itch.io/WebGL). Es el suavizado del borde de las letras: al subirlo,
+    // el texto se ve fuera de foco. El "engrosado" compensa que, al desenfocarse, las letras
+    // se ven mas flacas de lo que son.
+    private void PonerDesenfoque(float suavidad, float engrosado)
+    {
+        if (cartel == null) return;
+
+        Material mat = cartel.fontMaterial;
+        if (mat == null) return;
+
+        if (mat.HasProperty(ShaderUtilities.ID_OutlineSoftness))
+        {
+            mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, suavidad);
+        }
+        if (mat.HasProperty(ShaderUtilities.ID_FaceDilate))
+        {
+            mat.SetFloat(ShaderUtilities.ID_FaceDilate, engrosado);
+        }
+
+        // Sin esto, el borde suavizado se corta contra el borde de cada letra.
+        cartel.UpdateMeshPadding();
+    }
+
+    // Una mancha redonda que se desvanece hacia los bordes. Estirada a un rectangulo
+    // ancho queda un ovalo difuminado, que es lo que se ve detras del texto.
+    private Sprite GenerarManchaDifuminada(float suavidad)
+    {
+        const int LADO = 128;
+
+        Texture2D tex = new Texture2D(LADO, LADO);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Bilinear;
+
+        // Hasta donde se mantiene opaca antes de empezar a desvanecerse.
+        float centroSolido = 1f - Mathf.Clamp01(suavidad);
+
+        for (int y = 0; y < LADO; y++)
+        {
+            for (int x = 0; x < LADO; x++)
+            {
+                float dx = (x + 0.5f) / LADO - 0.5f;
+                float dy = (y + 0.5f) / LADO - 0.5f;
+
+                // 0 en el centro, 1 en el borde.
+                float distancia = Mathf.Sqrt(dx * dx + dy * dy) / 0.5f;
+
+                // SmoothStep hace que el desvanecido no tenga un corte visible.
+                float alpha = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(centroSolido, 1f, distancia));
+
+                tex.SetPixel(x, y, new Color(1f, 1f, 1f, alpha));
+            }
+        }
+
+        tex.Apply();
+
+        return Sprite.Create(tex, new Rect(0, 0, LADO, LADO), new Vector2(0.5f, 0.5f));
+    }
+
+    //  7. OSCURECIMIENTO POR CERCANIA A UNA PUERTA
+    //  Cuanto mas cerca esta la niña de una puerta, mas se oscurece ese borde de
+    //  la pantalla. Anticipa la transicion. La imagen del degradado se genera por
+    //  codigo para no depender de post-procesado (que no anda bien en WebGL).
+
+    private void ActualizarOscurecimiento()
+    {
+        if (degradado == null || ajustes == null) return;
+
+        float objetivo = 0f;
+        PuertaZona ganadora = null;
+
+        // La deteccion corre SIEMPRE, tambien durante la transicion. Gracias a eso, al
+        // llegar a una zona nueva la niña ya aparece parada en la zona de degrade y la
+        // sombra esta puesta desde el primer frame: se va disolviendo mientras camina
+        // hacia adentro, en vez de aparecer de la nada cuando volves a acercarte.
+        if (ajustes.oscurecerAlAcercarse)
+        {
+            RefrescarCacheSiCambioLaEscena();
+
+            if (jugador != null && puertasDeLaEscena != null)
+            {
+                Vector2 posJugador = jugador.transform.position;
+
+                // Gana la puerta que mas oscurezca (o sea, la mas cerca).
+                foreach (PuertaZona p in puertasDeLaEscena)
+                {
+                    if (p == null) continue;
+
+                    float valor = p.OscuridadSegunDistancia(posJugador);
+                    if (valor > objetivo)
+                    {
+                        objetivo = valor;
+                        ganadora = p;
+                    }
+                }
+            }
+        }
+
+        // Que puerta manda la FORMA de la sombra (lado y largo).
+        //
+        // Si es la MISMA de antes, los cambios se aplican al toque: asi podes mover los
+        // valores en el Inspector con el juego corriendo y ver el resultado en vivo.
+        // Si es OTRA puerta, esperamos a que la sombra este apagada para cambiar, si no
+        // se veria saltar de un borde de la pantalla al otro.
+        if (ganadora != null && (ganadora == ultimaGanadora || alphaDegradado <= 0.02f))
+        {
+            ultimaGanadora = ganadora;
+            ladoDelDegradado = ganadora.LadoResuelto;
+            anchoDeseado = ganadora.largoDelNegro > 0f ? ganadora.largoDelNegro : ajustes.anchoDelDegradado;
+        }
+
+        PrepararSpriteDelDegradado();
+
+        if (ponerLaSombraDeGolpe)
+        {
+            // Recien cargo una escena: la sombra tiene que estar YA puesta, sin subir de a
+            // poco. Si no, al aparecer se veria "encenderse" en vez de estar desde el arranque.
+            alphaDegradado = objetivo;
+            ponerLaSombraDeGolpe = false;
+        }
+        else
+        {
+            // Acompaña suave en vez de pegar saltos.
+            float velocidad = Mathf.Max(0.01f, ajustes.suavizadoDelOscurecimiento);
+            alphaDegradado = Mathf.MoveTowards(alphaDegradado, objetivo, velocidad * Time.unscaledDeltaTime);
+        }
+
+        Color c = ajustes.colorDelOscurecimiento;
+        c.a = alphaDegradado;
+        degradado.color = c;
+    }
+
+    private void RefrescarCacheSiCambioLaEscena()
+    {
+        string actual = SceneManager.GetActiveScene().name;
+        if (actual == escenaCacheada && jugador != null && puertasDeLaEscena != null) return;
+
+        escenaCacheada = actual;
+        puertasDeLaEscena = Object.FindObjectsByType<PuertaZona>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        jugador = BuscarPlayer();
+        ponerLaSombraDeGolpe = true;
+    }
+
+    // Arma la imagen del degradado. Si el equipo puso su propia imagen en los ajustes, usamos esa;
+    // si no, la generamos por codigo: una tirita de pixeles que va de opaco (pegado al borde)
+    // a transparente. Al estirarse a toda la pantalla queda un degradado perfecto y no depende
+    // de ningun asset ni de post-procesado (importante para que ande en itch.io).
+    private void PrepararSpriteDelDegradado()
+    {
+        if (ajustes.spriteDelDegradado != null)
+        {
+            if (degradado.sprite != ajustes.spriteDelDegradado) degradado.sprite = ajustes.spriteDelDegradado;
+            return;
+        }
+
+        // Solo regeneramos la imagen si cambio el lado, el largo o la dureza.
+        if (spriteGenerado != null &&
+            ladoUsado == ladoDelDegradado &&
+            anchoUsado == anchoDeseado &&
+            durezaUsada == ajustes.durezaDelDegradado) return;
+
+        ladoUsado = ladoDelDegradado;
+        anchoUsado = anchoDeseado;
+        durezaUsada = ajustes.durezaDelDegradado;
+
+        spriteGenerado = GenerarDegradado(ladoDelDegradado, anchoUsado, durezaUsada);
+        degradado.sprite = spriteGenerado;
+    }
+
+    private Sprite GenerarDegradado(LadoOscuro lado, float ancho, float dureza)
+    {
+        const int PASOS = 128;
+
+        if (lado == LadoOscuro.PantallaEntera)
+        {
+            Texture2D plano = new Texture2D(1, 1);
+            plano.SetPixel(0, 0, Color.white);
+            plano.Apply();
+            return Sprite.Create(plano, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
+        }
+
+        bool horizontal = (lado == LadoOscuro.Izquierda || lado == LadoOscuro.Derecha);
+        bool desdeElPrincipio = (lado == LadoOscuro.Izquierda || lado == LadoOscuro.Abajo);
+
+        Texture2D tex = horizontal ? new Texture2D(PASOS, 1) : new Texture2D(1, PASOS);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Bilinear;
+
+        for (int i = 0; i < PASOS; i++)
+        {
+            float f = (i + 0.5f) / PASOS;                         // 0 = borde izquierdo / abajo
+            float distanciaAlBorde = desdeElPrincipio ? f : 1f - f;
+
+            // 1 pegado al borde, 0 al terminar el "largo del negro".
+            float t = 1f - Mathf.Clamp01(distanciaAlBorde / Mathf.Max(ancho, 0.001f));
+
+            // La dureza curva ese desvanecido: 1 = recto, mas alto = el negro se
+            // concentra pegado al borde, mas bajo = se estira hacia el centro.
+            float alpha = Mathf.Pow(t, Mathf.Max(0.05f, dureza));
+
+            Color pixel = new Color(1f, 1f, 1f, alpha);
+            if (horizontal) tex.SetPixel(i, 0, pixel);
+            else            tex.SetPixel(0, i, pixel);
+        }
+
+        tex.Apply();
+
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+    }
+
+    //  8. UTILIDADES
+    //  Ayudantes cortos que usan varias de las secciones de arriba.
+
+    private string NombreDeDireccion(Vector2 d)
+    {
+        if (d.x > 0f) return "DERECHA";
+        if (d.x < 0f) return "IZQUIERDA";
+        if (d.y > 0f) return "ARRIBA";
+        return "ABAJO";
+    }
+
+    private void Diagnostico(string mensaje)
+    {
+        if (ajustes != null && ajustes.mostrarDiagnosticoEnConsola)
+        {
+            Debug.Log("[Puertas] " + mensaje);
+        }
+    }
+
     // Buscamos a la niña por su COMPONENTE, no por el tag.
     //
     // Buscar por tag es fragil: si en una escena quedo otro objeto con el tag "Player"
@@ -987,5 +985,22 @@ public class TransicionZonas : MonoBehaviour
         if (pc == null) pc = go.GetComponentInChildren<PlayerController>();
 
         return pc;
+    }
+
+    // Arranca rapido y frena suave: da la sensacion de que "se posa" en lugar de aparecer.
+    private float SuavizarSalida(float x)
+    {
+        return 1f - Mathf.Pow(1f - x, 3f);
+    }
+
+    // Espera en tiempo REAL: el cartel sigue andando aunque algo haya puesto el timeScale en 0.
+    private IEnumerator EsperarReal(float segundos)
+    {
+        float t = 0f;
+        while (t < segundos)
+        {
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 }

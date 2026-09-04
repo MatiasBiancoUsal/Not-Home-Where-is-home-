@@ -1,6 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
+// Todo lo que muestra el cartel de UNA habilidad, junto en un solo lugar.
+[System.Serializable]
+public class CartelDeHabilidad
+{
+    [Tooltip("La imagen que hace de BASE del cartel para esta habilidad.")]
+    public Sprite fondo;
+    [Tooltip("Titulo grande. OJO: la tipografia del juego no tiene numeros, si escribis " +
+             "un numero va a salir con otra letra.")]
+    public string titulo;
+    [TextArea(2, 4)]
+    [Tooltip("La explicacion de la habilidad. Es el texto que aparece con la animacion de tipeo.")]
+    public string descripcion;
+}
+
 public class ActivarFlor : MonoBehaviour
 {
     [Header("Habilidad que entrega")]
@@ -22,23 +36,69 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("Ilustracion que reemplaza el rectangulo negro en todos los carteles de habilidad.")]
     [SerializeField] private Sprite fondoCartel;
 
-    [Header("Cartel correspondiente a cada habilidad")]
-    [Tooltip("Estos carteles se eligen automaticamente segun la habilidad de la flor.")]
-    [SerializeField] private Sprite cartelDobleSalto;
-    [SerializeField] private Sprite cartelDash;
-    [SerializeField] private Sprite cartelEscalar;
-    [SerializeField] private Sprite cartelPisoton;
-    [SerializeField] private Sprite cartelSuperSalto;
-    [SerializeField] private Sprite cartelEscudo;
-    [SerializeField] private string tituloCartel = "NUEVA HABILIDAD";
-    [TextArea(2, 5)]
-    [SerializeField] private string descripcionCartel = "Proba tu nueva habilidad.";
+    [Header("EL CARTEL DE CADA HABILIDAD (imagen + textos)")]
+    [Tooltip("Aca se edita TODO lo que muestra el cartel de cada habilidad. La flor usa el bloque " +
+             "que corresponde a la habilidad que entrega, asi que se completa una vez y sirve para " +
+             "todas las flores del juego.")]
+    [SerializeField] private CartelDeHabilidad dobleSalto = new CartelDeHabilidad
+    {
+        titulo = "DOBLE SALTO",
+        descripcion = "Presiona SALTO nuevamente mientras estas en el aire."
+    };
+    [SerializeField] private CartelDeHabilidad dash = new CartelDeHabilidad
+    {
+        titulo = "DASH",
+        descripcion = "Presiona SHIFT para impulsarte en la direccion elegida."
+    };
+    [SerializeField] private CartelDeHabilidad escalar = new CartelDeHabilidad
+    {
+        titulo = "ESCALAR",
+        descripcion = "Acercate a una pared y usa W o S para trepar."
+    };
+    [SerializeField] private CartelDeHabilidad pisoton = new CartelDeHabilidad
+    {
+        titulo = "PISOTON",
+        descripcion = "En el aire, presiona S para caer con fuerza."
+    };
+    [SerializeField] private CartelDeHabilidad superSalto = new CartelDeHabilidad
+    {
+        titulo = "SUPER SALTO",
+        descripcion = "En el suelo, manten W para cargar y presiona SALTO."
+    };
+    [SerializeField] private CartelDeHabilidad escudo = new CartelDeHabilidad
+    {
+        titulo = "ESCUDO",
+        descripcion = "Presiona E para invocar un escudo que aguanta varios golpes."
+    };
+
+    // ---- Campos viejos, de cuando la imagen y el texto estaban separados ----
+    // Quedan ocultos SOLO para no perder los sprites que ya estaban asignados: la primera
+    // vez que se abre la flor, MigrarSpritesViejos() los copia al bloque nuevo. Una vez
+    // migrado todo, se pueden borrar de aca.
+    [HideInInspector] [SerializeField] private Sprite cartelDobleSalto;
+    [HideInInspector] [SerializeField] private Sprite cartelDash;
+    [HideInInspector] [SerializeField] private Sprite cartelEscalar;
+    [HideInInspector] [SerializeField] private Sprite cartelPisoton;
+    [HideInInspector] [SerializeField] private Sprite cartelSuperSalto;
+    [HideInInspector] [SerializeField] private Sprite cartelEscudo;
+
+    [Header("Comun a todos los carteles")]
     [SerializeField] private string textoParaCerrar = "Presiona ESPACIO, ENTER o ESC para continuar";
     [SerializeField] private bool pausarMientrasSeMuestra = true;
+
+    // El titulo y la descripcion que se van a mostrar. No se editan aca: los completa
+    // AsignarCartelDeHabilidad() copiandolos del bloque de la habilidad que entrega la flor.
+    private string tituloCartel;
+    private string descripcionCartel;
 
     [Header("Diseño del cartel")]
     [Tooltip("Desplega esta seccion para modificar posiciones, tamaños, tipografias y colores.")]
     [SerializeField] private EstiloCartelHabilidad estiloCartel = new EstiloCartelHabilidad();
+
+    // Para que otros carteles del juego (por ejemplo el de COMBATE que aparece despues de
+    // la cinematica) puedan usar exactamente el mismo diseño que los de habilidad, en vez
+    // de tener que copiar tipografias y posiciones a mano y que despues queden distintos.
+    public EstiloCartelHabilidad EstiloDelCartel => estiloCartel;
 
     private const string TRIGGER_ABRIR = "ActivarFlor";
 
@@ -52,7 +112,6 @@ public class ActivarFlor : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (detectarPorNombre) DetectarHabilidadPorNombre();
         AsignarCartelDeHabilidad();
-        CompletarTextoPredeterminado();
     }
 
     private void Start()
@@ -171,57 +230,59 @@ public class ActivarFlor : MonoBehaviour
         return "Habilidad_" + habilidad;
     }
 
+    // Devuelve el bloque de cartel que corresponde a la habilidad que entrega esta flor.
+    private CartelDeHabilidad CartelDeEstaHabilidad()
+    {
+        switch (habilidad)
+        {
+            case PlayerController.Habilidad.DobleSalto: return dobleSalto;
+            case PlayerController.Habilidad.Dash: return dash;
+            case PlayerController.Habilidad.Escalar: return escalar;
+            case PlayerController.Habilidad.Pisoton: return pisoton;
+            case PlayerController.Habilidad.SuperSalto: return superSalto;
+            case PlayerController.Habilidad.Escudo: return escudo;
+            default: return null;
+        }
+    }
+
+    // Copia la imagen y los textos del bloque de esta habilidad a los campos que usa el cartel.
     private void AsignarCartelDeHabilidad()
     {
-        Sprite cartelCorrespondiente = null;
+        MigrarSpritesViejos();
 
-        switch (habilidad)
-        {
-            case PlayerController.Habilidad.DobleSalto: cartelCorrespondiente = cartelDobleSalto; break;
-            case PlayerController.Habilidad.Dash: cartelCorrespondiente = cartelDash; break;
-            case PlayerController.Habilidad.Escalar: cartelCorrespondiente = cartelEscalar; break;
-            case PlayerController.Habilidad.Pisoton: cartelCorrespondiente = cartelPisoton; break;
-            case PlayerController.Habilidad.SuperSalto: cartelCorrespondiente = cartelSuperSalto; break;
-            case PlayerController.Habilidad.Escudo: cartelCorrespondiente = cartelEscudo; break;
-        }
+        CartelDeHabilidad cartel = CartelDeEstaHabilidad();
+        if (cartel == null) return;
 
-        if (cartelCorrespondiente != null)
+        if (cartel.fondo != null)
         {
-            fondoCartel = cartelCorrespondiente;
+            fondoCartel = cartel.fondo;
             imagenCartel = null;
         }
+
+        tituloCartel = string.IsNullOrWhiteSpace(cartel.titulo) ? "NUEVA HABILIDAD" : cartel.titulo;
+        descripcionCartel = cartel.descripcion ?? string.Empty;
     }
 
-    private void CompletarTextoPredeterminado()
+    // Antes la imagen de cada cartel estaba en un campo suelto, separada del texto. Al pasar
+    // todo a un solo bloque por habilidad, los sprites que ya estaban asignados se copian
+    // aca para no tener que volver a arrastrarlos uno por uno.
+    private void MigrarSpritesViejos()
     {
-        if (tituloCartel != "NUEVA HABILIDAD" || descripcionCartel != "Proba tu nueva habilidad.") return;
+        Copiar(cartelDobleSalto, dobleSalto);
+        Copiar(cartelDash, dash);
+        Copiar(cartelEscalar, escalar);
+        Copiar(cartelPisoton, pisoton);
+        Copiar(cartelSuperSalto, superSalto);
+        Copiar(cartelEscudo, escudo);
+    }
 
-        switch (habilidad)
+    private static void Copiar(Sprite viejo, CartelDeHabilidad destino)
+    {
+        // Solo si el nuevo esta vacio: lo que se haya cargado a mano siempre gana.
+        if (viejo != null && destino != null && destino.fondo == null)
         {
-            case PlayerController.Habilidad.DobleSalto:
-                tituloCartel = "DOBLE SALTO";
-                descripcionCartel = "Presiona SALTO nuevamente mientras estas en el aire.";
-                break;
-            case PlayerController.Habilidad.Dash:
-                tituloCartel = "DASH";
-                descripcionCartel = "Presiona SHIFT para impulsarte en la direccion elegida.";
-                break;
-            case PlayerController.Habilidad.Escalar:
-                tituloCartel = "ESCALAR";
-                descripcionCartel = "Acercate a una pared y usa W o S para trepar.";
-                break;
-            case PlayerController.Habilidad.Pisoton:
-                tituloCartel = "PISOTON";
-                descripcionCartel = "En el aire, presiona S para caer con fuerza.";
-                break;
-            case PlayerController.Habilidad.SuperSalto:
-                tituloCartel = "SUPER SALTO";
-                descripcionCartel = "En el suelo, manten W para cargar y presiona SALTO.";
-                break;
-            case PlayerController.Habilidad.Escudo:
-                tituloCartel = "ESCUDO";
-                descripcionCartel = "Presiona E para invocar un escudo que aguanta 6 golpes.";
-                break;
+            destino.fondo = viejo;
         }
     }
+
 }
