@@ -1096,6 +1096,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1246534742011909075, guid: 168b1345293205244b267822a56e4915, type: 3}
   m_PrefabInstance: {fileID: 41112068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &41424795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 41424797}
+  - component: {fileID: 41424796}
+  m_Layer: 0
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &41424796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41424795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31370e5b70ce81c4c800cf55cb3551aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  damageHurtBox: 1
+  knockBackHurtBox: 12
+  timeKnockBack: 0.15
+  hurtBoxSize: {x: 1.62, y: 3.2}
+  hurtBoxOffset: {x: 2.95, y: 1.17}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  damageCoolDown: 0.5
+--- !u!4 &41424797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41424795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1343496969}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &43333848
 GameObject:
   m_ObjectHideFlags: 0
@@ -26030,8 +26083,10 @@ GameObject:
   - component: {fileID: 1343496969}
   - component: {fileID: 1343496968}
   - component: {fileID: 1343496967}
+  - component: {fileID: 1343496971}
+  - component: {fileID: 1343496970}
   m_Layer: 0
-  m_Name: moco1_0
+  m_Name: ENEMIGO_mocoPared
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26130,9 +26185,110 @@ Transform:
   m_LocalPosition: {x: 5.01, y: -25.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 41424797}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1343496970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343496966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a279138d74c6c2e44ad4b9bee063b27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemigoMoco
+  radioDeteccion: 3.27
+  offsetDeteccion: {x: 2.94, y: 1.11}
+  tagJugador: Player
+  repetirMientrasEsteCerca: 1
+  estadoIdle: idle_moco
+  inicio:
+    estadoAnimator: inicio_moco
+    duracion: 0.5
+    cortaElPaso: 0
+    tamanoCollider: {x: 1, y: 1}
+    offsetCollider: {x: 0, y: 0}
+  pared:
+    estadoAnimator: pared_moco
+    duracion: 0.4
+    cortaElPaso: 1
+    tamanoCollider: {x: 1, y: 1}
+    offsetCollider: {x: 0, y: 0}
+  final:
+    estadoAnimator: final_moco
+    duracion: 0.5
+    cortaElPaso: 1
+    tamanoCollider: {x: 1, y: 1}
+    offsetCollider: {x: 0, y: 0}
+  esperaEnFinal: 1.5
+  esperaEnReposo: 1
+  esperaAntesDeSalir: 0.2
+  colliderBloqueo: {fileID: 0}
+  tamanoEnReposo: {x: 1, y: 0.3}
+  offsetEnReposo: {x: 0, y: 0}
+  hurtBox: {fileID: 41424796}
+  soloLastimaCuandoCortaElPaso: 1
+  ajustarAlHueco: 1
+  capaDelEscenario:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  distanciaDeBusqueda: 2
+  margen: 2
+  alturaDelMocoExtendido: 0
+  mantenerLaProporcion: 0
+  anclarEnLaBase: 1
+  mostrarGizmos: 1
+  colorGizmoDeteccion: {r: 1, g: 0.9, b: 0.2, a: 0.9}
+--- !u!61 &1343496971
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343496966}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 2.9875584, y: -2.2061038}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 9.6, y: 5.4}
+    newSize: {x: 19.2, y: 10.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.6532154, y: 0.987792}
+  m_EdgeRadius: 0
 --- !u!1001 &1346333820
 PrefabInstance:
   m_ObjectHideFlags: 0
