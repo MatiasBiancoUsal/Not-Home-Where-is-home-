@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerDoubleJump : MonoBehaviour
 {
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
 
     [Header("Variables Doble Salto")]
     [HideInInspector] public bool canDoubleJump = false; // compatibilidad con escenas antiguas; manda PlayerController.
@@ -21,6 +22,7 @@ public class PlayerDoubleJump : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
         airJumpsLeft = maxAirJumps;
     }
 
@@ -62,6 +64,7 @@ public class PlayerDoubleJump : MonoBehaviour
         playerController.rb.gravityScale = playerController.normalGravity;
 
         isDoubleJumping = true; // para que se reproduzca la animacion de doble salto
+        playerAudio?.ReproducirDobleSalto();
 
         return true; // avisamos que SI se hizo el doble salto
     }

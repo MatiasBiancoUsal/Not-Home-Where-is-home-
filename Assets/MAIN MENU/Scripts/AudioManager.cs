@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
     [Header("Musica por zona")]
     public AudioClip musicaMenu;
     public AudioClip musicaZona1;
+    public AudioClip musicaZona2;
 
     // Crea el AudioManager AUTOMATICAMENTE al arrancar el juego (en cualquier escena),
     // antes de que cargue la primera escena. Por eso NO hace falta ponerlo en ninguna escena.
@@ -79,6 +80,10 @@ public class AudioManager : MonoBehaviour
         else if (sceneName == "Zona 1")
         {
             ReproducirMusica(musicaZona1);
+        }
+        else if (sceneName == "Zona 2")
+        {
+            ReproducirMusica(musicaZona2);
         }
         else
         {

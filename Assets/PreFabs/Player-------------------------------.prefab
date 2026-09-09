@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 5772618782023576063}
   - component: {fileID: 882106163897167723}
   - component: {fileID: 7509069849632988548}
+  - component: {fileID: 9001000000000000001}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -129,6 +130,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9001000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d4c6e8f1024b1c9d8e7f6a5b4c3d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudio
+  grupoSFX: {fileID: 4921682610192763316, guid: f2ee9db9b01b1d344935c590d2c5cc3a, type: 2}
+  volumenGeneral: 1
+  pasos: []
+  pasosAutomaticos: 0
+  intervaloPasos: 0.32
+  velocidadMinimaPasos: 0.6
+  volumenPasos: 0.55
+  subidaSalto: {fileID: 0}
+  caidaSalto: {fileID: 0}
+  dobleSalto: {fileID: 0}
+  dash: {fileID: 0}
+  aterrizajeSuave: {fileID: 0}
+  aterrizajeFuerte: {fileID: 0}
+  velocidadAterrizajeFuerte: 12
+  escudoActivar: {fileID: 0}
+  escudoGolpe: {fileID: 0}
+  escudoRomper: {fileID: 0}
+  saltoPared: {fileID: 0}
+  trepar: {fileID: 0}
+  pisoton: {fileID: 0}
+  ataque: {fileID: 0}
+  recibirDanio: {fileID: 0}
+  muerte: {fileID: 0}
 --- !u!4 &3398049037645677416
 Transform:
   m_ObjectHideFlags: 0

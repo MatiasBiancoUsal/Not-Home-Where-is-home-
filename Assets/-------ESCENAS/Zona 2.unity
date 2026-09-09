@@ -19987,6 +19987,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9169444790050715735, guid: 53d4b8fc186660d40a0f4b7f853ab8d0, type: 3}
+      propertyPath: ImpulseDefinition.ImpulseDuration
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22420,7 +22424,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 1
+      value: 0.7596005
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -49380,6 +49384,46 @@ PrefabInstance:
     - target: {fileID: 5212340119754789098, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: salto
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ede54912294e4365a97103ebe932beb, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: pisoton
+      value: 
+      objectReference: {fileID: 8300000, guid: 2daeba17b69924af8a616721eb80071f, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: caidaSalto
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ede54912294e4365a97103ebe932beb, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: subidaSalto
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: intervaloPasos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: pasos.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: pasosAutomaticos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: 'pasos.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ac523206fef37f54d94ac272b21c9dc0, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: velocidadMinimaPasos
+      value: 1.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: velocidadAterrizajeFuerte
+      value: 10.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
