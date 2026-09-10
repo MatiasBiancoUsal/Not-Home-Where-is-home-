@@ -86,6 +86,7 @@ public class PlayerShield : MonoBehaviour
     private bool rompiendose; // corriendo la animacion de rotura
 
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
     private ShieldVisual visual;
 
     // ---------- Getters ----------
@@ -110,6 +111,7 @@ public class PlayerShield : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
 
         // El visual vive en un hijo. Lo buscamos incluso si esta desactivado.
         visual = GetComponentInChildren<ShieldVisual>(true);
@@ -189,7 +191,8 @@ public class PlayerShield : MonoBehaviour
             visual.CambiarEtapa(ShieldVisual.Etapa.Limpio);
         }
 
-        Sonar(sonidoActivar);
+        if (playerAudio != null) playerAudio.ReproducirEscudoActivar();
+        else Sonar(sonidoActivar);
 
         if (mostrarLogs) Debug.Log("[Escudo] Activado. Aguanta " + golpesQueAguanta + " golpes.");
         return true;
@@ -222,7 +225,8 @@ public class PlayerShield : MonoBehaviour
 
         if (mostrarLogs) Debug.Log("[Escudo] Golpe frenado " + golpesRecibidos + "/" + golpesQueAguanta);
 
-        Sonar(sonidoGolpeFrenado);
+        if (playerAudio != null) playerAudio.ReproducirEscudoGolpe();
+        else Sonar(sonidoGolpeFrenado);
 
         // Se rompio: este era el ultimo golpe que aguantaba.
         if (golpesRecibidos >= golpesQueAguanta)
@@ -265,7 +269,8 @@ public class PlayerShield : MonoBehaviour
 
         if (visual != null) visual.Romper();
 
-        Sonar(sonidoRotura);
+        if (playerAudio != null) playerAudio.ReproducirEscudoRomper();
+        else Sonar(sonidoRotura);
 
         if (sacudirCamaraAlRomper) CameraShaker.Instance?.ShakeShieldBreak();
         if (freezeFrame) StartCoroutine(FreezeFrame());

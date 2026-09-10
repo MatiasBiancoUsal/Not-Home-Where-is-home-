@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 5772618782023576063}
   - component: {fileID: 882106163897167723}
   - component: {fileID: 7509069849632988548}
+  - component: {fileID: 9001000000000000001}
   m_Layer: 6
   m_Name: Player-------------------------------
   m_TagString: Player
@@ -129,6 +130,62 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9001000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131308747041925141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d4c6e8f1024b1c9d8e7f6a5b4c3d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudio
+  grupoSFX: {fileID: 4921682610192763316, guid: f2ee9db9b01b1d344935c590d2c5cc3a, type: 2}
+  volumenGeneral: 1
+  pasos:
+  - {fileID: 8300000, guid: 205bfa1a33894d2e931792e7be96356b, type: 3}
+  - {fileID: 8300000, guid: 71c6860176bd4f7fb4c0b4e5c831483e, type: 3}
+  - {fileID: 8300000, guid: 830e39523d034c97a33de2e6126829c0, type: 3}
+  - {fileID: 8300000, guid: 6f93a55c2e924e0daf24a847593cec46, type: 3}
+  - {fileID: 8300000, guid: 46c4857353c14a7f8583dfb082a9c857, type: 3}
+  - {fileID: 8300000, guid: 5eb431d4537c4ea181abfbf226c84bc9, type: 3}
+  - {fileID: 8300000, guid: ad0385d3fae74bf28c3f8ed60e0276e6, type: 3}
+  - {fileID: 8300000, guid: 7cb9747f578d44988e841a53cc6a6d8d, type: 3}
+  - {fileID: 8300000, guid: 53aa85c560854605831c71fee29af262, type: 3}
+  - {fileID: 8300000, guid: 89bc521423d24f77bc7a70512acf20fa, type: 3}
+  - {fileID: 8300000, guid: c770045e357b446f800644f45695f93d, type: 3}
+  - {fileID: 8300000, guid: 416ed89835ab4920b94c1523ae8aed0e, type: 3}
+  - {fileID: 8300000, guid: 6583ca736d1a4e0d88637ff182fd4d3a, type: 3}
+  - {fileID: 8300000, guid: 654d842539564156a64bffb0c21b12c3, type: 3}
+  - {fileID: 8300000, guid: dc30c14d8bfa4eb5a3fe4eb2a1951220, type: 3}
+  - {fileID: 8300000, guid: c2c25fcfff6b44c99c939c52f4a8ef08, type: 3}
+  - {fileID: 8300000, guid: 8d6ae371306b4458965fa3aba155b1fc, type: 3}
+  - {fileID: 8300000, guid: 15806e8d05bf44fa935c988c74407a2c, type: 3}
+  - {fileID: 8300000, guid: 3ce27e6bcd2d4248ab5d4bf8f882bf4c, type: 3}
+  - {fileID: 8300000, guid: be1434fe89a64a2bb5b6528d6ff7294d, type: 3}
+  - {fileID: 8300000, guid: 601ea11495f944ba9402bd3d5f8e2b4d, type: 3}
+  pasosAutomaticos: 0
+  intervaloPasos: 0.32
+  velocidadMinimaPasos: 0.6
+  volumenPasos: 0.55
+  subidaSalto: {fileID: 0}
+  caidaSalto: {fileID: 0}
+  dobleSalto: {fileID: 0}
+  dash: {fileID: 0}
+  aterrizajeSuave: {fileID: 0}
+  aterrizajeFuerte: {fileID: 0}
+  velocidadAterrizajeFuerte: 12
+  escudoActivar: {fileID: 0}
+  escudoGolpe: {fileID: 0}
+  escudoRomper: {fileID: 0}
+  saltoPared: {fileID: 0}
+  trepar: {fileID: 0}
+  pisoton: {fileID: 0}
+  ataque: {fileID: 0}
+  recibirDanio: {fileID: 0}
+  muerte: {fileID: 0}
 --- !u!4 &3398049037645677416
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerJump : MonoBehaviour
 {
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
 
     [Header("Variables Salto")]
     public float jumpForce;
@@ -29,6 +30,7 @@ public class PlayerJump : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
 
     public void OnUpdate()
@@ -80,6 +82,7 @@ public class PlayerJump : MonoBehaviour
                 playerController.rb.gravityScale = playerController.normalGravity;
                 coyoteCounter = 0;
                 bufferJumpCounter = 0;
+                playerAudio?.ReproducirSalto();
             }
         }
 
@@ -104,6 +107,7 @@ public class PlayerJump : MonoBehaviour
             playerController.rb.gravityScale = playerController.normalGravity;
             coyoteCounter = 0;
             hasJumped = true; // marcar que el jugador ha saltado
+            playerAudio?.ReproducirSalto();
         }
         else //no se ha realizado un salto
         {

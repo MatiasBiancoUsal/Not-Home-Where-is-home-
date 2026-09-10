@@ -20,6 +20,7 @@ public class PlayerDash : MonoBehaviour
 
     private Vector2 dashDirection;
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
 
     //Getters
     public bool IsDash // para saber si estamos dasheando
@@ -34,6 +35,7 @@ public class PlayerDash : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
 
     public void OnUpdate()
@@ -60,6 +62,7 @@ public class PlayerDash : MonoBehaviour
         timerDashDuration = dashDuration;
         timerCoolDownDash = coolDownDash;
         playerController.rb.gravityScale = 0f;
+        playerAudio?.ReproducirDash();
 
         //----- verificar direccion del dash -------//
 
