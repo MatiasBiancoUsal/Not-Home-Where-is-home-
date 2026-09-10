@@ -14,6 +14,7 @@ public class EventsAnims : MonoBehaviour
 
     public void OntAttackHit()
     {
+        playerAudio?.ReproducirAtaque();
         playerAttacks.ActiveHitbox();
     }
 

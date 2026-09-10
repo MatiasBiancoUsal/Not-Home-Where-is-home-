@@ -3,10 +3,12 @@ using UnityEngine;
 public class PlayerClimb : MonoBehaviour
 {
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
 
     [Header("Trepar (Climb)")]
     public float climbSpeed = 3f;      // velocidad al subir/bajar por la pared
     public float jumpOffForce = 8f;    // impulso hacia arriba al saltar de la pared (con ESPACIO)
+    [Min(0.1f)] public float intervaloSonidoTrepar = 0.4f;
 
     [Header("Salto de pared direccional")]
     [Tooltip("Impulso HORIZONTAL al saltar hacia el lado contrario a la pared (presionando A/D en contra).")]
@@ -35,6 +37,7 @@ public class PlayerClimb : MonoBehaviour
     private float verticalInput = 0f;     // W/S (lo usa la animacion)
     private float reStickTimer = 0f;      // evita re-pegarse justo despues de saltar de la pared
     private float wallJumpLockTimer = 0f; // mientras corre, el movimiento no pisa el envion del salto de pared
+    private float timerSonidoTrepar = 0f;
 
     //Getters
     public bool IsClimbing { get { return isClimbing; } }
@@ -44,6 +47,7 @@ public class PlayerClimb : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
         rb = GetComponent<Rigidbody2D>();
         capsule = GetComponent<CapsuleCollider2D>();
 
@@ -124,6 +128,20 @@ public class PlayerClimb : MonoBehaviour
 
         rb.linearVelocity = new Vector2(0f, vy); // pegado en X, solo se mueve en Y
 
+        if (Mathf.Abs(vy) > 0.1f)
+        {
+            timerSonidoTrepar -= Time.fixedDeltaTime;
+            if (timerSonidoTrepar <= 0f)
+            {
+                playerAudio?.ReproducirTrepar();
+                timerSonidoTrepar = intervaloSonidoTrepar;
+            }
+        }
+        else
+        {
+            timerSonidoTrepar = 0f;
+        }
+
         // si baja y toca el piso, sale del modo trepar
         if (playerController.jump.IsGrounded)
         {
@@ -159,6 +177,7 @@ public class PlayerClimb : MonoBehaviour
         }
 
         rb.linearVelocity = new Vector2(horizontal, jumpOffForce);
+        playerAudio?.ReproducirSaltoPared();
         reStickTimer = reStickTime; // un ratito para no re-pegarnos al instante
     }
 
@@ -166,6 +185,7 @@ public class PlayerClimb : MonoBehaviour
     {
         isClimbing = false;
         verticalInput = 0f;
+        timerSonidoTrepar = 0f;
         rb.bodyType = RigidbodyType2D.Dynamic;            // volvemos a la fisica normal
         rb.gravityScale = playerController.normalGravity; // devolvemos la gravedad normal
         SetClimbCollider(false);                          // collider normal de vuelta
