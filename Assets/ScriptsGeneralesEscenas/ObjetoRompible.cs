@@ -2,8 +2,9 @@ using UnityEngine;
 
 // ============================================================
 //  OBJETO ROMPIBLE POR HABILIDAD
-//  Va EN el objeto rompible (que tiene un Collider2D). Se rompe solo si el PLAYER lo
-//  toca con la habilidad que coincide con el TAG del objeto, y desde la direccion correcta:
+//  Componente para objetos rompibles con efecto opcional. Dash y Stomp tambien
+//  resuelven el tag desde el player, asi que para esas dos habilidades alcanza con
+//  tag + Collider2D. Se rompe cuando la habilidad y direccion coinciden:
 //    - Tag "Dash"      -> rompe si el player esta dasheando (cualquier direccion).
 //    - Tag "Stomp"     -> rompe si el player esta stompeando y le cae ENCIMA (desde arriba).
 //    - Tag "SuperJump" -> rompe si el player viene en super salto y le pega de ABAJO hacia arriba.
@@ -28,7 +29,20 @@ public class ObjetoRompible : MonoBehaviour
         TryBreak(collision.collider);
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Si el contacto empezo antes de activar la habilidad, OnCollisionEnter2D no
+        // vuelve a ejecutarse. Reintentarlo mientras dura el contacto evita que esos
+        // bloques queden "inmunes" al stomp (tambien sirve para Dash/SuperJump).
+        TryBreak(collision.collider);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
+    {
+        TryBreak(other);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
     {
         TryBreak(other);
     }
@@ -70,7 +84,9 @@ public class ObjetoRompible : MonoBehaviour
         return false; // el objeto no tiene un tag de habilidad conocido
     }
 
-    private void Romper()
+    // PlayerStomp y PlayerDash tambien llaman este metodo desde el lado del player.
+    // Asi un impacto no depende del orden en que Unity despache los callbacks de fisica.
+    public void Romper()
     {
         if (roto) return; // evita romperse dos veces (varias colisiones en el mismo frame)
         roto = true;
