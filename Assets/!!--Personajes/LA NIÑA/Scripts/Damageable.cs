@@ -80,7 +80,9 @@ public class Damageable : MonoBehaviour
         if (!esGolpeMortal)
         {
             // efecto knockback
-            if (activeKnockBack)
+            // Algunos enemigos fijos (por ejemplo EnemyWall) no usan Rigidbody2D.
+            // El golpe igual debe descontar vida aunque no haya cuerpo para empujar.
+            if (activeKnockBack && rb != null)
             {
                 KnockBackApply(sourcePosition, sourceKnockBackForce);
             }

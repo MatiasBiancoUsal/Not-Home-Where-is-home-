@@ -21,6 +21,7 @@ public class PlayerDash : MonoBehaviour
     private Vector2 dashDirection;
     private PlayerController playerController;
     private PlayerAudio playerAudio;
+    private CollisionDetectionMode2D collisionDetectionAnterior;
 
     //Getters
     public bool IsDash // para saber si estamos dasheando
@@ -63,6 +64,11 @@ public class PlayerDash : MonoBehaviour
         timerCoolDownDash = coolDownDash;
         playerController.rb.gravityScale = 0f;
         playerAudio?.ReproducirDash();
+
+        // El dash alcanza velocidades altas. Continuous evita atravesar colliders
+        // finos antes de que Unity llegue a emitir el callback de colision.
+        collisionDetectionAnterior = playerController.rb.collisionDetectionMode;
+        playerController.rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
         //----- verificar direccion del dash -------//
 
@@ -120,23 +126,24 @@ public class PlayerDash : MonoBehaviour
 
     void DashUpdate()
     {
+        // Terminamos antes de volver a imponer la velocidad. Antes isDash pasaba a
+        // false en este mismo FixedUpdate pero el Rigidbody todavia avanzaba un frame
+        // a velocidad de dash; los bloques tocados en ese frame no se rompian.
+        timerDashDuration -= Time.fixedDeltaTime;
+        if (timerDashDuration <= 0f)
+        {
+            DashEnd();
+            return;
+        }
 
         // aplicamos la velocidad del dash al rb del player
         playerController.rb.linearVelocity = dashDirection * dashForce;
-
-        // actualizar timers
-        timerDashDuration -= Time.fixedDeltaTime;
-
-        if (timerDashDuration <= 0f) // se termin� de ejecutar la mecanica dash
-        {
-            DashEnd();
-
-        }
     }
 
     void DashEnd()
     {
         isDash = false;
+        playerController.rb.collisionDetectionMode = collisionDetectionAnterior;
 
         // Si el dash termino EN EL AIRE, flotamos un momento antes de caer (dash mas estrategico).
         if (!playerController.jump.IsGrounded && floteDuracion > 0f)
@@ -177,6 +184,88 @@ public class PlayerDash : MonoBehaviour
     {
         isFloating = false;
         playerController.rb.gravityScale = playerController.normalGravity; // ahora si, empieza a caer
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        TryBreakDashBlock(GetOtherCollider(collision));
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Si el player ya estaba tocando el bloque al iniciar el dash, no se genera
+        // otro Enter. Stay permite que ese bloque tambien responda a la habilidad.
+        TryBreakDashBlock(GetOtherCollider(collision));
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        TryBreakDashBlock(other);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TryBreakDashBlock(other);
+    }
+
+    private Collider2D GetOtherCollider(Collision2D collision)
+    {
+        if (PerteneceAlPlayer(collision.collider)) return collision.otherCollider;
+        return collision.collider;
+    }
+
+    private bool PerteneceAlPlayer(Collider2D candidate)
+    {
+        return candidate != null && candidate.GetComponentInParent<PlayerController>() == playerController;
+    }
+
+    private void TryBreakDashBlock(Collider2D other)
+    {
+        if (!isDash || other == null) return;
+
+        Transform objetoConTag = FindTaggedAncestor(other.transform, "Dash");
+        if (objetoConTag == null) return;
+
+        // ObjetoRompible sigue siendo opcional: si existe conserva su efecto visual;
+        // si falta, el propio tag Dash alcanza para romper el objeto marcado.
+        ObjetoRompible rompible = other.GetComponentInParent<ObjetoRompible>();
+        if (rompible != null)
+        {
+            rompible.Romper();
+        }
+        else
+        {
+            Destroy(objetoConTag.gameObject);
+        }
+    }
+
+    private static Transform FindTaggedAncestor(Transform current, string requiredTag)
+    {
+        while (current != null)
+        {
+            if (current.CompareTag(requiredTag)) return current;
+            current = current.parent;
+        }
+
+        return null;
+    }
+
+    private void OnDisable()
+    {
+        if (playerController == null) return;
+
+        if (isDash)
+        {
+            playerController.rb.collisionDetectionMode = collisionDetectionAnterior;
+        }
+
+        if (isDash || isFloating)
+        {
+            playerController.rb.gravityScale = playerController.normalGravity;
+        }
+
+        isDash = false;
+        isFloating = false;
     }
 
     public void DashHold() // se llama cuando el juego detecta que se presiono la tecla de dash
