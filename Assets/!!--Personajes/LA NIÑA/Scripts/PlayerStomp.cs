@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerStomp : MonoBehaviour
 {
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
 
     [Header("Stomp")]
     public float stompForce = 20f; // fuerza con la que cae hacia abajo
@@ -31,6 +32,7 @@ public class PlayerStomp : MonoBehaviour
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
 
     public void OnUpdate()
@@ -94,6 +96,7 @@ public class PlayerStomp : MonoBehaviour
 
     void EndStomp()
     {
+        playerAudio?.ReproducirPisoton();
         CameraShaker.Instance?.ShakeStompImpact(); // sacudon por el impacto del stomp contra el piso
 
         impactoTimer = graciaRompible; // ventana para que el ObjetoRompible alcance a detectar la colision
