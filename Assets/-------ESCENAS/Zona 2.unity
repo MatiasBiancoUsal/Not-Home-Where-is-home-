@@ -49311,44 +49311,64 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: dash
+      value: 
+      objectReference: {fileID: 8300000, guid: 89047fc93204a4c50bae486a48c2f6da, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: salto
       value: 
       objectReference: {fileID: 8300000, guid: 2ede54912294e4365a97103ebe932beb, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: pisoton
       value: 
-      objectReference: {fileID: 8300000, guid: 2daeba17b69924af8a616721eb80071f, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: caidaSalto
       value: 
-      objectReference: {fileID: 8300000, guid: 2ede54912294e4365a97103ebe932beb, type: 3}
+      objectReference: {fileID: 8300000, guid: dae9d314a53fc4ffd9b4bfc877b02a22, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: dobleSalto
+      value: 
+      objectReference: {fileID: 8300000, guid: ed0447dff1c774680bbc88c74fc53353, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: subidaSalto
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: b12703ab4467e4e4ea18d70d63d42661, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: intervaloPasos
-      value: 1
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: volumenGeneral
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: aterrizajeSuave
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a936a13a79c0472fbf44118417abbca, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: aterrizajeFuerte
+      value: 
+      objectReference: {fileID: 8300000, guid: d022c1309a18445ed987f2331cd509b5, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: pasos.Array.size
-      value: 0
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: pasosAutomaticos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: 'pasos.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: ac523206fef37f54d94ac272b21c9dc0, type: 3}
+      objectReference: {fileID: 8300000, guid: 205bfa1a33894d2e931792e7be96356b, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: velocidadMinimaPasos
-      value: 1.84
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: velocidadAterrizajeFuerte
-      value: 10.6
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
