@@ -6,6 +6,7 @@ public class Damageable : MonoBehaviour
     private Rigidbody2D rb;
     private HealthHandler healthHandler;
     private PlayerShield shield; // solo el player lo tiene; en los enemigos queda null
+    private PlayerAudio playerAudio; // solo el player lo tiene; en los enemigos queda null
 
     // Knockback
 
@@ -41,6 +42,7 @@ public class Damageable : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         healthHandler = GetComponent<HealthHandler>();
         shield = GetComponent<PlayerShield>();
+        playerAudio = GetComponent<PlayerAudio>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
@@ -105,6 +107,10 @@ public class Damageable : MonoBehaviour
                 StartCoroutine(InvulnerabilityEffect());
             }
         }
+
+        // El sonido solo se reproduce si el golpe realmente atraveso escudo e
+        // invulnerabilidad. Los golpes mortales usan el sonido de muerte.
+        if (!esGolpeMortal) playerAudio?.ReproducirDanio();
 
         // acceder a health y quitar damageAmount
         healthHandler.TakeDamage(damageAmount);

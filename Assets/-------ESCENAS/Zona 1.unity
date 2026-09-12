@@ -62916,7 +62916,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999995
+      value: 0.999999
       objectReference: {fileID: 0}
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: TargetOffset.x
@@ -63118,6 +63118,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 89047fc93204a4c50bae486a48c2f6da, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: muerte
+      value: 
+      objectReference: {fileID: 8300000, guid: 869b399e9993c428c9ee0669786ba8c6, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: trepar
+      value: 
+      objectReference: {fileID: 8300000, guid: 13fd36e8700d64360b57dc6f5953996c, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: caidaSalto
       value: 
       objectReference: {fileID: 8300000, guid: dae9d314a53fc4ffd9b4bfc877b02a22, type: 3}
@@ -63129,6 +63137,10 @@ PrefabInstance:
       propertyPath: subidaSalto
       value: 
       objectReference: {fileID: 8300000, guid: b12703ab4467e4e4ea18d70d63d42661, type: 3}
+    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
+      propertyPath: recibirDanio
+      value: 
+      objectReference: {fileID: 8300000, guid: 303e5ca80367d4d49ada12e4450c743c, type: 3}
     - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: volumenGeneral
       value: 0.5

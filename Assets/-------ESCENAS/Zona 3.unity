@@ -6073,7 +6073,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999998
+      value: 0.9999995
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -27882,26 +27882,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player-------------------------------
       objectReference: {fileID: 0}
-    - target: {fileID: 1131308747041925141, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1167732305773166325, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_Size.x
-      value: 1.2604046
-      objectReference: {fileID: 0}
-    - target: {fileID: 1167732305773166325, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_Size.y
-      value: 8.868829
-      objectReference: {fileID: 0}
-    - target: {fileID: 1167732305773166325, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.8162298
-      objectReference: {fileID: 0}
-    - target: {fileID: 1167732305773166325, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.5792756
-      objectReference: {fileID: 0}
     - target: {fileID: 3398049037645677416, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.04602
@@ -27942,50 +27922,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4957213472863025033, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: jumpForce
-      value: 8.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4957213472863025033, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: coyoteTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4957213472863025033, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: bufferJumpTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8966050854190810306, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: m_GravityScale
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: dash
-      value: 
-      objectReference: {fileID: 8300000, guid: 89047fc93204a4c50bae486a48c2f6da, type: 3}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: caidaSalto
-      value: 
-      objectReference: {fileID: 8300000, guid: dae9d314a53fc4ffd9b4bfc877b02a22, type: 3}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: dobleSalto
-      value: 
-      objectReference: {fileID: 8300000, guid: ed0447dff1c774680bbc88c74fc53353, type: 3}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: subidaSalto
-      value: 
-      objectReference: {fileID: 8300000, guid: b12703ab4467e4e4ea18d70d63d42661, type: 3}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: volumenGeneral
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: aterrizajeSuave
-      value: 
-      objectReference: {fileID: 8300000, guid: 5a936a13a79c0472fbf44118417abbca, type: 3}
-    - target: {fileID: 9001000000000000001, guid: 5a0966277578f094aa8342cd8aeb9f47, type: 3}
-      propertyPath: aterrizajeFuerte
-      value: 
-      objectReference: {fileID: 8300000, guid: d022c1309a18445ed987f2331cd509b5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
