@@ -3513,6 +3513,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -60.77645
@@ -3723,6 +3727,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.3
@@ -4733,6 +4745,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.739998
@@ -5550,6 +5566,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -53.59645
@@ -5607,6 +5627,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.2064514
@@ -6143,6 +6179,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.690012
@@ -7158,6 +7202,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.849998
@@ -7215,6 +7275,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.84
@@ -10363,6 +10439,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.330006
@@ -10682,6 +10766,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.6
@@ -13552,6 +13644,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.84
@@ -13619,15 +13727,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.x
-      value: 3
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.y
-      value: 1.95
+      value: 2.19
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxOffset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
@@ -13703,6 +13815,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.2064514
@@ -13834,11 +13962,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.x
-      value: 0.9
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.y
-      value: 1.35
+      value: 2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13982,6 +14114,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.85
@@ -15802,6 +15950,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.73
@@ -17170,6 +17334,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.73
@@ -17620,6 +17800,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -56.406456
@@ -18025,6 +18209,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -59.326454
@@ -23530,6 +23718,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -24902,6 +25106,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.36
@@ -25378,6 +25590,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -26122,15 +26350,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.x
-      value: 3
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.y
-      value: 1.95
+      value: 2.19
       objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxOffset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 6346129503647970727, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_Name
@@ -26418,11 +26650,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.x
-      value: 0.9
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.y
-      value: 1.35
+      value: 2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28325,6 +28561,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.063549
@@ -29493,6 +29745,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -29550,6 +29818,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.75
@@ -29679,6 +29955,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -31662,6 +31954,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: BloqueAplastante1
       objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.31
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31680,6 +31984,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -25.809996
@@ -34240,6 +34552,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.84
@@ -37019,6 +37347,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -25.200012
@@ -37581,6 +37917,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -40526,6 +40878,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.290001
@@ -41383,6 +41739,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.73
@@ -42421,6 +42793,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -55.046448
@@ -44214,6 +44590,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52.12645
@@ -44671,6 +45051,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.64
@@ -45404,6 +45792,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.54
@@ -45823,6 +46219,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.84
@@ -46285,6 +46697,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.279991
@@ -46843,6 +47263,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -48115,6 +48551,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.73
@@ -48458,6 +48910,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.73
@@ -50027,6 +50495,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -57.856453
@@ -50422,6 +50894,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.x
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.19
@@ -50755,6 +51243,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.209999
@@ -52903,6 +53395,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 940111020}
     m_Modifications:
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxSize.x
+      value: 1.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806756175497234413, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
+      propertyPath: hurtBoxOffset.y
+      value: 0.19
+      objectReference: {fileID: 0}
     - target: {fileID: 3483737817851031347, guid: c9c739660dde6f546a1a5eadb0c966d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.90001
@@ -53266,15 +53766,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.x
-      value: 1.11
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.y
-      value: 1.33
+      value: 2.01
       objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxOffset.y
-      value: -0.27
+      value: 0.31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
