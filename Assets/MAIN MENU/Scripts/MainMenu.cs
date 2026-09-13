@@ -25,9 +25,11 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    // BOTÓN PLAY (el de siempre: arranca en la Zona 1 sin tocar el progreso)
+    // BOTÓN PLAY: comienza una partida nueva desde Zona 1. Como CONTINUE ya
+    // conserva la partida anterior, PLAY no debe heredar habilidades guardadas.
     public void PlayGame()
     {
+        ScoreManager.NuevaPartida();
         LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 

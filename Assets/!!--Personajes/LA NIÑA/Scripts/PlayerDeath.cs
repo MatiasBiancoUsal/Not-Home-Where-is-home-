@@ -26,12 +26,14 @@ public class PlayerDeath : MonoBehaviour
     private bool isDying = false;
     private PlayerController playerController;
     private HealthHandler healthHandler;
+    private PlayerAudio playerAudio;
 
     private void Awake()
     {
         CreateFadeOverlay();
         playerController = GetComponent<PlayerController>();
         healthHandler = GetComponent<HealthHandler>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
 
     private void OnEnable()
@@ -73,6 +75,7 @@ public class PlayerDeath : MonoBehaviour
     private IEnumerator DeathSequence()
     {
         isDying = true;
+        playerAudio?.ReproducirMuerte();
 
         // 1) Frenamos al player y reproducimos la animacion de muerte.
         if (playerController != null)

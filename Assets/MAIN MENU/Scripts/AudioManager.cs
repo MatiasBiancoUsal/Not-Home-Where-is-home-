@@ -20,6 +20,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicaMenu;
     public AudioClip musicaZona1;
     public AudioClip musicaZona2;
+    public AudioClip musicaZona3;
+    public AudioClip musicaZona4;
+    public AudioClip musicaZona5;
+    public AudioClip musicaZona6;
 
     // Crea el AudioManager AUTOMATICAMENTE al arrancar el juego (en cualquier escena),
     // antes de que cargue la primera escena. Por eso NO hace falta ponerlo en ninguna escena.
@@ -85,6 +89,22 @@ public class AudioManager : MonoBehaviour
         {
             ReproducirMusica(musicaZona2);
         }
+        else if (sceneName == "Zona 3")
+        {
+            ReproducirMusica(musicaZona3);
+        }
+        else if (sceneName == "Zona 4")
+        {
+            ReproducirMusica(musicaZona4);
+        }
+        else if (sceneName == "Zona 5")
+        {
+            ReproducirMusica(musicaZona5);
+        }
+        else if (sceneName == "Zona 6")
+        {
+            ReproducirMusica(musicaZona6);
+        }
         else
         {
             musicSource.Stop();
@@ -93,8 +113,16 @@ public class AudioManager : MonoBehaviour
 
     private void ReproducirMusica(AudioClip clip)
     {
-        if (clip == null || musicSource == null)
+        if (musicSource == null) return;
+
+        // Si la zona todavia no tiene musica asignada, no dejamos sonando la
+        // pista de la zona anterior.
+        if (clip == null)
+        {
+            musicSource.Stop();
+            musicSource.clip = null;
             return;
+        }
 
         // No reinicia el tema si otra escena usa el mismo clip.
         if (musicSource.clip == clip && musicSource.isPlaying)
