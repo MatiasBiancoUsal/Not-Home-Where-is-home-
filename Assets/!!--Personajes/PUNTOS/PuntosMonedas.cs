@@ -12,6 +12,11 @@ public class Coleccionable : MonoBehaviour
     [Tooltip("Cuanto dura la animacion de recolectado antes de que la moneda desaparezca.")]
     public float duracionAnimRecolectado = 0.52f;
 
+    [Header("Sonido de recolectado")]
+    [Tooltip("Suena al agarrar la moneda. Cada prefab (1PUNTO, 10PUNTOS) tiene el suyo. Se puede dejar vacio.")]
+    public AudioClip sonidoRecolectado;
+    [Range(0f, 1f)] public float volumenSonido = 1f;
+
     private string id;
     private bool recolectada = false;
 
@@ -36,6 +41,11 @@ public class Coleccionable : MonoBehaviour
             // suma con ID: el puntaje queda guardado y esta moneda no volvera a aparecer.
             if (ScoreManager.Instance != null)
                 ScoreManager.Instance.AddPoints(puntos, id);
+
+            // Por el AudioManager (grupo SFX): lo regula el slider de Sonidos y no se
+            // corta cuando la moneda se destruye.
+            if (sonidoRecolectado != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(sonidoRecolectado, volumenSonido);
 
             StartCoroutine(SecuenciaRecolectado());
         }

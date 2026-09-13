@@ -14,6 +14,12 @@ public class MinimapUI : MonoBehaviour
     [SerializeField] private RectTransform playerMarker;
     [Tooltip("Dibujo del marcador. Arrastrar aca Simbolo_niña. Si queda vacio, se usa el sprite Flash del Player como antes.")]
     [SerializeField] private Sprite markerSprite;
+    [Tooltip("Si 'Marker Sprite' queda VACIO, se busca un sprite con este nombre dentro de " +
+             "cualquier carpeta llamada Resources. Asi el simbolo sale igual en todas las zonas " +
+             "sin tener que arrastrarlo escena por escena.\n\n" +
+             "El archivo tiene que estar en una carpeta Resources (por ejemplo " +
+             "Assets/MINIMAPAS/Resources/) y el nombre va SIN la extension .png.")]
+    [SerializeField] private string nombreDelSimbolo = "Simbolo_niña";
     [SerializeField] private Vector2 markerSize = new Vector2(32f, 32f);
     [SerializeField] private Color markerColor = Color.white;
 
@@ -72,6 +78,11 @@ public class MinimapUI : MonoBehaviour
     private Vector2 desplazamientoManual;
     private Vector2 desplazamientoObjetivo;
     private bool arrastrando;
+
+    // El simbolo encontrado por nombre en Resources. Se busca UNA vez y se recuerda:
+    // CreateMarkerIfNeeded() corre todos los frames mientras el mapa esta abierto.
+    private Sprite spriteBuscado;
+    private bool yaBusqueElSprite;
 
     private Transform player;
     private Bounds worldBounds;
@@ -274,14 +285,38 @@ public class MinimapUI : MonoBehaviour
         markerImage.color = markerColor;
         markerImage.preserveAspect = true;
 
-        // 1) El dibujo elegido a mano en el Inspector (Simbolo_niña) manda.
+        // 1) El dibujo elegido a mano en el Inspector manda.
         if (markerSprite != null)
         {
             markerImage.sprite = markerSprite;
             return;
         }
 
-        // 2) Si no hay ninguno puesto, se usa el sprite Flash del Player, como antes.
+        // 2) Si no hay ninguno puesto, lo buscamos SOLOS por nombre en las carpetas
+        //    Resources. Asi el simbolo correcto aparece en TODAS las zonas sin depender
+        //    de que alguien se acuerde de arrastrarlo escena por escena.
+        if (spriteBuscado == null && !yaBusqueElSprite)
+        {
+            yaBusqueElSprite = true; // una sola busqueda, no una por frame
+            spriteBuscado = Resources.Load<Sprite>(nombreDelSimbolo);
+
+            if (spriteBuscado == null)
+            {
+                Debug.LogWarning("MinimapUI: no encontre el sprite '" + nombreDelSimbolo +
+                                 "' en ninguna carpeta Resources. Movelo a una (por ejemplo " +
+                                 "Assets/MINIMAPAS/Resources/) o arrastralo al campo 'Marker Sprite'. " +
+                                 "Mientras tanto uso el sprite de combate de la niña, que no es el correcto.", this);
+            }
+        }
+
+        if (spriteBuscado != null)
+        {
+            markerImage.sprite = spriteBuscado;
+            return;
+        }
+
+        // 3) Ultimo recurso: el sprite Flash del Player. NO es el simbolo del mapa, es una
+        //    pose de combate; queda solo para que el marcador no sea un cuadrado blanco.
         if (markerImage.sprite == null && player != null)
         {
             SpriteRenderer[] playerSprites = player.GetComponentsInChildren<SpriteRenderer>(true);

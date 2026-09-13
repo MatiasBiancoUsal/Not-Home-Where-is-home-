@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-// UNICO sistema de audio del juego: musica + efectos.
+// UNICO sistema de audio del juego: musica + ambiente + efectos.
 // Se crea solo al arrancar, sobrevive a los cambios de escena y NO reinicia la musica entre menus.
 public class AudioManager : MonoBehaviour
 {
@@ -24,6 +24,39 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicaZona4;
     public AudioClip musicaZona5;
     public AudioClip musicaZona6;
+
+    // Un "compartimento" de ambiente: que escena, que sonido y a que volumen.
+    [System.Serializable]
+    public class AmbienteZona
+    {
+        [Tooltip("Nombre EXACTO de la escena, igual que en Build Settings.")]
+        public string escena;
+        [Tooltip("Sonido ambiente que suena en loop en esta zona (viento, goteo, cueva...). Se puede dejar vacio.")]
+        public AudioClip clip;
+        [Range(0f, 1f)]
+        [Tooltip("Volumen del ambiente en esta zona. Se puede ajustar en Play y se escucha al toque.")]
+        public float volumen = 0.5f;
+    }
+
+    [Header("Sonido ambiente por zona")]
+    [Tooltip("Suena en loop por debajo de la musica. Una fila por zona.")]
+    public AmbienteZona[] ambientes =
+    {
+        new AmbienteZona { escena = "Zona 1" },
+        new AmbienteZona { escena = "Zona 2" },
+        new AmbienteZona { escena = "Zona 3" },
+        new AmbienteZona { escena = "Zona 4" },
+        new AmbienteZona { escena = "Zona 5" },
+        new AmbienteZona { escena = "Zona 6" },
+    };
+    [Tooltip("Grupo del mixer para el ambiente. Si lo dejas vacio usa el mismo que la musica, asi lo regula el slider de Musica.")]
+    public AudioMixerGroup grupoAmbiente;
+    [Min(0f)]
+    [Tooltip("Segundos que tarda el ambiente en aparecer o apagarse al cambiar de zona. 0 = corte seco.")]
+    public float fadeAmbiente = 1f;
+
+    private AudioSource ambientSource;
+    private AmbienteZona ambienteObjetivo; // el ambiente que tiene que sonar en la escena actual
 
     // Crea el AudioManager AUTOMATICAMENTE al arrancar el juego (en cualquier escena),
     // antes de que cargue la primera escena. Por eso NO hace falta ponerlo en ninguna escena.
@@ -51,6 +84,8 @@ public class AudioManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        CrearFuenteAmbiente();
     }
 
     private void OnEnable()
@@ -67,11 +102,18 @@ public class AudioManager : MonoBehaviour
     {
         ApplySavedVolumes();
         UpdateMusicForScene(SceneManager.GetActiveScene().name);
+        UpdateAmbienteForScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateMusicForScene(scene.name);
+        UpdateAmbienteForScene(scene.name);
+    }
+
+    private void Update()
+    {
+        ActualizarAmbiente();
     }
 
     // Decide que musica debe sonar segun la escena actual.
@@ -144,6 +186,67 @@ public class AudioManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    // ---------- Ambiente ----------
+
+    // La fuente del ambiente se crea por codigo, asi no hay que tocar el prefab.
+    private void CrearFuenteAmbiente()
+    {
+        GameObject go = new GameObject("AmbientSource");
+        go.transform.SetParent(transform, false);
+
+        ambientSource = go.AddComponent<AudioSource>();
+        ambientSource.playOnAwake = false;
+        ambientSource.loop = true;
+        ambientSource.spatialBlend = 0f;
+        ambientSource.volume = 0f;
+        ambientSource.outputAudioMixerGroup = grupoAmbiente != null
+            ? grupoAmbiente
+            : (musicSource != null ? musicSource.outputAudioMixerGroup : null);
+    }
+
+    private void UpdateAmbienteForScene(string sceneName)
+    {
+        ambienteObjetivo = null;
+        if (ambientes == null) return;
+
+        foreach (AmbienteZona a in ambientes)
+        {
+            if (a != null && a.escena == sceneName)
+            {
+                ambienteObjetivo = a;
+                return;
+            }
+        }
+    }
+
+    // Corre todos los frames: si cambio la zona, baja el ambiente viejo, cambia el clip
+    // y sube el nuevo. Si no cambio, sigue el volumen que tenga el Inspector.
+    private void ActualizarAmbiente()
+    {
+        if (ambientSource == null) return;
+
+        AudioClip clipObjetivo = ambienteObjetivo != null ? ambienteObjetivo.clip : null;
+        float volumenObjetivo = clipObjetivo != null ? ambienteObjetivo.volumen : 0f;
+
+        // Tiempo sin escala: el fade sigue aunque el juego este en pausa.
+        float paso = fadeAmbiente > 0f ? Time.unscaledDeltaTime / fadeAmbiente : 1f;
+
+        if (ambientSource.clip != clipObjetivo)
+        {
+            // Primero apagamos lo que estaba sonando...
+            ambientSource.volume = Mathf.MoveTowards(ambientSource.volume, 0f, paso);
+            if (ambientSource.volume > 0f && ambientSource.isPlaying) return;
+
+            // ...y recien ahi arrancamos el ambiente nuevo (desde volumen 0, sube solo).
+            ambientSource.Stop();
+            ambientSource.clip = clipObjetivo;
+            if (clipObjetivo != null) ambientSource.Play();
+            return;
+        }
+
+        ambientSource.volume = Mathf.MoveTowards(ambientSource.volume, volumenObjetivo, paso);
     }
 
     // Aplica al mixer el volumen guardado en PlayerPrefs (lo mismo que setean los sliders)

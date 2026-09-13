@@ -51,7 +51,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinimapUI
   minimapPanel: {fileID: 6959363238349428713}
-  pauseGameWhileMapIsOpen: 0
+  mapImageRect: {fileID: 1025148892368488186}
+  playerMarker: {fileID: 0}
+  markerSprite: {fileID: 21300000, guid: c49f1f186e77ed548ab54d9bccf99c60, type: 3}
+  nombreDelSimbolo: "Simbolo_ni\xF1a"
+  markerSize: {x: 32, y: 32}
+  markerColor: {r: 1, g: 1, b: 1, a: 1}
+  zoomActivado: 1
+  zoomMinimo: 1
+  zoomMaximo: 3
+  zoomInicial: 1
+  pasoDeZoom: 0.25
+  suavizadoDelZoom: 12
+  centrarEnElJugador: 1
+  elMarcadorCreceConElZoom: 0.5
+  arrastreActivado: 1
+  velocidadDeArrastre: 1
+  suavizadoAlCentrar: 4
+  escalaDelDibujo: {x: 1, y: 1}
+  desplazamientoDelDibujo: {x: 0, y: 0}
+  useExactWorldBounds: 1
+  exactWorldMin: {x: -210.59485, y: -235.41078}
+  exactWorldMax: {x: 41.448227, y: 63.620132}
+  worldBottomLeft: {fileID: 0}
+  worldTopRight: {fileID: 0}
 --- !u!1 &5653675799307875952
 GameObject:
   m_ObjectHideFlags: 0

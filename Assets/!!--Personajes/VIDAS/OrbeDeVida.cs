@@ -95,9 +95,13 @@ public class OrbeDeVida : MonoBehaviour
 
         if (sonidoRecolectado != null)
         {
-            // En la posicion del orbe y no con un AudioSource propio: el objeto se
-            // destruye enseguida y cortaria el sonido a la mitad.
-            AudioSource.PlayClipAtPoint(sonidoRecolectado, transform.position, volumen);
+            // Por el AudioManager (grupo SFX) y no con un AudioSource propio: el objeto se
+            // destruye enseguida y cortaria el sonido a la mitad. Ademas asi lo regula el
+            // slider de Sonidos. PlayClipAtPoint queda solo de respaldo.
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(sonidoRecolectado, volumen);
+            else
+                AudioSource.PlayClipAtPoint(sonidoRecolectado, transform.position, volumen);
         }
 
         StartCoroutine(SecuenciaRecolectado());
