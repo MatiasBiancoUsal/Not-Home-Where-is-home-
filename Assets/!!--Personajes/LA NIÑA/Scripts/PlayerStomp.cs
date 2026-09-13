@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerStomp : MonoBehaviour
 {
     private PlayerController playerController;
+    private PlayerAudio playerAudio;
     private Collider2D playerCollider;
     private CollisionDetectionMode2D collisionDetectionAnterior;
 
@@ -33,6 +34,7 @@ public class PlayerStomp : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        playerAudio = GetComponent<PlayerAudio>();
         playerCollider = GetComponent<Collider2D>();
     }
 
@@ -103,6 +105,8 @@ public class PlayerStomp : MonoBehaviour
     void EndStomp()
     {
         if (!isStomp) return;
+
+        playerAudio?.ReproducirPisoton();
 
         CameraShaker.Instance?.ShakeStompImpact(); // sacudon por el impacto del stomp contra el piso
 
