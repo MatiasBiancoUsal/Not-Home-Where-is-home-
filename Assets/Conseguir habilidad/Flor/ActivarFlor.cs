@@ -44,6 +44,12 @@ public class ActivarFlor : MonoBehaviour
     [SerializeField] private AudioClip sonidoHabilidadDesbloqueada;
     [Range(0f, 1f)] [SerializeField] private float volumenHabilidadDesbloqueada = 1f;
 
+    [Header("Espacio para la animacion")]
+    [Tooltip("Collider fisico que se activa solo mientras la flor se abre.")]
+    [SerializeField] private Collider2D bloqueoDuranteAnimacion;
+    [Tooltip("Pequeño impulso lateral para sacar al personaje del centro de la flor.")]
+    [Min(0f)] [SerializeField] private float fuerzaSeparacion = 3f;
+
     [Header("EL CARTEL DE CADA HABILIDAD (imagen + textos)")]
     [Tooltip("Aca se edita TODO lo que muestra el cartel de cada habilidad. La flor usa el bloque " +
              "que corresponde a la habilidad que entrega, asi que se completa una vez y sirve para " +
@@ -150,6 +156,7 @@ public class ActivarFlor : MonoBehaviour
         recogida = true;
         player.DesbloquearHabilidad(habilidad);
         ReproducirSFX(sonidoAlRecoger, volumenAlRecoger);
+        ActivarBloqueoTemporal(player);
 
         if (animator != null)
         {
@@ -168,6 +175,7 @@ public class ActivarFlor : MonoBehaviour
         yield return new WaitForSecondsRealtime(Mathf.Max(0f, esperaAntesDelCartel));
 
         QuedarAbierta();
+        DesactivarBloqueoTemporal();
         ReproducirSFX(sonidoHabilidadDesbloqueada, volumenHabilidadDesbloqueada);
 
         if (mostrarCartel)
@@ -187,6 +195,39 @@ public class ActivarFlor : MonoBehaviour
     {
         if (clip == null) return;
         AudioManager.Instance?.PlaySFX(clip, volumen);
+    }
+
+    private void ActivarBloqueoTemporal(PlayerController player)
+    {
+        if (bloqueoDuranteAnimacion != null)
+        {
+            bloqueoDuranteAnimacion.enabled = true;
+        }
+
+        if (player == null || player.rb == null || fuerzaSeparacion <= 0f) return;
+
+        float direccion = Mathf.Sign(player.transform.position.x - transform.position.x);
+        if (Mathf.Approximately(direccion, 0f))
+        {
+            direccion = player.movement != null && player.movement.IsFacingRight ? 1f : -1f;
+        }
+
+        Vector2 velocidad = player.rb.linearVelocity;
+        velocidad.x = direccion * fuerzaSeparacion;
+        player.rb.linearVelocity = velocidad;
+    }
+
+    private void DesactivarBloqueoTemporal()
+    {
+        if (bloqueoDuranteAnimacion != null)
+        {
+            bloqueoDuranteAnimacion.enabled = false;
+        }
+    }
+
+    private void OnDisable()
+    {
+        DesactivarBloqueoTemporal();
     }
 
     // Fija la flor en su estado abierto. Se llama cuando la animacion ya termino.
