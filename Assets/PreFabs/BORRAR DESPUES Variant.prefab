@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 5722582531025481763}
   - component: {fileID: 651238615069919064}
   - component: {fileID: 8151833137937590051}
-  - component: {fileID: 9002000000000000001}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -423,19 +422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreUI
   scoreText: {fileID: 651238615069919064}
---- !u!114 &9002000000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6568557061817929760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f46bd598ac874103b7926ea05fc381d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScoreFontRoboto
-  roboto: {fileID: 12800000, guid: c1a8d25fb37e4f2b9a6c10de85374f91, type: 3}
 --- !u!1 &7564946771201518972
 GameObject:
   m_ObjectHideFlags: 0
