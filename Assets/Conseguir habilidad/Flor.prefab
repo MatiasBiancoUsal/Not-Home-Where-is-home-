@@ -184,6 +184,10 @@ MonoBehaviour:
   esperaAntesDelCartel: 2
   imagenCartel: {fileID: 0}
   fondoCartel: {fileID: 4055991091240671334, guid: 0a2b2984d6a28420d9c773dcfa7cbebc, type: 3}
+  sonidoAlRecoger: {fileID: 8300000, guid: 805b7e2e699854e9b8d77c5beb2a6abf, type: 3}
+  volumenAlRecoger: 1
+  sonidoHabilidadDesbloqueada: {fileID: 8300000, guid: 6cf08e52793ab4476a74e218660eecfb, type: 3}
+  volumenHabilidadDesbloqueada: 1
   dobleSalto:
     fondo: {fileID: 0}
     titulo: DOBLE SALTO
@@ -236,11 +240,24 @@ MonoBehaviour:
     posicionDescripcion: {x: 100, y: -25}
     cajaDescripcion: {x: 720, y: 90}
     estiloDescripcion: 0
+    entradaTitulo:
+      activa: 1
+      retrasoEntreLetras: 0.07
+      duracionPorLetra: 0.25
+      zoomInicial: 0.4
+      desplazamientoInicial: 0
+    entradaAyuda:
+      activa: 1
+      retrasoEntreLetras: 0.03
+      duracionPorLetra: 0.2
+      zoomInicial: 0.55
+      desplazamientoInicial: 0
     tipearTexto: 1
     letrasPorSegundo: 45
     tipearTitulo: 0
     esperaAntesDeTipear: 0.2
     mostrarAyudaAlTerminar: 1
+    esperaAntesDelTextoDeCerrar: 3
     sonidoTipeo: {fileID: 0}
     volumenTipeo: 0.5
     sonarCadaCuantasLetras: 2
@@ -5154,7 +5171,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -567379385
-  m_SortingLayer: 3
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_RenderMode: 0
