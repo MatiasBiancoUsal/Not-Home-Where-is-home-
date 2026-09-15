@@ -26,11 +26,24 @@ public static class MenuProgresoJuego
     [MenuItem("Not Home/Ver progreso guardado", false, 2)]
     private static void VerProgreso()
     {
-        if (!ProgresoJuego.HayProgreso())
+        // Mismas claves que usa PlayerController al desbloquear ("Habilidad_Escalar", etc).
+        // Se calcula antes del chequeo de abajo: HayProgreso() no mira las habilidades, y una
+        // partida puede tener habilidades guardadas aunque no tenga puntaje ni monedas.
+        string habilidades = "";
+        foreach (PlayerController.Habilidad h in System.Enum.GetValues(typeof(PlayerController.Habilidad)))
+        {
+            if (ProgresoJuego.YaMostrado("Habilidad_" + h))
+            {
+                habilidades += (habilidades.Length > 0 ? ", " : "") + h;
+            }
+        }
+
+        if (!ProgresoJuego.HayProgreso() && habilidades.Length == 0)
         {
             Debug.Log("No hay progreso guardado: el juego arranca de cero.");
             return;
         }
+        if (habilidades.Length == 0) habilidades = "ninguna";
 
         string puntajesPorZona = "";
         for (int numeroZona = 1; numeroZona <= ProgresoJuego.CANTIDAD_ZONAS; numeroZona++)
@@ -43,7 +56,8 @@ public static class MenuProgresoJuego
                   "\n  Ultima zona: " + ProgresoJuego.CargarZona() +
                   "\n  Puntajes por zona:" + puntajesPorZona +
                   "\n  Monedas agarradas: " + ProgresoJuego.CargarMonedas().Count +
-                  "\n  Cinematicas vistas: " + ProgresoJuego.CargarCinematicas().Count);
+                  "\n  Cinematicas vistas: " + ProgresoJuego.CargarCinematicas().Count +
+                  "\n  Habilidades desbloqueadas: " + habilidades);
     }
 }
 #endif
