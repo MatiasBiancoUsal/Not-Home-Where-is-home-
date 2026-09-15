@@ -586,7 +586,15 @@ public class TransicionZonas : MonoBehaviour
         MostrarCartelDeZona(SceneManager.GetActiveScene().name);
     }
 
-    private void MostrarCartelDeZona(string nombreDeLaEscena)
+    // Lo usa el atajo de la tecla N (ZoneSkipByKey). Recibe el nombre de la escena porque
+    // se llama justo antes de que la escena nueva termine de cargar. Muestra el cartel
+    // aunque ya se haya visto, asi se ve cada vez que se saltea de zona.
+    public void MostrarNombreDeLaZona(string nombreDeLaEscena)
+    {
+        MostrarCartelDeZona(nombreDeLaEscena, true);
+    }
+
+    private void MostrarCartelDeZona(string nombreDeLaEscena, bool aunqueYaSeHayaVisto = false)
     {
         if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
 
@@ -594,7 +602,7 @@ public class TransicionZonas : MonoBehaviour
         // anotaramos, al destildar el check el cartel seguiria sin aparecer.
         if (ajustes.saltearCartelDeZona) return;
 
-        if (ajustes.mostrarSoloLaPrimeraVez)
+        if (ajustes.mostrarSoloLaPrimeraVez && !aunqueYaSeHayaVisto)
         {
             string clave = "CartelZona_" + nombreDeLaEscena;
             if (ProgresoJuego.YaMostrado(clave)) return;

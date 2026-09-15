@@ -27,5 +27,13 @@ public class ZoneSkipByKey : MonoBehaviour
         }
 
         SceneManager.LoadScene(next);
+
+        // Aunque sea un atajo, que aparezca el nombre de la zona igual que al cruzar una puerta.
+        // TransicionZonas sobrevive al cambio de escena, asi que el cartel sigue andando.
+        if (TransicionZonas.Instancia != null)
+        {
+            string nombre = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(next));
+            TransicionZonas.Instancia.MostrarNombreDeLaZona(nombre);
+        }
     }
 }
