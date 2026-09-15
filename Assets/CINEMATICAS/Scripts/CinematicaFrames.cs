@@ -135,6 +135,11 @@ public class CinematicaFrames : MonoBehaviour
     [Tooltip("Tecla para saltear la cinematica. NO uses Escape: esa es la del menu de pausa.")]
     public Key teclaSaltear = Key.Space;
 
+    [Header("Con la pantalla en negro, antes de volver al juego")]
+    [Tooltip("Corre mientras la pantalla todavia esta NEGRA, justo antes de que vuelva a verse el juego. " +
+             "Usalo para lo que no se tiene que ver pasar: mover a la niña de lugar, cambiar el decorado, etc.")]
+    public UnityEvent enNegroAntesDeVolver;
+
     [Header("Al terminar")]
     [Tooltip("Que pasa cuando termina: activar el osito, desbloquear el ataque, prender un cartel, etc.")]
     public UnityEvent alTerminar;
@@ -279,6 +284,9 @@ public class CinematicaFrames : MonoBehaviour
 
         // 6) Un respiro en negro.
         yield return EsperarReal(durEnNegro);
+
+        // Todavia en negro: lo que se cambie aca no se ve pasar (por ejemplo, teletransportar a la niña).
+        enNegroAntesDeVolver?.Invoke();
 
         // 7) Vuelve el JUEGO desde el negro. La niña ya esta quieta en idle: el tiempo sigue
         //    congelado durante este fundido y recien se descongela al final, en Restaurar().
