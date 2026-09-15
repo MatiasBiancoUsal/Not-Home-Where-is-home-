@@ -53,6 +53,11 @@ public class CinematicaFrames : MonoBehaviour
     // Lo usa el PauseMenuManager para que ESC no abra la pausa durante la cinematica.
     public static bool EnCurso { get; private set; }
 
+    // Aviso de codigo para quienes necesitan confirmar que la cinematica REALMENTE termino.
+    // A diferencia del UnityEvent del Inspector, este no se serializa: el TriggerCinematica
+    // se engancha solo mientras espera el final para guardar que ya fue vista.
+    public event System.Action Terminada;
+
     // Igual que en el TriggerCinematica: con Reload Domain desactivado los static se
     // arrastran de una sesion de Play a la otra, asi que lo reiniciamos a mano.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -187,20 +192,46 @@ public class CinematicaFrames : MonoBehaviour
     // La llama el TriggerCinematica (o cualquier boton / UnityEvent).
     public void Reproducir()
     {
-        if (reproduciendo) return;
+        IntentarReproducir();
+    }
+
+    // Igual que Reproducir, pero informa si la rutina pudo arrancar. Asi el trigger no
+    // guarda la cinematica como vista cuando faltan frames o referencias del Inspector.
+    public bool IntentarReproducir()
+    {
+        if (reproduciendo) return false;
+
+        // StartCoroutine no funciona sobre un GameObject inactivo. Esto puede pasar si el
+        // Canvas se dejo apagado en el Inspector para que no tape el juego. Lo prendemos y
+        // Awake se ocupa de dejarlo transparente hasta que empiece el fundido.
+        if (!gameObject.activeInHierarchy)
+        {
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+
+            // Si sigue inactivo, el que esta apagado es algun padre y no podemos arrancar.
+            if (!gameObject.activeInHierarchy)
+            {
+                Debug.LogWarning("CinematicaFrames: el objeto o alguno de sus padres esta inactivo (" + name + ").");
+                return false;
+            }
+        }
 
         if (frames == null || frames.Length == 0)
         {
             Debug.LogWarning("CinematicaFrames: no hay frames cargados.");
-            return;
+            return false;
         }
         if (grupo == null || imagenA == null || imagenB == null)
         {
             Debug.LogWarning("CinematicaFrames: faltan asignar el CanvasGroup y las dos Image en el Inspector.");
-            return;
+            return false;
         }
 
         StartCoroutine(Rutina());
+        return true;
     }
 
     // ---------- Rutina principal ----------
@@ -297,7 +328,8 @@ public class CinematicaFrames : MonoBehaviour
         reproduciendo = false;
         EnCurso = false;
 
-        alTerminar.Invoke();
+        alTerminar?.Invoke();
+        Terminada?.Invoke();
     }
 
     // ---------- Pasos ----------
