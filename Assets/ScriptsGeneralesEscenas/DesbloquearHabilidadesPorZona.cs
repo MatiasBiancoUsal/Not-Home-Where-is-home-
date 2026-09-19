@@ -28,6 +28,17 @@ using UnityEngine.InputSystem;
 // ============================================================
 public class DesbloquearHabilidadesPorZona : MonoBehaviour
 {
+    // Que flor hay en cada zona. Lo usa tambien el atajo SHIFT + N (ZoneSkipByKey).
+    public static readonly PlayerController.Habilidad[] ORDEN_POR_DEFECTO =
+    {
+        PlayerController.Habilidad.DobleSalto, // Zona 1
+        PlayerController.Habilidad.Escalar,    // Zona 2
+        PlayerController.Habilidad.Dash,       // Zona 3
+        PlayerController.Habilidad.Pisoton,    // Zona 4
+        PlayerController.Habilidad.SuperSalto, // Zona 5
+        PlayerController.Habilidad.Escudo      // Zona 6
+    };
+
     [Header("Tecla")]
     [Tooltip("Tecla que desbloquea las habilidades de la zona actual.")]
     public Key tecla = Key.H;
@@ -61,6 +72,11 @@ public class DesbloquearHabilidadesPorZona : MonoBehaviour
     private void Update()
     {
         if (!activo) return;
+
+        // Solo en el editor (o en una build de desarrollo). En el juego final la H no hace
+        // nada: en las pruebas, los jugadores la apretaban sin querer, recibian habilidades
+        // SIN guardar, y despues "desaparecian" al morir o al cambiar de zona.
+        if (!Application.isEditor && !Debug.isDebugBuild) return;
         if (Keyboard.current == null || tecla == Key.None) return;
 
         var control = Keyboard.current[tecla];
@@ -132,7 +148,11 @@ public class DesbloquearHabilidadesPorZona : MonoBehaviour
     // Devuelve 0 si la escena no es una zona (menu, creditos, etc).
     private int NumeroDeZonaActual()
     {
-        string nombre = SceneManager.GetActiveScene().name;
+        return NumeroDeZona(SceneManager.GetActiveScene().name);
+    }
+
+    public static int NumeroDeZona(string nombre)
+    {
         if (string.IsNullOrEmpty(nombre)) return 0;
         if (!nombre.StartsWith("Zona")) return 0;
 

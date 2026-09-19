@@ -94,6 +94,12 @@ public class CameraShaker : MonoBehaviour
         DoShake(stompImpactForce, stompImpactDuration);
     }
 
+    // Sacudon a medida (lo usa el boss final para sus ataques).
+    public void Sacudir(float fuerza, float duracion)
+    {
+        DoShake(fuerza, duracion);
+    }
+
     private void DoShake(float force, float duration)
     {
         if (impulse == null) return;

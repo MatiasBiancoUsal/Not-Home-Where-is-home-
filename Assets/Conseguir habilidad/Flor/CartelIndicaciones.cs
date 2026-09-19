@@ -35,7 +35,7 @@ public class CartelIndicaciones : MonoBehaviour
     public string tituloCartel = "COMBATE";
     [TextArea(2, 5)]
     public string descripcionCartel = "Presiona CLICK IZQUIERDO para atacar.";
-    public string textoParaCerrar = "Presiona ESPACIO, ENTER o ESC para continuar";
+    public string textoParaCerrar = "Presiona ESPACIO o ENTER para continuar";
     [Tooltip("Congela el juego mientras el cartel esta en pantalla.")]
     public bool pausarMientrasSeMuestra = true;
 

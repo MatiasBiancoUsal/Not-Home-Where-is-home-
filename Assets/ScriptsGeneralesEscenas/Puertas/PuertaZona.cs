@@ -114,9 +114,95 @@ public class PuertaZona : MonoBehaviour
         }
     }
 
+    // ============================================================
+    //  PUERTA CERRADA (zona bloqueada hasta tener las habilidades)
+    //  Si esta puerta lleva a la zona bloqueada (Zona 6) y a la niña le faltan
+    //  habilidades, aparece una pared invisible en la puerta y, al acercarse, el aviso
+    //  "aun me faltan fuerzas". Se configura en Assets/Resources/AjustesTransicion.
+    // ============================================================
+
+    private bool cerrada;
+    private Collider2D paredInvisible;
+    private Collider2D colliderPuerta;
+    private Collider2D colNina;
+
+    public bool Cerrada => cerrada;
+
+    private void Update()
+    {
+        cerrada = activa && TransicionZonas.Instancia != null &&
+                  TransicionZonas.Instancia.EstaBloqueada(escenaDestino);
+
+        if (cerrada && paredInvisible == null) CrearParedInvisible();
+
+        if (paredInvisible != null)
+        {
+            // Si la niña esta PARADA adentro de la puerta (por ejemplo, recien llegada por
+            // ella), la pared espera a que salga: si no, aparecería encima de ella y la trabaria.
+            bool ninaAdentro = !paredInvisible.enabled && TocaLaNina(0f);
+            paredInvisible.enabled = cerrada && !ninaAdentro;
+        }
+
+        if (cerrada && TocaLaNina(TransicionZonas.Instancia.DistanciaDelAviso))
+        {
+            TransicionZonas.Instancia.AvisarZonaBloqueada();
+        }
+    }
+
+    // Un bloque solido del tamaño de la puerta. En las puertas de piso (agujeros) sirve
+    // de piso: la niña se para encima en vez de caer.
+    private void CrearParedInvisible()
+    {
+        if (colliderPuerta == null) colliderPuerta = GetComponent<Collider2D>();
+        if (colliderPuerta == null) return;
+
+        Bounds b = colliderPuerta.bounds;
+
+        GameObject go = new GameObject("ParedInvisible (" + name + ")");
+        go.transform.position = b.center;
+
+        PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
+        int capaPiso = -1;
+        if (pc != null && pc.jump != null)
+        {
+            int m = pc.jump.groundMask.value;
+            for (int i = 0; i < 32 && capaPiso < 0; i++) if ((m & (1 << i)) != 0) capaPiso = i;
+        }
+        if (capaPiso >= 0) go.layer = capaPiso;   // asi se puede parar encima
+
+        BoxCollider2D box = go.AddComponent<BoxCollider2D>();
+        box.size = b.size;
+        box.enabled = false;   // se prende en Update, recien cuando la niña no esta adentro
+        paredInvisible = box;
+    }
+
+    // ¿La niña esta a menos de 'margen' de la puerta? (0 = tocandola)
+    private bool TocaLaNina(float margen)
+    {
+        if (colliderPuerta == null) colliderPuerta = GetComponent<Collider2D>();
+        if (colliderPuerta == null) return false;
+
+        // Por componente y no por tag: el tag "Player" quedo puesto por error en otros objetos.
+        if (colNina == null)
+        {
+            PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
+            if (pc != null) colNina = pc.GetComponent<Collider2D>();
+            if (colNina == null) return false;
+        }
+
+        Bounds zona = colliderPuerta.bounds;
+        zona.Expand(margen * 2f);
+        return zona.Intersects(colNina.bounds);
+    }
+
+    private void OnDestroy()
+    {
+        if (paredInvisible != null) Destroy(paredInvisible.gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!activa) return;
+        if (!activa || cerrada) return;
         if (!other.CompareTag("Player")) return;
 
         // No dispararse durante una transicion (al llegar, la niña aparece DENTRO
@@ -190,7 +276,8 @@ public class PuertaZona : MonoBehaviour
     // Cuanta oscuridad corresponde segun lo cerca que este la niña (0 = nada, 1 = el maximo).
     public float OscuridadSegunDistancia(Vector2 posicionDelJugador)
     {
-        if (!oscurecerAlAcercarse || !activa) return 0f;
+        // Una puerta cerrada no oscurece: no queremos anunciar un paso que no existe.
+        if (!oscurecerAlAcercarse || !activa || cerrada) return 0f;
 
         float distancia = Vector2.Distance(posicionDelJugador, PosicionDeAparicion);
         float t = Mathf.InverseLerp(distanciaEmpieza, distanciaMaximo, distancia);

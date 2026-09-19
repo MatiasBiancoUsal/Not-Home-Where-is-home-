@@ -57,7 +57,7 @@ public class ActivarFlor : MonoBehaviour
     [SerializeField] private CartelDeHabilidad dobleSalto = new CartelDeHabilidad
     {
         titulo = "DOBLE SALTO",
-        descripcion = "Presiona SALTO nuevamente mientras estas en el aire."
+        descripcion = "Salta y, en el aire, presiona ESPACIO otra vez para volver a saltar."
     };
     [SerializeField] private CartelDeHabilidad dash = new CartelDeHabilidad
     {
@@ -97,7 +97,7 @@ public class ActivarFlor : MonoBehaviour
     [HideInInspector] [SerializeField] private Sprite cartelEscudo;
 
     [Header("Comun a todos los carteles")]
-    [SerializeField] private string textoParaCerrar = "Presiona ESPACIO, ENTER o ESC para continuar";
+    [SerializeField] private string textoParaCerrar = "Presiona ESPACIO o ENTER para continuar";
     [SerializeField] private bool pausarMientrasSeMuestra = true;
 
     // El titulo y la descripcion que se van a mostrar. No se editan aca: los completa
@@ -155,6 +155,12 @@ public class ActivarFlor : MonoBehaviour
 
         recogida = true;
         player.DesbloquearHabilidad(habilidad);
+
+        // La flor tambien es CHECKPOINT: si muere despues, reaparece aca (parada al lado de
+        // la flor), salvo que despues toque otro checkpoint.
+        // Se busca el piso desde el centro del dibujo (el pivote puede estar justo en el piso).
+        Vector2 centroFlor = spriteRenderer != null ? (Vector2)spriteRenderer.bounds.center : (Vector2)transform.position + Vector2.up;
+        PuntoDeReaparicion.GuardarEnElPiso(gameObject.scene.name, centroFlor, player);
         ReproducirSFX(sonidoAlRecoger, volumenAlRecoger);
         ActivarBloqueoTemporal(player);
 

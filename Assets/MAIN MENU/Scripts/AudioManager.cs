@@ -153,6 +153,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // Pone una musica que no es la de la zona (por ejemplo, la del boss). Con null, silencio.
+    // Si se recarga la escena, vuelve sola la musica de la zona.
+    public void ReproducirMusicaEspecial(AudioClip clip)
+    {
+        ReproducirMusica(clip);
+    }
+
+    // Vuelve a la musica que le toca a la escena actual.
+    public void VolverALaMusicaDeLaZona()
+    {
+        UpdateMusicForScene(SceneManager.GetActiveScene().name);
+    }
+
     private void ReproducirMusica(AudioClip clip)
     {
         if (musicSource == null) return;

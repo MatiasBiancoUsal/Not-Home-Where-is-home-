@@ -260,7 +260,7 @@ public class CartelHabilidadUI : MonoBehaviour
         titulo = CrearTexto("TituloHabilidad", panel.transform, new Vector2(0f, -65f), new Vector2(760f, 70f), 46f, FontStyles.Bold);
         descripcion = CrearTexto("DescripcionHabilidad", panel.transform, new Vector2(0f, -155f), new Vector2(760f, 105f), 27f, FontStyles.Normal);
         ayudaCerrar = CrearTexto("AyudaCerrar", panel.transform, new Vector2(0f, -225f), new Vector2(760f, 45f), 21f, FontStyles.Italic);
-        ayudaCerrar.text = "Presiona ESPACIO, ENTER o ESC para continuar";
+        ayudaCerrar.text = "Presiona ESPACIO o ENTER para continuar";
 
         panel.SetActive(false);
     }
@@ -276,7 +276,7 @@ public class CartelHabilidadUI : MonoBehaviour
         titulo.text = string.IsNullOrWhiteSpace(textoTitulo) ? "NUEVA HABILIDAD" : textoTitulo;
         descripcion.text = textoDescripcion ?? string.Empty;
         ayudaCerrar.text = string.IsNullOrWhiteSpace(textoAyuda)
-            ? "Presiona ESPACIO, ENTER o ESC para continuar"
+            ? "Presiona ESPACIO o ENTER para continuar"
             : textoAyuda;
 
         pausarJuego = pausa;

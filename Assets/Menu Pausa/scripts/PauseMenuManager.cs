@@ -20,9 +20,16 @@ public class PauseMenuManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    // PANTALLA COMPLETA: en el navegador, ESC siempre saca de pantalla completa y el juego
+    // ni se entera de la tecla. Por eso, si se pierde la pantalla completa, pausamos solos,
+    // y al volver con "resume" la recuperamos (el navegador solo deja hacerlo con un clic).
+    private bool estabaEnPantallaCompleta;
+    private bool recuperarPantallaCompleta;
+
     private void Start()
     {
         Time.timeScale = 1f;
+        estabaEnPantallaCompleta = Screen.fullScreen;
 
         if (pauseMenuCanvas != null)
         {
@@ -36,6 +43,9 @@ public class PauseMenuManager : MonoBehaviour
         {
             return;
         }
+
+        bool perdioPantallaCompleta = estabaEnPantallaCompleta && !Screen.fullScreen;
+        estabaEnPantallaCompleta = Screen.fullScreen;
 
         // Si el mapa esta abierto, ESC lo maneja MinimapUI. LastClosedFrame evita
         // que este mismo ESC abra la pausa inmediatamente despues de cerrarlo.
@@ -52,8 +62,16 @@ public class PauseMenuManager : MonoBehaviour
             return;
         }
 
-        // ESC SOLO pausa o despausa. NO va al Main Menu.
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (perdioPantallaCompleta && !isPaused)
+        {
+            recuperarPantallaCompleta = true;
+            PauseGame();
+            return;
+        }
+
+        // ESC o P SOLO pausan o despausan. NO van al Main Menu. La P sirve en pantalla
+        // completa, donde el ESC lo usa el navegador para salir.
+        if (Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame)
         {
             TogglePause();
         }
@@ -102,6 +120,14 @@ public class PauseMenuManager : MonoBehaviour
         }
 
         Time.timeScale = 1f;
+
+        // Si la pausa vino de perder la pantalla completa, la recuperamos.
+        if (recuperarPantallaCompleta)
+        {
+            recuperarPantallaCompleta = false;
+            Screen.fullScreen = true;
+            estabaEnPantallaCompleta = true;
+        }
     }
 
     public void OpenMapFromPauseMenu()
