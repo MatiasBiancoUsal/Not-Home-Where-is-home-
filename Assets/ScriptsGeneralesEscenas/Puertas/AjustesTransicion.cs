@@ -185,4 +185,42 @@ public class AjustesTransicion : ScriptableObject
     public bool invulnerableDuranteLaTransicion = true;
     [Tooltip("Segundos despues de una transicion en los que NINGUNA puerta se activa. Evita rebotes entre dos puertas.")]
     public float graciaEntrePuertas = 0.5f;
+
+    [Header("ZONA BLOQUEADA hasta tener las habilidades")]
+    [Tooltip("Nombre EXACTO de la escena a la que no se puede entrar sin las habilidades de abajo. " +
+             "Todas las puertas que lleven ahi quedan cerradas con una pared invisible. Vacio = nada bloqueado.")]
+    public string zonaBloqueada = "Zona 6";
+    [Tooltip("Las habilidades que hacen falta para entrar. Vienen puestas las 5 de antes del escudo.")]
+    public PlayerController.Habilidad[] habilidadesNecesarias =
+    {
+        PlayerController.Habilidad.DobleSalto,
+        PlayerController.Habilidad.Escalar,
+        PlayerController.Habilidad.Dash,
+        PlayerController.Habilidad.Pisoton,
+        PlayerController.Habilidad.SuperSalto
+    };
+    [Tooltip("El aviso que aparece en pantalla cuando la niña llega a una puerta cerrada.")]
+    public string mensajeZonaBloqueada = "aun me faltan fuerzas...";
+    [Tooltip("Sonido del aviso (opcional).")]
+    public AudioClip sonidoZonaBloqueada;
+    [Range(0f, 1f)] public float volumenSonidoZonaBloqueada = 0.8f;
+    [Tooltip("Segundos minimos entre un aviso y el siguiente, para que no se repita sin parar.")]
+    public float segundosEntreAvisos = 2.5f;
+    [Tooltip("Que tan cerca de la puerta tiene que estar la niña para que aparezca el aviso.")]
+    public float distanciaDelAviso = 1f;
+
+    [Header("Aviso en pantalla: como se ve")]
+    public float tamanioDelAviso = 46f;
+    public Color colorDelAviso = new Color(1f, 0.85f, 0.85f);
+    [Tooltip("Posicion en pantalla (0,0 = centro). Por defecto, abajo al centro.")]
+    public Vector2 posicionDelAviso = new Vector2(0f, -330f);
+    [Tooltip("Segundos que tarda en aparecer (subiendo).")]
+    public float entradaDelAviso = 0.6f;
+    public float sostenerElAviso = 1.8f;
+    [Tooltip("Segundos que tarda en desvanecerse.")]
+    public float salidaDelAviso = 0.9f;
+    [Tooltip("Cuantos pixeles sube al aparecer. 0 = aparece quieto.")]
+    public float subidaDelAviso = 30f;
+    [Tooltip("Cuantos pixeles sigue subiendo mientras se desvanece. 0 = se desvanece quieto.")]
+    public float subidaAlDesvanecerse = 10f;
 }

@@ -142,6 +142,7 @@ public class ScoreManager : MonoBehaviour
 
         ProgresoJuego.BorrarTodo();
         TriggerCinematica.OlvidarVistas();
+        PuntoDeReaparicion.Olvidar();
 
         if (Instance != null)
         {

@@ -190,6 +190,27 @@ MonoBehaviour:
   musicaZona4: {fileID: 8300000, guid: edac906d013c74127bbca198490f4757, type: 3}
   musicaZona5: {fileID: 8300000, guid: cca566eda9f06484a800b4820b28ae9d, type: 3}
   musicaZona6: {fileID: 8300000, guid: 95f46817c21ef4ddfb44cd1fe8fc989e, type: 3}
+  ambientes:
+  - escena: Zona 1
+    clip: {fileID: 8300000, guid: 15c4292ce39a3fd44a129828d89fd429, type: 3}
+    volumen: 0.5
+  - escena: Zona 2
+    clip: {fileID: 8300000, guid: d3663ae976dc2994b93bae402e0f64ad, type: 3}
+    volumen: 0.5
+  - escena: Zona 3
+    clip: {fileID: 8300000, guid: 2dccfa9e64a74c640a3536edcc55ed42, type: 3}
+    volumen: 0.5
+  - escena: Zona 4
+    clip: {fileID: 8300000, guid: 308cae6a91dd50c4e94afdaf6553731e, type: 3}
+    volumen: 0.5
+  - escena: Zona 5
+    clip: {fileID: 8300000, guid: 4912c2e139733614ea1fe6874787e555, type: 3}
+    volumen: 0.5
+  - escena: Zona 6
+    clip: {fileID: 8300000, guid: ba8c3a99a9485eb419f3ae65631c2d1b, type: 3}
+    volumen: 0.5
+  grupoAmbiente: {fileID: 0}
+  fadeAmbiente: 1
 --- !u!1 &5873010888978220793
 GameObject:
   m_ObjectHideFlags: 0

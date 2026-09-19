@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 625585305
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -855298285791758126, guid: fbd30070542239941b42bbbec046b371, type: 3}
@@ -168,3 +168,5 @@ MonoBehaviour:
   tagJugador: Player
   triggerRecolectado: Obtained
   duracionAnimRecolectado: 0.52
+  sonidoRecolectado: {fileID: 8300000, guid: 973cbfce50fc9634b8c2729624d4cc4d, type: 3}
+  volumenSonido: 1

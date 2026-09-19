@@ -129,7 +129,9 @@ public class MinimapUI : MonoBehaviour
             return;
         }
 
-        if (Keyboard.current.mKey.wasPressedThisFrame)
+        // TAB abre y cierra el mapa (lo pidieron en las pruebas). La M sigue andando por
+        // si alguien ya se la acostumbro.
+        if (Keyboard.current.tabKey.wasPressedThisFrame || Keyboard.current.mKey.wasPressedThisFrame)
         {
             ToggleMinimap();
             return;

@@ -60,7 +60,9 @@ public class PlayerDeath : MonoBehaviour
         if (isDying) return;
 
         // tecla T: testear la muerte sin perder vidas.
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        // Solo en el editor: en el juego final la T no mata (se apretaba sin querer).
+        bool esPrueba = Application.isEditor || Debug.isDebugBuild;
+        if (esPrueba && Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             StartCoroutine(DeathSequence());
         }
@@ -97,6 +99,8 @@ public class PlayerDeath : MonoBehaviour
 
         // 4) Reiniciamos la zona actual (el player reaparece en el inicio).
         //    >> A FUTURO: aca va la logica de checkpoint / punto de entrada. <<
+        // Que reaparezca en el ultimo checkpoint (o donde entro a la zona), no al principio.
+        PuntoDeReaparicion.ReaparecerAlRecargar();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
