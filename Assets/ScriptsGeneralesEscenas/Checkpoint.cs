@@ -29,11 +29,13 @@ public class Checkpoint : MonoBehaviour
     [Min(0f)] [SerializeField] private float fuerzaSeparacion = 3f;
 
     private Animator animator;
+    private ParticleSystem particulasActivacion;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         DesactivarBloqueo();
+        PrepararParticulasExistentes();
 
         Collider2D[] colliders = GetComponents<Collider2D>();
         if (colliders.Length == 0)
@@ -68,6 +70,12 @@ public class Checkpoint : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Activar");
+        }
+
+        if (particulasActivacion != null)
+        {
+            particulasActivacion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            particulasActivacion.Play();
         }
 
         if (sonidoAlActivar != null && AudioManager.Instance != null)
@@ -109,6 +117,76 @@ public class Checkpoint : MonoBehaviour
         if (bloqueoDuranteAnimacion != null)
         {
             bloqueoDuranteAnimacion.enabled = false;
+        }
+    }
+
+    private void PrepararParticulasExistentes()
+    {
+        particulasActivacion = GetComponentInChildren<ParticleSystem>(true);
+        if (particulasActivacion == null) return;
+
+        particulasActivacion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        ParticleSystem.MainModule main = particulasActivacion.main;
+        main.loop = false;
+        main.playOnAwake = false;
+        main.duration = 0.8f;
+        main.startDelay = 0f;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(0.35f, 0.7f);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(0.35f, 1.1f);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.045f, 0.12f);
+        main.startColor = Color.white;
+        main.gravityModifier = -0.06f;
+        main.simulationSpeed = 1f;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.scalingMode = ParticleSystemScalingMode.Shape;
+        main.maxParticles = 40;
+
+        ParticleSystem.EmissionModule emission = particulasActivacion.emission;
+        emission.rateOverTime = 0f;
+        emission.SetBursts(new[]
+        {
+            new ParticleSystem.Burst(0f, 18)
+        });
+
+        ParticleSystem.ShapeModule shape = particulasActivacion.shape;
+        shape.enabled = true;
+        shape.shapeType = ParticleSystemShapeType.Circle;
+        shape.radius = 0.65f;
+        shape.radiusThickness = 1f;
+
+        ParticleSystem.ColorOverLifetimeModule colorVida = particulasActivacion.colorOverLifetime;
+        colorVida.enabled = true;
+        Gradient brillo = new Gradient();
+        brillo.SetKeys(
+            new[]
+            {
+                new GradientColorKey(Color.white, 0f),
+                new GradientColorKey(Color.white, 1f)
+            },
+            new[]
+            {
+                new GradientAlphaKey(0f, 0f),
+                new GradientAlphaKey(1f, 0.15f),
+                new GradientAlphaKey(0f, 1f)
+            });
+        colorVida.color = brillo;
+
+        ParticleSystem.SizeOverLifetimeModule tamanoVida = particulasActivacion.sizeOverLifetime;
+        tamanoVida.enabled = true;
+        tamanoVida.size = new ParticleSystem.MinMaxCurve(
+            1f,
+            new AnimationCurve(
+                new Keyframe(0f, 0.15f),
+                new Keyframe(0.18f, 1f),
+                new Keyframe(1f, 0f)));
+
+        ParticleSystemRenderer rendererParticulas = particulasActivacion.GetComponent<ParticleSystemRenderer>();
+        SpriteRenderer rendererFuente = GetComponent<SpriteRenderer>();
+        if (rendererParticulas != null && rendererFuente != null)
+        {
+            rendererParticulas.sortingLayerID = rendererFuente.sortingLayerID;
+            rendererParticulas.sortingOrder = rendererFuente.sortingOrder + 1;
         }
     }
 
