@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // ============================================================
@@ -19,8 +20,21 @@ public class Checkpoint : MonoBehaviour
     [Tooltip("Distancia maxima para buscar el piso debajo del checkpoint.")]
     public float distanciaAlPiso = 15f;
 
+    [Header("Espacio durante la animacion")]
+    [Tooltip("Collider fisico que impide atravesar la fuente mientras se activa.")]
+    [SerializeField] private Collider2D bloqueoDuranteAnimacion;
+    [Tooltip("Debe coincidir con la duracion del clip Inicio Fuente.")]
+    [Min(0f)] [SerializeField] private float duracionBloqueo = 1.1f;
+    [Tooltip("Pequeño impulso que saca al player del centro de la fuente.")]
+    [Min(0f)] [SerializeField] private float fuerzaSeparacion = 3f;
+
+    private Animator animator;
+
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+        DesactivarBloqueo();
+
         Collider2D[] colliders = GetComponents<Collider2D>();
         if (colliders.Length == 0)
         {
@@ -49,10 +63,58 @@ public class Checkpoint : MonoBehaviour
 
         PuntoDeReaparicion.Guardar(escena, donde);
 
+        ActivarBloqueo(pc);
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Activar");
+        }
+
         if (sonidoAlActivar != null && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(sonidoAlActivar, volumen);
         }
+
+        StartCoroutine(DesactivarBloqueoDespues());
+    }
+
+    private void ActivarBloqueo(PlayerController pc)
+    {
+        if (bloqueoDuranteAnimacion != null)
+        {
+            bloqueoDuranteAnimacion.enabled = true;
+        }
+
+        if (pc == null || pc.rb == null || fuerzaSeparacion <= 0f) return;
+
+        float direccion = Mathf.Sign(pc.transform.position.x - transform.position.x);
+        if (Mathf.Approximately(direccion, 0f))
+        {
+            direccion = pc.movement != null && pc.movement.IsFacingRight ? 1f : -1f;
+        }
+
+        Vector2 velocidad = pc.rb.linearVelocity;
+        velocidad.x = direccion * fuerzaSeparacion;
+        pc.rb.linearVelocity = velocidad;
+    }
+
+    private IEnumerator DesactivarBloqueoDespues()
+    {
+        yield return new WaitForSecondsRealtime(duracionBloqueo);
+        DesactivarBloqueo();
+    }
+
+    private void DesactivarBloqueo()
+    {
+        if (bloqueoDuranteAnimacion != null)
+        {
+            bloqueoDuranteAnimacion.enabled = false;
+        }
+    }
+
+    private void OnDisable()
+    {
+        DesactivarBloqueo();
     }
 
     // Parada en el piso, debajo del checkpoint. Si no hay piso, donde esta la niña ahora.
