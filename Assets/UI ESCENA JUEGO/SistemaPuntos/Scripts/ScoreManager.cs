@@ -43,6 +43,19 @@ public class ScoreManager : MonoBehaviour
 
     public int PuntajeTotal => puntajeTotal;
 
+    // ---------- Puntaje de TODO el juego ----------
+    // El de la zona sirve para saber cuanto falta juntar aca; el global, para los precios
+    // de las habilidades (que se pagan con todo lo juntado en la partida).
+
+    private int puntajeGlobal;
+    private int totalDelJuego;
+
+    // Lo que lleva juntado en TODAS las zonas.
+    public int PuntajeGlobal => puntajeGlobal;
+
+    // Cuantos puntos hay en TODO el juego si junta hasta la ultima moneda.
+    public int TotalDelJuego => totalDelJuego;
+
     public event Action<int> OnScoreChanged;
 
     [Header("Testing (solo para probar en el editor)")]
@@ -67,6 +80,40 @@ public class ScoreManager : MonoBehaviour
             recolectadas = ProgresoJuego.CargarMonedas();
             monedasCargadas = true;
         }
+
+        CalcularTotalDelJuego();
+        ActualizarPuntajeGlobal();
+    }
+
+    // El total del juego sale del asset que escribe "Not Home > Puntos > Contar los puntos
+    // de todas las zonas". Para la zona en la que estamos usamos el conteo de verdad, asi
+    // los numeros son correctos aunque se hayan agregado monedas despues del ultimo conteo.
+    private void CalcularTotalDelJuego()
+    {
+        TotalesDePuntos totales = Resources.Load<TotalesDePuntos>("TotalesDePuntos");
+
+        if (totales == null)
+        {
+            totalDelJuego = puntajeTotal;
+            Debug.LogWarning("ScoreManager: falta Assets/Resources/TotalesDePuntos. Corre " +
+                             "'Not Home > Puntos > Contar los puntos de todas las zonas' para que el " +
+                             "marcador sepa el total del juego.");
+            return;
+        }
+
+        totalDelJuego = totales.TotalDelJuego() - totales.DeLaZona(zonaActual) + puntajeTotal;
+    }
+
+    // Suma lo guardado en cada zona.
+    private void ActualizarPuntajeGlobal()
+    {
+        int suma = 0;
+        for (int numeroZona = 1; numeroZona <= ProgresoJuego.CANTIDAD_ZONAS; numeroZona++)
+        {
+            string zona = "Zona " + numeroZona;
+            suma += zona == zonaActual ? currentScore : ProgresoJuego.CargarPuntaje(zona);
+        }
+        puntajeGlobal = suma;
     }
 
     private void CalcularPuntajeTotalDeMonedas()
@@ -99,6 +146,7 @@ public class ScoreManager : MonoBehaviour
     // Al recargar la zona vuelve a calcularse automaticamente.
     private void OnValidate()
     {
+        ActualizarPuntajeGlobal();
         OnScoreChanged?.Invoke(currentScore);
     }
 
@@ -106,6 +154,7 @@ public class ScoreManager : MonoBehaviour
     public void AddPoints(int points)
     {
         currentScore += points;
+        ActualizarPuntajeGlobal();
         OnScoreChanged?.Invoke(currentScore);
 
         ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
@@ -117,6 +166,7 @@ public class ScoreManager : MonoBehaviour
         if (recolectadas.Contains(id)) return; // ya la teniamos
         recolectadas.Add(id);
         currentScore += points;
+        ActualizarPuntajeGlobal();
         OnScoreChanged?.Invoke(currentScore);
 
         ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
@@ -131,6 +181,7 @@ public class ScoreManager : MonoBehaviour
         if (currentScore < costo) return false;
 
         currentScore -= costo;
+        ActualizarPuntajeGlobal();
         OnScoreChanged?.Invoke(currentScore);
         ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
         return true;
@@ -160,6 +211,7 @@ public class ScoreManager : MonoBehaviour
         if (Instance != null)
         {
             Instance.currentScore = 0;
+            Instance.ActualizarPuntajeGlobal();
             Instance.OnScoreChanged?.Invoke(0);
         }
     }
@@ -182,6 +234,7 @@ public class ScoreManager : MonoBehaviour
         string prefijoZona = zonaActual + "@";
         recolectadas.RemoveWhere(id => id.StartsWith(prefijoZona));
         currentScore = 0;
+        ActualizarPuntajeGlobal();
         OnScoreChanged?.Invoke(currentScore);
 
         if (Application.isPlaying)

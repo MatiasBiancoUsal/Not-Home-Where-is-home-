@@ -580,7 +580,9 @@ public class TransicionZonas : MonoBehaviour
         float t = 0f;
         while (t < duracion)
         {
-            t += Time.deltaTime;
+            // Tiempo REAL, por si algo congela el juego en el medio (el tutorial inicial,
+            // por ejemplo): el fundido siempre termina y no queda la pantalla tapada.
+            t += Time.unscaledDeltaTime;
             PonerAlpha(Mathf.Lerp(inicial, alphaObjetivo, t / duracion));
             yield return null;
         }

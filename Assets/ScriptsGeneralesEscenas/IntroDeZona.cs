@@ -38,6 +38,9 @@ public class IntroDeZona : MonoBehaviour
     [Header("Tiempos")]
     [Tooltip("Segundos que espera despues de tocar el piso, antes de mostrar el nombre de la zona.")]
     public float esperaAlTocarElPiso = 0.4f;
+    [Tooltip("Activo: apenas aparece el nombre de la zona, la niña ya se puede mover (el cartel " +
+             "sigue en pantalla por su cuenta). Desactivalo si preferis que espere a que se vaya.")]
+    public bool devolverElControlConElNombre = true;
     [Tooltip("Si esta activo, el cartel del tutorial espera a que el nombre de la zona TERMINE de " +
              "desvanecerse. Asi nunca se superponen en pantalla. Si lo destildas, aparece al toque " +
              "y los dos conviven (ahi conviene separarlos de posicion).")]
@@ -196,6 +199,14 @@ public class IntroDeZona : MonoBehaviour
         if (TransicionZonas.Instancia != null)
         {
             TransicionZonas.Instancia.MostrarNombreDeLaZona();
+
+            // La niña ya puede jugar mientras el nombre de la zona sigue en pantalla:
+            // el cartel es solo decorativo y no tiene por que frenar el juego.
+            if (devolverElControlConElNombre && jugador != null)
+            {
+                PonerAnim(animIdle);
+                jugador.enabled = true;
+            }
 
             if (esperarQueTermineElNombre)
             {

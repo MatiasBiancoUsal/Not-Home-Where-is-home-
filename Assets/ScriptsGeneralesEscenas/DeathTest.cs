@@ -100,7 +100,9 @@ public class DeathTest : MonoBehaviour
         float t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.deltaTime;
+            // Tiempo REAL: si algo congela el juego (por ejemplo el tutorial inicial), el
+            // fundido igual termina y no queda un velo negro tapando la pantalla.
+            t += Time.unscaledDeltaTime;
             SetFadeAlpha(Mathf.Lerp(from, to, t / fadeDuration));
             yield return null;
         }

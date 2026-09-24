@@ -111,7 +111,10 @@ public class PlayerDeath : MonoBehaviour
         float t = 0f;
         while (t < duracionFundido)
         {
-            t += Time.deltaTime;
+            // Tiempo REAL: el cartel del tutorial inicial congela el juego (timeScale 0) y,
+            // con el tiempo normal, el fundido de entrada quedaba clavado a mitad de camino:
+            // toda la pantalla se veia tapada por un velo negro.
+            t += Time.unscaledDeltaTime;
             SetFadeAlpha(Mathf.Lerp(from, to, t / duracionFundido));
             yield return null;
         }
