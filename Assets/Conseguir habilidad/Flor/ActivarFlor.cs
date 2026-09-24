@@ -22,6 +22,12 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("Si esta activo, nombres como FlorDobleSalto, FlorDash o FlorEscalar eligen la habilidad automaticamente.")]
     [SerializeField] private bool detectarPorNombre = true;
 
+    [Header("Costo en puntos")]
+    [Tooltip("La habilidad solo se entrega si el jugador tiene esta cantidad. Los puntos se descuentan al adquirirla.")]
+    [Min(0)] [SerializeField] private int costoEnPuntos = 10;
+    [Tooltip("Asigna costos crecientes automaticamente: Doble Salto 10, Escalar 20, Dash 30, Pisoton 40, Super Salto 50 y Escudo 60.")]
+    [SerializeField] private bool costoAutomaticoPorHabilidad = true;
+
     [Header("Como queda la flor una vez recogida")]
     [Tooltip("Sprite de la flor ABIERTA. Si lo dejas vacio, se congela sola en el ultimo frame de la animacion (que es lo que suele quedar bien). Llenalo solo si querés otro dibujo.")]
     [SerializeField] private Sprite spriteFlorAbierta;
@@ -125,6 +131,7 @@ public class ActivarFlor : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (detectarPorNombre) DetectarHabilidadPorNombre();
+        if (costoAutomaticoPorHabilidad) costoEnPuntos = CostoPredeterminado(habilidad);
         AsignarCartelDeHabilidad();
     }
 
@@ -152,6 +159,14 @@ public class ActivarFlor : MonoBehaviour
 
         PlayerController player = other.GetComponentInParent<PlayerController>();
         if (player == null) return;
+
+        ScoreManager puntos = ScoreManager.Instance;
+        int disponibles = puntos != null ? puntos.CurrentScore : 0;
+        if (puntos == null || !puntos.IntentarGastarPuntos(costoEnPuntos))
+        {
+            MostrarAvisoDePuntos(disponibles);
+            return;
+        }
 
         recogida = true;
         player.DesbloquearHabilidad(habilidad);
@@ -291,6 +306,37 @@ public class ActivarFlor : MonoBehaviour
     private string ClaveProgreso()
     {
         return "Habilidad_" + habilidad;
+    }
+
+    private static int CostoPredeterminado(PlayerController.Habilidad habilidadElegida)
+    {
+        switch (habilidadElegida)
+        {
+            case PlayerController.Habilidad.DobleSalto: return 10;
+            case PlayerController.Habilidad.Escalar: return 20;
+            case PlayerController.Habilidad.Dash: return 30;
+            case PlayerController.Habilidad.Pisoton: return 40;
+            case PlayerController.Habilidad.SuperSalto: return 50;
+            case PlayerController.Habilidad.Escudo: return 60;
+            default: return 10;
+        }
+    }
+
+    private void MostrarAvisoDePuntos(int disponibles)
+    {
+        int faltan = Mathf.Max(0, costoEnPuntos - disponibles);
+        string descripcion =
+            "Necesitas recolectar " + costoEnPuntos + " puntos para adquirir esta habilidad.\n" +
+            "Tienes " + disponibles + ". Te faltan " + faltan + ".";
+
+        CartelHabilidadUI.Mostrar(
+            null,
+            fondoCartel,
+            "PUNTOS INSUFICIENTES",
+            descripcion,
+            textoParaCerrar,
+            pausarMientrasSeMuestra,
+            estiloCartel);
     }
 
     // Devuelve el bloque de cartel que corresponde a la habilidad que entrega esta flor.

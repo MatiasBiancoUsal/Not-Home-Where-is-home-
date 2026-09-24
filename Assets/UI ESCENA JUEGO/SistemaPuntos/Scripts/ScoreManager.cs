@@ -123,6 +123,19 @@ public class ScoreManager : MonoBehaviour
         ProgresoJuego.GuardarMonedas(recolectadas);
     }
 
+    // Compra una habilidad u otro premio usando los puntos de la zona actual.
+    // Devuelve false y no modifica nada cuando el jugador todavia no llega al costo.
+    public bool IntentarGastarPuntos(int costo)
+    {
+        costo = Mathf.Max(0, costo);
+        if (currentScore < costo) return false;
+
+        currentScore -= costo;
+        OnScoreChanged?.Invoke(currentScore);
+        ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
+        return true;
+    }
+
     // ¿Esta moneda ya fue recolectada? (la usa la moneda para no reaparecer al recargar la zona).
     public bool YaRecolectada(string id)
     {
