@@ -93,7 +93,17 @@ public class IntroDeZona : MonoBehaviour
 
         // El cartel del tutorial arranca apagado: lo prendemos nosotros, despues del
         // nombre de la zona. Se hace en Awake porque asi su Start todavia no corrio.
-        if (cartelTutorial == null) cartelTutorial = Object.FindFirstObjectByType<TutorialMovimiento>();
+        // Si existe el tutorial nuevo de paginas, el cartel viejo de "Bienvenido / controles"
+        // ya no participa de la introduccion ni debe volver a prenderse al final.
+        bool usaTutorialNuevo = Object.FindFirstObjectByType<TutorialInicialPaginas>() != null;
+        if (usaTutorialNuevo)
+        {
+            cartelTutorial = null;
+        }
+        else if (cartelTutorial == null)
+        {
+            cartelTutorial = Object.FindFirstObjectByType<TutorialMovimiento>();
+        }
         if (cartelTutorial != null) cartelTutorial.enabled = false;
     }
 
