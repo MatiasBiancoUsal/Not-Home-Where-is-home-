@@ -117,8 +117,9 @@ public class BossFinal : MonoBehaviour
     public float pausaEntreAtaques = 1.2f;
 
     [Header("Ataque 1: lluvia de estalactitas")]
-    [Tooltip("Vacio = cuadrado violeta de prueba.")]
-    public GameObject prefabEstalactita;
+    [Tooltip("Los prefabs de estalactita. Si pones varios, elige uno al azar en cada caida " +
+             "(asi la lluvia no se ve toda igual). Vacio = cuadrado violeta de prueba.")]
+    public GameObject[] prefabsDeEstalactita;
     [Tooltip("Segundos que cada estalactita tiembla en el techo antes de caer.")]
     public float avisoDeCadaEstalactita = 0.9f;
     public float intervaloEntreEstalactitas = 0.25f;
@@ -155,8 +156,11 @@ public class BossFinal : MonoBehaviour
     [Min(1)] public int filasDeEstalactitas = 3;
     [Tooltip("Distancia entre estalactitas de una misma fila.")]
     public float separacionEnLaFila = 1.2f;
-    [Tooltip("Ancho del hueco libre donde se tiene que meter la niña.")]
-    public float anchoDelHueco = 2.5f;
+    [Tooltip("Ancho de cada hueco libre donde se tiene que meter la niña. Mas ancho = mas facil.")]
+    public float anchoDelHueco = 4f;
+    [Tooltip("Cuantos huecos deja la PRIMERA fila. Cada fila siguiente deja uno menos, " +
+             "hasta que la ultima deja uno solo. Con 3 filas y 3 huecos: 3, 2 y 1.")]
+    [Min(1)] public int huecosEnLaPrimeraFila = 3;
     public float avisoDeLaFila = 1.1f;
     [Tooltip("Entre fila y fila cruza el ring de punta a punta.")]
     public bool embestirEntreFilas = true;
@@ -166,11 +170,53 @@ public class BossFinal : MonoBehaviour
     public float velocidadDeLaEmbestida = 14f;
     public float avisoDeLaEmbestida = 0.8f;
 
+    [Header("Esconderse de la embestida (click derecho)")]
+    [Tooltip("La niña puede agacharse y meterse bajo el piso mientras el boss embiste.")]
+    public bool sePuedeEsconder = true;
+    [Tooltip("El cartel grande que aparece la PRIMERA vez, para enseñar la mecanica.")]
+    public string textoDelCartel = "manten CLICK DERECHO para esconderte";
+    [Tooltip("Cuantos segundos avisa el boss ANTES de la primera embestida (mas largo, para " +
+             "que de tiempo a leer el cartel). Las siguientes usan 'Aviso De La Embestida'.")]
+    public float avisoDeLaPrimeraEmbestida = 2.2f;
+    [Tooltip("Cuanto se queda el cartel en pantalla.")]
+    public float duracionDelCartel = 2.5f;
+    [Tooltip("Cuanto se hunde la niña, en unidades.")]
+    public float profundidadDelEscondite = 1.4f;
+    [Tooltip("Cuanto tarda en meterse y en salir.")]
+    public float duracionDelEscondite = 0.25f;
+    [Tooltip("Valor de 'stateAnim' de la niña mientras esta escondida. 0 = no tocar la animacion. " +
+             "Cuando tengas la animacion de agacharse, pone aca su numero.")]
+    public int animacionAgachada = 0;
+    public AudioClip sonidoAlEsconderse;
+    public AudioClip sonidoAlSalirDelEscondite;
+
     [Header("La caida (cuando se le puede pegar)")]
     [Tooltip("Dibujo mareado en el piso. Vacio = usa el mismo y se bambolea.")]
     public Sprite spriteCaido;
+
+    [Header("Animacion (si usas un Animator)")]
+    [Tooltip("El Animator del boss. Si lo dejas VACIO, el boss usa los dibujos sueltos de abajo.\n\n" +
+             "Si lo ponés, el script NO toca el sprite: le avisa al Animator en que estado esta, " +
+             "con el numero del parametro de abajo.")]
+    public Animator animador;
+    [Tooltip("Nombre EXACTO del parametro Int del Animator (como el 'stateAnim' de la niña).")]
+    public string parametroDeEstado = "estado";
+    [Tooltip("Valor del parametro cuando esta flotando tranquilo.")]
+    public int animFlotando = 1;
+    [Tooltip("Valor cuando esta avisando que va a atacar (tiembla).")]
+    public int animAvisando = 2;
+    [Tooltip("Valor cuando esta caido en el piso (cuando se le puede pegar).")]
+    public int animCaido = 3;
+    [Tooltip("Valor cuando esta enfurecido (el derrumbe final).")]
+    public int animFuria = 4;
+    [Tooltip("Valor cuando se esta muriendo.")]
+    public int animMuerte = 5;
     [Tooltip("Segundos que queda en el piso. Si no le pegaste todo, se levanta igual y repite la fase.")]
     public float tiempoCaido = 4.5f;
+    [Tooltip("Corrige a que altura queda el boss cuando esta apoyado en el piso (al caerse Y en la embestida). El juego lo calcula con el " +
+             "rectangulo del dibujo, asi que si tu animacion tiene espacio transparente abajo, " +
+             "el boss frena en el aire. Bajá este numero (por ejemplo -2) hasta que quede apoyado.")]
+    public float ajusteDeAlturaAlCaer = 0f;
     public float tiempoParaLevantarse = 1f;
 
     [Header("Daño por tocarlo")]
@@ -181,6 +227,13 @@ public class BossFinal : MonoBehaviour
 
     [Header("Muerte")]
     public float duracionDeLaMuerte = 2.5f;
+    [Tooltip("La MISMA animacion de muerte que usan los monstruos del juego (un prefab suelto " +
+             "con su Animator y el script AutoDestruir). Vacio = solo los pufs.")]
+    public GameObject prefabDeLaMuerte;
+    [Tooltip("Como el boss es grande, conviene agrandarla. 3 es un buen punto de partida.")]
+    public float escalaDelEfectoDeMuerte = 3f;
+    [Tooltip("Cuantas veces aparece mientras se muere, repartidas por el cuerpo. 1 = solo una al final.")]
+    [Min(1)] public int cuantasVecesAparece = 3;
     public int puntosPorVencerlo = 500;
 
     [Header("Sonidos (todos opcionales)")]
@@ -220,7 +273,11 @@ public class BossFinal : MonoBehaviour
     private float alpha = 1f;
     private int capaGolpeable = -1, capaIntocable = 2;
     private int golpesTotales, vidaAnterior, orbesEnEstaOla;
-    private float xDelUltimoHueco = float.NaN;
+
+    private EscondersePlayer escondite;
+    private int embestidasHechas;
+    private TextMeshProUGUI cartelGrande;
+    private Coroutine cartelCo;
 
     private readonly List<MiniBicho> vivos = new List<MiniBicho>();
     private readonly List<GameObject> peligros = new List<GameObject>();
@@ -295,6 +352,8 @@ public class BossFinal : MonoBehaviour
         // Ya lo vencieron en esta partida: no vuelve.
         if (ProgresoJuego.YaMostrado(ClaveDerrotado()))
         {
+            Debug.Log("[Boss] '" + name + "' no aparece porque YA LO VENCISTE en esta partida. " +
+                      "Para volver a pelear: menu 'Not Home > Borrar progreso guardado'.", this);
             gameObject.SetActive(false);
             return;
         }
@@ -514,7 +573,8 @@ public class BossFinal : MonoBehaviour
 
         for (int fila = 0; fila < filasDeEstalactitas; fila++)
         {
-            yield return FilaDeEstalactitas(v);
+            // Primera fila: varios huecos. Cada fila deja uno menos, hasta que queda uno solo.
+            yield return FilaDeEstalactitas(v, huecosEnLaPrimeraFila - fila);
 
             bool quedanFilas = fila < filasDeEstalactitas - 1;
             if (embestirEntreFilas && quedanFilas)
@@ -525,26 +585,37 @@ public class BossFinal : MonoBehaviour
         }
     }
 
-    private IEnumerator FilaDeEstalactitas(float v)
+    // 'huecos' es cuantos espacios libres deja esta fila. La primera deja varios (es facil
+    // llegar a alguno) y van bajando hasta que queda uno solo: la fila mas dificil es la ultima.
+    private IEnumerator FilaDeEstalactitas(float v, int huecos)
     {
         Rect ring = Ring();
         float mitadHueco = anchoDelHueco * 0.5f;
-        float minX = ring.xMin + mitadHueco + 0.3f;
-        float maxX = Mathf.Max(minX, ring.xMax - mitadHueco - 0.3f);
+        huecos = Mathf.Max(1, huecos);
 
-        // El hueco cambia de lugar en cada fila, asi hay que moverse.
-        float hueco = Random.Range(minX, maxX);
-        for (int intento = 0; intento < 6 && !float.IsNaN(xDelUltimoHueco); intento++)
+        // Repartimos los huecos: uno por cada franja del ring, en un lugar al azar de su franja.
+        // Asi nunca quedan dos pegados ni todos juntos de un lado.
+        List<float> centros = new List<float>();
+        float franja = ring.width / huecos;
+
+        for (int i = 0; i < huecos; i++)
         {
-            if (Mathf.Abs(hueco - xDelUltimoHueco) >= anchoDelHueco) break;
-            hueco = Random.Range(minX, maxX);
+            float minX = ring.xMin + franja * i + mitadHueco + 0.3f;
+            float maxX = ring.xMin + franja * (i + 1) - mitadHueco - 0.3f;
+
+            centros.Add(maxX > minX ? Random.Range(minX, maxX) : ring.xMin + franja * (i + 0.5f));
         }
-        xDelUltimoHueco = hueco;
 
         float paso = Mathf.Max(0.3f, separacionEnLaFila);
         for (float x = ring.xMin + paso * 0.5f; x <= ring.xMax - paso * 0.5f + 0.001f; x += paso)
         {
-            if (Mathf.Abs(x - hueco) <= mitadHueco) continue;
+            bool enUnHueco = false;
+            foreach (float c in centros)
+            {
+                if (Mathf.Abs(x - c) <= mitadHueco) { enUnHueco = true; break; }
+            }
+            if (enUnHueco) continue;
+
             CrearEstalactita(x, avisoDeLaFila / v);
         }
 
@@ -556,7 +627,8 @@ public class BossFinal : MonoBehaviour
     {
         Rect ring = Ring();
         float mitadAncho = MitadDelAncho();
-        float y = ring.yMin + alturaDeLaEmbestida + MitadDelAlto();
+        // Misma cuenta que al caerse: asi el ajuste de altura vale para los dos.
+        float y = ring.yMin + alturaDeLaEmbestida + AlturaDeApoyo();
 
         // Arranca del lado opuesto a la niña, asi tiene tiempo de verlo venir.
         bool ninaALaIzquierda = UtilBoss.PosicionJugador().x < ring.center.x;
@@ -564,8 +636,20 @@ public class BossFinal : MonoBehaviour
         float xFin = ninaALaIzquierda ? ring.xMin + mitadAncho : ring.xMax - mitadAncho;
 
         flotando = false;
+
+        // Se abre la ventana para esconderse: desde que se va al costado hasta que termina
+        // de cruzar. La PRIMERA embestida avisa mas tiempo y muestra el cartel que enseña
+        // la mecanica; las siguientes avisan menos.
+        bool primera = embestidasHechas == 0;
+        embestidasHechas++;
+
+        AbrirElEscondite(true);
+        if (primera && sePuedeEsconder) MostrarCartelGrande(textoDelCartel, duracionDelCartel);
+
         yield return MoverA(new Vector3(xInicio, y, posLogica.z), 0.7f / v);
-        yield return Avisar(avisoDeLaEmbestida / v, sonidoAviso);
+
+        float aviso = primera ? avisoDeLaPrimeraEmbestida : avisoDeLaEmbestida;
+        yield return Avisar(aviso / v, sonidoAviso);
 
         UtilBoss.Sonar(sonidoRugido, volumen, transform.position);
         float velocidad = velocidadDeLaEmbestida * v;
@@ -578,6 +662,34 @@ public class BossFinal : MonoBehaviour
         UtilBoss.Sacudir(0.9f, 0.3f);
         aplastado = 0.2f;
         flotando = true;
+
+        AbrirElEscondite(false);
+    }
+
+    // Prende y apaga la posibilidad de esconderse. La primera vez le agrega el script a la
+    // niña y le pasa los ajustes, asi no hay que configurar nada a mano.
+    private void AbrirElEscondite(bool abierta)
+    {
+        if (!sePuedeEsconder) return;
+
+        if (escondite == null)
+        {
+            PlayerController pc = UtilBoss.Jugador();
+            if (pc == null) return;
+
+            escondite = pc.GetComponent<EscondersePlayer>();
+            if (escondite == null) escondite = pc.gameObject.AddComponent<EscondersePlayer>();
+        }
+
+        escondite.profundidad = profundidadDelEscondite;
+        escondite.duracion = duracionDelEscondite;
+        escondite.animAgachada = animacionAgachada;
+        escondite.sonidoAlEsconderse = sonidoAlEsconderse;
+        escondite.sonidoAlSalir = sonidoAlSalirDelEscondite;
+        escondite.volumen = volumen;
+
+        if (abierta) escondite.ventanaAbierta = true;
+        else escondite.SacarDelEscondite();
     }
 
     //  6. LA CAIDA (la ventana para pegarle)
@@ -587,10 +699,10 @@ public class BossFinal : MonoBehaviour
         caido = true;
         flotando = false;
         furia = false;
-        if (spriteCaido != null) sr.sprite = spriteCaido;
+        if (animador == null && spriteCaido != null) sr.sprite = spriteCaido;
 
         // Cae acelerando hasta el piso del ring.
-        float yPiso = Ring().yMin + DistanciaAlBordeDeAbajo();
+        float yPiso = Ring().yMin + AlturaDeApoyo();
         float velocidad = 0f;
         while (posLogica.y > yPiso)
         {
@@ -621,7 +733,7 @@ public class BossFinal : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         UtilBoss.Sonar(sonidoLevantarse, volumen, transform.position);
-        sr.sprite = spriteNormal;
+        if (animador == null) sr.sprite = spriteNormal;
         caido = false;
         yield return MoverA(posicionDeReposo, tiempoParaLevantarse);
         flotando = true;
@@ -667,6 +779,8 @@ public class BossFinal : MonoBehaviour
         furia = false;
         SetGolpeable(false);
 
+        AbrirElEscondite(false);
+        if (escondite != null) escondite.ventanaAbierta = false;
         EliminarBichos();
         foreach (GameObject p in peligros) if (p != null) Destroy(p);
         peligros.Clear();
@@ -674,18 +788,30 @@ public class BossFinal : MonoBehaviour
         ProgresoJuego.MarcarMostrado(ClaveDerrotado());
         UtilBoss.Sonar(sonidoMuerte, volumen, transform.position);
 
-        // Tiembla y larga "pufs" por todos lados.
+        // Tiembla y larga "pufs" por todos lados. Si hay animacion de muerte, van apareciendo
+        // varias repartidas por el cuerpo mientras se desarma.
         float t = 0f;
         float proximoPuf = 0f;
+        float entreMuertes = duracionDeLaMuerte / Mathf.Max(1, cuantasVecesAparece);
+        float proximaMuerte = 0f;
+
         while (t < duracionDeLaMuerte)
         {
             t += Time.deltaTime;
             temblando = 1f;
 
+            Bounds b = Cuerpo();
+
+            if (prefabDeLaMuerte != null && t >= proximaMuerte)
+            {
+                proximaMuerte += entreMuertes;
+                Vector3 donde = new Vector3(Random.Range(b.min.x, b.max.x), Random.Range(b.min.y, b.max.y), 0f);
+                MiniBicho.SoltarEfectoDeMuerte(donde, prefabDeLaMuerte, escalaDelEfectoDeMuerte);
+            }
+
             if (t >= proximoPuf)
             {
                 proximoPuf = t + 0.2f;
-                Bounds b = sr.bounds;
                 Vector3 punto = new Vector3(Random.Range(b.min.x, b.max.x), Random.Range(b.min.y, b.max.y), 0f);
                 EfectoPuf.Crear(punto, Random.value < 0.5f ? Color.white : colorDeFuria, 6, 0.2f, 4f);
                 UtilBoss.Sacudir(0.5f, 0.2f);
@@ -698,8 +824,9 @@ public class BossFinal : MonoBehaviour
         temblando = 0f;
         OcultarBarra();
         UtilBoss.Sacudir(1.6f, 0.7f);
-        EfectoPuf.Crear(sr.bounds.center, Color.white, 24, 0.3f, 8f);
-        EfectoPuf.Crear(sr.bounds.center, colorDeFuria, 16, 0.25f, 6f);
+        MiniBicho.SoltarEfectoDeMuerte(Cuerpo().center, prefabDeLaMuerte, escalaDelEfectoDeMuerte * 1.5f);
+        EfectoPuf.Crear(Cuerpo().center, Color.white, 24, 0.3f, 8f);
+        EfectoPuf.Crear(Cuerpo().center, colorDeFuria, 16, 0.25f, 6f);
 
         t = 0f;
         while (t < 0.5f)
@@ -774,6 +901,24 @@ public class BossFinal : MonoBehaviour
         if (flash > 0f) c = Color.Lerp(c, colorAlRecibirGolpe, 0.8f);
         c.a = colorOriginal.a * alpha;
         sr.color = c;
+
+        AvisarleAlAnimator();
+    }
+
+    // Le cuenta al Animator en que estado esta el boss, con el parametro Int que elijas.
+    // El orden importa: gana lo mas "urgente".
+    private void AvisarleAlAnimator()
+    {
+        if (animador == null || string.IsNullOrEmpty(parametroDeEstado)) return;
+
+        int estado;
+        if (muerto) estado = animMuerte;
+        else if (caido) estado = animCaido;
+        else if (avisando) estado = animAvisando;
+        else if (furia) estado = animFuria;
+        else estado = animFlotando;
+
+        animador.SetInteger(parametroDeEstado, estado);
     }
 
     //  9. AYUDANTES
@@ -819,9 +964,18 @@ public class BossFinal : MonoBehaviour
         return Rect.MinMaxRect(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y));
     }
 
-    private float MitadDelAncho() => sr.bounds.extents.x;
-    private float MitadDelAlto() => sr.bounds.extents.y;
-    private float DistanciaAlBordeDeAbajo() => transform.position.y - sr.bounds.min.y;
+    // El tamaño del boss sale de SU COLLIDER si lo tiene (el cuerpo de verdad) y, si no,
+    // del rectangulo del dibujo. Con collider, al caerse apoya donde apoya el cuerpo y no
+    // queda flotando por culpa del espacio transparente del sprite.
+    private Bounds Cuerpo() => cuerpo != null ? cuerpo.bounds : sr.bounds;
+
+    private float MitadDelAncho() => Cuerpo().extents.x;
+    private float MitadDelAlto() => Cuerpo().extents.y;
+    private float DistanciaAlBordeDeAbajo() => transform.position.y - Cuerpo().min.y;
+
+    // A que altura queda el boss cuando esta APOYADO en el piso del ring, ya con la
+    // correccion a mano. La usan la caida y la embestida.
+    private float AlturaDeApoyo() => DistanciaAlBordeDeAbajo() + ajusteDeAlturaAlCaer;
 
     // Una X al azar dentro del ring que no quede pegada a las que ya se usaron.
     private float XLibre(Rect ring, List<float> usadas, float distanciaMinima)
@@ -875,10 +1029,12 @@ public class BossFinal : MonoBehaviour
 
     private void CrearEstalactita(float x, float aviso)
     {
+        GameObject prefab = UnaEstalactitaAlAzar();
+
         GameObject go;
-        if (prefabEstalactita != null)
+        if (prefab != null)
         {
-            go = Instantiate(prefabEstalactita);
+            go = Instantiate(prefab);
         }
         else
         {
@@ -897,6 +1053,25 @@ public class BossFinal : MonoBehaviour
         e.Iniciar(aviso, Ring().yMin);
 
         AnotarPeligro(go);
+    }
+
+    // Elige uno de los prefabs de estalactita cargados (salteando los vacios).
+    private GameObject UnaEstalactitaAlAzar()
+    {
+        if (prefabsDeEstalactita == null || prefabsDeEstalactita.Length == 0) return null;
+
+        int cuantos = 0;
+        foreach (GameObject p in prefabsDeEstalactita) if (p != null) cuantos++;
+        if (cuantos == 0) return null;
+
+        int elegido = Random.Range(0, cuantos);
+        foreach (GameObject p in prefabsDeEstalactita)
+        {
+            if (p == null) continue;
+            if (elegido == 0) return p;
+            elegido--;
+        }
+        return null;
     }
 
     private void CrearBola(Vector2 origen, Vector2 direccion, float velocidad)
@@ -948,7 +1123,7 @@ public class BossFinal : MonoBehaviour
             MiniBicho nuevo = go.AddComponent<MiniBicho>();
             nuevo.tipo = tipo;
             nuevo.colorDelPuf = color;
-            go.GetComponent<HealthHandler>().maxHealth = 1;
+            // La vida la pone el propio MiniBicho en su Awake (campo "Golpes Que Aguanta").
             Damageable d = go.GetComponent<Damageable>();
             d.activeKnockBack = false;
             d.activeInvulnerability = false;
@@ -1011,6 +1186,41 @@ public class BossFinal : MonoBehaviour
     {
         if (grupoBarra == null) CrearBarra();
         alphaBarraObjetivo = 1f;
+    }
+
+    // Un cartel grande en el medio de la pantalla (el que enseña a esconderse).
+    private void MostrarCartelGrande(string texto, float segundos)
+    {
+        if (string.IsNullOrWhiteSpace(texto)) return;
+        if (grupoBarra == null) CrearBarra();
+        if (cartelGrande == null) return;
+
+        if (cartelCo != null) StopCoroutine(cartelCo);
+        cartelCo = StartCoroutine(RutinaDelCartelGrande(texto, segundos));
+    }
+
+    private IEnumerator RutinaDelCartelGrande(string texto, float segundos)
+    {
+        cartelGrande.text = texto;
+
+        yield return FundirCartel(0f, 1f, 0.35f);
+        yield return new WaitForSeconds(Mathf.Max(0.1f, segundos));
+        yield return FundirCartel(1f, 0f, 0.6f);
+
+        cartelGrande.text = "";
+        cartelCo = null;
+    }
+
+    private IEnumerator FundirCartel(float desde, float hasta, float duracion)
+    {
+        float t = 0f;
+        while (t < duracion)
+        {
+            t += Time.unscaledDeltaTime;
+            cartelGrande.alpha = Mathf.Lerp(desde, hasta, t / duracion);
+            yield return null;
+        }
+        cartelGrande.alpha = hasta;
     }
 
     private void OcultarBarra()
@@ -1076,6 +1286,26 @@ public class BossFinal : MonoBehaviour
             rt.sizeDelta = new Vector2(4f, 0f);
             rt.anchoredPosition = Vector2.zero;
         }
+
+        // El cartel grande del medio de la pantalla (vive en el mismo Canvas, pero afuera
+        // del contenedor de la barra: asi no se desvanece junto con ella).
+        GameObject cartelGo = new GameObject("CartelDelBoss");
+        cartelGo.transform.SetParent(canvasGo.transform, false);
+
+        cartelGrande = cartelGo.AddComponent<TextMeshProUGUI>();
+        if (fuenteDelNombre != null) cartelGrande.font = fuenteDelNombre;
+        cartelGrande.fontSize = 52f;
+        cartelGrande.alignment = TextAlignmentOptions.Center;
+        cartelGrande.raycastTarget = false;
+        cartelGrande.text = "";
+        cartelGrande.alpha = 0f;
+
+        RectTransform rtCartel = cartelGrande.rectTransform;
+        rtCartel.anchorMin = new Vector2(0f, 0.5f);
+        rtCartel.anchorMax = new Vector2(1f, 0.5f);
+        rtCartel.pivot = new Vector2(0.5f, 0.5f);
+        rtCartel.sizeDelta = new Vector2(-200f, 160f);
+        rtCartel.anchoredPosition = new Vector2(0f, -180f);
 
         if (!string.IsNullOrEmpty(nombreEnLaBarra))
         {

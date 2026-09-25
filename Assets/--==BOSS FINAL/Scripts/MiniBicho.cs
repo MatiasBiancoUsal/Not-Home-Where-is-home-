@@ -15,11 +15,16 @@ public enum TipoDeBicho { Rastrero, Volador, Saltarin }
 //  Para armar el prefab: un objeto con SpriteRenderer + un Collider2D (NO trigger) +
 //  este script. Al agregarlo se suman solos el Rigidbody2D, HealthHandler y Damageable.
 // ============================================================
+[DefaultExecutionOrder(-50)] // antes que el HealthHandler, para poder fijarle la vida
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(HealthHandler))]
 [RequireComponent(typeof(Damageable))]
 public class MiniBicho : MonoBehaviour
 {
+    [Header("Vida")]
+    [Tooltip("Cuantos golpes aguanta.")]
+    [Min(1)] public int golpesQueAguanta = 3;
+
     [Header("Que bicho es")]
     public TipoDeBicho tipo = TipoDeBicho.Rastrero;
     [Tooltip("Activo si en el dibujo el bicho mira hacia la DERECHA. Se da vuelta solo segun donde este la niña.")]
@@ -41,7 +46,7 @@ public class MiniBicho : MonoBehaviour
 
     [Header("Saltarin")]
     [Tooltip("Altura de cada salto, en unidades.")]
-    public float alturaDelSalto = 3f;
+    public float alturaDelSalto = 5f;
     [Tooltip("Distancia maxima que puede avanzar en un salto.")]
     public float alcanceMaximo = 5f;
     [Tooltip("Segundos quieto en el piso entre salto y salto.")]
@@ -53,6 +58,18 @@ public class MiniBicho : MonoBehaviour
     [Tooltip("Dibujo en el aire. Si lo dejas vacio, usa el mismo del SpriteRenderer.")]
     public Sprite spriteEnElAire;
 
+    [Header("Animacion (si usas un Animator)")]
+    [Tooltip("Si tu bicho tiene UNA sola animacion en loop (caminar, aletear), dejalo VACIO: " +
+             "el Animator la reproduce solo y no hay que tocar nada.\n\n" +
+             "Ponelo solo si el bicho tiene varias animaciones (util para el Saltarin: " +
+             "quieto, agachado y en el aire).")]
+    public Animator animador;
+    [Tooltip("Nombre EXACTO del parametro Int del Animator.")]
+    public string parametroDeEstado = "estado";
+    public int animNormal = 1;
+    public int animAgachado = 2;
+    public int animEnElAire = 3;
+
     [Header("Aparicion")]
     [Tooltip("Segundos que tarda en salir de la grieta (crece desde cero). Mientras sale no pega ni se le puede pegar.")]
     public float duracionAparicion = 0.5f;
@@ -60,8 +77,17 @@ public class MiniBicho : MonoBehaviour
 
     [Header("Muerte")]
     public int puntosPorMatar = 10;
+    [Tooltip("Efecto que queda al morir (la animacion de muerte de los monstruos del juego). " +
+             "Es un prefab suelto con su Animator y el script AutoDestruir. Vacio = solo el puf.")]
+    public GameObject prefabDeLaMuerte;
+    [Tooltip("Agranda o achica ese efecto. 1 = como es.")]
+    public float escalaDelEfectoDeMuerte = 1f;
+    [Tooltip("Los cuadraditos que saltan al morir. Con animacion de muerte podes apagarlos.")]
+    public bool mostrarPufAlMorir = true;
     public Color colorDelPuf = Color.white;
     public AudioClip sonidoAlMorir;
+    [Tooltip("Suena cuando le pegan y NO se muere.")]
+    public AudioClip sonidoAlRecibirGolpe;
     [Range(0f, 1f)] public float volumen = 0.8f;
 
     // El boss se entera cuando muere. El bool dice si lo mato la niña (true) o el boss lo saco (false).
@@ -84,12 +110,14 @@ public class MiniBicho : MonoBehaviour
     private float esperaSalto;
     private float sinChequearPiso;
     private float fase;
+    private int vidaAnterior;
+    private float golpeado;
     private float yMinimo = float.NegativeInfinity;
 
     // Se ejecuta al agregar el script en el editor: deja todo listo.
     private void Reset()
     {
-        GetComponent<HealthHandler>().maxHealth = 1;
+        GetComponent<HealthHandler>().maxHealth = golpesQueAguanta;
 
         Damageable d = GetComponent<Damageable>();
         d.activeKnockBack = false;
@@ -115,13 +143,14 @@ public class MiniBicho : MonoBehaviour
         escalaOriginal = transform.localScale;
         fase = Random.value * 10f;
 
-        if (vida.maxHealth <= 0)
-        {
-            Debug.LogWarning("MiniBicho: '" + name + "' tiene Max Health en 0 en su HealthHandler, no se puede morir. Ponele 1.", this);
-        }
+        // Esto corre ANTES del Awake del HealthHandler (ver DefaultExecutionOrder arriba),
+        // asi el bicho arranca con la vida que diga "Golpes Que Aguanta".
+        vida.maxHealth = Mathf.Max(1, golpesQueAguanta);
+        vidaAnterior = vida.maxHealth;
 
         vida.destroyOnDeath = false;
         vida.OnDeath += AlQuedarseSinVida;
+        vida.OnHealthChanged += AlRecibirGolpe;
 
         rb.freezeRotation = true;
     }
@@ -152,6 +181,7 @@ public class MiniBicho : MonoBehaviour
     private void OnDestroy()
     {
         if (vida != null) vida.OnDeath -= AlQuedarseSinVida;
+        if (vida != null) vida.OnHealthChanged -= AlRecibirGolpe;
     }
 
     private void Update()
@@ -174,6 +204,14 @@ public class MiniBicho : MonoBehaviour
         }
 
         // Daño por contacto (con un respiro, por si la niña no tiene invulnerabilidad).
+        if (golpeado > 0f)
+        {
+            // Aplastadito al recibir un golpe, para que se note.
+            golpeado -= Time.deltaTime;
+            float k = Mathf.Max(0f, golpeado) / 0.18f * 0.25f;
+            transform.localScale = new Vector3(escalaOriginal.x * (1f + k), escalaOriginal.y * (1f - k), escalaOriginal.z);
+        }
+
         if (cooldownGolpe > 0f) cooldownGolpe -= Time.deltaTime;
         if (cooldownGolpe <= 0f && UtilBoss.TocaAlJugador(col))
         {
@@ -246,7 +284,7 @@ public class MiniBicho : MonoBehaviour
         agachado = true;
 
         // Se agacha (el aviso). Si no hay dibujo de agachado, lo aplastamos.
-        if (spriteAgachado == null) transform.localScale = new Vector3(escalaOriginal.x * 1.2f, escalaOriginal.y * 0.7f, escalaOriginal.z);
+        if (animador == null && spriteAgachado == null) transform.localScale = new Vector3(escalaOriginal.x * 1.2f, escalaOriginal.y * 0.7f, escalaOriginal.z);
         yield return new WaitForSeconds(tiempoAgachado);
         transform.localScale = escalaOriginal;
 
@@ -290,9 +328,27 @@ public class MiniBicho : MonoBehaviour
 
     private void ActualizarDibujoDelSaltarin()
     {
-        if (tipo != TipoDeBicho.Saltarin || sr == null) return;
+        if (sr == null) return;
 
-        bool enElAire = !agachado && (sinChequearPiso > 0f || !EnElPiso());
+        bool enElAire = tipo == TipoDeBicho.Saltarin && !agachado && (sinChequearPiso > 0f || !EnElPiso());
+
+        // Con Animator no tocamos el sprite: le avisamos en que estado esta.
+        if (animador != null)
+        {
+            if (string.IsNullOrEmpty(parametroDeEstado)) return;
+
+            int estado = animNormal;
+            if (tipo == TipoDeBicho.Saltarin)
+            {
+                if (agachado) estado = animAgachado;
+                else if (enElAire) estado = animEnElAire;
+            }
+
+            animador.SetInteger(parametroDeEstado, estado);
+            return;
+        }
+
+        if (tipo != TipoDeBicho.Saltarin) return;
 
         Sprite s = spriteNormal;
         if (agachado && spriteAgachado != null) s = spriteAgachado;
@@ -302,6 +358,18 @@ public class MiniBicho : MonoBehaviour
     }
 
     // ---------- Muerte ----------
+
+    // Aguantan varios golpes, asi que hace falta que se note cuando les pegan.
+    private void AlRecibirGolpe(int vidaActual)
+    {
+        if (vidaActual < vidaAnterior && vidaActual > 0)
+        {
+            EfectoPuf.Crear(sr != null ? sr.bounds.center : transform.position, Color.white, 4, 0.12f, 3f);
+            UtilBoss.Sonar(sonidoAlRecibirGolpe, volumen, transform.position);
+            golpeado = 0.18f;
+        }
+        vidaAnterior = vidaActual;
+    }
 
     private void AlQuedarseSinVida()
     {
@@ -325,7 +393,8 @@ public class MiniBicho : MonoBehaviour
         col.enabled = false;
 
         Vector3 centro = sr != null ? sr.bounds.center : transform.position;
-        EfectoPuf.Crear(centro, colorDelPuf, 9, 0.2f, 4.5f);
+        SoltarEfectoDeMuerte(centro, prefabDeLaMuerte, escalaDelEfectoDeMuerte);
+        if (mostrarPufAlMorir) EfectoPuf.Crear(centro, colorDelPuf, 9, 0.2f, 4.5f);
         UtilBoss.Sonar(sonidoAlMorir, volumen, transform.position);
 
         if (loMatoLaNina && ScoreManager.Instance != null) ScoreManager.Instance.AddPoints(puntosPorMatar);
@@ -333,6 +402,16 @@ public class MiniBicho : MonoBehaviour
         AlMorir?.Invoke(this, loMatoLaNina);
 
         StartCoroutine(Encoger());
+    }
+
+    // Deja la animacion de muerte en el lugar. Es un objeto aparte: el bicho se borra
+    // enseguida, pero el efecto se queda hasta que termina (lo borra su AutoDestruir).
+    public static void SoltarEfectoDeMuerte(Vector3 donde, GameObject prefab, float escala)
+    {
+        if (prefab == null) return;
+
+        GameObject efecto = Instantiate(prefab, donde, Quaternion.identity);
+        if (escala > 0f && !Mathf.Approximately(escala, 1f)) efecto.transform.localScale *= escala;
     }
 
     private IEnumerator Encoger()

@@ -25,7 +25,11 @@ public class Estalactita : MonoBehaviour
     public float temblor = 0.06f;
     [Tooltip("Muestra una sombra en el piso donde va a caer.")]
     public bool mostrarSombra = true;
+    [Tooltip("Tu dibujo de la sombra (una mancha ovalada, por ejemplo). Si lo dejas vacio, " +
+             "usa una rayita negra generada por codigo.")]
+    public Sprite spriteDeLaSombra;
     public Color colorDeLaSombra = new Color(0f, 0f, 0f, 0.55f);
+    [Tooltip("Ancho de la sombra, en unidades del mundo.")]
     public float anchoDeLaSombra = 0.9f;
 
     [Header("Al romperse")]
@@ -39,6 +43,7 @@ public class Estalactita : MonoBehaviour
     private Vector3 posicionInicial;
     private Collider2D col;
     private Transform sombra;
+    private float altoDeLaSombra = 0.12f;
     private SpriteRenderer dibujoSombra;
     private bool cayendo;
     private bool roto;
@@ -123,8 +128,14 @@ public class Estalactita : MonoBehaviour
         go.transform.position = new Vector3(posicionInicial.x, alturaDelSuelo + 0.06f, 0f);
 
         dibujoSombra = go.AddComponent<SpriteRenderer>();
-        dibujoSombra.sprite = UtilBoss.Cuadrado();
+        dibujoSombra.sprite = spriteDeLaSombra != null ? spriteDeLaSombra : UtilBoss.Cuadrado();
         dibujoSombra.sortingOrder = 5;
+
+        // Con dibujo propio respetamos su forma; el cuadrado generado se aplasta a una rayita.
+        Vector2 tam = dibujoSombra.sprite.bounds.size;
+        altoDeLaSombra = spriteDeLaSombra != null && tam.x > 0.001f
+            ? anchoDeLaSombra * (tam.y / tam.x)
+            : 0.12f;
 
         sombra = go.transform;
         ActualizarSombra(0f);
@@ -134,7 +145,8 @@ public class Estalactita : MonoBehaviour
     {
         if (sombra == null) return;
 
-        sombra.localScale = new Vector3(anchoDeLaSombra * Mathf.Lerp(0.3f, 1f, k), 0.12f, 1f);
+        float escala = Mathf.Lerp(0.3f, 1f, k);
+        sombra.localScale = new Vector3(anchoDeLaSombra * escala, altoDeLaSombra * escala, 1f);
 
         Color c = colorDeLaSombra;
         c.a = colorDeLaSombra.a * Mathf.Lerp(0.2f, 1f, k);
