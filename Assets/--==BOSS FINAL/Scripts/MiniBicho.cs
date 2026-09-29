@@ -97,6 +97,7 @@ public class MiniBicho : MonoBehaviour
     private Rigidbody2D rb;
     private HealthHandler vida;
     private SpriteRenderer sr;
+    private SpriteRenderer[] dibujos;
     private Collider2D col;
     private Sprite spriteNormal;
     private Vector3 escalaOriginal;
@@ -132,12 +133,23 @@ public class MiniBicho : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         vida = GetComponent<HealthHandler>();
-        sr = GetComponentInChildren<SpriteRenderer>();
+        // El dibujo puede estar en el propio objeto O en un hijo (por ejemplo, si la
+        // animacion quedo en un objeto aparte adentro del prefab). Los agarramos a todos:
+        // el "principal" es el primero que tenga un sprite puesto.
+        dibujos = GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (SpriteRenderer d in dibujos)
+        {
+            if (d != null && d.sprite != null) { sr = d; break; }
+        }
+        if (sr == null) sr = GetComponentInChildren<SpriteRenderer>();
 
         col = GetComponent<Collider2D>();
         if (col == null) col = gameObject.AddComponent<BoxCollider2D>();
 
-        if (sr != null && sr.sprite == null) sr.sprite = UtilBoss.Cuadrado();
+        // El cuadrado de prueba solo se pone cuando el bicho NO tiene dibujo ni animacion.
+        // Asi no aparece un cuadradito gris al lado de los que ya tienen su arte.
+        bool tieneAnimacion = GetComponentInChildren<Animator>(true) != null;
+        if (sr != null && sr.sprite == null && !tieneAnimacion) sr.sprite = UtilBoss.Cuadrado();
         spriteNormal = sr != null ? sr.sprite : null;
 
         escalaOriginal = transform.localScale;
@@ -323,7 +335,13 @@ public class MiniBicho : MonoBehaviour
         if (Mathf.Abs(dx) < 0.05f) return;
 
         bool haciaLaDerecha = dx > 0f;
-        sr.flipX = dibujoMiraALaDerecha ? !haciaLaDerecha : haciaLaDerecha;
+        bool darVuelta = dibujoMiraALaDerecha ? !haciaLaDerecha : haciaLaDerecha;
+
+        // Se dan vuelta TODOS los dibujos del bicho, esten donde esten.
+        foreach (SpriteRenderer d in dibujos)
+        {
+            if (d != null) d.flipX = darVuelta;
+        }
     }
 
     private void ActualizarDibujoDelSaltarin()
