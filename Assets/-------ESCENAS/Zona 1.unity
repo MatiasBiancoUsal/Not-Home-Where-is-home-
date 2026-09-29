@@ -69158,6 +69158,7 @@ MonoBehaviour:
   claveGuardado: IntroZona1
   soloAlArrancarElJuego: 1
   esperaAlTocarElPiso: 0.4
+  devolverElControlConElNombre: 1
   esperarQueTermineElNombre: 1
   esperaDespuesDelNombre: 0.15
   esperaAntesDeDevolverElControl: 0.1
@@ -105239,7 +105240,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9197592
+      value: 0.9433821
       objectReference: {fileID: 0}
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: TargetOffset.x
