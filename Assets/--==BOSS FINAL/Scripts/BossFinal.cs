@@ -138,7 +138,10 @@ public class BossFinal : MonoBehaviour
     public float retrasoEntreOpciones = 0.09f;
     [Tooltip("Cuanto dura el 'pop' de cada opcion al aparecer.")]
     public float duracionDeCadaOpcion = 0.18f;
-    [Tooltip("Sonido de cada letra del tipeo (opcional).")]
+    [Tooltip("Sonidos de cada letra del tipeo (opcional). Podés poner varios (por ejemplo 3) y en cada " +
+             "letra se elige uno AL AZAR, asi no suena repetitivo.")]
+    public AudioClip[] sonidosDeTipeo;
+    [Tooltip("Sonido viejo, de cuando habia uno solo. Si cargaste la lista de arriba, este se ignora.")]
     public AudioClip sonidoDeTipeo;
     [Tooltip("El mismo sonido que usa el menu principal al pasar el mouse por un boton.")]
     public AudioClip sonidoAlPasarElMouse;
@@ -614,9 +617,9 @@ public class BossFinal : MonoBehaviour
                     tituloDificultad.text = tituloDeLaDificultad.Substring(0, i);
 
                     // El sonido no suena en los espacios, para que no quede ametralladora.
-                    if (sonidoDeTipeo != null && tituloDeLaDificultad[i - 1] != ' ')
+                    if (tituloDeLaDificultad[i - 1] != ' ')
                     {
-                        UtilBoss.Sonar(sonidoDeTipeo, volumenDelMouse, transform.position);
+                        UtilBoss.Sonar(ClipDeTipeo(), volumenDelMouse, transform.position);
                     }
 
                     yield return EsperarReal(porLetra);
@@ -673,6 +676,29 @@ public class BossFinal : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    // Elige al azar uno de los sonidos de tipeo, evitando repetir el de la letra anterior.
+    // Si la lista esta vacia, usa el sonido unico de antes.
+    private AudioClip ultimoClipDeTipeo;
+
+    private AudioClip ClipDeTipeo()
+    {
+        if (sonidosDeTipeo == null || sonidosDeTipeo.Length == 0) return sonidoDeTipeo;
+        if (sonidosDeTipeo.Length == 1) return sonidosDeTipeo[0];
+
+        AudioClip elegido = null;
+        for (int intento = 0; intento < 6; intento++)
+        {
+            AudioClip candidato = sonidosDeTipeo[Random.Range(0, sonidosDeTipeo.Length)];
+            if (candidato == null) continue;
+
+            elegido = candidato;
+            if (candidato != ultimoClipDeTipeo) break;
+        }
+
+        ultimoClipDeTipeo = elegido;
+        return elegido;
     }
 
     // Espera en tiempo REAL: el cartel de dificultad corre con el juego congelado.
