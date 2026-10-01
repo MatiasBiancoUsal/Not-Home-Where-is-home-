@@ -263,6 +263,16 @@ public class TransicionZonas : MonoBehaviour
     public void Cruzar(PuertaZona salida)
     {
         if (!PuedeCruzar || salida == null) return;
+
+        // La puerta tambien lo comprueba cada frame para levantar su pared invisible,
+        // pero repetimos la regla aca: asi ni el orden de los Update ni una llamada desde
+        // otro script pueden iniciar una transicion que todavia esta bloqueada.
+        if (EstaBloqueada(salida.escenaDestino))
+        {
+            AvisarZonaBloqueada();
+            return;
+        }
+
         StartCoroutine(Rutina(salida));
     }
 
@@ -832,25 +842,48 @@ public class TransicionZonas : MonoBehaviour
         return Sprite.Create(tex, new Rect(0, 0, LADO, LADO), new Vector2(0.5f, 0.5f));
     }
 
-    //  6b. ZONA BLOQUEADA HASTA TENER LAS HABILIDADES
-    //  Las puertas que llevan a la zona bloqueada (Zona 6) no dejan pasar hasta que la
-    //  niña tenga todas las habilidades de la lista. Todo se ajusta en AjustesTransicion.
+    //  6b. PUERTAS BLOQUEADAS HASTA TENER LAS HABILIDADES
+    //  No se puede salir de una zona sin recoger primero su habilidad. Ademas, una zona
+    //  destino puede tener requisitos especiales (por defecto, Zona 6 pide las cinco
+    //  habilidades anteriores). Todo se ajusta en AjustesTransicion.
 
-    // ¿Esta escena todavia no se puede visitar?
+    // ¿Esta puerta todavia no se puede cruzar?
     public bool EstaBloqueada(string escenaDestino)
     {
-        if (ajustes == null || string.IsNullOrEmpty(ajustes.zonaBloqueada)) return false;
-        if (escenaDestino != ajustes.zonaBloqueada) return false;
-
         // Lo consultan las puertas todos los frames: usamos la niña ya encontrada si la hay.
         PlayerController pc = jugador != null ? jugador : BuscarPlayer();
-        if (pc == null || ajustes.habilidadesNecesarias == null) return false;
+        if (pc == null || ajustes == null) return false;
+
+        if (FaltaHabilidadDeLaZonaActual(pc)) return true;
+
+        if (string.IsNullOrEmpty(ajustes.zonaBloqueada) ||
+            escenaDestino != ajustes.zonaBloqueada ||
+            ajustes.habilidadesNecesarias == null)
+        {
+            return false;
+        }
 
         foreach (PlayerController.Habilidad h in ajustes.habilidadesNecesarias)
         {
             if (!pc.TieneHabilidad(h)) return true;
         }
         return false;
+    }
+
+    private bool FaltaHabilidadDeLaZonaActual(PlayerController pc)
+    {
+        if (!ajustes.bloquearSalidaSinHabilidadDeLaZona) return false;
+        if (ajustes.habilidadDeCadaZona == null) return false;
+
+        int numeroDeZona = DesbloquearHabilidadesPorZona.NumeroDeZona(
+            SceneManager.GetActiveScene().name);
+        int indice = numeroDeZona - 1;
+
+        // Menus, cinematicas u otras escenas que no sean "Zona N" no se bloquean.
+        // Tampoco se bloquea una zona que todavia no tenga una habilidad configurada.
+        if (indice < 0 || indice >= ajustes.habilidadDeCadaZona.Length) return false;
+
+        return !pc.TieneHabilidad(ajustes.habilidadDeCadaZona[indice]);
     }
 
     public float DistanciaDelAviso => ajustes != null ? ajustes.distanciaDelAviso : 1f;

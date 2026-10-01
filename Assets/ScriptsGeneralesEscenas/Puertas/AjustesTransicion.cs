@@ -186,7 +186,22 @@ public class AjustesTransicion : ScriptableObject
     [Tooltip("Segundos despues de una transicion en los que NINGUNA puerta se activa. Evita rebotes entre dos puertas.")]
     public float graciaEntrePuertas = 0.5f;
 
-    [Header("ZONA BLOQUEADA hasta tener las habilidades")]
+    [Header("PUERTAS BLOQUEADAS hasta tener las habilidades")]
+    [Tooltip("Si esta activo, ninguna puerta deja salir de la zona actual hasta que la niña " +
+             "haya recogido la habilidad correspondiente de la lista de abajo.")]
+    public bool bloquearSalidaSinHabilidadDeLaZona = true;
+    [Tooltip("Una habilidad por zona, en orden: el primer elemento es Zona 1, el segundo Zona 2, etc.")]
+    public PlayerController.Habilidad[] habilidadDeCadaZona =
+    {
+        PlayerController.Habilidad.DobleSalto, // Zona 1
+        PlayerController.Habilidad.Escalar,    // Zona 2
+        PlayerController.Habilidad.Dash,       // Zona 3
+        PlayerController.Habilidad.Pisoton,    // Zona 4
+        PlayerController.Habilidad.SuperSalto, // Zona 5
+        PlayerController.Habilidad.Escudo      // Zona 6
+    };
+
+    [Header("Requisito especial para entrar a una zona")]
     [Tooltip("Nombre EXACTO de la escena a la que no se puede entrar sin las habilidades de abajo. " +
              "Todas las puertas que lleven ahi quedan cerradas con una pared invisible. Vacio = nada bloqueado.")]
     public string zonaBloqueada = "Zona 6";

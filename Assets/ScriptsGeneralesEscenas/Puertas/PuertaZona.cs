@@ -116,9 +116,10 @@ public class PuertaZona : MonoBehaviour
 
     // ============================================================
     //  PUERTA CERRADA (zona bloqueada hasta tener las habilidades)
-    //  Si esta puerta lleva a la zona bloqueada (Zona 6) y a la niña le faltan
-    //  habilidades, aparece una pared invisible en la puerta y, al acercarse, el aviso
-    //  "aun me faltan fuerzas". Se configura en Assets/Resources/AjustesTransicion.
+    //  La niña no puede salir de la zona actual hasta recoger la habilidad de esa zona.
+    //  Tambien puede haber un requisito especial para entrar a una zona (por defecto,
+    //  Zona 6 pide las cinco habilidades anteriores). Si falta algo, aparece una pared
+    //  invisible en la puerta y un aviso. Se configura en AjustesTransicion.
     // ============================================================
 
     private bool cerrada;
