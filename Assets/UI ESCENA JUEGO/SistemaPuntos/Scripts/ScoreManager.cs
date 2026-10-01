@@ -187,6 +187,43 @@ public class ScoreManager : MonoBehaviour
         return true;
     }
 
+    // Gasta puntos del puntaje ACUMULADO DE TODO EL JUEGO (no solo el de esta zona).
+    // Lo usan las flores de habilidad: el precio sube zona a zona y en una sola zona no
+    // siempre alcanza, asi que se paga con todo lo juntado hasta ahora.
+    //
+    // Primero descuenta de la zona actual y despues de las demas, de la Zona 1 en adelante.
+    // Devuelve false (sin tocar nada) si no alcanza.
+    public bool IntentarGastarPuntosGlobales(int costo)
+    {
+        costo = Mathf.Max(0, costo);
+        if (costo == 0) return true;
+        if (puntajeGlobal < costo) return false;
+
+        // 1) Lo que se pueda, de la zona en la que estamos.
+        int deLaZonaActual = Mathf.Min(currentScore, costo);
+        currentScore -= deLaZonaActual;
+        costo -= deLaZonaActual;
+        ProgresoJuego.GuardarPuntaje(zonaActual, currentScore);
+
+        // 2) El resto, de las otras zonas.
+        for (int numeroZona = 1; numeroZona <= ProgresoJuego.CANTIDAD_ZONAS && costo > 0; numeroZona++)
+        {
+            string zona = "Zona " + numeroZona;
+            if (zona == zonaActual) continue;
+
+            int guardado = ProgresoJuego.CargarPuntaje(zona);
+            if (guardado <= 0) continue;
+
+            int sacar = Mathf.Min(guardado, costo);
+            ProgresoJuego.GuardarPuntaje(zona, guardado - sacar);
+            costo -= sacar;
+        }
+
+        ActualizarPuntajeGlobal();
+        OnScoreChanged?.Invoke(currentScore);
+        return true;
+    }
+
     // ¿Esta moneda ya fue recolectada? (la usa la moneda para no reaparecer al recargar la zona).
     public bool YaRecolectada(string id)
     {

@@ -23,9 +23,11 @@ public class ActivarFlor : MonoBehaviour
     [SerializeField] private bool detectarPorNombre = true;
 
     [Header("Costo en puntos")]
-    [Tooltip("La habilidad solo se entrega si el jugador tiene esta cantidad. Los puntos se descuentan al adquirirla.")]
-    [Min(0)] [SerializeField] private int costoEnPuntos = 10;
-    [Tooltip("Asigna costos crecientes automaticamente: Doble Salto 10, Escalar 20, Dash 30, Pisoton 40, Super Salto 50 y Escudo 60.")]
+    [Tooltip("La habilidad solo se entrega si el jugador junto esta cantidad SUMANDO TODAS LAS ZONAS. " +
+             "Los puntos se descuentan al adquirirla: primero de la zona actual y, si no alcanza, de las demas.")]
+    [Min(0)] [SerializeField] private int costoEnPuntos = 100;
+    [Tooltip("Asigna costos crecientes automaticamente, uno por zona: Doble Salto 100 (Zona 1), Escalar 150, " +
+             "Dash 200, Pisoton 250, Super Salto 300 y Escudo 350 (Zona 6).")]
     [SerializeField] private bool costoAutomaticoPorHabilidad = true;
 
     [Header("Como queda la flor una vez recogida")]
@@ -161,8 +163,9 @@ public class ActivarFlor : MonoBehaviour
         if (player == null) return;
 
         ScoreManager puntos = ScoreManager.Instance;
-        int disponibles = puntos != null ? puntos.CurrentScore : 0;
-        if (puntos == null || !puntos.IntentarGastarPuntos(costoEnPuntos))
+        // El acumulado de TODAS las zonas, no solo el de esta.
+        int disponibles = puntos != null ? puntos.PuntajeGlobal : 0;
+        if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
         {
             MostrarAvisoDePuntos(disponibles);
             return;
@@ -312,13 +315,17 @@ public class ActivarFlor : MonoBehaviour
     {
         switch (habilidadElegida)
         {
-            case PlayerController.Habilidad.DobleSalto: return 10;
-            case PlayerController.Habilidad.Escalar: return 20;
-            case PlayerController.Habilidad.Dash: return 30;
-            case PlayerController.Habilidad.Pisoton: return 40;
-            case PlayerController.Habilidad.SuperSalto: return 50;
-            case PlayerController.Habilidad.Escudo: return 60;
-            default: return 10;
+            // Se paga con el puntaje ACUMULADO de todo el juego, no con el de una sola zona:
+            // por eso los precios pueden subir mas que lo que hay en cada zona suelta.
+            // De 50 en 50. Suman 1350 y en todo el juego hay 1787 puntos en monedas: se pueden
+            // comprar las 6 juntando alrededor del 76%, sin tener que barrer la ultima moneda.
+            case PlayerController.Habilidad.DobleSalto: return 100;  // Zona 1
+            case PlayerController.Habilidad.Escalar: return 150;     // Zona 2
+            case PlayerController.Habilidad.Dash: return 200;        // Zona 3
+            case PlayerController.Habilidad.Pisoton: return 250;     // Zona 4
+            case PlayerController.Habilidad.SuperSalto: return 300;  // Zona 5
+            case PlayerController.Habilidad.Escudo: return 350;      // Zona 6
+            default: return 100;
         }
     }
 
@@ -326,8 +333,8 @@ public class ActivarFlor : MonoBehaviour
     {
         int faltan = Mathf.Max(0, costoEnPuntos - disponibles);
         string descripcion =
-            "Necesitas recolectar " + costoEnPuntos + " puntos para adquirir esta habilidad.\n" +
-            "Tienes " + disponibles + ". Te faltan " + faltan + ".";
+            "Necesitas " + costoEnPuntos + " puntos para adquirir esta habilidad.\n" +
+            "Llevas " + disponibles + " juntados en todo el juego. Te faltan " + faltan + ".";
 
         CartelHabilidadUI.Mostrar(
             null,
