@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CreditsSequenceUI : MonoBehaviour
 {
@@ -23,6 +25,18 @@ public class CreditsSequenceUI : MonoBehaviour
     [SerializeField] private float centerFadeOutDuration = 0.8f;
     [SerializeField] private float delayBetweenCenterCredits = 0.25f;
 
+    [Header("Pantalla de fuentes de audio")]
+    [SerializeField] private string audioCreditsTitle = "MÚSICA Y EFECTOS DE SONIDO";
+    [TextArea(4, 9)]
+    [SerializeField] private string audioCreditsText =
+        "Música original creada con Suno\n" +
+        "Efectos de sonido: Pixabay y Unity Asset Store\n\n" +
+        "Fuentes y enlaces:\n" +
+        "[Agregar enlaces aquí]";
+    [SerializeField] private float audioCreditsFadeInDuration = 0.7f;
+    [SerializeField] private float audioCreditsVisibleDuration = 4f;
+    [SerializeField] private float audioCreditsFadeOutDuration = 0.7f;
+
     [Header("Espera antes de mostrar la lista")]
     [SerializeField] private float delayBeforeFinalList = 0.6f;
 
@@ -40,6 +54,7 @@ public class CreditsSequenceUI : MonoBehaviour
 
     private bool sequenceFinished;
     private Coroutine sequenceCoroutine;
+    private CanvasGroup audioCreditsGroup;
 
     private void Awake()
     {
@@ -47,6 +62,7 @@ public class CreditsSequenceUI : MonoBehaviour
         // de una escena que tenía Time.timeScale en 0.
         Time.timeScale = 1f;
 
+        CreateAudioCreditsScreen();
         ResetSequence();
     }
 
@@ -98,6 +114,29 @@ public class CreditsSequenceUI : MonoBehaviour
                     delayBetweenCenterCredits
                 );
             }
+        }
+
+        // PARTE INTERMEDIA:
+        // Fuentes de musica y sonidos, antes de reunir todos los nombres.
+        if (audioCreditsGroup != null)
+        {
+            yield return FadeCanvasGroup(
+                audioCreditsGroup,
+                0f,
+                1f,
+                audioCreditsFadeInDuration
+            );
+
+            yield return new WaitForSecondsRealtime(
+                audioCreditsVisibleDuration
+            );
+
+            yield return FadeCanvasGroup(
+                audioCreditsGroup,
+                1f,
+                0f,
+                audioCreditsFadeOutDuration
+            );
         }
 
         // Pausa antes de mostrar la lista completa.
@@ -204,6 +243,96 @@ public class CreditsSequenceUI : MonoBehaviour
         {
             SetGroupHidden(backButtonGroup);
         }
+
+        if (audioCreditsGroup != null)
+        {
+            SetGroupHidden(audioCreditsGroup);
+        }
+    }
+
+    private void CreateAudioCreditsScreen()
+    {
+        if (audioCreditsGroup != null || credits == null || credits.Length == 0) return;
+
+        CanvasGroup referenceGroup = null;
+        for (int i = 0; i < credits.Length && referenceGroup == null; i++)
+            referenceGroup = credits[i].centerGroup;
+
+        if (referenceGroup == null) return;
+
+        Canvas canvas = referenceGroup.GetComponentInParent<Canvas>();
+        Transform parent = canvas != null ? canvas.transform : referenceGroup.transform.parent;
+        GameObject screen = new GameObject("Fuentes de audio", typeof(RectTransform), typeof(CanvasGroup));
+        screen.layer = referenceGroup.gameObject.layer;
+
+        RectTransform screenRect = screen.GetComponent<RectTransform>();
+        screenRect.SetParent(parent, false);
+        screenRect.anchorMin = Vector2.zero;
+        screenRect.anchorMax = Vector2.one;
+        screenRect.offsetMin = Vector2.zero;
+        screenRect.offsetMax = Vector2.zero;
+        audioCreditsGroup = screen.GetComponent<CanvasGroup>();
+
+        TMP_Text referenceText = referenceGroup.GetComponentInChildren<TMP_Text>(true);
+
+        TMP_Text title = CreateText(
+            screen.transform,
+            "Titulo",
+            audioCreditsTitle,
+            new Vector2(0f, 170f),
+            new Vector2(1450f, 120f),
+            58f,
+            referenceText
+        );
+        title.fontStyle = FontStyles.Bold;
+
+        TMP_Text body = CreateText(
+            screen.transform,
+            "Contenido editable",
+            audioCreditsText,
+            new Vector2(0f, -45f),
+            new Vector2(1450f, 360f),
+            31f,
+            referenceText
+        );
+        body.lineSpacing = 12f;
+    }
+
+    private TMP_Text CreateText(
+        Transform parent,
+        string objectName,
+        string content,
+        Vector2 position,
+        Vector2 size,
+        float fontSize,
+        TMP_Text referenceText)
+    {
+        GameObject textObject = new GameObject(objectName, typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
+        textObject.layer = parent.gameObject.layer;
+
+        RectTransform rect = textObject.GetComponent<RectTransform>();
+        rect.SetParent(parent, false);
+        rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = position;
+        rect.sizeDelta = size;
+
+        TextMeshProUGUI text = textObject.GetComponent<TextMeshProUGUI>();
+        if (referenceText != null)
+        {
+            text.font = referenceText.font;
+            text.color = referenceText.color;
+        }
+        else
+        {
+            text.color = Color.white;
+        }
+
+        text.text = content;
+        text.fontSize = fontSize;
+        text.alignment = TextAlignmentOptions.Center;
+        text.enableWordWrapping = true;
+        text.raycastTarget = false;
+        return text;
     }
 
     private void SetGroupHidden(CanvasGroup group)
