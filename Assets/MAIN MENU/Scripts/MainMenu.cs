@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         ScoreManager.NuevaPartida();
+        TutorialInicialPaginas.MostrarEnLaProximaCarga();
         LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 
@@ -43,6 +44,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         ScoreManager.NuevaPartida();
+        TutorialInicialPaginas.MostrarEnLaProximaCarga();
         LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 

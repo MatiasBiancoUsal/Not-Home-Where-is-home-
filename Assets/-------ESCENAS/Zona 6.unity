@@ -42997,7 +42997,7 @@ MonoBehaviour:
   dispersionDeLasGrietas: 1.2
   camaraDelRing: {fileID: 1380760112149310183}
   volverALaCamaraNormalAlGanar: 1
-  musicaDelBoss: {fileID: 0}
+  musicaDelBoss: {fileID: 8300000, guid: 8d6238e37c27d408da7f5788a9235e69, type: 3}
   volverALaMusicaDeLaZonaAlGanar: 1
   golpesPorCaida: 3
   fases:
@@ -43098,8 +43098,8 @@ MonoBehaviour:
   profundidadDelEscondite: 1.4
   duracionDelEscondite: 0.25
   animacionAgachada: 0
-  sonidoAlEsconderse: {fileID: 0}
-  sonidoAlSalirDelEscondite: {fileID: 0}
+  sonidoAlEsconderse: {fileID: 8300000, guid: d238c26f673cb4fe1a445d682d817ed8, type: 3}
+  sonidoAlSalirDelEscondite: {fileID: 8300000, guid: d238c26f673cb4fe1a445d682d817ed8, type: 3}
   spriteCaido: {fileID: 0}
   animador: {fileID: 964778409}
   parametroDeEstado: estado
@@ -43119,14 +43119,19 @@ MonoBehaviour:
   escalaDelEfectoDeMuerte: 1
   cuantasVecesAparece: 3
   puntosPorVencerlo: 500
+  sonidoAparicion: {fileID: 8300000, guid: e28fb3702129d459a8ce276357d6a2d8, type: 3}
   sonidoRugido: {fileID: 0}
-  sonidoAviso: {fileID: 0}
-  sonidoDisparo: {fileID: 0}
-  sonidoInvocar: {fileID: 0}
-  sonidoCaida: {fileID: 0}
-  sonidoGolpe: {fileID: 0}
+  sonidoAviso: {fileID: 8300000, guid: cce6a7d15bf1d423e808e2f5b4aa5568, type: 3}
+  sonidoDisparo: {fileID: 8300000, guid: a2eb1492414c8467eb0a213c94668917, type: 3}
+  sonidoInvocar: {fileID: 8300000, guid: baf2574130a7e43a6b39b9e75aa4cbc3, type: 3}
+  sonidoCaida: {fileID: 8300000, guid: 5b21145828499485793ec1fa1acdb45c, type: 3}
+  sonidoGolpe: {fileID: 8300000, guid: 03ca6aa9252614063a5eae0c864d4583, type: 3}
   sonidoLevantarse: {fileID: 0}
-  sonidoMuerte: {fileID: 0}
+  sonidoMuerte: {fileID: 8300000, guid: 98efde3e36eb7446ca1c18342b8ce543, type: 3}
+  sonidoDerrumbeFinal: {fileID: 8300000, guid: 5b57b1e5f1cce42c4a5b9570dfdaf6b8, type: 3}
+  sonidoPiedrasFinal: {fileID: 8300000, guid: 533f4c79b762e4f4881d3858a0eb0a95, type: 3}
+  sonidoImpactoFinal: {fileID: 8300000, guid: 422ef556cc26842f88593927cf5fbe45, type: 3}
+  retrasoPiedrasFinal: 0.35
   volumen: 0.9
   alEmpezar:
     m_PersistentCalls:
@@ -82870,7 +82875,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999995
+      value: 0.9999998
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -96435,7 +96440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9169444790050715735, guid: 53d4b8fc186660d40a0f4b7f853ab8d0, type: 3}
       propertyPath: ImpulseDefinition.ImpulseDuration
-      value: 0.2
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

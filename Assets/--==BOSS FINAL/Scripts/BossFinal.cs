@@ -309,6 +309,8 @@ public class BossFinal : MonoBehaviour
     public int puntosPorVencerlo = 500;
 
     [Header("Sonidos (todos opcionales)")]
+    [Tooltip("Suena una sola vez cuando el boss aparece y comienza el combate.")]
+    public AudioClip sonidoAparicion;
     public AudioClip sonidoRugido;
     public AudioClip sonidoAviso;
     public AudioClip sonidoDisparo;
@@ -317,6 +319,13 @@ public class BossFinal : MonoBehaviour
     public AudioClip sonidoGolpe;
     public AudioClip sonidoLevantarse;
     public AudioClip sonidoMuerte;
+    [Tooltip("Capa grave que acompania el comienzo de la muerte (derrumbe/terremoto).")]
+    public AudioClip sonidoDerrumbeFinal;
+    [Tooltip("Piedras que empiezan a caer durante la muerte.")]
+    public AudioClip sonidoPiedrasFinal;
+    [Tooltip("Golpe grave que suena junto con el estallido final.")]
+    public AudioClip sonidoImpactoFinal;
+    [Min(0f)] public float retrasoPiedrasFinal = 0.35f;
     [Range(0f, 1f)] public float volumen = 0.9f;
 
     [Header("Eventos")]
@@ -834,7 +843,7 @@ public class BossFinal : MonoBehaviour
             oculto = false;
         }
 
-        UtilBoss.Sonar(sonidoRugido, volumen, transform.position);
+        UtilBoss.Sonar(sonidoAparicion, volumen, transform.position);
         UtilBoss.Sacudir(1f, 0.6f);
         yield return Avisar(1f, null);
     }
@@ -1162,6 +1171,10 @@ public class BossFinal : MonoBehaviour
 
         ProgresoJuego.MarcarMostrado(ClaveDerrotado());
         UtilBoss.Sonar(sonidoMuerte, volumen, transform.position);
+        UtilBoss.Sonar(sonidoDerrumbeFinal, volumen, transform.position);
+
+        if (sonidoPiedrasFinal != null)
+            StartCoroutine(SonarDespues(sonidoPiedrasFinal, retrasoPiedrasFinal, volumen));
 
         // Tiembla y larga "pufs" por todos lados. Si hay animacion de muerte, van apareciendo
         // varias repartidas por el cuerpo mientras se desarma.
@@ -1198,6 +1211,7 @@ public class BossFinal : MonoBehaviour
         // Estallido final.
         temblando = 0f;
         OcultarBarra();
+        UtilBoss.Sonar(sonidoImpactoFinal, volumen, transform.position);
         UtilBoss.Sacudir(1.6f, 0.7f);
         MiniBicho.SoltarEfectoDeMuerte(Cuerpo().center, prefabDeLaMuerte, escalaDelEfectoDeMuerte * 1.5f);
         EfectoPuf.Crear(Cuerpo().center, Color.white, 24, 0.3f, 8f);
@@ -1221,6 +1235,12 @@ public class BossFinal : MonoBehaviour
         alGanar?.Invoke();
 
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator SonarDespues(AudioClip clip, float retraso, float volumenDelClip)
+    {
+        if (retraso > 0f) yield return new WaitForSeconds(retraso);
+        UtilBoss.Sonar(clip, volumenDelClip, transform.position);
     }
 
     private void EliminarBichos()
