@@ -40371,19 +40371,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465356682601820614, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: field of view
-      value: 85
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 297.83
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -154.504
+      value: -197.7
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 8669330310646598876, guid: 3a9e2cbdecf514177ac5a05fb7867ddd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -42984,7 +42984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed1feb62bf034a41a2d119a9aa92535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFinal
-  cinematica: {fileID: 0}
+  cinematica: {fileID: 1717008968}
   empezarAlDarPlay: 1
   ocultoHastaQueEmpiece: 0
   puntoDeReaparicion: {fileID: 1670543082}
@@ -42992,6 +42992,9 @@ MonoBehaviour:
   esquinaSuperiorIzquierda: {fileID: 1922467244}
   esquinaInferiorDerecha: {fileID: 1432456024}
   grietas: []
+  grietasDeLosVoladores: []
+  alturaDeEntradaDeLosVoladores: 1.5
+  dispersionDeLasGrietas: 1.2
   camaraDelRing: {fileID: 1380760112149310183}
   volverALaCamaraNormalAlGanar: 1
   musicaDelBoss: {fileID: 0}
@@ -43016,6 +43019,31 @@ MonoBehaviour:
     bichos: 000000000100000002000000000000000100000002000000000000000100000002000000000000000000000002000000
     terminaConDerrumbe: 1
     velocidad: 1.3
+  preguntarLaDificultad: 1
+  recordarLaEleccion: 1
+  tituloDeLaDificultad: elegi la dificultad
+  textoFacil: facil
+  textoNormal: normal
+  textoPro: pro
+  oscurecerElFondo: 0.85
+  tamanioDelTitulo: 100
+  tamanioDeLasOpciones: 58
+  separacionEntreOpciones: 105
+  colorDeLasOpciones: {r: 1, g: 1, b: 1, a: 1}
+  colorResaltado: {r: 0.3443396, g: 1, b: 0.7597368, a: 1}
+  colorDelBrillo: {r: 0.2, g: 1, b: 0.55, a: 0}
+  fundidoDelFondo: 0.5
+  velocidadDeTipeo: 22
+  retrasoEntreOpciones: 0.09
+  duracionDeCadaOpcion: 0.18
+  sonidoDeTipeo: {fileID: 0}
+  sonidoAlPasarElMouse: {fileID: 0}
+  sonidoAlElegir: {fileID: 0}
+  volumenDelMouse: 0.4
+  volumenAlElegir: 0.7
+  imagenFacil: {fileID: 0}
+  imagenNormal: {fileID: 0}
+  imagenPro: {fileID: 0}
   mostrarBarraDeVida: 1
   nombreEnLaBarra: boss final
   fuenteDelNombre: {fileID: 11400000, guid: da478184026c748d499f531ba7a85575, type: 2}
@@ -43041,9 +43069,9 @@ MonoBehaviour:
   anguloDelAbanico: 60
   rafagas: 2
   esperaEntreRafagas: 0.6
-  prefabRastrero: {fileID: 0}
-  prefabVolador: {fileID: 0}
-  prefabSaltarin: {fileID: 0}
+  prefabRastrero: {fileID: 2688268542928452392, guid: 25a9a9ddde200e94796a453528047998, type: 3}
+  prefabVolador: {fileID: 7570919361062466568, guid: dbf82d48e05673f48966f32e3dd29c57, type: 3}
+  prefabSaltarin: {fileID: 4426565248067563383, guid: 4af58e5386407644db694bc40049a06b, type: 3}
   esperaEntreBichos: 0.4
   tiempoMaximoDeOla: 40
   prefabOrbeDeVida: {fileID: 7916581766991038683, guid: d89b23ce0820b9643bf26446bf4c94d2, type: 3}
@@ -43053,10 +43081,15 @@ MonoBehaviour:
   separacionEnLaFila: 1.2
   anchoDelHueco: 4
   huecosEnLaPrimeraFila: 3
-  avisoDeLaFila: 1.1
+  avisoDeLaFila: 1.8
+  mostrarMarcasDeHueco: 1
+  prefabMarcaDeHueco: {fileID: 1201426630614679018, guid: 62a93db76999b33478138c7d3c317e46, type: 3}
+  colorDeLaMarca: {r: 0.9050528, g: 1, b: 0.6, a: 1}
+  altoDeLaMarca: 0.8
+  alturaSobreElPiso: 2.5
   embestirEntreFilas: 1
   alturaDeLaEmbestida: 1.92
-  velocidadDeLaEmbestida: 14
+  velocidadDeLaEmbestida: 25
   avisoDeLaEmbestida: 0.8
   sePuedeEsconder: 1
   textoDelCartel: manten CLICK DERECHO para esconderte

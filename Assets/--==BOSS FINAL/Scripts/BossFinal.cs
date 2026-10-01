@@ -4,6 +4,9 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 // ============================================================
@@ -68,6 +71,14 @@ public class BossFinal : MonoBehaviour
     [Tooltip("De donde salen los bichos. Objetos vacios apoyados en el piso (o en el aire para los voladores). " +
              "Si lo dejas vacio, salen en lugares al azar.")]
     public Transform[] grietas;
+    [Tooltip("De donde bajan los VOLADORES. Objetos vacios cerca del techo. " +
+             "Si lo dejas vacio, entran del techo en un lugar al azar.")]
+    public Transform[] grietasDeLosVoladores;
+    [Tooltip("Si no cargaste grietas de voladores: a que distancia del techo aparecen.")]
+    public float alturaDeEntradaDeLosVoladores = 1.5f;
+    [Tooltip("Cuanto se separan entre si los bichos que salen de la misma grieta, para que " +
+             "no se amontonen uno encima del otro. 0 = todos exactamente en la grieta.")]
+    public float dispersionDeLasGrietas = 1.2f;
     [Tooltip("La Cinemachine Camera fija que muestra todo el ring. Se prende sola al empezar la pelea.")]
     public CinemachineCamera camaraDelRing;
     public bool volverALaCamaraNormalAlGanar = true;
@@ -91,6 +102,55 @@ public class BossFinal : MonoBehaviour
                           bichos = new[] { TipoDeBicho.Rastrero, TipoDeBicho.Volador, TipoDeBicho.Saltarin, TipoDeBicho.Saltarin },
                           terminaConDerrumbe = true, velocidad = 1.3f },
     };
+
+    [Header("Dificultad (cartel con 3 botones antes de pelear)")]
+    [Tooltip("Antes de empezar, aparece un cartel para elegir Facil / Normal / Pro.")]
+    public bool preguntarLaDificultad = true;
+    [Tooltip("Activo: si la niña muere, NO vuelve a preguntar y sigue con la misma dificultad. " +
+             "Desactivalo para que pregunte en cada intento.")]
+    public bool recordarLaEleccion = true;
+    public string tituloDeLaDificultad = "elegi la dificultad";
+    [Tooltip("FACIL: 2 caidas, menos de todo, huecos mas anchos y muchos orbes de vida.")]
+    public string textoFacil = "facil";
+    [Tooltip("NORMAL: la pelea tal cual esta configurada arriba.")]
+    public string textoNormal = "normal";
+    [Tooltip("PRO: 5 caidas, mas bichos y estalactitas, huecos mas angostos y casi sin orbes.")]
+    public string textoPro = "pro";
+
+    [Header("Dificultad: como se ve")]
+    [Tooltip("Que tan oscuro se pone el fondo detras del cartel. 0 = nada.")]
+    [Range(0f, 1f)] public float oscurecerElFondo = 0.72f;
+    public float tamanioDelTitulo = 70f;
+    public float tamanioDeLasOpciones = 58f;
+    [Tooltip("Espacio entre una opcion y la otra.")]
+    public float separacionEntreOpciones = 105f;
+    public Color colorDeLasOpciones = new Color(0.72f, 1f, 0.85f, 1f);
+    [Tooltip("Color cuando pasas el mouse por encima.")]
+    public Color colorResaltado = new Color(0.45f, 1f, 0.65f, 1f);
+    [Tooltip("El resplandor alrededor de las letras, como el menu principal. Alpha 0 = sin brillo.")]
+    public Color colorDelBrillo = new Color(0.2f, 1f, 0.55f, 0.75f);
+    [Header("Dificultad: entrada y sonidos")]
+    [Tooltip("Cuanto tarda en oscurecerse el fondo al aparecer el cartel.")]
+    public float fundidoDelFondo = 0.5f;
+    [Tooltip("Letras por segundo del titulo (el efecto de tipeo). 0 = aparece entero.")]
+    public float velocidadDeTipeo = 22f;
+    [Tooltip("Segundos entre que aparece una opcion y la siguiente.")]
+    public float retrasoEntreOpciones = 0.09f;
+    [Tooltip("Cuanto dura el 'pop' de cada opcion al aparecer.")]
+    public float duracionDeCadaOpcion = 0.18f;
+    [Tooltip("Sonido de cada letra del tipeo (opcional).")]
+    public AudioClip sonidoDeTipeo;
+    [Tooltip("El mismo sonido que usa el menu principal al pasar el mouse por un boton.")]
+    public AudioClip sonidoAlPasarElMouse;
+    [Tooltip("El mismo sonido que usa el menu principal al hacer clic.")]
+    public AudioClip sonidoAlElegir;
+    [Range(0f, 1f)] public float volumenDelMouse = 0.4f;
+    [Range(0f, 1f)] public float volumenAlElegir = 0.7f;
+
+    [Tooltip("Opcional: si en vez de texto queres usar tus dibujos, arrastralos aca (facil, normal, pro).")]
+    public Sprite imagenFacil;
+    public Sprite imagenNormal;
+    public Sprite imagenPro;
 
     [Header("Barra de vida")]
     public bool mostrarBarraDeVida = true;
@@ -162,6 +222,18 @@ public class BossFinal : MonoBehaviour
              "hasta que la ultima deja uno solo. Con 3 filas y 3 huecos: 3, 2 y 1.")]
     [Min(1)] public int huecosEnLaPrimeraFila = 3;
     public float avisoDeLaFila = 1.1f;
+
+    [Header("Marcas de los huecos (para saber adonde correr)")]
+    [Tooltip("Enciende una marca en el piso debajo de cada hueco mientras las estalactitas avisan.")]
+    public bool mostrarMarcasDeHueco = true;
+    [Tooltip("Tu dibujo de la marca (un prefab; puede tener una Light 2D adentro). " +
+             "Vacio = una barra de luz generada por codigo.")]
+    public GameObject prefabMarcaDeHueco;
+    public Color colorDeLaMarca = new Color(0.5f, 1f, 0.6f, 0.55f);
+    [Tooltip("Alto de la marca generada, en unidades.")]
+    public float altoDeLaMarca = 0.4f;
+    [Tooltip("A que altura sobre el piso se dibuja.")]
+    public float alturaSobreElPiso = 0.15f;
     [Tooltip("Entre fila y fila cruza el ring de punta a punta.")]
     public bool embestirEntreFilas = true;
     [Tooltip("Altura del borde de ABAJO del boss sobre el piso durante la embestida. " +
@@ -276,6 +348,12 @@ public class BossFinal : MonoBehaviour
 
     private EscondersePlayer escondite;
     private int embestidasHechas;
+    private int desplazamientoDeLaOla;
+    private GameObject canvasBoss;
+    private GameObject panelDificultad;
+    private Image fondoDificultad;
+    private TextMeshProUGUI tituloDificultad;
+    private readonly List<RectTransform> opcionesDificultad = new List<RectTransform>();
     private TextMeshProUGUI cartelGrande;
     private Coroutine cartelCo;
 
@@ -419,7 +497,294 @@ public class BossFinal : MonoBehaviour
         if (mostrarBarraDeVida) MostrarBarra();
 
         alEmpezar?.Invoke();
-        StartCoroutine(Pelea());
+        StartCoroutine(Arrancar());
+    }
+
+    // Primero la dificultad (si corresponde) y despues la pelea.
+    private IEnumerator Arrancar()
+    {
+        if (preguntarLaDificultad && !(recordarLaEleccion && yaSeEligioDificultad))
+        {
+            yield return PreguntarLaDificultad();
+        }
+
+        AplicarDificultad(dificultadElegida);
+        yield return Pelea();
+    }
+
+    //  4b. LOS 3 BOTONES DE DIFICULTAD
+    //  Aparecen con el juego congelado. Lo que cambia cada una esta en AplicarDificultad.
+
+    public enum Dificultad { Facil, Normal, Pro }
+
+    // Se recuerda entre intentos (si la niña muere, no vuelve a preguntar).
+    private static Dificultad dificultadElegida = Dificultad.Normal;
+    private static bool yaSeEligioDificultad;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ReiniciarDificultad()
+    {
+        dificultadElegida = Dificultad.Normal;
+        yaSeEligioDificultad = false;
+    }
+
+    private bool esperandoDificultad;
+
+    private IEnumerator PreguntarLaDificultad()
+    {
+        if (grupoBarra == null) CrearBarra();
+        CrearPanelDeDificultad();
+
+        panelDificultad.SetActive(true);
+        esperandoDificultad = true;
+
+        float escalaPrevia = Time.timeScale;
+        Time.timeScale = 0f;
+
+        // La entrada corre en paralelo: si el jugador ya conoce el cartel, puede elegir
+        // con 1/2/3 sin esperar a que termine.
+        StartCoroutine(EntradaDelCartelDeDificultad());
+
+        while (esperandoDificultad)
+        {
+            // Atajos con el teclado, por si el mouse molesta.
+            Keyboard k = Keyboard.current;
+            if (k != null)
+            {
+                if (k.digit1Key.wasPressedThisFrame) ElegirDificultad((int)Dificultad.Facil);
+                else if (k.digit2Key.wasPressedThisFrame) ElegirDificultad((int)Dificultad.Normal);
+                else if (k.digit3Key.wasPressedThisFrame) ElegirDificultad((int)Dificultad.Pro);
+            }
+            yield return null;
+        }
+
+        // Se va con un fundido corto, no de golpe.
+        yield return SalidaDelCartelDeDificultad();
+
+        Time.timeScale = escalaPrevia > 0f ? escalaPrevia : 1f;
+        panelDificultad.SetActive(false);
+    }
+
+    // ENTRADA: primero se oscurece el fondo, despues se tipea el titulo y por ultimo
+    // aparecen las opciones una detras de otra (como el menu de pausa).
+    private IEnumerator EntradaDelCartelDeDificultad()
+    {
+        if (fondoDificultad != null) PonerAlphaDelFondo(0f);
+        if (tituloDificultad != null) tituloDificultad.text = "";
+
+        foreach (RectTransform op in opcionesDificultad)
+        {
+            if (op != null) op.localScale = Vector3.zero;
+        }
+
+        // 1) El fondo se oscurece suave.
+        float t = 0f;
+        float dur = Mathf.Max(0.01f, fundidoDelFondo);
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            PonerAlphaDelFondo(Mathf.Lerp(0f, oscurecerElFondo, t / dur));
+            yield return null;
+        }
+        PonerAlphaDelFondo(oscurecerElFondo);
+
+        // 2) El titulo se escribe letra por letra.
+        if (tituloDificultad != null && !string.IsNullOrEmpty(tituloDeLaDificultad))
+        {
+            if (velocidadDeTipeo <= 0f)
+            {
+                tituloDificultad.text = tituloDeLaDificultad;
+            }
+            else
+            {
+                float porLetra = 1f / velocidadDeTipeo;
+                for (int i = 1; i <= tituloDeLaDificultad.Length; i++)
+                {
+                    if (!esperandoDificultad) break;   // ya eligio: no lo hacemos esperar
+
+                    tituloDificultad.text = tituloDeLaDificultad.Substring(0, i);
+
+                    // El sonido no suena en los espacios, para que no quede ametralladora.
+                    if (sonidoDeTipeo != null && tituloDeLaDificultad[i - 1] != ' ')
+                    {
+                        UtilBoss.Sonar(sonidoDeTipeo, volumenDelMouse, transform.position);
+                    }
+
+                    yield return EsperarReal(porLetra);
+                }
+                tituloDificultad.text = tituloDeLaDificultad;
+            }
+        }
+
+        // 3) Las opciones aparecen escalonadas, con un pequeño rebote.
+        foreach (RectTransform op in opcionesDificultad)
+        {
+            if (op == null) continue;
+
+            StartCoroutine(AparecerOpcion(op));
+            yield return EsperarReal(retrasoEntreOpciones);
+        }
+    }
+
+    private IEnumerator AparecerOpcion(RectTransform op)
+    {
+        float t = 0f;
+        float dur = Mathf.Max(0.01f, duracionDeCadaOpcion);
+
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(t / dur);
+
+            // Se pasa un poquito de 1 y vuelve: el "pop".
+            float escala = 1f + Mathf.Sin(k * Mathf.PI) * 0.12f;
+            op.localScale = Vector3.one * Mathf.Lerp(0f, escala, Mathf.SmoothStep(0f, 1f, k));
+            yield return null;
+        }
+
+        op.localScale = Vector3.one;
+    }
+
+    private IEnumerator SalidaDelCartelDeDificultad()
+    {
+        float t = 0f;
+        const float DUR = 0.25f;
+
+        while (t < DUR)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = 1f - t / DUR;
+
+            PonerAlphaDelFondo(oscurecerElFondo * k);
+            if (tituloDificultad != null) tituloDificultad.alpha = k;
+
+            foreach (RectTransform op in opcionesDificultad)
+            {
+                if (op != null) op.localScale = Vector3.one * k;
+            }
+            yield return null;
+        }
+    }
+
+    // Espera en tiempo REAL: el cartel de dificultad corre con el juego congelado.
+    private IEnumerator EsperarReal(float segundos)
+    {
+        float t = 0f;
+        while (t < segundos)
+        {
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
+    private void PonerAlphaDelFondo(float a)
+    {
+        if (fondoDificultad == null) return;
+
+        Color c = fondoDificultad.color;
+        c.a = a;
+        fondoDificultad.color = c;
+    }
+
+    // La llaman los botones.
+    public void ElegirDificultad(int cual)
+    {
+        dificultadElegida = (Dificultad)Mathf.Clamp(cual, 0, 2);
+        yaSeEligioDificultad = true;
+        esperandoDificultad = false;
+    }
+
+    // Arma las fases y los ajustes de la dificultad elegida. La lista del Inspector es
+    // siempre la de NORMAL: las otras dos se calculan a partir de ella.
+    private void AplicarDificultad(Dificultad d)
+    {
+        if (fases == null || fases.Length == 0) return;
+
+        FaseDelBoss ultima = fases[fases.Length - 1];
+
+        if (d == Dificultad.Facil)
+        {
+            // 2 caidas: la primera fase y la final (para que igual termine con el derrumbe).
+            fases = new[]
+            {
+                Copia(fases[0], 0.55f, 0.85f),
+                Copia(ultima,   0.6f,  0.85f)
+            };
+
+            anchoDelHueco *= 1.5f;
+            probabilidadDeOrbe = Mathf.Clamp01(probabilidadDeOrbe * 2.5f);
+            maximoDeOrbesPorOla = Mathf.Max(2, maximoDeOrbesPorOla + 1);
+
+            // Mas tiempo para leer la situacion: la embestida viene mas lenta y las marcas
+            // de los huecos se quedan mas rato encendidas.
+            velocidadDeLaEmbestida *= 0.75f;
+            avisoDeLaEmbestida *= 1.3f;
+            avisoDeLaFila *= 1.35f;
+        }
+        else if (d == Dificultad.Pro)
+        {
+            // 5 caidas: se repiten las del medio y la final queda al final.
+            List<FaseDelBoss> lista = new List<FaseDelBoss>();
+            for (int i = 0; i < fases.Length - 1; i++) lista.Add(Copia(fases[i], 1.3f, 1.15f));
+
+            int mediaId = Mathf.Max(0, fases.Length - 2);
+            while (lista.Count < 4) lista.Add(Copia(fases[mediaId], 1.3f, 1.2f));
+
+            lista.Add(Copia(ultima, 1.3f, 1.2f));
+            fases = lista.ToArray();
+
+            anchoDelHueco *= 0.85f;
+            probabilidadDeOrbe *= 0.4f;
+            maximoDeOrbesPorOla = 1;
+
+            // Todo llega mas rapido y con menos aviso.
+            velocidadDeLaEmbestida *= 1.4f;
+            avisoDeLaEmbestida *= 0.8f;
+            avisoDeLaFila *= 0.85f;
+        }
+
+        // La vida sale de la cantidad de fases, asi que hay que recalcularla.
+        golpesTotales = fases.Length * Mathf.Max(1, golpesPorCaida);
+        FijarVida(golpesTotales);
+    }
+
+    // Copia una fase cambiandole la cantidad de cosas y la velocidad.
+    private FaseDelBoss Copia(FaseDelBoss f, float cuanto, float velocidad)
+    {
+        return new FaseDelBoss
+        {
+            nombre = f.nombre,
+            estalactitas = Mathf.Max(0, Mathf.RoundToInt(f.estalactitas * cuanto)),
+            bolas = Mathf.Max(0, Mathf.RoundToInt(f.bolas * cuanto)),
+            bichos = CambiarCantidadDeBichos(f.bichos, cuanto),
+            terminaConDerrumbe = f.terminaConDerrumbe,
+            velocidad = Mathf.Clamp(f.velocidad * velocidad, 0.5f, 2f)
+        };
+    }
+
+    private TipoDeBicho[] CambiarCantidadDeBichos(TipoDeBicho[] original, float cuanto)
+    {
+        if (original == null || original.Length == 0) return new TipoDeBicho[0];
+
+        int cuantos = Mathf.Clamp(Mathf.RoundToInt(original.Length * cuanto), 1, 40);
+        TipoDeBicho[] nuevos = new TipoDeBicho[cuantos];
+        for (int i = 0; i < cuantos; i++) nuevos[i] = original[i % original.Length];
+        return nuevos;
+    }
+
+    // Pone la vida en un total nuevo (el HealthHandler no deja escribirla directamente).
+    private void FijarVida(int total)
+    {
+        total = Mathf.Max(1, total);
+        vida.maxHealth = total;
+
+        int diferencia = vida.CurrentHealth - total;
+        if (diferencia > 0) vida.TakeDamage(diferencia);
+        else if (diferencia < 0) vida.Heal(-diferencia);
+
+        vidaAnterior = vida.CurrentHealth;
+        rellenoObjetivo = 1f;
+        rellenoMostrado = 1f;
     }
 
     private IEnumerator Pelea()
@@ -535,6 +900,9 @@ public class BossFinal : MonoBehaviour
         UtilBoss.Sacudir(0.6f, 0.3f);
 
         orbesEnEstaOla = 0;
+
+        // Cada ola arranca por una grieta distinta.
+        desplazamientoDeLaOla = Random.Range(0, 100);
         Rect ring = Ring();
 
         for (int i = 0; i < bichos.Length; i++)
@@ -604,6 +972,13 @@ public class BossFinal : MonoBehaviour
             float maxX = ring.xMin + franja * (i + 1) - mitadHueco - 0.3f;
 
             centros.Add(maxX > minX ? Random.Range(minX, maxX) : ring.xMin + franja * (i + 0.5f));
+        }
+
+        // La marca en el piso se enciende JUNTO con el aviso: mientras las estalactitas
+        // tiemblan arriba, abajo ya se ve adonde hay que correr.
+        foreach (float c in centros)
+        {
+            CrearMarcaDeHueco(c, avisoDeLaFila / v + 0.35f);
         }
 
         float paso = Mathf.Max(0.3f, separacionEnLaFila);
@@ -995,17 +1370,42 @@ public class BossFinal : MonoBehaviour
         return x;
     }
 
+    // Corre un poco la posicion al azar: si de una grieta salen dos bichos seguidos,
+    // no aparecen uno encima del otro.
+    private Vector3 Separar(Vector3 punto)
+    {
+        if (dispersionDeLasGrietas <= 0f) return punto;
+
+        punto.x += Random.Range(-dispersionDeLasGrietas, dispersionDeLasGrietas);
+        punto.y += Random.Range(0f, dispersionDeLasGrietas * 0.4f);
+        return punto;
+    }
+
     private Vector3 PuntoDeAparicion(TipoDeBicho tipo, int indice, Rect ring)
     {
-        if (grietas != null && grietas.Length > 0)
+        // Los VOLADORES entran desde arriba (del techo), no por las grietas del piso.
+        // Si cargaste "Grietas De Los Voladores", salen de ahi; si no, bajan del techo.
+        if (tipo == TipoDeBicho.Volador)
         {
-            Transform g = grietas[indice % grietas.Length];
-            if (g != null) return g.position;
+            if (grietasDeLosVoladores != null && grietasDeLosVoladores.Length > 0)
+            {
+                Transform gv = grietasDeLosVoladores[(indice + desplazamientoDeLaOla) % grietasDeLosVoladores.Length];
+                if (gv != null) return Separar(gv.position);
+            }
+
+            return new Vector3(Random.Range(ring.xMin + 1f, ring.xMax - 1f),
+                               ring.yMax - alturaDeEntradaDeLosVoladores, 0f);
         }
 
-        float x = Random.Range(ring.xMin + 1f, ring.xMax - 1f);
-        float y = tipo == TipoDeBicho.Volador ? ring.yMax - 1.5f : ring.yMin + 0.6f;
-        return new Vector3(x, y, 0f);
+        // Los que caminan salen de las grietas del piso. El desplazamiento hace que cada ola
+        // empiece por una grieta distinta, asi no salen siempre por la misma.
+        if (grietas != null && grietas.Length > 0)
+        {
+            Transform g = grietas[(indice + desplazamientoDeLaOla) % grietas.Length];
+            if (g != null) return Separar(g.position);
+        }
+
+        return new Vector3(Random.Range(ring.xMin + 1f, ring.xMax - 1f), ring.yMin + 0.6f, 0f);
     }
 
     private void ActivarCamaraDelRing()
@@ -1072,6 +1472,37 @@ public class BossFinal : MonoBehaviour
             elegido--;
         }
         return null;
+    }
+
+    // La luz / marca en el piso que dice "aca no cae nada".
+    private void CrearMarcaDeHueco(float x, float duracion)
+    {
+        if (!mostrarMarcasDeHueco) return;
+
+        Vector3 pos = new Vector3(x, Ring().yMin + alturaSobreElPiso, 0f);
+        GameObject go;
+
+        if (prefabMarcaDeHueco != null)
+        {
+            go = Instantiate(prefabMarcaDeHueco, pos, Quaternion.identity);
+        }
+        else
+        {
+            go = UtilBoss.CrearCuadrado("MarcaDeHueco", colorDeLaMarca, new Vector2(anchoDelHueco, altoDeLaMarca), 6);
+            go.transform.position = pos;
+
+            // La marca no choca con nada: es solo para mirar.
+            Collider2D col = go.GetComponent<Collider2D>();
+            if (col != null) Destroy(col);
+
+            go.SetActive(true);
+        }
+
+        MarcaDeSeguridad marca = go.GetComponent<MarcaDeSeguridad>();
+        if (marca == null) marca = go.AddComponent<MarcaDeSeguridad>();
+        marca.Iniciar(duracion);
+
+        AnotarPeligro(go);   // asi se limpia si el boss muere en el medio
     }
 
     private void CrearBola(Vector2 origen, Vector2 direccion, float velocidad)
@@ -1240,6 +1671,7 @@ public class BossFinal : MonoBehaviour
     private void CrearBarra()
     {
         GameObject canvasGo = new GameObject("BarraDelBoss");
+        canvasBoss = canvasGo;
         Canvas canvas = canvasGo.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 500;
@@ -1248,6 +1680,9 @@ public class BossFinal : MonoBehaviour
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
+
+        // Sin esto los botones de la dificultad no reciben los clicks.
+        canvasGo.AddComponent<GraphicRaycaster>();
 
         // Contenedor arriba al centro.
         GameObject contGo = new GameObject("Barra");
@@ -1325,6 +1760,159 @@ public class BossFinal : MonoBehaviour
             rt.anchoredPosition = new Vector2(0f, 6f);
             rt.sizeDelta = new Vector2(0f, 44f);
         }
+    }
+
+    // El cartel de la dificultad: un fondo oscuro, el titulo y los 3 botones.
+    private void CrearPanelDeDificultad()
+    {
+        if (panelDificultad != null) return;
+        if (canvasBoss == null) return;
+
+        AsegurarEventSystem();
+
+        panelDificultad = new GameObject("PanelDeDificultad");
+        panelDificultad.transform.SetParent(canvasBoss.transform, false);
+
+        RectTransform raiz = panelDificultad.AddComponent<RectTransform>();
+        Estirar(raiz, 0f);
+
+        fondoDificultad = panelDificultad.AddComponent<Image>();
+        fondoDificultad.color = new Color(0f, 0f, 0f, oscurecerElFondo);
+
+        // Titulo, con la misma letra y el mismo resplandor que el menu principal.
+        tituloDificultad = CrearTextoDelMenu(raiz, "Titulo", tituloDeLaDificultad,
+                                             tamanioDelTitulo, new Vector2(0f, separacionEntreOpciones * 2.2f));
+        tituloDificultad.raycastTarget = false;
+
+        opcionesDificultad.Clear();
+
+        // Las tres opciones, una debajo de la otra (como la lista del menu).
+        string[] textos = { textoFacil, textoNormal, textoPro };
+        Sprite[] imagenes = { imagenFacil, imagenNormal, imagenPro };
+
+        for (int i = 0; i < 3; i++)
+        {
+            float y = separacionEntreOpciones * (0.6f - i);
+            CrearOpcionDeDificultad(raiz, textos[i], imagenes[i], i, y);
+        }
+    }
+
+    // Una opcion de la lista: sin caja, solo el texto (o tu dibujo), que se ilumina al pasarle
+    // el mouse por encima.
+    private void CrearOpcionDeDificultad(RectTransform padre, string texto, Sprite imagen, int cual, float y)
+    {
+        GameObject go = new GameObject("Opcion " + texto);
+        go.transform.SetParent(padre, false);
+
+        RectTransform rt = go.AddComponent<RectTransform>();
+        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(760f, separacionEntreOpciones * 0.9f);
+        rt.anchoredPosition = new Vector2(0f, y);
+
+        Graphic dibujo;
+
+        if (imagen != null)
+        {
+            Image img = go.AddComponent<Image>();
+            img.sprite = imagen;
+            img.preserveAspect = true;
+            dibujo = img;
+        }
+        else
+        {
+            TextMeshProUGUI tmp = go.AddComponent<TextMeshProUGUI>();
+            PonerEstiloDeMenu(tmp, texto, tamanioDeLasOpciones);
+            dibujo = tmp;
+        }
+
+        Button boton = go.AddComponent<Button>();
+        boton.targetGraphic = dibujo;
+        boton.onClick.AddListener(() => ElegirDificultad(cual));
+
+        // Los mismos sonidos de los botones del menu principal.
+        if (sonidoAlPasarElMouse != null || sonidoAlElegir != null)
+        {
+            go.AddComponent<UIButtonSound>()
+              .Configurar(sonidoAlPasarElMouse, sonidoAlElegir, volumenDelMouse, volumenAlElegir);
+        }
+
+        opcionesDificultad.Add(rt);
+
+        // Al pasar el mouse, la opcion se enciende (como en el menu principal).
+        ColorBlock colores = boton.colors;
+        colores.normalColor = Color.white;
+        colores.highlightedColor = imagen != null ? new Color(1.35f, 1.35f, 1.35f, 1f)
+                                                  : DividirColor(colorResaltado, colorDeLasOpciones);
+        colores.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+        colores.selectedColor = colores.normalColor;
+        colores.fadeDuration = 0.1f;
+        boton.colors = colores;
+    }
+
+    private TextMeshProUGUI CrearTextoDelMenu(RectTransform padre, string nombre, string texto,
+                                              float tamanio, Vector2 posicion)
+    {
+        GameObject go = new GameObject(nombre);
+        go.transform.SetParent(padre, false);
+
+        TextMeshProUGUI tmp = go.AddComponent<TextMeshProUGUI>();
+        PonerEstiloDeMenu(tmp, texto, tamanio);
+
+        RectTransform rt = tmp.rectTransform;
+        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(1200f, tamanio * 2f);
+        rt.anchoredPosition = posicion;
+
+        return tmp;
+    }
+
+    // La letra del juego, en el color del menu y con resplandor alrededor.
+    private void PonerEstiloDeMenu(TextMeshProUGUI tmp, string texto, float tamanio)
+    {
+        if (fuenteDelNombre != null) tmp.font = fuenteDelNombre;
+
+        tmp.text = texto;
+        tmp.fontSize = tamanio;
+        tmp.color = colorDeLasOpciones;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.enableWordWrapping = false;
+
+        if (colorDelBrillo.a <= 0f) return;
+
+        // El resplandor se hace con el "underlay" de TextMeshPro: una copia borrosa de las
+        // letras por detras. Es lo que le da el aire de neon del menu principal.
+        Material mat = tmp.fontMaterial;
+        if (mat == null) return;
+
+        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
+        mat.SetColor(ShaderUtilities.ID_UnderlayColor, colorDelBrillo);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetX, 0f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, 0f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.45f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.6f);
+
+        tmp.UpdateMeshPadding();
+    }
+
+    // Los botones de Unity MULTIPLICAN el color, asi que para llegar al color resaltado
+    // hay que dividirlo por el color base.
+    private Color DividirColor(Color destino, Color baseColor)
+    {
+        return new Color(
+            baseColor.r > 0.01f ? destino.r / baseColor.r : 1f,
+            baseColor.g > 0.01f ? destino.g / baseColor.g : 1f,
+            baseColor.b > 0.01f ? destino.b / baseColor.b : 1f,
+            1f);
+    }
+
+    // Sin EventSystem en la escena, ningun boton de UI recibe clicks.
+    private void AsegurarEventSystem()
+    {
+        if (EventSystem.current != null) return;
+
+        GameObject go = new GameObject("EventSystem (boss)");
+        go.AddComponent<EventSystem>();
+        go.AddComponent<InputSystemUIInputModule>();
     }
 
     private Image CrearImagen(string nombre, RectTransform padre, Color color)
