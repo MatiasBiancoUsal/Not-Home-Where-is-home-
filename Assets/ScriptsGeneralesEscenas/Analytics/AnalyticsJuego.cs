@@ -100,10 +100,12 @@ public static class AnalyticsJuego
         }
     }
 
-    // Unity manda los eventos cada un rato; al cerrar, mandamos lo que quedo.
+    // Al cerrar (o al apretar Stop en el editor) Unity apaga Analytics y manda solo lo
+    // pendiente. Desde aca ya no hay que tocar AnalyticsService: tiraria
+    // "ServicesInitializationException".
     private static void AlCerrarElJuego()
     {
-        if (listo) AnalyticsService.Instance.Flush();
+        listo = false;
     }
 
     // ---------------- EVENTOS ----------------
