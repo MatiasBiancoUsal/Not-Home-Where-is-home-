@@ -96,7 +96,7 @@ public class Estalactita : MonoBehaviour
 
         if (UtilBoss.TocaAlJugador(col))
         {
-            UtilBoss.PegarAlJugador(danio, transform.position, empuje);
+            UtilBoss.PegarAlJugador(danio, transform.position, empuje, 0.15f, "Boss_Estalactita");
             Romper();
             return;
         }

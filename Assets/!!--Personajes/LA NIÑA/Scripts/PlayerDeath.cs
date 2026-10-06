@@ -71,7 +71,11 @@ public class PlayerDeath : MonoBehaviour
     // se llama cuando la vida llega a 0 (lo dispara el HealthHandler).
     private void HandleDeath()
     {
-        if (!isDying) StartCoroutine(DeathSequence());
+        if (isDying) return;
+
+        // Solo las muertes de verdad (la tecla T de prueba no se cuenta).
+        AnalyticsJuego.Muerte();
+        StartCoroutine(DeathSequence());
     }
 
     private IEnumerator DeathSequence()

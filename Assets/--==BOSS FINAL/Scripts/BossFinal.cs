@@ -1196,6 +1196,7 @@ public class BossFinal : MonoBehaviour
         peligros.Clear();
 
         ProgresoJuego.MarcarMostrado(ClaveDerrotado());
+        AnalyticsJuego.JuegoTerminado();
         UtilBoss.Sonar(sonidoMuerte, volumen, transform.position);
         UtilBoss.Sonar(sonidoDerrumbeFinal, volumen, transform.position);
 

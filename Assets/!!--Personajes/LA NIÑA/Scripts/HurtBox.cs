@@ -11,6 +11,11 @@ public class HurtBox : MonoBehaviour
     public Vector2 hurtBoxOffset; // posicion del hurt box
     public LayerMask targetLayer; // layers de los game objects afectados por el hurt box
 
+    [Header("Analytics")]
+    [Tooltip("Nombre que aparece en Unity Analytics cuando esto mata a la niña. Vacio = se deduce " +
+             "solo del nombre del objeto (Pinchos, BloqueAplastante, Laser, EnemigoCat1...).")]
+    public string causaDeMuerte;
+
     // cooldown
     public float damageCoolDown;
     private float coolDownTimer;
@@ -44,6 +49,8 @@ public class HurtBox : MonoBehaviour
                 {
                     contactPoint = center;
                 }
+                // Analytics: si este golpe mata a la niña, queda registrado que fue esto.
+                if (hit.CompareTag("Player")) AnalyticsJuego.RegistrarGolpe(CausaDeMuerte());
                 damage.ApplyDamage(damageHurtBox, contactPoint, knockBackHurtBox);
             }
 
@@ -66,6 +73,11 @@ public class HurtBox : MonoBehaviour
             }
             coolDownTimer = damageCoolDown;
         }
+    }
+
+    private string CausaDeMuerte()
+    {
+        return string.IsNullOrWhiteSpace(causaDeMuerte) ? AnalyticsJuego.CausaDesdeObjeto(gameObject) : causaDeMuerte;
     }
 
     IEnumerator ResetKnockBack(PlayerMovement playerMovement, float timeKnockBack)

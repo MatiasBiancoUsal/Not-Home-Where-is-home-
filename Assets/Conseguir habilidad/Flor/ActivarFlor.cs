@@ -167,12 +167,14 @@ public class ActivarFlor : MonoBehaviour
         int disponibles = puntos != null ? puntos.PuntajeGlobal : 0;
         if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
         {
+            AnalyticsJuego.PuntosInsuficientes(habilidad.ToString(), costoEnPuntos, disponibles);
             MostrarAvisoDePuntos(disponibles);
             return;
         }
 
         recogida = true;
         player.DesbloquearHabilidad(habilidad);
+        AnalyticsJuego.DesbloquearHabilidad(habilidad.ToString(), costoEnPuntos, puntos.PuntajeGlobal);
 
         // La flor tambien es CHECKPOINT: si muere despues, reaparece aca (parada al lado de
         // la flor), salvo que despues toque otro checkpoint.

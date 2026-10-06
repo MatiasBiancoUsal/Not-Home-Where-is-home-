@@ -227,7 +227,7 @@ public class MiniBicho : MonoBehaviour
         if (cooldownGolpe > 0f) cooldownGolpe -= Time.deltaTime;
         if (cooldownGolpe <= 0f && UtilBoss.TocaAlJugador(col))
         {
-            cooldownGolpe = UtilBoss.PegarAlJugador(danio, transform.position, empuje) ? 1f : 0.2f;
+            cooldownGolpe = UtilBoss.PegarAlJugador(danio, transform.position, empuje, 0.15f, "Boss_MiniBicho") ? 1f : 0.2f;
         }
 
         // Se cayo del ring.

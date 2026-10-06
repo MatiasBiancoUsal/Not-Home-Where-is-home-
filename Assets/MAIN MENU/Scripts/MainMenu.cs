@@ -31,19 +31,23 @@ public class MainMenu : MonoBehaviour
     {
         ScoreManager.NuevaPartida();
         TutorialInicialPaginas.MostrarEnLaProximaCarga();
+        AnalyticsJuego.PartidaIniciada("nueva", ProgresoJuego.ZONA_INICIAL);
         LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }
 
     // BOTÓN CONTINUE: vuelve a la zona donde había quedado, con sus monedas y cinemáticas.
     public void ContinueGame()
     {
-        LoadSceneWithClick(ProgresoJuego.CargarZona(), true);
+        string zona = ProgresoJuego.CargarZona();
+        AnalyticsJuego.PartidaIniciada("continuar", zona);
+        LoadSceneWithClick(zona, true);
     }
 
     // BOTÓN NEW GAME: borra el progreso guardado y empieza de cero en la Zona 1.
     public void NewGame()
     {
         ScoreManager.NuevaPartida();
+        AnalyticsJuego.PartidaIniciada("nueva", ProgresoJuego.ZONA_INICIAL);
         TutorialInicialPaginas.MostrarEnLaProximaCarga();
         LoadSceneWithClick(ProgresoJuego.ZONA_INICIAL, true);
     }

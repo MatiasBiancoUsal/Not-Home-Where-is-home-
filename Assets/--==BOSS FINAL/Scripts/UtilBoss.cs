@@ -63,13 +63,16 @@ public static class UtilBoss
 
     // Le pega a la niña igual que un HurtBox: descuenta vida y la empuja.
     // Devuelve TRUE si el golpe entro (no lo freno el escudo ni la invulnerabilidad).
-    public static bool PegarAlJugador(int danio, Vector2 origen, float empuje, float duracionEmpuje = 0.15f)
+    // "causa" es el nombre que aparece en Unity Analytics si este golpe la mata.
+    public static bool PegarAlJugador(int danio, Vector2 origen, float empuje, float duracionEmpuje = 0.15f, string causa = "Boss")
     {
         PlayerController pc = Jugador();
         if (pc == null || danio <= 0) return false;
 
         Damageable d = pc.GetComponent<Damageable>();
         if (d == null) return false;
+
+        AnalyticsJuego.RegistrarGolpe(causa);
 
         bool entro = d.ApplyDamage(danio, origen, empuje);
 

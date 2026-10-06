@@ -62,7 +62,7 @@ public class ProyectilBoss : MonoBehaviour
 
         if (UtilBoss.TocaAlJugador(col))
         {
-            UtilBoss.PegarAlJugador(danio, transform.position, empuje);
+            UtilBoss.PegarAlJugador(danio, transform.position, empuje, 0.15f, "Boss_Proyectil");
             Romper();
             return;
         }
