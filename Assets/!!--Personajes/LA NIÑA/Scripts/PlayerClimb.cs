@@ -18,6 +18,17 @@ public class PlayerClimb : MonoBehaviour
     [Tooltip("Segundos sin poder re-pegarse a la pared despues de saltar.")]
     public float reStickTime = 0.25f;
 
+    [Header("Soltarse y subir al borde")]
+    [Tooltip("Segundos manteniendo A/D para el lado CONTRARIO a la pared hasta soltarse. " +
+             "Es un ratito para que no se suelte si solo queria hacer el salto de pared.")]
+    public float tiempoParaSoltarse = 0.18f;
+    [Tooltip("Al llegar arriba de la pared subiendo con W, se sube sola al borde en vez de quedar colgada.")]
+    public bool subirAlBordeSola = true;
+    [Tooltip("Impulso hacia arriba al subirse al borde.")]
+    public float impulsoAlBorde = 7f;
+    [Tooltip("Impulso hacia la pared al subirse al borde (para quedar parada arriba).")]
+    public float avanceAlBorde = 3.5f;
+
     [Header("Deteccion de pared")]
     public string wallTag = "Wall";        // pared trepable (solida, con este tag)
     public float wallCheckDistance = 0.5f; // que tan adelante mira la pared
@@ -38,6 +49,7 @@ public class PlayerClimb : MonoBehaviour
     private float reStickTimer = 0f;      // evita re-pegarse justo despues de saltar de la pared
     private float wallJumpLockTimer = 0f; // mientras corre, el movimiento no pisa el envion del salto de pared
     private float timerSonidoTrepar = 0f;
+    private float timerSoltarse = 0f;     // cuanto hace que empuja para el lado contrario a la pared
 
     //Getters
     public bool IsClimbing { get { return isClimbing; } }
@@ -111,13 +123,36 @@ public class PlayerClimb : MonoBehaviour
     private void Climbing()
     {
         // W/S -> subir / bajar
-        verticalInput = playerController.controles.Player.Move.ReadValue<Vector2>().y;
+        Vector2 input = playerController.controles.Player.Move.ReadValue<Vector2>();
+        verticalInput = input.y;
+
+        // SOLTARSE: mantener A/D para el lado contrario a la pared. Antes la unica forma
+        // de despegarse era saltar, y en las pruebas costaba separarse de la pared.
+        float wallDir = playerController.movement.IsFacingRight ? 1f : -1f;
+        if (input.x * wallDir < -0.5f)
+        {
+            timerSoltarse += Time.fixedDeltaTime;
+            if (timerSoltarse >= tiempoParaSoltarse)
+            {
+                SoltarseDeLaPared(wallDir);
+                return;
+            }
+        }
+        else
+        {
+            timerSoltarse = 0f;
+        }
 
         float vy = verticalInput * climbSpeed;
 
-        // Tope ARRIBA: si quiere SUBIR pero ya no hay pared, lo frenamos.
+        // Tope ARRIBA: si quiere SUBIR pero ya no hay pared, llego al borde.
         if (vy > 0f && !HayPared())
         {
+            if (subirAlBordeSola)
+            {
+                SubirAlBorde(wallDir);
+                return;
+            }
             vy = 0f;
         }
         // Tope ABAJO: si quiere BAJAR pero ya no hay pared mas abajo, lo frenamos (no seguir bajando en el aire).
@@ -181,11 +216,33 @@ public class PlayerClimb : MonoBehaviour
         reStickTimer = reStickTime; // un ratito para no re-pegarnos al instante
     }
 
+    // Se despega de la pared y cae, mirando para el otro lado.
+    private void SoltarseDeLaPared(float wallDir)
+    {
+        ExitClimb();
+
+        float awayDir = -wallDir;
+        rb.linearVelocity = new Vector2(awayDir * 2.5f, 0f);
+        playerController.movement.SetFacing(awayDir);
+        reStickTimer = reStickTime;
+    }
+
+    // Llego arriba de todo subiendo: un saltito hacia adelante para quedar parada en el borde.
+    private void SubirAlBorde(float wallDir)
+    {
+        ExitClimb();
+
+        rb.linearVelocity = new Vector2(wallDir * avanceAlBorde, impulsoAlBorde);
+        wallJumpLockTimer = wallJumpLockTime;   // que el movimiento no le pise el avance
+        reStickTimer = reStickTime;
+    }
+
     private void ExitClimb()
     {
         isClimbing = false;
         verticalInput = 0f;
         timerSonidoTrepar = 0f;
+        timerSoltarse = 0f;
         rb.bodyType = RigidbodyType2D.Dynamic;            // volvemos a la fisica normal
         rb.gravityScale = playerController.normalGravity; // devolvemos la gravedad normal
         SetClimbCollider(false);                          // collider normal de vuelta

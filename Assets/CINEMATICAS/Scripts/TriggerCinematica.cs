@@ -24,8 +24,15 @@ public class TriggerCinematica : MonoBehaviour
     [Tooltip("Identificador de esta cinematica. Si lo dejas vacio, se arma solo con la escena + el nombre del objeto. Si le cambias el nombre al objeto, el jugador la vuelve a ver una vez.")]
     public string id = "";
 
+    [Tooltip("Opcional: marca que crea el evento final de esta cinematica (por ejemplo, HabilidadAtaque). " +
+             "Si figura como vista pero esta marca falta, significa que la cinematica se corto antes de terminar y se permite verla otra vez.")]
+    public string marcaDeFinalizacion = "";
+
     [Tooltip("Si esta activo, el objeto se apaga despues de disparar (util si el sprite era solo la marca de la zona).")]
     public bool apagarObjetoDespues = false;
+
+    private bool esperandoFinal;
+    private string clavePendiente;
 
     // Las cinematicas ya vistas. Es ESTATICO: sobrevive al cambio de zona y a la recarga
     // de la escena (asi no se repite al morir), y ademas se GUARDA EN DISCO, asi tampoco
@@ -69,18 +76,73 @@ public class TriggerCinematica : MonoBehaviour
         string clave = Clave();
         if (unaSolaVez)
         {
-            if (yaVistas.Contains(clave)) return;
+            if (yaVistas.Contains(clave))
+            {
+                // Antes se guardaba "vista" apenas el jugador tocaba el trigger. Si se
+                // frenaba el Play, moria o cambiaba la escena durante la cinematica, quedaba
+                // bloqueada para siempre aunque su recompensa final nunca se hubiera dado.
+                bool terminoDeVerdad = string.IsNullOrEmpty(marcaDeFinalizacion) ||
+                                       ProgresoJuego.YaMostrado(marcaDeFinalizacion);
 
-            yaVistas.Add(clave);
-            ProgresoJuego.GuardarCinematicas(yaVistas);
+                if (terminoDeVerdad) return;
+
+                yaVistas.Remove(clave);
+                ProgresoJuego.GuardarCinematicas(yaVistas);
+            }
+
+            EsperarFinal(clave);
         }
 
-        cinematica.Reproducir();
+        if (!cinematica.IntentarReproducir())
+        {
+            DejarDeEsperarFinal();
+            return;
+        }
 
         if (apagarObjetoDespues)
         {
             gameObject.SetActive(false);
         }
+    }
+
+    // Se guarda recien cuando la rutina llego al final. Si la escena se recarga o el Play
+    // se detiene a mitad de camino, este callback no ocurre y la cinematica queda disponible.
+    private void EsperarFinal(string clave)
+    {
+        clavePendiente = clave;
+        esperandoFinal = true;
+
+        cinematica.Terminada -= AlTerminarCinematica;
+        cinematica.Terminada += AlTerminarCinematica;
+    }
+
+    private void AlTerminarCinematica()
+    {
+        if (!esperandoFinal) return;
+
+        if (!string.IsNullOrEmpty(clavePendiente))
+        {
+            yaVistas.Add(clavePendiente);
+            ProgresoJuego.GuardarCinematicas(yaVistas);
+        }
+
+        DejarDeEsperarFinal();
+    }
+
+    private void DejarDeEsperarFinal()
+    {
+        esperandoFinal = false;
+        clavePendiente = null;
+
+        if (cinematica != null)
+        {
+            cinematica.Terminada -= AlTerminarCinematica;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        DejarDeEsperarFinal();
     }
 
     // La clave con la que se recuerda esta cinematica: escena + nombre del objeto,

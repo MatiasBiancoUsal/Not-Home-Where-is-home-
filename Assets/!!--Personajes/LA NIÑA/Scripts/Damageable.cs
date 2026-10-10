@@ -63,6 +63,12 @@ public class Damageable : MonoBehaviour
             return false;
         }
 
+        // Escondida bajo el piso durante la embestida del boss final: no le entra nada.
+        if (EscondersePlayer.Escondida && CompareTag("Player"))
+        {
+            return false;
+        }
+
         if (isInvulnerability)
         {
             return false;

@@ -59,7 +59,9 @@ public class DeathTest : MonoBehaviour
     {
         if (isDying) return;
 
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        // Solo en el editor: en el juego final la T no mata (se apretaba sin querer).
+        bool esPrueba = Application.isEditor || Debug.isDebugBuild;
+        if (esPrueba && Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             StartCoroutine(DeathSequence());
         }
@@ -86,6 +88,8 @@ public class DeathTest : MonoBehaviour
         yield return Fade(0f, 1f);
 
         // 4) Reiniciamos la zona actual (el player reaparece en el inicio).
+        // Que reaparezca en el ultimo checkpoint (o donde entro a la zona), no al principio.
+        PuntoDeReaparicion.ReaparecerAlRecargar();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -96,7 +100,9 @@ public class DeathTest : MonoBehaviour
         float t = 0f;
         while (t < fadeDuration)
         {
-            t += Time.deltaTime;
+            // Tiempo REAL: si algo congela el juego (por ejemplo el tutorial inicial), el
+            // fundido igual termina y no queda un velo negro tapando la pantalla.
+            t += Time.unscaledDeltaTime;
             SetFadeAlpha(Mathf.Lerp(from, to, t / fadeDuration));
             yield return null;
         }

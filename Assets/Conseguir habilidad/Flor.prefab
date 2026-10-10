@@ -194,7 +194,7 @@ MonoBehaviour:
   dobleSalto:
     fondo: {fileID: 0}
     titulo: DOBLE SALTO
-    descripcion: Presiona SALTO nuevamente mientras estas en el aire.
+    descripcion: Salta y, en el aire, presiona ESPACIO otra vez para volver a saltar.
   dash:
     fondo: {fileID: 0}
     titulo: DASH
@@ -221,7 +221,7 @@ MonoBehaviour:
   cartelPisoton: {fileID: 21300000, guid: 52cd354da59651b4ca50fb8faae378f5, type: 3}
   cartelSuperSalto: {fileID: 21300000, guid: 2fc3237f4141b4440a2eb2ba320575f8, type: 3}
   cartelEscudo: {fileID: 21300000, guid: 493bc688695c47c4686ab4b5b4c13e97, type: 3}
-  textoParaCerrar: Presiona ESPACIO, ENTER o ESC para continuar
+  textoParaCerrar: Presiona ESPACIO o ENTER para continuar
   pausarMientrasSeMuestra: 1
   estiloCartel:
     posicionPanel: {x: 0, y: 150}

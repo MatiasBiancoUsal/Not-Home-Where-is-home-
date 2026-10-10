@@ -52,6 +52,12 @@ public class TransicionZonas : MonoBehaviour
     private Sprite spriteDelFondo;
     private float suavidadDelFondoUsada = -1f;
 
+    // --- Zona bloqueada y su aviso (seccion 6b) ---
+
+    private TextMeshProUGUI aviso;
+    private Coroutine avisoCo;
+    private float proximoAvisoPermitido = 0f;
+
     // --- Oscurecimiento por cercania a una puerta (seccion 7) ---
 
     // Oscurecimiento por cercania a una puerta.
@@ -176,6 +182,7 @@ public class TransicionZonas : MonoBehaviour
         EstirarATodaLaPantalla(negro.rectTransform);
 
         CrearCartel(canvasGo.transform);
+        CrearAviso(canvasGo.transform);
     }
 
     // El cartel va ULTIMO: se dibuja por ENCIMA del negro, asi puede aparecer sobre la
@@ -256,6 +263,16 @@ public class TransicionZonas : MonoBehaviour
     public void Cruzar(PuertaZona salida)
     {
         if (!PuedeCruzar || salida == null) return;
+
+        // La puerta tambien lo comprueba cada frame para levantar su pared invisible,
+        // pero repetimos la regla aca: asi ni el orden de los Update ni una llamada desde
+        // otro script pueden iniciar una transicion que todavia esta bloqueada.
+        if (EstaBloqueada(salida.escenaDestino))
+        {
+            AvisarZonaBloqueada();
+            return;
+        }
+
         StartCoroutine(Rutina(salida));
     }
 
@@ -331,6 +348,13 @@ public class TransicionZonas : MonoBehaviour
 
         // 4) Devolver el control.
         DevolverElControl(pcNuevo);
+
+        // Si muere en esta zona antes de tocar un checkpoint, reaparece aca (ya adentro,
+        // lejos de la puerta) y no al principio de la zona.
+        if (pcNuevo != null && escenaLista)
+        {
+            PuntoDeReaparicion.Guardar(SceneManager.GetActiveScene().name, pcNuevo.transform.position);
+        }
 
         bloqueadoHasta = Time.time + ajustes.graciaEntrePuertas;
         EnCurso = false;
@@ -422,8 +446,21 @@ public class TransicionZonas : MonoBehaviour
         // Usamos el mismo layer de piso que usa la niña para saber si esta parada.
         LayerMask mascaraPiso = pc.jump != null ? pc.jump.groundMask : ~0;
 
-        RaycastHit2D golpe = Physics2D.Raycast(origen + Vector3.up * 0.1f, Vector2.down,
-                                               ajustes.distanciaMaximaAlPiso, mascaraPiso);
+        // Buscamos el primer PISO de verdad. Antes se usaba el primer golpe del rayo: si el
+        // marcador de la puerta quedaba metido adentro de un bloque (una pared, el techo),
+        // el rayo "chocaba" en el mismo punto de partida y la niña aparecia en el aire,
+        // demasiado alta (paso en la Zona 2).
+        RaycastHit2D golpe = default;
+        RaycastHit2D[] golpes = Physics2D.RaycastAll(origen + Vector3.up * 0.1f, Vector2.down,
+                                                     ajustes.distanciaMaximaAlPiso, mascaraPiso);
+        foreach (RaycastHit2D g in golpes)
+        {
+            if (g.collider == null || g.collider.isTrigger) continue;
+            if (g.distance <= 0f || g.normal.y < 0.5f) continue;   // arranco adentro, o no es un piso
+            golpe = g;
+            break;
+        }
+
         if (golpe.collider == null)
         {
             Debug.LogWarning("TransicionZonas: no encontre piso debajo de la puerta '" + llegada.id +
@@ -553,7 +590,9 @@ public class TransicionZonas : MonoBehaviour
         float t = 0f;
         while (t < duracion)
         {
-            t += Time.deltaTime;
+            // Tiempo REAL, por si algo congela el juego en el medio (el tutorial inicial,
+            // por ejemplo): el fundido siempre termina y no queda la pantalla tapada.
+            t += Time.unscaledDeltaTime;
             PonerAlpha(Mathf.Lerp(inicial, alphaObjetivo, t / duracion));
             yield return null;
         }
@@ -586,7 +625,15 @@ public class TransicionZonas : MonoBehaviour
         MostrarCartelDeZona(SceneManager.GetActiveScene().name);
     }
 
-    private void MostrarCartelDeZona(string nombreDeLaEscena)
+    // Lo usa el atajo de la tecla N (ZoneSkipByKey). Recibe el nombre de la escena porque
+    // se llama justo antes de que la escena nueva termine de cargar. Muestra el cartel
+    // aunque ya se haya visto, asi se ve cada vez que se saltea de zona.
+    public void MostrarNombreDeLaZona(string nombreDeLaEscena)
+    {
+        MostrarCartelDeZona(nombreDeLaEscena, true);
+    }
+
+    private void MostrarCartelDeZona(string nombreDeLaEscena, bool aunqueYaSeHayaVisto = false)
     {
         if (cartel == null || ajustes == null || !ajustes.mostrarCartelDeZona) return;
 
@@ -594,7 +641,7 @@ public class TransicionZonas : MonoBehaviour
         // anotaramos, al destildar el check el cartel seguiria sin aparecer.
         if (ajustes.saltearCartelDeZona) return;
 
-        if (ajustes.mostrarSoloLaPrimeraVez)
+        if (ajustes.mostrarSoloLaPrimeraVez && !aunqueYaSeHayaVisto)
         {
             string clave = "CartelZona_" + nombreDeLaEscena;
             if (ProgresoJuego.YaMostrado(clave)) return;
@@ -793,6 +840,133 @@ public class TransicionZonas : MonoBehaviour
         tex.Apply();
 
         return Sprite.Create(tex, new Rect(0, 0, LADO, LADO), new Vector2(0.5f, 0.5f));
+    }
+
+    //  6b. PUERTAS BLOQUEADAS HASTA TENER LAS HABILIDADES
+    //  No se puede salir de una zona sin recoger primero su habilidad. Ademas, una zona
+    //  destino puede tener requisitos especiales (por defecto, Zona 6 pide las cinco
+    //  habilidades anteriores). Todo se ajusta en AjustesTransicion.
+
+    // ¿Esta puerta todavia no se puede cruzar?
+    public bool EstaBloqueada(string escenaDestino)
+    {
+        // Lo consultan las puertas todos los frames: usamos la niña ya encontrada si la hay.
+        PlayerController pc = jugador != null ? jugador : BuscarPlayer();
+        if (pc == null || ajustes == null) return false;
+
+        if (FaltaHabilidadDeLaZonaActual(pc)) return true;
+
+        if (string.IsNullOrEmpty(ajustes.zonaBloqueada) ||
+            escenaDestino != ajustes.zonaBloqueada ||
+            ajustes.habilidadesNecesarias == null)
+        {
+            return false;
+        }
+
+        foreach (PlayerController.Habilidad h in ajustes.habilidadesNecesarias)
+        {
+            if (!pc.TieneHabilidad(h)) return true;
+        }
+        return false;
+    }
+
+    private bool FaltaHabilidadDeLaZonaActual(PlayerController pc)
+    {
+        if (!ajustes.bloquearSalidaSinHabilidadDeLaZona) return false;
+        if (ajustes.habilidadDeCadaZona == null) return false;
+
+        int numeroDeZona = DesbloquearHabilidadesPorZona.NumeroDeZona(
+            SceneManager.GetActiveScene().name);
+        int indice = numeroDeZona - 1;
+
+        // Menus, cinematicas u otras escenas que no sean "Zona N" no se bloquean.
+        // Tampoco se bloquea una zona que todavia no tenga una habilidad configurada.
+        if (indice < 0 || indice >= ajustes.habilidadDeCadaZona.Length) return false;
+
+        return !pc.TieneHabilidad(ajustes.habilidadDeCadaZona[indice]);
+    }
+
+    public float DistanciaDelAviso => ajustes != null ? ajustes.distanciaDelAviso : 1f;
+
+    // La llama la puerta cerrada cuando la niña se le acerca.
+    public void AvisarZonaBloqueada()
+    {
+        if (ajustes == null || Time.unscaledTime < proximoAvisoPermitido) return;
+        proximoAvisoPermitido = Time.unscaledTime + ajustes.segundosEntreAvisos;
+
+        if (ajustes.sonidoZonaBloqueada != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(ajustes.sonidoZonaBloqueada, ajustes.volumenSonidoZonaBloqueada);
+        }
+
+        if (CameraShaker.Instance != null) CameraShaker.Instance.Sacudir(0.25f, 0.15f);
+
+        if (aviso == null) return;
+        if (avisoCo != null) StopCoroutine(avisoCo);
+        avisoCo = StartCoroutine(RutinaDelAviso(ajustes.mensajeZonaBloqueada));
+    }
+
+    private void CrearAviso(Transform padre)
+    {
+        GameObject go = new GameObject("AvisoZonaBloqueada");
+        go.transform.SetParent(padre, false);
+
+        aviso = go.AddComponent<TextMeshProUGUI>();
+        aviso.raycastTarget = false;
+        aviso.alignment = TextAlignmentOptions.Center;
+        aviso.text = "";
+
+        RectTransform rt = aviso.rectTransform;
+        rt.anchorMin = new Vector2(0f, 0.5f);
+        rt.anchorMax = new Vector2(1f, 0.5f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(-200f, 120f);
+
+        aviso.alpha = 0f;
+    }
+
+    private IEnumerator RutinaDelAviso(string texto)
+    {
+        // Estilo leido cada vez: se puede tocar en vivo desde el asset de ajustes.
+        if (ajustes.fuenteDelCartel != null) aviso.font = ajustes.fuenteDelCartel;
+        aviso.fontSize = ajustes.tamanioDelAviso;
+        aviso.color = ajustes.colorDelAviso;
+        aviso.text = texto;
+
+        Vector2 posFinal = ajustes.posicionDelAviso;
+        Vector2 posInicial = posFinal - new Vector2(0f, ajustes.subidaDelAviso);
+        Vector2 posSalida = posFinal + new Vector2(0f, ajustes.subidaAlDesvanecerse);
+
+        // ENTRADA: aparece subiendo desde abajo y frena suave al llegar.
+        yield return AnimarAviso(0f, 1f, posInicial, posFinal, ajustes.entradaDelAviso, true);
+        yield return EsperarReal(ajustes.sostenerElAviso);
+        // SALIDA: se desvanece mientras sigue subiendo apenas.
+        yield return AnimarAviso(1f, 0f, posFinal, posSalida, ajustes.salidaDelAviso, false);
+
+        aviso.text = "";
+        avisoCo = null;
+    }
+
+    private IEnumerator AnimarAviso(float alphaDesde, float alphaHasta, Vector2 posDesde, Vector2 posHasta,
+                                   float duracion, bool frenarAlFinal)
+    {
+        RectTransform rt = aviso.rectTransform;
+        float t = 0f;
+        float dur = Mathf.Max(0.01f, duracion);
+
+        while (t < dur)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(t / dur);
+            float e = frenarAlFinal ? SuavizarSalida(k) : k * k * (3f - 2f * k);
+
+            aviso.alpha = Mathf.Lerp(alphaDesde, alphaHasta, e);
+            rt.anchoredPosition = Vector2.Lerp(posDesde, posHasta, e);
+            yield return null;
+        }
+
+        aviso.alpha = alphaHasta;
+        rt.anchoredPosition = posHasta;
     }
 
     //  7. OSCURECIMIENTO POR CERCANIA A UNA PUERTA

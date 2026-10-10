@@ -107,9 +107,15 @@ public class EstiloCartelHabilidad
     public float esperaAntesDelTextoDeCerrar = 3f;
 
     [Header("Tipeo: sonido (opcional)")]
-    [Tooltip("Clic corto que suena mientras escribe. Dejalo vacio si no querés sonido.")]
+    [Tooltip("Clics cortos que suenan mientras escribe. Podés poner varios (por ejemplo 3) y en cada " +
+             "letra se elige uno AL AZAR, asi el tipeo no suena repetitivo. Dejalo vacio si no querés sonido.")]
+    public AudioClip[] sonidosTipeo;
+    [Tooltip("Sonido viejo, de cuando habia uno solo. Si cargaste la lista de arriba, este se ignora.")]
     public AudioClip sonidoTipeo;
     [Range(0f, 1f)] public float volumenTipeo = 0.5f;
+    [Range(0f, 0.5f)]
+    [Tooltip("Le cambia un poco el tono a cada clic, al azar. 0 = todos iguales. 0.1 ya disimula bastante la repeticion.")]
+    public float variacionDeTono = 0.08f;
     [Tooltip("Cada cuantas letras suena. 1 = en todas (puede marear), 2 o 3 queda mejor.")]
     public int sonarCadaCuantasLetras = 2;
 
@@ -175,8 +181,10 @@ public class EstiloCartelHabilidad
         esperaAntesDelTextoDeCerrar = otro.esperaAntesDelTextoDeCerrar;
 
         // Sonido del tipeo
+        sonidosTipeo = otro.sonidosTipeo;
         sonidoTipeo = otro.sonidoTipeo;
         volumenTipeo = otro.volumenTipeo;
+        variacionDeTono = otro.variacionDeTono;
         sonarCadaCuantasLetras = otro.sonarCadaCuantasLetras;
 
         // Texto para cerrar
@@ -213,6 +221,7 @@ public class CartelHabilidadUI : MonoBehaviour
     private bool saltearAnimacion;    // el jugador apreto: terminar las animaciones ya
     private bool sePuedeCerrar;       // recien cuando el texto de cerrar termino de aparecer
     private AudioSource audioTipeo;
+    private AudioClip ultimoClipDeTipeo;
 
     public static void Mostrar(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion, string textoAyuda, bool pausa, EstiloCartelHabilidad estilo)
     {
@@ -260,7 +269,7 @@ public class CartelHabilidadUI : MonoBehaviour
         titulo = CrearTexto("TituloHabilidad", panel.transform, new Vector2(0f, -65f), new Vector2(760f, 70f), 46f, FontStyles.Bold);
         descripcion = CrearTexto("DescripcionHabilidad", panel.transform, new Vector2(0f, -155f), new Vector2(760f, 105f), 27f, FontStyles.Normal);
         ayudaCerrar = CrearTexto("AyudaCerrar", panel.transform, new Vector2(0f, -225f), new Vector2(760f, 45f), 21f, FontStyles.Italic);
-        ayudaCerrar.text = "Presiona ESPACIO, ENTER o ESC para continuar";
+        ayudaCerrar.text = "Presiona ESPACIO o ENTER para continuar";
 
         panel.SetActive(false);
     }
@@ -276,7 +285,7 @@ public class CartelHabilidadUI : MonoBehaviour
         titulo.text = string.IsNullOrWhiteSpace(textoTitulo) ? "NUEVA HABILIDAD" : textoTitulo;
         descripcion.text = textoDescripcion ?? string.Empty;
         ayudaCerrar.text = string.IsNullOrWhiteSpace(textoAyuda)
-            ? "Presiona ESPACIO, ENTER o ESC para continuar"
+            ? "Presiona ESPACIO o ENTER para continuar"
             : textoAyuda;
 
         pausarJuego = pausa;
@@ -469,7 +478,7 @@ public class CartelHabilidadUI : MonoBehaviour
         {
             texto.maxVisibleCharacters = i;
 
-            if (estiloActivo.sonidoTipeo != null && i % cadaCuantas == 0)
+            if (i % cadaCuantas == 0)
             {
                 SonarTipeo();
             }
@@ -508,13 +517,43 @@ public class CartelHabilidadUI : MonoBehaviour
 
     private void SonarTipeo()
     {
+        AudioClip clip = ClipDeTipeo();
+        if (clip == null) return;
+
         if (audioTipeo == null)
         {
             audioTipeo = gameObject.AddComponent<AudioSource>();
             audioTipeo.playOnAwake = false;
         }
 
-        audioTipeo.PlayOneShot(estiloActivo.sonidoTipeo, estiloActivo.volumenTipeo);
+        // PlayOneShot deja que un clic se superponga con el anterior, asi que con UNA sola
+        // AudioSource alcanza: no hacen falta tres.
+        audioTipeo.pitch = 1f + Random.Range(-estiloActivo.variacionDeTono, estiloActivo.variacionDeTono);
+        audioTipeo.PlayOneShot(clip, estiloActivo.volumenTipeo);
+    }
+
+    // Elige al azar uno de los sonidos de tipeo, evitando repetir el de la letra anterior
+    // (con dos o mas clips, dos iguales seguidos se notan enseguida).
+    private AudioClip ClipDeTipeo()
+    {
+        AudioClip[] lista = estiloActivo.sonidosTipeo;
+
+        if (lista == null || lista.Length == 0) return estiloActivo.sonidoTipeo;
+
+        if (lista.Length == 1) return lista[0];
+
+        AudioClip elegido = null;
+        for (int intento = 0; intento < 6; intento++)
+        {
+            AudioClip candidato = lista[Random.Range(0, lista.Length)];
+            if (candidato == null) continue;
+
+            elegido = candidato;
+            if (candidato != ultimoClipDeTipeo) break;
+        }
+
+        ultimoClipDeTipeo = elegido;
+        return elegido;
     }
 
     private void AplicarEstilo(EstiloCartelHabilidad estilo)

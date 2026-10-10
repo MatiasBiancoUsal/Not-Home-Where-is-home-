@@ -50,7 +50,11 @@ public class ParedSombraKill : MonoBehaviour
             }
 
             HealthHandler hh = other.GetComponent<HealthHandler>();
-            if (hh != null) hh.TakeDamage(danio);
+            if (hh != null)
+            {
+                AnalyticsJuego.RegistrarGolpe("ParedSombra");
+                hh.TakeDamage(danio);
+            }
         }
     }
 

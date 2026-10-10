@@ -22,6 +22,14 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("Si esta activo, nombres como FlorDobleSalto, FlorDash o FlorEscalar eligen la habilidad automaticamente.")]
     [SerializeField] private bool detectarPorNombre = true;
 
+    [Header("Costo en puntos")]
+    [Tooltip("La habilidad solo se entrega si el jugador junto esta cantidad SUMANDO TODAS LAS ZONAS. " +
+             "Los puntos se descuentan al adquirirla: primero de la zona actual y, si no alcanza, de las demas.")]
+    [Min(0)] [SerializeField] private int costoEnPuntos = 100;
+    [Tooltip("Asigna costos crecientes automaticamente, uno por zona: Doble Salto 100 (Zona 1), Escalar 150, " +
+             "Dash 200, Pisoton 250, Super Salto 300 y Escudo 350 (Zona 6).")]
+    [SerializeField] private bool costoAutomaticoPorHabilidad = true;
+
     [Header("Como queda la flor una vez recogida")]
     [Tooltip("Sprite de la flor ABIERTA. Si lo dejas vacio, se congela sola en el ultimo frame de la animacion (que es lo que suele quedar bien). Llenalo solo si querés otro dibujo.")]
     [SerializeField] private Sprite spriteFlorAbierta;
@@ -57,7 +65,7 @@ public class ActivarFlor : MonoBehaviour
     [SerializeField] private CartelDeHabilidad dobleSalto = new CartelDeHabilidad
     {
         titulo = "DOBLE SALTO",
-        descripcion = "Presiona SALTO nuevamente mientras estas en el aire."
+        descripcion = "Salta y, en el aire, presiona ESPACIO otra vez para volver a saltar."
     };
     [SerializeField] private CartelDeHabilidad dash = new CartelDeHabilidad
     {
@@ -97,7 +105,7 @@ public class ActivarFlor : MonoBehaviour
     [HideInInspector] [SerializeField] private Sprite cartelEscudo;
 
     [Header("Comun a todos los carteles")]
-    [SerializeField] private string textoParaCerrar = "Presiona ESPACIO, ENTER o ESC para continuar";
+    [SerializeField] private string textoParaCerrar = "Presiona ESPACIO o ENTER para continuar";
     [SerializeField] private bool pausarMientrasSeMuestra = true;
 
     // El titulo y la descripcion que se van a mostrar. No se editan aca: los completa
@@ -125,6 +133,7 @@ public class ActivarFlor : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (detectarPorNombre) DetectarHabilidadPorNombre();
+        if (costoAutomaticoPorHabilidad) costoEnPuntos = CostoPredeterminado(habilidad);
         AsignarCartelDeHabilidad();
     }
 
@@ -153,8 +162,25 @@ public class ActivarFlor : MonoBehaviour
         PlayerController player = other.GetComponentInParent<PlayerController>();
         if (player == null) return;
 
+        ScoreManager puntos = ScoreManager.Instance;
+        // El acumulado de TODAS las zonas, no solo el de esta.
+        int disponibles = puntos != null ? puntos.PuntajeGlobal : 0;
+        if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
+        {
+            AnalyticsJuego.PuntosInsuficientes(habilidad.ToString(), costoEnPuntos, disponibles);
+            MostrarAvisoDePuntos(disponibles);
+            return;
+        }
+
         recogida = true;
         player.DesbloquearHabilidad(habilidad);
+        AnalyticsJuego.DesbloquearHabilidad(habilidad.ToString(), costoEnPuntos, puntos.PuntajeGlobal);
+
+        // La flor tambien es CHECKPOINT: si muere despues, reaparece aca (parada al lado de
+        // la flor), salvo que despues toque otro checkpoint.
+        // Se busca el piso desde el centro del dibujo (el pivote puede estar justo en el piso).
+        Vector2 centroFlor = spriteRenderer != null ? (Vector2)spriteRenderer.bounds.center : (Vector2)transform.position + Vector2.up;
+        PuntoDeReaparicion.GuardarEnElPiso(gameObject.scene.name, centroFlor, player);
         ReproducirSFX(sonidoAlRecoger, volumenAlRecoger);
         ActivarBloqueoTemporal(player);
 
@@ -285,6 +311,41 @@ public class ActivarFlor : MonoBehaviour
     private string ClaveProgreso()
     {
         return "Habilidad_" + habilidad;
+    }
+
+    private static int CostoPredeterminado(PlayerController.Habilidad habilidadElegida)
+    {
+        switch (habilidadElegida)
+        {
+            // Se paga con el puntaje ACUMULADO de todo el juego, no con el de una sola zona:
+            // por eso los precios pueden subir mas que lo que hay en cada zona suelta.
+            // De 50 en 50. Suman 1350 y en todo el juego hay 1787 puntos en monedas: se pueden
+            // comprar las 6 juntando alrededor del 76%, sin tener que barrer la ultima moneda.
+            case PlayerController.Habilidad.DobleSalto: return 100;  // Zona 1
+            case PlayerController.Habilidad.Escalar: return 150;     // Zona 2
+            case PlayerController.Habilidad.Dash: return 200;        // Zona 3
+            case PlayerController.Habilidad.Pisoton: return 250;     // Zona 4
+            case PlayerController.Habilidad.SuperSalto: return 300;  // Zona 5
+            case PlayerController.Habilidad.Escudo: return 350;      // Zona 6
+            default: return 100;
+        }
+    }
+
+    private void MostrarAvisoDePuntos(int disponibles)
+    {
+        int faltan = Mathf.Max(0, costoEnPuntos - disponibles);
+        string descripcion =
+            "Necesitas " + costoEnPuntos + " puntos para adquirir esta habilidad.\n" +
+            "Llevas " + disponibles + " juntados en todo el juego. Te faltan " + faltan + ".";
+
+        CartelHabilidadUI.Mostrar(
+            null,
+            fondoCartel,
+            "PUNTOS INSUFICIENTES",
+            descripcion,
+            textoParaCerrar,
+            pausarMientrasSeMuestra,
+            estiloCartel);
     }
 
     // Devuelve el bloque de cartel que corresponde a la habilidad que entrega esta flor.

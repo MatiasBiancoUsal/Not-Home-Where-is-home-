@@ -78,7 +78,7 @@ public class TutorialMovimiento : MonoBehaviour
         // El conteo para irse solo corre DESPUES de que el cartel aparecio.
         if (!visible || ocultado) return;
 
-        // Cuando el player se mueve (A/D), arranca el conteo.
+        // Cuando el player se mueve (A/D o flechas), arranca el conteo.
         if (!contando && movement != null && movement.IsMoving)
         {
             contando = true;

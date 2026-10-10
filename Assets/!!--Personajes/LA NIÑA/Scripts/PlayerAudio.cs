@@ -41,10 +41,15 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private AudioClip trepar;
     [SerializeField] private AudioClip pisoton;
     [SerializeField] private AudioClip ataque;
+    [Tooltip("Segundos del principio del sonido de ataque que se saltean. El archivo actual (atack) " +
+             "arranca muy bajito y el golpe fuerte llega tarde, cuando la animacion ya termino. " +
+             "Subilo o bajalo de a poco con el juego en Play hasta que el golpe suene justo.")]
+    [Min(0f)] [SerializeField] private float saltearInicioDelAtaque = 0.12f;
     [SerializeField] private AudioClip recibirDanio;
     [SerializeField] private AudioClip muerte;
 
     private AudioSource fuente;
+    private AudioSource fuenteAtaque;
     private PlayerController playerController;
     private float timerPaso;
     private bool estabaEnSuelo;
@@ -176,7 +181,27 @@ public class PlayerAudio : MonoBehaviour
     public void ReproducirSaltoPared() => Reproducir(saltoPared, 0.85f, true);
     public void ReproducirTrepar() => Reproducir(trepar, 0.6f, true);
     public void ReproducirPisoton() => Reproducir(pisoton);
-    public void ReproducirAtaque() => Reproducir(ataque, 0.9f, true);
+    // El ataque va por su propia fuente: PlayOneShot siempre arranca desde el principio del
+    // archivo, y aca necesitamos arrancar un poco mas adelante para que no suene con delay.
+    public void ReproducirAtaque()
+    {
+        if (ataque == null || fuente == null) return;
+
+        if (fuenteAtaque == null)
+        {
+            fuenteAtaque = gameObject.AddComponent<AudioSource>();
+            fuenteAtaque.playOnAwake = false;
+            fuenteAtaque.loop = false;
+            fuenteAtaque.spatialBlend = 0f;
+            fuenteAtaque.outputAudioMixerGroup = grupoSFX;
+        }
+
+        fuenteAtaque.clip = ataque;
+        fuenteAtaque.pitch = Random.Range(0.96f, 1.04f);
+        fuenteAtaque.volume = 0.9f * volumenGeneral;
+        fuenteAtaque.time = Mathf.Clamp(saltearInicioDelAtaque, 0f, Mathf.Max(0f, ataque.length - 0.05f));
+        fuenteAtaque.Play();
+    }
     public void ReproducirDanio() => Reproducir(recibirDanio);
     public void ReproducirMuerte() => Reproducir(muerte);
 
