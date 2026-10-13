@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 724a6f88d0b7f4c629fe2393d52a7325
+guid: 1168ec38371934a1e883f6bb8b35dff5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1877611551205585848
-    second: plataforma_completa_borde_izquierdo_0
+      213: 5927602178715190974
+    second: plataforma_borde_derecho_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 256
+  spritePixelsToUnits: 220
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: plataforma_completa_borde_izquierdo_0
+      name: plataforma_borde_derecho_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 44
-        width: 1933
-        height: 715
+        x: 1
+        y: 0
+        width: 413
+        height: 812
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8b377cff1cd9e0a10800000000000000
-      internalID: 1877611551205585848
+      spriteID: eb6862896c2134250800000000000000
+      internalID: 5927602178715190974
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      plataforma_completa_borde_izquierdo_0: 1877611551205585848
+      plataforma_borde_derecho_0: 5927602178715190974
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
