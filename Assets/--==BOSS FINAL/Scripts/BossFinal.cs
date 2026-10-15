@@ -259,9 +259,9 @@ public class BossFinal : MonoBehaviour
     public float profundidadDelEscondite = 1.4f;
     [Tooltip("Cuanto tarda en meterse y en salir.")]
     public float duracionDelEscondite = 0.25f;
-    [Tooltip("Valor de 'stateAnim' de la niña mientras esta escondida. 0 = no tocar la animacion. " +
-             "Cuando tengas la animacion de agacharse, pone aca su numero.")]
-    public int animacionAgachada = 0;
+    [Tooltip("Valor de 'stateAnim' de la niña mientras esta escondida. Por defecto el 21, que es la " +
+             "animacion de agacharse (Crouch). 0 = no tocar la animacion.")]
+    public int animacionAgachada = CrouchPlayerStateAnim.ID;
     public AudioClip sonidoAlEsconderse;
     public AudioClip sonidoAlSalirDelEscondite;
 

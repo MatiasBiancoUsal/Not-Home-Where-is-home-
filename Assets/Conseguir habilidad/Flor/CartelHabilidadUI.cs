@@ -342,7 +342,7 @@ public class CartelHabilidadUI : MonoBehaviour
         if (tituloAnimado)
         {
             titulo.maxVisibleCharacters = int.MaxValue;
-            yield return EntrarPorLetra(titulo, estiloActivo.entradaTitulo);
+            yield return AnimacionDeTexto.EntrarPorLetra(titulo, estiloActivo.entradaTitulo, () => saltearAnimacion);
         }
         else if (estiloActivo.tipearTitulo)
         {
@@ -369,7 +369,7 @@ public class CartelHabilidadUI : MonoBehaviour
         if (ayudaAnimada)
         {
             ayudaCerrar.maxVisibleCharacters = int.MaxValue;
-            yield return EntrarPorLetra(ayudaCerrar, estiloActivo.entradaAyuda);
+            yield return AnimacionDeTexto.EntrarPorLetra(ayudaCerrar, estiloActivo.entradaAyuda, () => saltearAnimacion);
         }
 
         MostrarTodoElTexto();
@@ -388,81 +388,6 @@ public class CartelHabilidadUI : MonoBehaviour
     //
     // Los espacios no tienen malla, asi que no se animan, pero SI ocupan su lugar en la
     // cuenta: por eso el barrido hace una pausita natural entre palabras.
-    private IEnumerator EntrarPorLetra(TMP_Text texto, EntradaDeTexto cfg)
-    {
-        texto.ForceMeshUpdate();
-        int total = texto.textInfo.characterCount;
-        if (total <= 0) yield break;
-
-        float retraso = Mathf.Max(0f, cfg.retrasoEntreLetras);
-        float porLetra = Mathf.Max(0.01f, cfg.duracionPorLetra);
-        float duracionTotal = retraso * (total - 1) + porLetra;
-
-        float t = 0f;
-
-        while (t < duracionTotal)
-        {
-            t += Time.unscaledDeltaTime;
-
-            // Regeneramos la malla cada frame: asi partimos SIEMPRE de las posiciones
-            // originales (y no se acumulan las deformaciones del frame anterior), y
-            // ademas aguanta que el estilo cambie en vivo desde el Inspector.
-            texto.ForceMeshUpdate();
-            TMP_TextInfo info = texto.textInfo;
-
-            for (int i = 0; i < info.characterCount; i++)
-            {
-                TMP_CharacterInfo c = info.characterInfo[i];
-                if (!c.isVisible) continue; // los espacios no tienen malla
-
-                // Cuanto avanzo ESTA letra. La de mas a la derecha arranca mas tarde.
-                float avance = Mathf.Clamp01((t - i * retraso) / porLetra);
-                float suave = 1f - Mathf.Pow(1f - avance, 3f); // arranca rapido, frena suave
-
-                int vi = c.vertexIndex;
-                int mi = c.materialReferenceIndex;
-
-                Vector3[] vertices = info.meshInfo[mi].vertices;
-                Color32[] colores = info.meshInfo[mi].colors32;
-
-                // Zoom: escalamos los 4 vertices respecto al centro de la letra, asi
-                // crece y se achica en su lugar en vez de correrse.
-                Vector3 centro = (vertices[vi] + vertices[vi + 2]) * 0.5f;
-                float escala = Mathf.Lerp(Mathf.Max(0.01f, cfg.zoomInicial), 1f, suave);
-                Vector3 sube = new Vector3(0f, Mathf.Lerp(cfg.desplazamientoInicial, 0f, suave), 0f);
-
-                for (int v = 0; v < 4; v++)
-                {
-                    vertices[vi + v] = centro + (vertices[vi + v] - centro) * escala + sube;
-
-                    Color32 col = colores[vi + v];
-                    col.a = (byte)Mathf.RoundToInt(col.a * suave);
-                    colores[vi + v] = col;
-                }
-            }
-
-            SubirMallaAlTexto(texto, info);
-            yield return null;
-
-            if (saltearAnimacion) break; // apretaron para apurar
-        }
-
-        // Cierre prolijo: la malla vuelve a su estado original.
-        texto.ForceMeshUpdate();
-    }
-
-    private static void SubirMallaAlTexto(TMP_Text texto, TMP_TextInfo info)
-    {
-        for (int m = 0; m < info.meshInfo.Length; m++)
-        {
-            if (info.meshInfo[m].mesh == null) continue;
-
-            info.meshInfo[m].mesh.vertices = info.meshInfo[m].vertices;
-            info.meshInfo[m].mesh.colors32 = info.meshInfo[m].colors32;
-            texto.UpdateGeometry(info.meshInfo[m].mesh, m);
-        }
-    }
-
     private IEnumerator TipearUno(TMP_Text texto)
     {
         // ForceMeshUpdate para que characterCount ya tenga el valor real de este texto.

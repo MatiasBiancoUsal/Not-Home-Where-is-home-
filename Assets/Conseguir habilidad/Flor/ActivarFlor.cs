@@ -128,6 +128,10 @@ public class ActivarFlor : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool recogida;
 
+    // Lo consulta la ayuda al jugador (AyudaCuandoSePierde) para saber si en esta zona
+    // todavia queda una habilidad por encontrar.
+    public bool Recogida => recogida;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();

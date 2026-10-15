@@ -29,8 +29,9 @@ public class EscondersePlayer : MonoBehaviour
     public bool ventanaAbierta;
     public float profundidad = 1.4f;
     public float duracion = 0.25f;
-    [Tooltip("Valor de 'stateAnim' mientras esta escondida. 0 = no tocar la animacion.")]
-    public int animAgachada = 0;
+    [Tooltip("Valor de 'stateAnim' mientras esta escondida. Por defecto el 21, que es la animacion " +
+             "de agacharse (CrouchPlayerStateAnim). 0 = no tocar la animacion.")]
+    public int animAgachada = CrouchPlayerStateAnim.ID;
     public Color colorDelPolvo = new Color(0.6f, 0.55f, 0.5f);
     public AudioClip sonidoAlEsconderse;
     public AudioClip sonidoAlSalir;
@@ -107,7 +108,14 @@ public class EscondersePlayer : MonoBehaviour
         if (pc != null)
         {
             pc.enabled = false;
-            if (animAgachada != 0 && pc.animPlayer != null) pc.animPlayer.SetInteger("stateAnim", animAgachada);
+
+            if (pc.animPlayer != null)
+            {
+                // Con el valor por defecto usamos la clase de State Anim, igual que el resto del
+                // juego. Si en el Inspector le ponen otro numero, se respeta ese.
+                if (animAgachada == CrouchPlayerStateAnim.ID) new CrouchPlayerStateAnim(pc.animPlayer);
+                else if (animAgachada != 0) pc.animPlayer.SetInteger("stateAnim", animAgachada);
+            }
         }
         if (rb != null)
         {

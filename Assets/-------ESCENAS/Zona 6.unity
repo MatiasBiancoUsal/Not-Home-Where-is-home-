@@ -256915,7 +256915,7 @@ MonoBehaviour:
   duracionDelCartel: 2.5
   profundidadDelEscondite: 1.4
   duracionDelEscondite: 0.25
-  animacionAgachada: 0
+  animacionAgachada: 21
   sonidoAlEsconderse: {fileID: 8300000, guid: d238c26f673cb4fe1a445d682d817ed8, type: 3}
   sonidoAlSalirDelEscondite: {fileID: 8300000, guid: d238c26f673cb4fe1a445d682d817ed8, type: 3}
   spriteCaido: {fileID: 0}
@@ -276631,7 +276631,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999997
+      value: 0.3019824
       objectReference: {fileID: 0}
     - target: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: m_Name
@@ -281414,6 +281414,73 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &2078531151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078531153}
+  - component: {fileID: 2078531152}
+  m_Layer: 0
+  m_Name: AyudaUsuario
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2078531152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078531151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390ece9903bd02b409860feaa6de92cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AyudaCuandoSePierde
+  segundosQuieto: 15
+  segundosSinEncontrarLaHabilidad: 60
+  segundosSinEncontrarLaSalida: 60
+  mensajeHabilidad: presiona TAB para abrir el mapa y encontrar la habilidad
+  mensajeSalida: presiona TAB para abrir el mapa y encontrar la salida
+  mensajeGenerico: presiona TAB para abrir el mapa
+  tamanoDelTexto: 30
+  colorDelTexto: {r: 1, g: 1, b: 1, a: 0.85}
+  tipografia: {fileID: 11400000, guid: da478184026c748d499f531ba7a85575, type: 2}
+  alturaDesdeAbajo: 140
+  entrarLetraPorLetra: 1
+  entrada:
+    activa: 1
+    retrasoEntreLetras: 0.035
+    duracionPorLetra: 0.3
+    zoomInicial: 0.5
+    desplazamientoInicial: 12
+  fadeIn: 0.8
+  duracionEnPantalla: 5
+  fadeOut: 0.8
+  esperaEntreAvisos: 45
+  maximoDeAvisosPorZona: 3
+  ocultarSiAbreElMapa: 1
+--- !u!4 &2078531153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078531151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -148.5495, y: -195.7499, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2080745122
 GameObject:
   m_ObjectHideFlags: 0
@@ -283961,7 +284028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9169444790050715735, guid: 53d4b8fc186660d40a0f4b7f853ab8d0, type: 3}
       propertyPath: ImpulseDefinition.ImpulseDuration
-      value: 0.12
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -284113,3 +284180,4 @@ SceneRoots:
   - {fileID: 964778408}
   - {fileID: 1947991000}
   - {fileID: 131824777}
+  - {fileID: 2078531153}

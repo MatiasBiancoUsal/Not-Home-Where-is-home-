@@ -33,7 +33,7 @@ public static class AnalyticsJuego
     // Mientras prueban en el editor los eventos TAMBIEN se mandan, asi pueden ver que
     // llegan al dashboard. Cuando ya esten seguros de que anda, pongan esto en false
     // para que las pruebas del equipo no ensucien los numeros de los jugadores reales.
-    private static readonly bool ENVIAR_DESDE_EDITOR = true;
+    private static readonly bool ENVIAR_DESDE_EDITOR = false;
 
     // Muestra en la Consola cada evento que se manda ("[Analytics] Muerte ...").
     private static readonly bool MOSTRAR_EN_CONSOLA = true;
