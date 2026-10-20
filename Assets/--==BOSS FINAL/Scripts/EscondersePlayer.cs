@@ -135,7 +135,7 @@ public class EscondersePlayer : MonoBehaviour
         t = Mathf.Clamp01(t + direccion * Time.deltaTime / Mathf.Max(0.01f, duracion));
 
         float suave = Mathf.SmoothStep(0f, 1f, t);
-        transform.position = posicionDeSuperficie - new Vector3(0f, profundidad * suave, 0f);
+        PonerEn(posicionDeSuperficie - new Vector3(0f, profundidad * suave, 0f));
 
         if (sr != null)
         {
@@ -158,7 +158,10 @@ public class EscondersePlayer : MonoBehaviour
         t = 0f;
         Escondida = false;
 
-        transform.position = posicionDeSuperficie;
+        // Primero la devolvemos a la superficie (fisica incluida) y recien despues le
+        // encendemos el collider: si lo prendemos mientras todavia esta hundida, aparece
+        // DENTRO del piso y la fisica la expulsa hacia abajo.
+        PonerEn(posicionDeSuperficie);
 
         if (sr != null)
         {
@@ -167,8 +170,22 @@ public class EscondersePlayer : MonoBehaviour
             sr.color = c;
         }
         if (col != null) col.enabled = true;
-        if (rb != null) rb.bodyType = tipoNormal == 0 ? RigidbodyType2D.Dynamic : tipoNormal;
+        if (rb != null)
+        {
+            rb.bodyType = tipoNormal == 0 ? RigidbodyType2D.Dynamic : tipoNormal;
+            rb.linearVelocity = Vector2.zero; // que no arrastre la caida que traia
+        }
         if (pc != null) pc.enabled = true;
+    }
+
+    // Mueve a la niña de verdad. El proyecto tiene Auto Sync Transforms APAGADO: si solo
+    // tocamos transform.position, la fisica se queda con la posicion vieja y al volver a
+    // Dynamic la niña reaparece donde estaba hundida, atravesando el piso.
+    private void PonerEn(Vector3 destino)
+    {
+        transform.position = destino;
+        if (rb != null) rb.position = destino;
+        Physics2D.SyncTransforms();
     }
 
     // La llama el BossFinal al terminar la pelea, por las dudas.

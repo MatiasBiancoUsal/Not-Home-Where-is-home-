@@ -151,6 +151,8 @@ public class CinematicaFrames : MonoBehaviour
 
     private bool reproduciendo = false;
     private bool salteando = false;
+    private bool musicaDelJuegoBajada = false;
+    private float volumenOriginalDelJuego = 1f;
     private float timeScalePrevio = 1f;
 
     // El Animator de la niña se maneja con un entero llamado "stateAnim". El numero de
@@ -306,8 +308,11 @@ public class CinematicaFrames : MonoBehaviour
         float durEnNegro      = salteando ? 0.1f : esperaEnNegro;
         float durVolver       = salteando ? 0.25f : fadeVolverAlJuego;
 
-        // La musica se apaga mientras la imagen se va al negro.
-        StartCoroutine(FadeMusica(0f, salteando ? 0.25f : fadeOutMusica, true));
+        // La musica de la cinematica se apaga mientras la imagen se va al negro, y la de
+        // la zona vuelve a subir en paralelo.
+        float durMusica = salteando ? 0.25f : fadeOutMusica;
+        StartCoroutine(FadeMusica(0f, durMusica, true));
+        DevolverLaMusicaDelJuego(salteando ? 0.4f : Mathf.Max(0.5f, fadeInMusica));
 
         // 5) El ULTIMO frame se funde a NEGRO (el fondo negro sigue tapando el juego).
         salteando = false; // de aca en adelante el cierre no se puede cortar: siempre se ve completo
@@ -500,6 +505,16 @@ public class CinematicaFrames : MonoBehaviour
         {
             musicaSource.Stop();
         }
+
+        // Seguro: si la cinematica se corto por el medio (muerte, cambio de escena, el
+        // objeto apagado), la musica de la zona tiene que volver igual. Sin fundido, para
+        // que no quede muda si el objeto se esta destruyendo.
+        if (musicaDelJuegoBajada)
+        {
+            AudioSource musicaDelJuego = AudioManager.Instance != null ? AudioManager.Instance.musicSource : null;
+            if (musicaDelJuego != null) musicaDelJuego.volume = volumenOriginalDelJuego;
+            musicaDelJuegoBajada = false;
+        }
     }
 
     // El degradado de una imagen a la otra: la nueva se dibuja ARRIBA y aparece de a poco.
@@ -563,7 +578,25 @@ public class CinematicaFrames : MonoBehaviour
 
     private void ArrancarMusica()
     {
-        if (musicaSource == null || musica == null) return;
+        if (musica == null) return;
+
+        // Si no nos dieron una AudioSource a mano, nos armamos una. Asi alcanza con
+        // arrastrar el clip a "Musica" y listo.
+        if (musicaSource == null)
+        {
+            GameObject go = new GameObject("MUSICA CINEMATICA");
+            go.transform.SetParent(transform, false);
+
+            musicaSource = go.AddComponent<AudioSource>();
+            musicaSource.playOnAwake = false;
+            musicaSource.spatialBlend = 0f;
+
+            // Mismo canal del mixer que la musica del juego: la regula el slider de Musica.
+            AudioSource musicaDelJuego = AudioManager.Instance != null ? AudioManager.Instance.musicSource : null;
+            if (musicaDelJuego != null) musicaSource.outputAudioMixerGroup = musicaDelJuego.outputAudioMixerGroup;
+        }
+
+        BajarLaMusicaDelJuego();
 
         musicaSource.clip = musica;
         musicaSource.loop = loopMusica;
@@ -574,6 +607,53 @@ public class CinematicaFrames : MonoBehaviour
         {
             StartCoroutine(FadeMusica(volumenMusica, fadeInMusica, false));
         }
+    }
+
+    // Baja la musica de la zona mientras dura la cinematica. No la corta: la baja, asi
+    // al volver sigue sonando donde estaba.
+    private void BajarLaMusicaDelJuego()
+    {
+        AudioSource musicaDelJuego = AudioManager.Instance != null ? AudioManager.Instance.musicSource : null;
+        if (musicaDelJuego == null || musicaDelJuegoBajada) return;
+
+        volumenOriginalDelJuego = musicaDelJuego.volume;
+        musicaDelJuegoBajada = true;
+
+        StartCoroutine(FadeDeUnaFuente(musicaDelJuego, musicaDelJuego.volume, 0f,
+                                       fadeOutMusica > 0f ? fadeOutMusica : 1f));
+    }
+
+    // Al terminar la cinematica, la musica de la zona vuelve de a poco.
+    private void DevolverLaMusicaDelJuego(float duracion)
+    {
+        AudioSource musicaDelJuego = AudioManager.Instance != null ? AudioManager.Instance.musicSource : null;
+        if (musicaDelJuego == null || !musicaDelJuegoBajada) return;
+
+        musicaDelJuegoBajada = false;
+        StartCoroutine(FadeDeUnaFuente(musicaDelJuego, 0f, volumenOriginalDelJuego, duracion));
+    }
+
+    private IEnumerator FadeDeUnaFuente(AudioSource fuente, float desde, float hasta, float duracion)
+    {
+        if (fuente == null) yield break;
+
+        if (duracion <= 0f)
+        {
+            fuente.volume = hasta;
+            yield break;
+        }
+
+        float t = 0f;
+        fuente.volume = desde;
+
+        while (t < duracion && fuente != null)
+        {
+            t += Time.unscaledDeltaTime;
+            fuente.volume = Mathf.Lerp(desde, hasta, Mathf.Clamp01(t / duracion));
+            yield return null;
+        }
+
+        if (fuente != null) fuente.volume = hasta;
     }
 
     private IEnumerator FadeMusica(float objetivo, float dur, bool frenarAlFinal)

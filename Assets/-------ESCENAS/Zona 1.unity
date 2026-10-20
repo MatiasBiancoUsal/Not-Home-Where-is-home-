@@ -37127,7 +37127,7 @@ MonoBehaviour:
   playerController: {fileID: 3397900970644247169}
   ocultarDuranteCine: []
   musicaSource: {fileID: 0}
-  musica: {fileID: 0}
+  musica: {fileID: 8300000, guid: 1905449bed6cbf84aaa1a5deff371eec, type: 3}
   loopMusica: 1
   volumenMusica: 1
   fadeInMusica: 1
@@ -224663,7 +224663,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 89dc6bbba2ae6c54a9e835dbe6fbf288, type: 3}
   - {fileID: 8300000, guid: 9b05bf85194a6994e87a326b55b12087, type: 3}
   volumenTipeo: 0.5
-  musicaDeLaIntro: {fileID: 0}
+  musicaDeLaIntro: {fileID: 8300000, guid: 3da1280c4587f524d96f3dd0a4d74143, type: 3}
   volumenMusicaIntro: 0.8
   fadeInMusicaIntro: 3
   fundidoANegro: 2
@@ -234484,7 +234484,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: Damping.y
-      value: 0.9999992
+      value: 0.9999995
       objectReference: {fileID: 0}
     - target: {fileID: 4015301441096702460, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
       propertyPath: TargetOffset.x

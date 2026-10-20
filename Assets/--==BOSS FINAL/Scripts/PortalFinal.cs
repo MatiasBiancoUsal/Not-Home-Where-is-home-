@@ -57,6 +57,8 @@ public class PortalFinal : MonoBehaviour
     [Min(0f)] public float fundidoANegro = 2.5f;
     [Tooltip("Silencio en negro antes de que carguen los creditos.")]
     [Min(0f)] public float esperaEnNegro = 1f;
+    [Tooltip("Cuanto tardan los CREDITOS en aparecer desde el negro, ya con la escena cargada.")]
+    [Min(0f)] public float fadeInDeLosCreditos = 3.5f;
 
     [Header("Sonido")]
     [Tooltip("Sonidos del tipeo (opcional). Si pones varios, en cada letra se elige uno al azar.")]
@@ -142,10 +144,55 @@ public class PortalFinal : MonoBehaviour
         grupoNegro.alpha = 0f;
         yield return Fundir(grupoNegro, 0f, 1f, fundidoANegro);
 
+        // El blanco ya no se ve (el negro lo tapa) y se va a los creditos SOLO el negro.
+        // Si lo dejaramos, al apagarse el negro aparecerian los creditos detras del blanco.
+        Destroy(velo.gameObject);
+        if (texto != null) Destroy(texto.gameObject);
+
         if (esperaEnNegro > 0f) yield return new WaitForSecondsRealtime(esperaEnNegro);
 
         // 4) Creditos.
-        if (!string.IsNullOrEmpty(escenaDeCreditos)) SceneManager.LoadScene(escenaDeCreditos);
+        if (string.IsNullOrEmpty(escenaDeCreditos))
+        {
+            Destroy(canvas.gameObject);
+            yield break;
+        }
+
+        // El velo negro sobrevive al cambio de escena (es DontDestroyOnLoad), asi que los
+        // creditos aparecen DESDE el negro en vez de aparecer de golpe.
+        //
+        // De sacarlo se encarga un componente que viaja CON el velo: esta corutina muere
+        // al cargar la otra escena (el portal se destruye con la zona), y si nadie lo
+        // apagara, la pantalla quedaria negra para siempre.
+        FundidoDeEntrada entrada = canvas.gameObject.AddComponent<FundidoDeEntrada>();
+        entrada.grupo = grupoNegro;
+        entrada.duracion = fadeInDeLosCreditos;
+
+        SceneManager.LoadScene(escenaDeCreditos);
+    }
+
+    // Apaga el velo negro una vez que la escena nueva ya esta cargada, y se destruye solo.
+    private class FundidoDeEntrada : MonoBehaviour
+    {
+        public CanvasGroup grupo;
+        public float duracion = 2f;
+
+        private IEnumerator Start()
+        {
+            // Dos frames para que la escena nueva termine de armarse.
+            yield return null;
+            yield return null;
+
+            float t = 0f;
+            while (t < duracion && grupo != null)
+            {
+                t += Time.unscaledDeltaTime;
+                grupo.alpha = Mathf.Lerp(1f, 0f, Mathf.Clamp01(t / Mathf.Max(0.01f, duracion)));
+                yield return null;
+            }
+
+            Destroy(gameObject);
+        }
     }
 
     // ---------- Pedazos ----------

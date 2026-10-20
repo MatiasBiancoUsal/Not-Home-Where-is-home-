@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7078050413871878844, guid: b8fadccdf5ba40a43be58accbff76d74, type: 3}
@@ -197,7 +197,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7712566379098205193, guid: dfb319fb09edd3647a510b09ffdb4e75, type: 3}
@@ -270,9 +270,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &6796795505620447337
 Animator:
@@ -434,9 +434,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerClimb
   climbSpeed: 3
   jumpOffForce: 8
+  intervaloSonidoTrepar: 0.4
   wallJumpHorizontalForce: 9
   wallJumpLockTime: 0.2
   reStickTime: 0.25
+  tiempoParaSoltarse: 0.18
+  subirAlBordeSola: 1
+  impulsoAlBorde: 7
+  avanceAlBorde: 3.5
   wallTag: Wall
   wallCheckDistance: 0.5
   wallCheckRadius: 0.2
@@ -682,6 +687,7 @@ MonoBehaviour:
   trepar: {fileID: 8300000, guid: 13fd36e8700d64360b57dc6f5953996c, type: 3}
   pisoton: {fileID: 0}
   ataque: {fileID: 0}
+  saltearInicioDelAtaque: 0.12
   recibirDanio: {fileID: 8300000, guid: 303e5ca80367d4d49ada12e4450c743c, type: 3}
   muerte: {fileID: 8300000, guid: 869b399e9993c428c9ee0669786ba8c6, type: 3}
 --- !u!1 &1423773860996500974
@@ -763,7 +769,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
@@ -990,7 +996,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 507246676355283403, guid: 11ddfa299aee92742bae51c5410cc51c, type: 3}
@@ -1081,7 +1087,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8686075936120835421, guid: 275e5f812004133449df3e14093f26b2, type: 3}
@@ -1172,7 +1178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -969575805
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8686075936120835421, guid: 275e5f812004133449df3e14093f26b2, type: 3}

@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("Musica por zona")]
     public AudioClip musicaMenu;
+    [Tooltip("Musica propia de los CREDITOS. Si la dejas vacia, en los creditos suena la del menu.")]
+    public AudioClip musicaCreditos;
     public AudioClip musicaZona1;
     public AudioClip musicaZona2;
     public AudioClip musicaZona3;
@@ -119,7 +121,13 @@ public class AudioManager : MonoBehaviour
     // Decide que musica debe sonar segun la escena actual.
     private void UpdateMusicForScene(string sceneName)
     {
-        if (EsEscenaDeMenu(sceneName))
+        // Los creditos van antes que el menu: son una escena de menu, pero si les cargaron
+        // su propia musica, esa le gana.
+        if (sceneName == "Credits" && musicaCreditos != null)
+        {
+            ReproducirMusica(musicaCreditos);
+        }
+        else if (EsEscenaDeMenu(sceneName))
         {
             ReproducirMusica(musicaMenu);
         }

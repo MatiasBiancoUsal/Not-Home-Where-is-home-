@@ -501,6 +501,7 @@ public class BossFinal : MonoBehaviour
     {
         if (peleando || muerto || !isActiveAndEnabled) return;
         peleando = true;
+        PeleaEnCurso = true;
 
         ProgresoJuego.MarcarMostrado(ClaveEmpezada());
 
@@ -538,7 +539,12 @@ public class BossFinal : MonoBehaviour
     {
         dificultadElegida = Dificultad.Normal;
         yaSeEligioDificultad = false;
+        PeleaEnCurso = false;
     }
+
+    // Lo miran otros scripts para no molestar durante la pelea (por ejemplo la ayuda al
+    // jugador, que si no aparecería en medio del combate).
+    public static bool PeleaEnCurso { get; private set; }
 
     private bool esperandoDificultad;
 
@@ -1184,6 +1190,7 @@ public class BossFinal : MonoBehaviour
     private IEnumerator Muerte()
     {
         peleando = false;
+        PeleaEnCurso = false;
         caido = true;
         flotando = false;
         furia = false;

@@ -100,11 +100,14 @@ public class AyudaCuandoSePierde : MonoBehaviour
 
     private void Update()
     {
-        tiempoEnLaZona += Time.deltaTime;
         tiempoDesdeElUltimoAviso += Time.deltaTime;
 
         if (EstaQuieto()) tiempoQuieto += Time.deltaTime;
         else tiempoQuieto = 0f;
+
+        // El reloj de "perdido" solo corre mientras DEAMBULA. Si esta peleando, en una
+        // cinematica o con el mapa abierto, no esta perdido: esta jugando.
+        if (EstaDeambulando()) tiempoEnLaZona += Time.deltaTime;
 
         // El jugador abrio el mapa: ya no hace falta insistir.
         if (ocultarSiAbreElMapa && mapa != null && mapa.IsOpen)
@@ -146,13 +149,14 @@ public class AyudaCuandoSePierde : MonoBehaviour
         return !tecla && !clic && !moviendose;
     }
 
-    private bool SePuedeMostrar()
+    // El jugador esta DEAMBULANDO por la zona: ni peleando, ni en una cinematica, ni con
+    // el mapa abierto, ni en pausa. Solo en ese caso tiene sentido decir que esta perdido.
+    private bool EstaDeambulando()
     {
-        if (tiempoDesdeElUltimoAviso < esperaEntreAvisos) return false;
-        if (maximoDeAvisosPorZona > 0 && avisosMostrados >= maximoDeAvisosPorZona) return false;
-
-        // Nada de carteles encima de una cinematica, del menu de pausa o del mapa.
         if (CinematicaFrames.EnCurso) return false;
+
+        // Durante la pelea del boss no esta perdido: esta ocupado.
+        if (BossFinal.PeleaEnCurso) return false;
         if (Time.timeScale <= 0.01f) return false;
         if (mapa != null && mapa.IsOpen) return false;
 
@@ -160,6 +164,14 @@ public class AyudaCuandoSePierde : MonoBehaviour
         if (jugador == null) return false;
 
         return true;
+    }
+
+    private bool SePuedeMostrar()
+    {
+        if (tiempoDesdeElUltimoAviso < esperaEntreAvisos) return false;
+        if (maximoDeAvisosPorZona > 0 && avisosMostrados >= maximoDeAvisosPorZona) return false;
+
+        return EstaDeambulando();
     }
 
     // Las flores de la zona se buscan UNA sola vez (en Start): recorrer la escena entera
