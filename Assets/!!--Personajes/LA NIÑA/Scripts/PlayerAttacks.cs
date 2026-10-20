@@ -17,6 +17,11 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Combo")]
     public float comboWindowDuration = 0.25f;
 
+    [Header("Seguridad")]
+    [Tooltip("Si la animacion de ataque no avisa que termino en estos segundos, el ataque se corta " +
+             "igual. Es un seguro para que la niña nunca quede trabada sin poder moverse.")]
+    public float duracionMaximaDelAtaque = 1f;
+
     [Header("Desbloqueo del ataque")]
     [Tooltip("Si esta DESACTIVADO, la niña todavia no sabe pelear: el boton de ataque no hace nada. " +
              "Lo prende la cinematica del osito (con DesbloquearAtaque) y queda guardado para siempre.")]
@@ -31,6 +36,7 @@ public class PlayerAttacks : MonoBehaviour
     private int comboStep = 0;
     private bool comboBuffered = false;
     private float comboWindowTimer = 0f;
+    private float timerAtaqueColgado = 0f;
 
     public bool IsAttack => isAttack;
     public Vector2 AttackDirection => attackDirection;
@@ -61,6 +67,25 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (timerAttackCoolDown > 0)
             timerAttackCoolDown -= Time.fixedDeltaTime;
+
+        // RED DE SEGURIDAD: el ataque termina con un evento de la animacion (OnAttackEnd).
+        // Si por lo que sea ese evento no llega (la animacion se corto, cambio de estado
+        // antes de tiempo, etc), la niña quedaria con isAttack en true PARA SIEMPRE: no se
+        // podria mover ni volver a atacar. Aca lo cortamos solos.
+        if (isAttack)
+        {
+            timerAtaqueColgado += Time.fixedDeltaTime;
+            if (timerAtaqueColgado > duracionMaximaDelAtaque)
+            {
+                Debug.LogWarning("PlayerAttacks: el ataque no termino solo (falto el evento " +
+                                 "OnAttackEnd en la animacion). Lo corto para no dejar trabada a la niña.", this);
+                EndAttack();
+            }
+        }
+        else
+        {
+            timerAtaqueColgado = 0f;
+        }
 
         if (comboWindowTimer > 0)
         {
