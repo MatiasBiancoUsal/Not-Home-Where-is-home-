@@ -122,6 +122,16 @@ public class PlayerClimb : MonoBehaviour
 
     private void Climbing()
     {
+        // SEGURIDAD: si la pared a la que estaba agarrada ya no existe (por ejemplo un
+        // BloqueoTemporal que desaparece al terminar una cinematica), hay que soltarla.
+        // Si no, se queda FLOTANDO en el aire para siempre, porque mientras trepa su
+        // cuerpo es kinematic y no le afecta la gravedad.
+        if (!HayPared() && !HayPared(-bottomCheckOffset))
+        {
+            ExitClimb();
+            return;
+        }
+
         // W/S -> subir / bajar
         Vector2 input = playerController.controles.Player.Move.ReadValue<Vector2>();
         verticalInput = input.y;
