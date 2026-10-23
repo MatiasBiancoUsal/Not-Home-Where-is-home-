@@ -27,6 +27,13 @@ public class PlayerJump : MonoBehaviour
         get { return isGrounded; }
     }
 
+    // Permite distinguir un salto iniciado por el jugador de un pequeño empuje
+    // vertical producido por las uniones de los colliders del escenario.
+    public bool HasJumped
+    {
+        get { return hasJumped; }
+    }
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -62,7 +69,12 @@ public class PlayerJump : MonoBehaviour
         if (isGrounded)
         {
             coyoteCounter = coyoteTime; // reiniciar el contador de coyote time
-            hasJumped = false; // reiniciar la variable de salto
+            // Al iniciar un salto el collider puede seguir rozando el piso durante un frame.
+            // No borramos la marca del salto mientras ya exista impulso hacia arriba.
+            if (playerController.rb.linearVelocity.y <= 0.1f)
+            {
+                hasJumped = false;
+            }
         }
         else
         {
@@ -82,6 +94,7 @@ public class PlayerJump : MonoBehaviour
                 playerController.rb.gravityScale = playerController.normalGravity;
                 coyoteCounter = 0;
                 bufferJumpCounter = 0;
+                hasJumped = true;
                 playerAudio?.ReproducirSalto();
             }
         }
