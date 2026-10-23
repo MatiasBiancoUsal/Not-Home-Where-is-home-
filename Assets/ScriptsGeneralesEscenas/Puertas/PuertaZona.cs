@@ -162,17 +162,34 @@ public class PuertaZona : MonoBehaviour
         GameObject go = new GameObject("ParedInvisible (" + name + ")");
         go.transform.position = b.center;
 
-        PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
-        int capaPiso = -1;
-        if (pc != null && pc.jump != null)
+        // La pared tapa SOLO el paso, nada mas. Antes copiaba el tamaño entero de la
+        // puerta y, como las puertas son anchas, quedaba una plataforma invisible por la
+        // que se podia CAMINAR EN EL AIRE (y al abrirse la puerta, la niña se caia).
+        const float GROSOR = 0.35f;
+        bool puertaDePiso = direccionSalida == DireccionPuerta.Arriba ||
+                            direccionSalida == DireccionPuerta.Abajo;
+
+        Vector2 tamanio = puertaDePiso
+            ? new Vector2(b.size.x, GROSOR)    // agujero en el piso: una tapa finita
+            : new Vector2(GROSOR, b.size.y);   // puerta de costado: una pared finita
+
+        // Solo las tapas de piso van en la capa del suelo (ahi SI hay que poder pararse).
+        // Las paredes de costado van en una capa que no cuenta como piso, asi no se
+        // pueden usar para caminar por el aire.
+        if (puertaDePiso)
         {
-            int m = pc.jump.groundMask.value;
-            for (int i = 0; i < 32 && capaPiso < 0; i++) if ((m & (1 << i)) != 0) capaPiso = i;
+            PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
+            int capaPiso = -1;
+            if (pc != null && pc.jump != null)
+            {
+                int m = pc.jump.groundMask.value;
+                for (int i = 0; i < 32 && capaPiso < 0; i++) if ((m & (1 << i)) != 0) capaPiso = i;
+            }
+            if (capaPiso >= 0) go.layer = capaPiso;
         }
-        if (capaPiso >= 0) go.layer = capaPiso;   // asi se puede parar encima
 
         BoxCollider2D box = go.AddComponent<BoxCollider2D>();
-        box.size = b.size;
+        box.size = tamanio;
         box.enabled = false;   // se prende en Update, recien cuando la niña no esta adentro
         paredInvisible = box;
     }
