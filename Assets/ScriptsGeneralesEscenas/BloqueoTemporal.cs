@@ -53,6 +53,7 @@ public class BloqueoTemporal : MonoBehaviour
     private SpriteRenderer[] sprites;
     private Collider2D[] colliders;
     private bool abriendo;
+    private bool laVimosArrancar;
     private bool abierto;
 
     // ¿El paso ya esta libre?
@@ -69,6 +70,12 @@ public class BloqueoTemporal : MonoBehaviour
         {
             cinematica.alTerminar.AddListener(AbrirPaso);
         }
+        else if (cinematica == null)
+        {
+            // Sin cinematica no hay nada que lo abra: avisamos en vez de fallar en silencio.
+            Debug.LogWarning("BloqueoTemporal: '" + name + "' no tiene la cinematica asignada, asi que " +
+                             "nunca se va a abrir. Corre 'Not Home > Bloqueos > Revisar los bloqueos de esta escena'.", this);
+        }
     }
 
     private void Start()
@@ -77,6 +84,39 @@ public class BloqueoTemporal : MonoBehaviour
         if (recordarQueYaSeAbrio && ProgresoJuego.YaMostrado(Clave()))
         {
             AbrirDeUna();
+            return;
+        }
+
+        // RED DE SEGURIDAD: si la cinematica YA se vio en esta partida, el bloqueo tiene que
+        // arrancar abierto aunque este no tenga su marca guardada (pasa, por ejemplo, si se
+        // le cambio el nombre al objeto: la marca vieja tenia el nombre anterior).
+        // Sin esto quedaria cerrado para siempre, porque la cinematica no se repite.
+        if (cinematica != null && TriggerCinematica.CinematicaYaVista(cinematica))
+        {
+            Debug.Log("[Bloqueo] '" + name + "': la cinematica ya se habia visto, asi que el paso " +
+                      "arranca abierto.", this);
+            AbrirDeUna();
+        }
+    }
+
+    // SEGUNDA RED DE SEGURIDAD: miramos a la cinematica todos los frames. Si la vemos
+    // arrancar y despues terminar, abrimos nosotros. Asi funciona aunque el evento
+    // "Al Terminar" se haya desconectado o el listener se haya perdido.
+    private void Update()
+    {
+        if (abierto || abriendo || cinematica == null) return;
+
+        if (cinematica.Reproduciendo)
+        {
+            laVimosArrancar = true;
+            return;
+        }
+
+        if (laVimosArrancar)
+        {
+            laVimosArrancar = false;
+            Debug.Log("[Bloqueo] '" + name + "': la cinematica termino, abro el paso.", this);
+            AbrirPaso();
         }
     }
 
@@ -104,6 +144,16 @@ public class BloqueoTemporal : MonoBehaviour
         if (sonidoAlAbrirse != null)
         {
             AudioSource.PlayClipAtPoint(sonidoAlAbrirse, transform.position, volumen);
+        }
+
+        // TERCERA RED DE SEGURIDAD: el desvanecido necesita que el objeto este prendido.
+        // Si por lo que sea no lo esta, abrimos igual (de golpe) en vez de no abrir nada.
+        if (!isActiveAndEnabled)
+        {
+            Debug.LogWarning("BloqueoTemporal: '" + name + "' estaba apagado al abrirse, " +
+                             "asi que se abre de golpe (sin desvanecido).", this);
+            AbrirDeUna();
+            return;
         }
 
         StartCoroutine(RutinaDesvanecido());

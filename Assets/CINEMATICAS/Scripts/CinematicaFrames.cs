@@ -150,6 +150,9 @@ public class CinematicaFrames : MonoBehaviour
     public UnityEvent alTerminar;
 
     private bool reproduciendo = false;
+
+    // Lo miran los BloqueoTemporal para saber cuando termino, sin depender del evento.
+    public bool Reproduciendo => reproduciendo;
     private bool salteando = false;
     private bool musicaDelJuegoBajada = false;
     private float volumenOriginalDelJuego = 1f;

@@ -147,10 +147,38 @@ public class TriggerCinematica : MonoBehaviour
 
     // La clave con la que se recuerda esta cinematica: escena + nombre del objeto,
     // asi dos triggers con el mismo nombre en zonas distintas no se pisan.
-    private string Clave()
+    public string Clave()
     {
         if (!string.IsNullOrEmpty(id)) return id;
         return gameObject.scene.name + "@" + name;
+    }
+
+    // ¿Esta cinematica YA se vio en esta partida?
+    //
+    // Lo usan los BloqueoTemporal: si la cinematica ya paso (por ejemplo porque la viste
+    // antes de renombrar el objeto, o en otra vuelta de la partida), el bloqueo tiene que
+    // arrancar ABIERTO. Si no, se quedaria cerrado para siempre, porque la cinematica no
+    // se vuelve a reproducir y nadie lo abre.
+    public static bool CinematicaYaVista(CinematicaFrames cine)
+    {
+        if (cine == null) return false;
+
+        TriggerCinematica[] triggers = Object.FindObjectsByType<TriggerCinematica>(
+            FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (TriggerCinematica t in triggers)
+        {
+            if (t == null || t.cinematica != cine || !t.unaSolaVez) continue;
+            if (!yaVistas.Contains(t.Clave())) continue;
+
+            // La misma red de seguridad que usa el trigger: si quedo marcada como vista
+            // pero su recompensa nunca se dio, se considera NO vista.
+            bool terminoDeVerdad = string.IsNullOrEmpty(t.marcaDeFinalizacion) ||
+                                   ProgresoJuego.YaMostrado(t.marcaDeFinalizacion);
+            if (terminoDeVerdad) return true;
+        }
+
+        return false;
     }
 
     // Para volver a verlas desde cero: olvida las vistas y borra el guardado.
