@@ -7,6 +7,33 @@ otra computadora: alcanza con decirle "leé PENDIENTES.md").
 
 ---
 
+## 0. Al abrir el proyecto en otra computadora
+
+1. `git pull`
+2. Abrir el proyecto con **Unity 6000.3.9f1** (la misma versión; otra lo re-importa entero).
+3. La primera apertura tarda bastante: Unity reconstruye la carpeta `Library` desde cero.
+4. **Analytics**: cuando el profesor transfiera el proyecto hay que volver a vincularlo en
+   `Project Settings → Services` antes de hacer la build. Los eventos del dashboard no se
+   pierden.
+
+Cosas del proyecto que conviene saber:
+
+- **Reload Domain está desactivado.** Las variables `static` NO se reinician al dar Play:
+  sobreviven de una sesión a la otra. Por eso varios scripts tienen un método marcado con
+  `[RuntimeInitializeOnLoadMethod(SubsystemRegistration)]` que las resetea a mano. Si
+  agregás un `static` con estado, acordate de reiniciarlo ahí.
+- **Finales de línea**: ya hay un `.gitattributes` que le dice a git que no toque los
+  archivos de Unity. Sin eso, en Windows git corrompe las tipografías de TextMeshPro y el
+  juego deja de mostrar textos (y `git status` no lo muestra). No hace falta configurar
+  nada a mano.
+- **Medir geometría** (si hay piso, cuánto cae, si choca): hay que hacerlo con un comando
+  de editor que use `Physics2D.Raycast`, como
+  `Assets/ScriptsGeneralesEscenas/Editor/MenuLlegadaPuertas.cs`. Leer los `.unity` con un
+  script da resultados FALSOS: casi todo el nivel son prefab instances, y los tiles no
+  miden una celda (el de piedra mide 5 x 2,9 unidades y se coloca cada 5 celdas).
+
+---
+
 ## 1. Analytics — lo que falta
 
 El código ya manda los 6 eventos. Están en
