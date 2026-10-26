@@ -30,10 +30,30 @@ using UnityEngine.UnityConsent;
 // ============================================================
 public static class AnalyticsJuego
 {
-    // Mientras prueban en el editor los eventos TAMBIEN se mandan, asi pueden ver que
-    // llegan al dashboard. Cuando ya esten seguros de que anda, pongan esto en false
-    // para que las pruebas del equipo no ensucien los numeros de los jugadores reales.
-    private static readonly bool ENVIAR_DESDE_EDITOR = false;
+    // ¿Mandar los eventos TAMBIEN mientras probamos en el editor?
+    //
+    // Normalmente NO: asi las pruebas del equipo no ensucian los numeros de los
+    // jugadores reales. Se prende un ratito solo para comprobar que los eventos
+    // llegan al dashboard antes de hacer la build.
+    //
+    // No se toca aca: se prende y se apaga desde el menu
+    //    Not Home > Analytics > Mandar eventos desde el editor (PRUEBA)
+    // que ademas te muestra un tilde cuando esta prendido, para que no te lo olvides.
+    //
+    // En la build no existe: ahi los eventos se mandan siempre.
+    public const string PREF_DESDE_EDITOR = "NotHome.Analytics.DesdeElEditor";
+
+    private static bool EnviarDesdeElEditor
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return UnityEditor.EditorPrefs.GetBool(PREF_DESDE_EDITOR, false);
+#else
+            return false;
+#endif
+        }
+    }
 
     // Muestra en la Consola cada evento que se manda ("[Analytics] Muerte ...").
     private static readonly bool MOSTRAR_EN_CONSOLA = true;
@@ -73,7 +93,7 @@ public static class AnalyticsJuego
 
     private static async void Inicializar()
     {
-        if (Application.isEditor && !ENVIAR_DESDE_EDITOR) return;
+        if (Application.isEditor && !EnviarDesdeElEditor) return;
 
         try
         {
@@ -204,6 +224,14 @@ public static class AnalyticsJuego
             { "segundosSesion", Mathf.RoundToInt(Time.realtimeSinceStartup) },
             { "muertesSesion", muertesSesion }
         });
+
+        // Este es el ultimo evento de la partida y mucha gente cierra el juego apenas
+        // ve los creditos. Lo subimos en el acto para no perderlo.
+        if (listo)
+        {
+            try { AnalyticsService.Instance.Flush(); }
+            catch (Exception ex) { Debug.LogWarning("[Analytics] No se pudo subir el final: " + ex.Message); }
+        }
     }
 
     // ---------------- AYUDAS ----------------
@@ -237,7 +265,7 @@ public static class AnalyticsJuego
     {
         if (MOSTRAR_EN_CONSOLA) Debug.Log("[Analytics] " + nombre);
 
-        if (Application.isEditor && !ENVIAR_DESDE_EDITOR) return;
+        if (Application.isEditor && !EnviarDesdeElEditor) return;
 
         if (!listo)
         {
@@ -253,6 +281,15 @@ public static class AnalyticsJuego
         try
         {
             AnalyticsService.Instance.RecordEvent(evento);
+
+            // Unity junta los eventos y los sube cada tanto (puede tardar un minuto o
+            // mas). Flush() los manda YA.
+            //
+            // En el juego de verdad NO se usa: mandar de a uno gasta bateria y datos
+            // al pedo. Pero mientras probamos desde el editor si, asi vemos aparecer el
+            // evento en el dashboard en segundos en vez de quedarnos esperando sin
+            // saber si llego o si esta mal escrito.
+            if (Application.isEditor) AnalyticsService.Instance.Flush();
         }
         catch (Exception ex)
         {

@@ -196,10 +196,17 @@ public class ActivarFlor : MonoBehaviour
         int disponibles = puntos != null ? puntos.PuntajeGlobal : 0;
 
         // No alcanza la plata: aviso y listo.
+        //
+        // El evento de analytics va SOLO si el cartel llego a aparecer. Si no, los
+        // pinchos que estan al lado de la flor nos arruinarian los datos: el knockback
+        // mete a la niña una y otra vez en el trigger y mandariamos veinte eventos de
+        // un solo intento de compra.
         if (puntos == null || disponibles < costoEnPuntos)
         {
-            AnalyticsJuego.PuntosInsuficientes(habilidad.ToString(), costoEnPuntos, disponibles);
-            MostrarAvisoDePuntos(disponibles);
+            if (MostrarAvisoDePuntos())
+            {
+                AnalyticsJuego.PuntosInsuficientes(habilidad.ToString(), costoEnPuntos, disponibles);
+            }
             return;
         }
 
@@ -259,7 +266,7 @@ public class ActivarFlor : MonoBehaviour
 
         if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
         {
-            MostrarAvisoDePuntos(puntos != null ? puntos.PuntajeGlobal : 0);
+            MostrarAvisoDePuntos();
             return;
         }
 
@@ -422,7 +429,8 @@ public class ActivarFlor : MonoBehaviour
         }
     }
 
-    private void MostrarAvisoDePuntos(int disponibles)
+    // Devuelve false si el cartel NO se mostro porque todavia esta en cooldown.
+    private bool MostrarAvisoDePuntos()
     {
         CartelDeHabilidad info = CartelDeEstaHabilidad();
         string nombreHabilidad = info != null && !string.IsNullOrWhiteSpace(info.titulo)
@@ -436,7 +444,7 @@ public class ActivarFlor : MonoBehaviour
             "te faltan puntos para desbloquear " + nombreHabilidad + ".\n" +
             "segui recolectando y volve a esta flor.";
 
-        CartelHabilidadUI.Mostrar(
+        return CartelHabilidadUI.Mostrar(
             null,
             fondoCartel,
             string.IsNullOrWhiteSpace(tituloSinPuntos) ? "PUNTOS INSUFICIENTES" : tituloSinPuntos,
