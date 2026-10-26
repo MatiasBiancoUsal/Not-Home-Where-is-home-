@@ -10,6 +10,8 @@ public class HurtBox : MonoBehaviour
     public Vector2 hurtBoxSize; // tama�o del hurt box
     public Vector2 hurtBoxOffset; // posicion del hurt box
     public LayerMask targetLayer; // layers de los game objects afectados por el hurt box
+    [Tooltip("Muestra el rectangulo del area de daño en la vista Scene.")]
+    public bool mostrarGizmo = true;
 
     [Header("Analytics")]
     [Tooltip("Nombre que aparece en Unity Analytics cuando esto mata a la niña. Vacio = se deduce " +
@@ -34,7 +36,11 @@ public class HurtBox : MonoBehaviour
     private void CheckHurtBox()
     {
         Vector2 center = (Vector2)transform.position + hurtBoxOffset;
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, hurtBoxSize, 0f, targetLayer);
+        // Algunos prefabs espejados guardan X o Y con signo negativo. Physics2D no
+        // genera un area valida con esos valores, por eso normalizamos el tamaño.
+        Vector2 size = new Vector2(Mathf.Abs(hurtBoxSize.x), Mathf.Abs(hurtBoxSize.y));
+        float angle = transform.eulerAngles.z;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, angle, targetLayer);
 
         foreach (Collider2D hit in hits)
         {
@@ -91,8 +97,14 @@ public class HurtBox : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!mostrarGizmo) return;
+
         Gizmos.color = Color.red; // color del hurt box
         Vector2 center = (Vector2)transform.position + hurtBoxOffset;
-        Gizmos.DrawWireCube(center, hurtBoxSize);
+        Vector3 size = new Vector3(Mathf.Abs(hurtBoxSize.x), Mathf.Abs(hurtBoxSize.y), 0f);
+        Matrix4x4 matrizAnterior = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(center, transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, size);
+        Gizmos.matrix = matrizAnterior;
     }
 }

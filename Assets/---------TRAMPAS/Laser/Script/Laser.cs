@@ -4,35 +4,97 @@ using UnityEngine.Rendering.Universal;
 
 public class LaserLoop : MonoBehaviour
 {
+    [Header("Referencias")]
     public GameObject LaserVisual;
+    public SpriteRenderer ImagenLaser;
+    [Tooltip("Arrastra aqui el sprite que queres usar para este laser.")]
+    public Sprite SpriteDelLaser;
+    public HurtBox ZonaDanio;
+    public LaserTriggerDanio ZonaColision;
 
-    [Header("Ciclo")]
-    public float TiempoEncendido = 2f;
-    public float TiempoApagado = 1f;
+    [Header("Tamaño")]
+    [Tooltip("Cambia solamente el tamaño del laser en el eje X, sin modificar Y.")]
+    [Min(0.01f)] public float EscalaX = 1f;
+    [Tooltip("Cambia solamente el tamaño del laser en el eje Y, sin modificar X.")]
+    [Min(0.01f)] public float EscalaY = 1f;
 
-    [Header("Aviso previo")]
-    [Min(0.05f)] public float TiempoAdvertencia = 0.45f;
-    [Range(0f, 1f)] public float OpacidadAdvertencia = 0.38f;
-    [Min(1f)] public float VelocidadParpadeo = 12f;
+    [Header("Ciclo rapido")]
+    [Min(0.05f)] public float TiempoAparicion = 0.2f;
+    [Min(0.05f)] public float TiempoEncendido = 1.25f;
+    [Min(0.05f)] public float TiempoDesvanecido = 0.2f;
+    [Min(0.05f)] public float TiempoApagado = 0.45f;
 
-    [Header("Aspecto")]
-    public Color ColorLaser = new Color(1f, 0.04f, 0.08f, 1f);
-    public Color ColorNucleo = new Color(1f, 0.86f, 0.88f, 1f);
-    [Range(0.05f, 0.8f)] public float AnchoNucleo = 0.24f;
-    [Range(0f, 4f)] public float IntensidadLuz = 1.65f;
-    [Range(0f, 1f)] public float PulsacionLuz = 0.25f;
-    [Min(0f)] public float VelocidadPulsacion = 9f;
-    [Range(1f, 6f)] public float AnchoHalo = 3.2f;
-    [Range(0f, 2f)] public float IntensidadHalo = 0.55f;
+    [Header("Sonido al tocar al jugador")]
+    public AudioClip SonidoAlTocar;
+    [Range(0f, 1f)] public float VolumenSonido = 0.8f;
 
-    private SpriteRenderer laserRenderer;
-    private SpriteRenderer warningRenderer;
-    private Light2D laserLight;
-    private Light2D haloLight;
+    [Header("Efecto de luz")]
+    public Color ColorLuz = new Color(1f, 0.08f, 0.08f, 1f);
+    [Min(0f)] public float IntensidadLuz = 1.5f;
+    public Light2D LuzLaser;
+
+    private AudioSource fuenteAudio;
+    private Color colorOriginal;
 
     private void Awake()
     {
-        PrepararAspecto();
+        if (LaserVisual != null)
+        {
+            if (ImagenLaser == null)
+                ImagenLaser = LaserVisual.GetComponent<SpriteRenderer>();
+            if (ZonaDanio == null)
+                ZonaDanio = LaserVisual.GetComponent<HurtBox>();
+        }
+
+        // El detector pertenece al Empty padre "Laser". La imagen hija es solo visual.
+        if (ZonaColision == null)
+            ZonaColision = GetComponent<LaserTriggerDanio>();
+
+        AplicarEscalaXY();
+
+        if (ImagenLaser != null)
+        {
+            if (SpriteDelLaser != null)
+                ImagenLaser.sprite = SpriteDelLaser;
+
+            colorOriginal = ImagenLaser.color;
+            PrepararLuz();
+        }
+
+        AjustarColliderAImagen();
+
+        fuenteAudio = GetComponent<AudioSource>();
+        if (fuenteAudio == null)
+            fuenteAudio = gameObject.AddComponent<AudioSource>();
+
+        fuenteAudio.playOnAwake = false;
+        fuenteAudio.loop = false;
+        fuenteAudio.spatialBlend = 0f;
+    }
+
+    private void OnValidate()
+    {
+        EscalaX = Mathf.Max(0.01f, EscalaX);
+        EscalaY = Mathf.Max(0.01f, EscalaY);
+
+        if (LaserVisual != null && ImagenLaser == null)
+            ImagenLaser = LaserVisual.GetComponent<SpriteRenderer>();
+        if (ZonaColision == null)
+            ZonaColision = GetComponent<LaserTriggerDanio>();
+
+        AplicarEscalaXY();
+        AjustarColliderAImagen();
+    }
+
+    private void AplicarEscalaXY()
+    {
+        if (LaserVisual == null)
+            return;
+
+        Vector3 escala = LaserVisual.transform.localScale;
+        escala.x = EscalaX;
+        escala.y = EscalaY;
+        LaserVisual.transform.localScale = escala;
     }
 
     private void Start()
@@ -40,137 +102,167 @@ public class LaserLoop : MonoBehaviour
         StartCoroutine(CicloLaser());
     }
 
-    private void PrepararAspecto()
+    private void PrepararLuz()
     {
-        if (LaserVisual == null)
+        if (LaserVisual == null || ImagenLaser == null)
             return;
 
-        laserRenderer = LaserVisual.GetComponent<SpriteRenderer>();
-        if (laserRenderer == null || laserRenderer.sprite == null)
-            return;
+        if (LuzLaser == null)
+            LuzLaser = LaserVisual.GetComponent<Light2D>();
+        if (LuzLaser == null)
+            LuzLaser = LaserVisual.AddComponent<Light2D>();
 
-        laserRenderer.color = ColorLaser;
-
-        Transform nucleo = LaserVisual.transform.Find("NucleoLaser");
-        if (nucleo == null)
-        {
-            GameObject objetoNucleo = new GameObject("NucleoLaser");
-            nucleo = objetoNucleo.transform;
-            nucleo.SetParent(LaserVisual.transform, false);
-        }
-
-        nucleo.localPosition = new Vector3(0f, 0f, -0.01f);
-        nucleo.localRotation = Quaternion.identity;
-        nucleo.localScale = new Vector3(AnchoNucleo, 1f, 1f);
-
-        SpriteRenderer nucleoRenderer = nucleo.GetComponent<SpriteRenderer>();
-        if (nucleoRenderer == null)
-            nucleoRenderer = nucleo.gameObject.AddComponent<SpriteRenderer>();
-
-        nucleoRenderer.sprite = laserRenderer.sprite;
-        nucleoRenderer.material = laserRenderer.material;
-        nucleoRenderer.color = ColorNucleo;
-        nucleoRenderer.sortingLayerID = laserRenderer.sortingLayerID;
-        nucleoRenderer.sortingOrder = laserRenderer.sortingOrder + 1;
-
-        laserLight = LaserVisual.GetComponent<Light2D>();
-        if (laserLight == null)
-            laserLight = LaserVisual.AddComponent<Light2D>();
-
-        laserLight.lightType = Light2D.LightType.Sprite;
-        laserLight.lightCookieSprite = laserRenderer.sprite;
-        laserLight.color = ColorLaser;
-        laserLight.intensity = IntensidadLuz;
-        laserLight.falloffIntensity = 0.85f;
-
-        Transform halo = LaserVisual.transform.Find("HaloLuzLaser");
-        if (halo == null)
-        {
-            GameObject objetoHalo = new GameObject("HaloLuzLaser");
-            halo = objetoHalo.transform;
-            halo.SetParent(LaserVisual.transform, false);
-        }
-
-        halo.localPosition = new Vector3(0f, 0f, 0.02f);
-        halo.localRotation = Quaternion.identity;
-        halo.localScale = new Vector3(AnchoHalo, 1.08f, 1f);
-
-        haloLight = halo.GetComponent<Light2D>();
-        if (haloLight == null)
-            haloLight = halo.gameObject.AddComponent<Light2D>();
-
-        haloLight.lightType = Light2D.LightType.Sprite;
-        haloLight.lightCookieSprite = laserRenderer.sprite;
-        haloLight.color = new Color(ColorLaser.r, ColorLaser.g * 0.45f, ColorLaser.b * 0.45f, 1f);
-        haloLight.intensity = IntensidadHalo;
-        haloLight.falloffIntensity = 1f;
-
-        Transform warning = transform.Find("AvisoLaser");
-        if (warning == null)
-        {
-            GameObject objetoAviso = new GameObject("AvisoLaser");
-            warning = objetoAviso.transform;
-            warning.SetParent(transform, false);
-        }
-
-        warning.localPosition = LaserVisual.transform.localPosition;
-        warning.localRotation = LaserVisual.transform.localRotation;
-        Vector3 escalaAviso = LaserVisual.transform.localScale;
-        escalaAviso.x *= 0.3f;
-        warning.localScale = escalaAviso;
-
-        warningRenderer = warning.GetComponent<SpriteRenderer>();
-        if (warningRenderer == null)
-            warningRenderer = warning.gameObject.AddComponent<SpriteRenderer>();
-
-        warningRenderer.sprite = laserRenderer.sprite;
-        warningRenderer.material = laserRenderer.material;
-        warningRenderer.color = new Color(ColorLaser.r, ColorLaser.g, ColorLaser.b, OpacidadAdvertencia);
-        warningRenderer.sortingLayerID = laserRenderer.sortingLayerID;
-        warningRenderer.sortingOrder = laserRenderer.sortingOrder;
-        warning.gameObject.SetActive(false);
+        LuzLaser.lightType = Light2D.LightType.Sprite;
+        LuzLaser.lightCookieSprite = ImagenLaser.sprite;
+        LuzLaser.color = ColorLuz;
+        LuzLaser.intensity = 0f;
+        LuzLaser.falloffIntensity = 0.8f;
     }
 
     private IEnumerator CicloLaser()
     {
         while (true)
         {
-            if (LaserVisual == null)
-                yield break;
+            PrepararEncendido();
+            yield return AparecerProgresivamente();
+            ActivarDanio();
+            yield return new WaitForSeconds(TiempoEncendido);
 
-            LaserVisual.SetActive(false);
+            yield return DesaparecerProgresivamente();
 
-            if (warningRenderer != null)
-            {
-                warningRenderer.gameObject.SetActive(true);
-                float avisoTranscurrido = 0f;
-                while (avisoTranscurrido < TiempoAdvertencia)
-                {
-                    avisoTranscurrido += Time.deltaTime;
-                    float pulso = 0.55f + 0.45f * Mathf.Sin(avisoTranscurrido * VelocidadParpadeo);
-                    Color colorAviso = ColorLaser;
-                    colorAviso.a = OpacidadAdvertencia * pulso;
-                    warningRenderer.color = colorAviso;
-                    yield return null;
-                }
-                warningRenderer.gameObject.SetActive(false);
-            }
-
-            LaserVisual.SetActive(true);
-            float encendidoTranscurrido = 0f;
-            while (encendidoTranscurrido < TiempoEncendido)
-            {
-                encendidoTranscurrido += Time.deltaTime;
-                if (laserLight != null)
-                    laserLight.intensity = IntensidadLuz + Mathf.Sin(encendidoTranscurrido * VelocidadPulsacion) * PulsacionLuz;
-                if (haloLight != null)
-                    haloLight.intensity = IntensidadHalo + Mathf.Sin(encendidoTranscurrido * VelocidadPulsacion) * PulsacionLuz * 0.45f;
-                yield return null;
-            }
-
-            LaserVisual.SetActive(false);
+            OcultarLaser();
             yield return new WaitForSeconds(TiempoApagado);
         }
     }
 
+    private void PrepararEncendido()
+    {
+        if (LaserVisual != null)
+            LaserVisual.SetActive(true);
+
+        if (ImagenLaser != null)
+        {
+            Color invisible = colorOriginal;
+            invisible.a = 0f;
+            ImagenLaser.color = invisible;
+        }
+
+        if (LuzLaser != null)
+            LuzLaser.intensity = 0f;
+
+        DesactivarDanio();
+    }
+
+    private IEnumerator AparecerProgresivamente()
+    {
+        if (ImagenLaser == null)
+            yield break;
+
+        float transcurrido = 0f;
+        while (transcurrido < TiempoAparicion)
+        {
+            transcurrido += Time.deltaTime;
+            float progreso = Mathf.Clamp01(transcurrido / TiempoAparicion);
+            Color color = colorOriginal;
+            color.a = Mathf.Lerp(0f, colorOriginal.a, progreso);
+            ImagenLaser.color = color;
+            if (LuzLaser != null)
+                LuzLaser.intensity = Mathf.Lerp(0f, IntensidadLuz, progreso);
+            yield return null;
+        }
+    }
+
+    private void ActivarDanio()
+    {
+        // El daño comienza solamente cuando terminó de aparecer.
+        if (ZonaDanio != null)
+            ZonaDanio.enabled = false;
+        if (ZonaColision != null)
+        {
+            ZonaColision.enabled = true;
+            ZonaColision.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
+    private void DesactivarDanio()
+    {
+        if (ZonaDanio != null)
+            ZonaDanio.enabled = false;
+        if (ZonaColision != null)
+        {
+            ZonaColision.enabled = false;
+            ZonaColision.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+
+    private IEnumerator DesaparecerProgresivamente()
+    {
+        if (ImagenLaser == null)
+            yield break;
+
+        float transcurrido = 0f;
+        while (transcurrido < TiempoDesvanecido)
+        {
+            transcurrido += Time.deltaTime;
+            float progreso = Mathf.Clamp01(transcurrido / TiempoDesvanecido);
+            Color color = colorOriginal;
+            color.a = Mathf.Lerp(colorOriginal.a, 0f, progreso);
+            ImagenLaser.color = color;
+            if (LuzLaser != null)
+                LuzLaser.intensity = Mathf.Lerp(IntensidadLuz, 0f, progreso);
+            yield return null;
+        }
+    }
+
+    private void OcultarLaser()
+    {
+        // Al quedar invisible también deja de hacer daño.
+        DesactivarDanio();
+
+        if (LaserVisual != null)
+            LaserVisual.SetActive(false);
+
+        if (LuzLaser != null)
+            LuzLaser.intensity = 0f;
+    }
+
+    public void ReproducirSonidoContacto()
+    {
+        if (SonidoAlTocar != null && fuenteAudio != null)
+            fuenteAudio.PlayOneShot(SonidoAlTocar, VolumenSonido);
+    }
+
+    private void AjustarColliderAImagen()
+    {
+        if (ImagenLaser == null || ZonaColision == null)
+            return;
+
+        BoxCollider2D caja = ZonaColision.GetComponent<BoxCollider2D>();
+        if (caja == null)
+            return;
+
+        Bounds limites = ImagenLaser.localBounds;
+        Vector3[] esquinas =
+        {
+            new Vector3(limites.min.x, limites.min.y),
+            new Vector3(limites.min.x, limites.max.y),
+            new Vector3(limites.max.x, limites.min.y),
+            new Vector3(limites.max.x, limites.max.y)
+        };
+
+        Vector2 minimo = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+        Vector2 maximo = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+        foreach (Vector3 esquina in esquinas)
+        {
+            Vector3 mundo = ImagenLaser.transform.TransformPoint(esquina);
+            Vector3 local = transform.InverseTransformPoint(mundo);
+            minimo = Vector2.Min(minimo, local);
+            maximo = Vector2.Max(maximo, local);
+        }
+
+        caja.offset = (minimo + maximo) * 0.5f;
+        caja.size = maximo - minimo;
+        caja.isTrigger = true;
+    }
 }
