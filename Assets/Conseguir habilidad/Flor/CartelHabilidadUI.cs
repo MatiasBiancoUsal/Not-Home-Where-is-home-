@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -223,11 +224,107 @@ public class CartelHabilidadUI : MonoBehaviour
     private AudioSource audioTipeo;
     private AudioClip ultimoClipDeTipeo;
 
-    public static void Mostrar(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion, string textoAyuda, bool pausa, EstiloCartelHabilidad estilo)
+    // ============================================================
+    //  COOLDOWN: un cartel no se repite enseguida
+    //
+    //  Los carteles saltan cuando la niña ENTRA a un trigger. Si se pincha justo al
+    //  lado (por ejemplo, los pinchos que hay pegados a una flor), el knockback la
+    //  saca y la vuelve a meter, y el mismo cartel aparece una y otra vez: queda en
+    //  loop y no hay forma de irse de ahi.
+    //
+    //  Con esto, despues de CERRAR un cartel pasan unos segundos antes de que ese
+    //  mismo cartel pueda volver a aparecer, asi da tiempo de salir del lugar.
+    //
+    //  Vale para TODOS los carteles de TODAS las zonas: cada uno se reconoce por su
+    //  clave y, si quien lo muestra no pasa ninguna, se usa el titulo del cartel.
+    //  Para cambiar la espera de todo el juego alcanza con tocar este numero.
+    // ============================================================
+    public const float COOLDOWN_POR_DEFECTO = 8f;
+
+    // Igual que la constante, pero se puede cambiar desde codigo en caliente.
+    public static float SegundosDeCooldown = COOLDOWN_POR_DEFECTO;
+
+    // Cuando se cerro por ultima vez cada cartel (en tiempo real).
+    private static readonly Dictionary<string, float> ultimoCierre = new Dictionary<string, float>();
+
+    // Que cartel es el que esta abierto ahora, para anotarlo al cerrarlo.
+    private string claveActual;
+
+    // El Reload Domain esta apagado, asi que los static sobreviven de una sesion de
+    // Play a la siguiente. Sin esto, un cartel cerrado en la corrida anterior seguiria
+    // en cooldown al volver a dar Play y no aparecería.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ReiniciarEstaticas()
     {
-        if (instance == null) CrearInterfaz();
-        instance.MostrarInterno(imagen, imagenMarco, textoTitulo, textoDescripcion, textoAyuda, pausa, estilo);
+        ultimoCierre.Clear();
+        instance = null;
     }
+
+    // Devuelve false si el cartel NO se mostro porque todavia esta en cooldown.
+    // 'clave' identifica al cartel (si va vacia se usa el titulo) y 'cooldown'
+    // permite una espera distinta para ese cartel (dejalo en -1 para la de siempre).
+    public static bool Mostrar(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion,
+                               string textoAyuda, bool pausa, EstiloCartelHabilidad estilo,
+                               string clave = null, float cooldown = -1f)
+    {
+        string laClave = string.IsNullOrEmpty(clave) ? textoTitulo : clave;
+        if (EnCooldown(laClave, cooldown)) return false;
+
+        if (instance == null) CrearInterfaz();
+        instance.preguntando = false;
+        instance.alAceptar = null;
+        instance.alCancelar = null;
+        instance.MostrarInterno(imagen, imagenMarco, textoTitulo, textoDescripcion, textoAyuda, pausa, estilo, laClave);
+        return true;
+    }
+
+    // Igual que Mostrar, pero el cartel es una PREGUNTA: ESPACIO o ENTER aceptan,
+    // ESC cancela. Lo usa la flor para preguntar si querés canjear tus puntos.
+    public static bool Preguntar(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion,
+                                 string textoAyuda, bool pausa, EstiloCartelHabilidad estilo,
+                                 System.Action alAceptar, System.Action alCancelar,
+                                 string clave = null, float cooldown = -1f)
+    {
+        string laClave = string.IsNullOrEmpty(clave) ? textoTitulo : clave;
+        if (EnCooldown(laClave, cooldown)) return false;
+
+        if (instance == null) CrearInterfaz();
+
+        instance.preguntando = true;
+        instance.alAceptar = alAceptar;
+        instance.alCancelar = alCancelar;
+        instance.MostrarInterno(imagen, imagenMarco, textoTitulo, textoDescripcion, textoAyuda, pausa, estilo, laClave);
+        return true;
+    }
+
+    // ¿Este cartel se cerro hace muy poco?
+    private static bool EnCooldown(string clave, float cooldown)
+    {
+        if (string.IsNullOrEmpty(clave)) return false;
+
+        float espera = cooldown >= 0f ? cooldown : SegundosDeCooldown;
+        if (espera <= 0f) return false;
+
+        float cuando;
+        if (!ultimoCierre.TryGetValue(clave, out cuando)) return false;
+
+        return Time.unscaledTime - cuando < espera;
+    }
+
+    // Borra la espera de un cartel para que pueda volver a salir ya mismo. Sirve
+    // cuando algo cambio de verdad (por ejemplo, ya juntaste los puntos que faltaban)
+    // y no queremos hacer esperar al jugador al pedo.
+    public static void OlvidarCooldown(string clave)
+    {
+        if (!string.IsNullOrEmpty(clave)) ultimoCierre.Remove(clave);
+    }
+
+    // ¿Hay un cartel abierto ahora mismo? (para no abrir dos a la vez)
+    public static bool HayUnoAbierto => instance != null && instance.abierto;
+
+    private bool preguntando;
+    private System.Action alAceptar;
+    private System.Action alCancelar;
 
     private static void CrearInterfaz()
     {
@@ -274,8 +371,9 @@ public class CartelHabilidadUI : MonoBehaviour
         panel.SetActive(false);
     }
 
-    private void MostrarInterno(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion, string textoAyuda, bool pausa, EstiloCartelHabilidad estilo)
+    private void MostrarInterno(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion, string textoAyuda, bool pausa, EstiloCartelHabilidad estilo, string clave)
     {
+        claveActual = clave;
         estiloActivo = estilo ?? new EstiloCartelHabilidad();
         marco.sprite = imagenMarco;
         marco.gameObject.SetActive(imagenMarco != null);
@@ -537,12 +635,27 @@ public class CartelHabilidadUI : MonoBehaviour
 
         if (Keyboard.current == null || Time.unscaledTime - abiertoDesde < 0.2f) return;
 
-        bool apreto = Keyboard.current.spaceKey.wasPressedThisFrame ||
+        bool acepta = Keyboard.current.spaceKey.wasPressedThisFrame ||
                       Keyboard.current.enterKey.wasPressedThisFrame ||
-                      Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
-                      Keyboard.current.escapeKey.wasPressedThisFrame;
+                      Keyboard.current.numpadEnterKey.wasPressedThisFrame;
+        bool cancela = Keyboard.current.escapeKey.wasPressedThisFrame;
 
+        bool apreto = acepta || cancela;
         if (!apreto) return;
+
+        // Si es una PREGUNTA, la tecla decide: ESPACIO/ENTER acepta, ESC cancela.
+        if (preguntando && sePuedeCerrar)
+        {
+            System.Action respuesta = acepta ? alAceptar : alCancelar;
+
+            preguntando = false;
+            alAceptar = null;
+            alCancelar = null;
+
+            Cerrar();
+            respuesta?.Invoke();
+            return;
+        }
 
         // El cartel solo se puede cerrar cuando ya aparecio el texto de cerrar. Hasta
         // entonces la tecla APURA las animaciones, pero no saca el cartel: asi nadie lo
@@ -572,6 +685,10 @@ public class CartelHabilidadUI : MonoBehaviour
     public void Cerrar()
     {
         if (!abierto) return;
+
+        // La cuenta del cooldown arranca al CERRAR, no al abrir: lo que nos importa es
+        // darle tiempo al jugador de irse del lugar despues de leerlo.
+        if (!string.IsNullOrEmpty(claveActual)) ultimoCierre[claveActual] = Time.unscaledTime;
 
         if (tipeoCo != null)
         {

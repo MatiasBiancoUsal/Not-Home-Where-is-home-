@@ -45,6 +45,14 @@ public class DesbloquearHabilidadesPorZona : MonoBehaviour
     [Tooltip("Destildalo para apagar el atajo sin sacar el componente (por ejemplo antes de una build).")]
     public bool activo = true;
 
+    [Header("Tecla de PUNTOS (para probar el cartel de canje)")]
+    [Tooltip("Te regala JUSTO los puntos que te faltan para comprar la flor de esta zona, " +
+             "asi podés probar el cartel de '¿canjear puntos?' sin juntar monedas a mano. " +
+             "Si ya te alcanza, no suma nada.")]
+    public Key teclaPuntos = Key.P;
+    [Tooltip("Destildalo para apagar el atajo de los puntos sin tocar el de las habilidades.")]
+    public bool regalarPuntosDeLaFlor = true;
+
     [Header("Que habilidad suma cada zona")]
     [Tooltip("El ORDEN es lo que importa: en la Zona N se desbloquean las primeras N de esta lista. Reordenala para cambiar que da cada zona.")]
     public PlayerController.Habilidad[] ordenPorZona = new PlayerController.Habilidad[]
@@ -77,12 +85,77 @@ public class DesbloquearHabilidadesPorZona : MonoBehaviour
         // nada: en las pruebas, los jugadores la apretaban sin querer, recibian habilidades
         // SIN guardar, y despues "desaparecian" al morir o al cambiar de zona.
         if (!Application.isEditor && !Debug.isDebugBuild) return;
-        if (Keyboard.current == null || tecla == Key.None) return;
+        if (Keyboard.current == null) return;
 
-        var control = Keyboard.current[tecla];
-        if (control == null || !control.wasPressedThisFrame) return;
+        if (Apretada(tecla)) DesbloquearHastaLaZonaActual();
 
-        DesbloquearHastaLaZonaActual();
+        if (regalarPuntosDeLaFlor && Apretada(teclaPuntos)) RegalarLosPuntosDeLaFlor();
+    }
+
+    private static bool Apretada(Key k)
+    {
+        if (k == Key.None) return false;
+
+        var control = Keyboard.current[k];
+        return control != null && control.wasPressedThisFrame;
+    }
+
+    // ============================================================
+    //  TESTEO: regalar los puntos justos de la flor de esta zona
+    //
+    //  Busca la flor que todavia no se recogio, mira cuanto sale y suma la diferencia
+    //  que falta para llegar a ese precio. Asi, al tocar la flor, aparece el cartel de
+    //  "¿canjear puntos?" sin tener que juntar todas las monedas a mano.
+    //
+    //  Los puntos SI se guardan (van por el mismo camino que una moneda normal), asi
+    //  que no se pierden al cambiar de zona ni al morir.
+    // ============================================================
+    [ContextMenu("Regalar los puntos de la flor de esta zona")]
+    public void RegalarLosPuntosDeLaFlor()
+    {
+        ScoreManager puntos = ScoreManager.Instance;
+        if (puntos == null)
+        {
+            Log("No hay ScoreManager en la escena, no se pueden sumar puntos.");
+            return;
+        }
+
+        ActivarFlor flor = FlorSinRecoger();
+        if (flor == null)
+        {
+            Log("En esta zona no queda ninguna flor sin recoger. No se sumo nada.");
+            return;
+        }
+
+        int falta = flor.CostoEnPuntos - puntos.PuntajeGlobal;
+        if (falta <= 0)
+        {
+            Log(flor.HabilidadQueEntrega + " sale " + flor.CostoEnPuntos + " y ya tenes " +
+                puntos.PuntajeGlobal + ". No hace falta sumar nada.");
+            flor.OlvidarEsperaDeCarteles();
+            return;
+        }
+
+        puntos.AddPoints(falta);
+
+        // Si recien vimos el cartel de "puntos insuficientes", su espera seguiria
+        // corriendo y el cartel de canje no saldria hasta que se cumpla. Como ya
+        // tenemos la plata, lo olvidamos para poder probar en el acto.
+        flor.OlvidarEsperaDeCarteles();
+
+        Log("+" + falta + " puntos. Ahora tenes " + puntos.PuntajeGlobal + ", justo lo que sale " +
+            flor.HabilidadQueEntrega + ". Tocá la flor para ver el cartel de canje.");
+    }
+
+    // La flor de esta zona que todavia esta cerrada. Si hubiera mas de una, la primera.
+    private static ActivarFlor FlorSinRecoger()
+    {
+        ActivarFlor[] flores = FindObjectsByType<ActivarFlor>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (ActivarFlor f in flores)
+        {
+            if (f != null && !f.Recogida) return f;
+        }
+        return null;
     }
 
     // Tambien se puede disparar a mano desde el engranaje del componente.

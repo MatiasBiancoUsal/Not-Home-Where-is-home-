@@ -30,6 +30,17 @@ public class ActivarFlor : MonoBehaviour
              "Dash 200, Pisoton 250, Super Salto 300 y Escudo 350 (Zona 6).")]
     [SerializeField] private bool costoAutomaticoPorHabilidad = true;
 
+    [Header("Pregunta antes de canjear")]
+    [Tooltip("Activo: antes de cobrarte los puntos, aparece un cartel preguntando si querés " +
+             "canjearlos. Si lo destildas, la flor cobra y entrega la habilidad al tocarla.")]
+    [SerializeField] private bool preguntarAntesDeCanjear = true;
+    [Tooltip("Todo en minuscula menos los nombres de habilidad y las teclas: asi esas resaltan. " +
+             "Ojo con los numeros, la tipografia del juego no los tiene.")]
+    [SerializeField] private string tituloDeLaPregunta = "¿CANJEAR PUNTOS?";
+    [SerializeField] private string textoDeLaPregunta = "ESPACIO o ENTER para canjear    -    ESC para cancelar";
+    [Tooltip("El titulo del cartel que sale cuando todavia no te alcanzan los puntos.")]
+    [SerializeField] private string tituloSinPuntos = "PUNTOS INSUFICIENTES";
+
     [Header("Como queda la flor una vez recogida")]
     [Tooltip("Sprite de la flor ABIERTA. Si lo dejas vacio, se congela sola en el ultimo frame de la animacion (que es lo que suele quedar bien). Llenalo solo si querés otro dibujo.")]
     [SerializeField] private Sprite spriteFlorAbierta;
@@ -127,10 +138,24 @@ public class ActivarFlor : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private bool recogida;
+    private bool esperandoRespuesta;
 
     // Lo consulta la ayuda al jugador (AyudaCuandoSePierde) para saber si en esta zona
     // todavia queda una habilidad por encontrar.
     public bool Recogida => recogida;
+
+    // Cuanto sale esta flor y que habilidad da. Lo usa el atajo de testeo de la tecla P
+    // para regalar justo los puntos que faltan y poder probar el cartel de canje.
+    public int CostoEnPuntos => costoEnPuntos;
+    public PlayerController.Habilidad HabilidadQueEntrega => habilidad;
+
+    // Borra la espera de los carteles de ESTA flor, para que vuelvan a salir ya mismo.
+    // La usa el atajo de testeo despues de regalar puntos.
+    public void OlvidarEsperaDeCarteles()
+    {
+        CartelHabilidadUI.OlvidarCooldown(ClaveDelCartel("Canjear"));
+        CartelHabilidadUI.OlvidarCooldown(ClaveDelCartel("PuntosInsuficientes"));
+    }
 
     private void Awake()
     {
@@ -169,10 +194,72 @@ public class ActivarFlor : MonoBehaviour
         ScoreManager puntos = ScoreManager.Instance;
         // El acumulado de TODAS las zonas, no solo el de esta.
         int disponibles = puntos != null ? puntos.PuntajeGlobal : 0;
-        if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
+
+        // No alcanza la plata: aviso y listo.
+        if (puntos == null || disponibles < costoEnPuntos)
         {
             AnalyticsJuego.PuntosInsuficientes(habilidad.ToString(), costoEnPuntos, disponibles);
             MostrarAvisoDePuntos(disponibles);
+            return;
+        }
+
+        // Alcanza: PREGUNTAMOS antes de gastarle los puntos.
+        if (preguntarAntesDeCanjear)
+        {
+            if (esperandoRespuesta || CartelHabilidadUI.HayUnoAbierto) return;
+
+            esperandoRespuesta = true;
+            // Puede volver false si la pregunta todavia esta en cooldown (la cancelamos
+            // hace nada). En ese caso no queda nada esperando respuesta.
+            if (!PreguntarSiCanjea(player, puntos, disponibles)) esperandoRespuesta = false;
+            return;
+        }
+
+        Comprar(player, puntos);
+    }
+
+    // El cartel con la pregunta. Si acepta, se cobra y se entrega la habilidad.
+    // Devuelve false si el cartel no llego a mostrarse (estaba en cooldown).
+    private bool PreguntarSiCanjea(PlayerController player, ScoreManager puntos, int disponibles)
+    {
+        CartelDeHabilidad info = CartelDeEstaHabilidad();
+        string nombreHabilidad = info != null && !string.IsNullOrWhiteSpace(info.titulo)
+            ? info.titulo : habilidad.ToString();
+
+        // Sin numeros: la tipografia del juego no tiene digitos y quedan de otra letra.
+        // Todo en minuscula salvo el nombre de la habilidad, para que resalte.
+        string pregunta =
+            "¿canjear tus puntos para desbloquear " + nombreHabilidad + "?\n" +
+            "se pagan con los puntos de todo el juego.";
+
+        return CartelHabilidadUI.Preguntar(
+            imagenCartel,
+            fondoCartel,
+            tituloDeLaPregunta,
+            pregunta,
+            textoDeLaPregunta,
+            pausarMientrasSeMuestra,
+            estiloCartel,
+            () => { esperandoRespuesta = false; Comprar(player, puntos); },   // ESPACIO / ENTER
+            () => { esperandoRespuesta = false; },                            // ESC
+            ClaveDelCartel("Canjear"));
+    }
+
+    // Con que nombre se anota cada cartel de esta flor para el cooldown. Lleva la
+    // habilidad adentro para que el aviso de una flor no silencie al de otra.
+    private string ClaveDelCartel(string tipo)
+    {
+        return "Flor@" + tipo + "@" + habilidad;
+    }
+
+    // Cobra los puntos y entrega la habilidad.
+    private void Comprar(PlayerController player, ScoreManager puntos)
+    {
+        if (recogida) return;
+
+        if (puntos == null || !puntos.IntentarGastarPuntosGlobales(costoEnPuntos))
+        {
+            MostrarAvisoDePuntos(puntos != null ? puntos.PuntajeGlobal : 0);
             return;
         }
 
@@ -337,19 +424,27 @@ public class ActivarFlor : MonoBehaviour
 
     private void MostrarAvisoDePuntos(int disponibles)
     {
-        int faltan = Mathf.Max(0, costoEnPuntos - disponibles);
+        CartelDeHabilidad info = CartelDeEstaHabilidad();
+        string nombreHabilidad = info != null && !string.IsNullOrWhiteSpace(info.titulo)
+            ? info.titulo : habilidad.ToString();
+
+        // Igual que la pregunta: sin numeros (la tipografia no los tiene) y en minuscula
+        // menos el nombre de la habilidad.
+        // Renglones cortos a proposito: el cartel es ancho pero la flor le come el lado
+        // izquierdo, y un renglon largo se pasa del dibujo.
         string descripcion =
-            "Necesitas " + costoEnPuntos + " puntos para adquirir esta habilidad.\n" +
-            "Llevas " + disponibles + " juntados en todo el juego. Te faltan " + faltan + ".";
+            "te faltan puntos para desbloquear " + nombreHabilidad + ".\n" +
+            "segui recolectando y volve a esta flor.";
 
         CartelHabilidadUI.Mostrar(
             null,
             fondoCartel,
-            "PUNTOS INSUFICIENTES",
+            string.IsNullOrWhiteSpace(tituloSinPuntos) ? "PUNTOS INSUFICIENTES" : tituloSinPuntos,
             descripcion,
             textoParaCerrar,
             pausarMientrasSeMuestra,
-            estiloCartel);
+            estiloCartel,
+            ClaveDelCartel("PuntosInsuficientes"));
     }
 
     // Devuelve el bloque de cartel que corresponde a la habilidad que entrega esta flor.
