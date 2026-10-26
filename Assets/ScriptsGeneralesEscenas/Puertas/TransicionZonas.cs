@@ -390,13 +390,21 @@ public class TransicionZonas : MonoBehaviour
                 TomarElControl(pc);
 
                 Vector3 destino = UbicacionDeLlegada(llegada, pc);
+
+                // El proyecto tiene Auto Sync Transforms APAGADO: tocar solo
+                // transform.position NO mueve el cuerpo fisico, y en el primer paso de
+                // fisica la niña vuelve de un salto a donde estaba puesta en la escena.
+                // Por eso movemos las dos cosas y sincronizamos.
                 pc.transform.position = destino;
 
                 if (pc.rb != null)
                 {
+                    pc.rb.position = destino;
                     pc.rb.linearVelocity = Vector2.zero;
                     pc.rb.angularVelocity = 0f;
                 }
+
+                Physics2D.SyncTransforms();
 
                 // Que mire hacia adentro del mapa.
                 Vector2 haciaAdentro = llegada.VectorEntrada;

@@ -263,7 +263,9 @@ public static class AnalyticsJuego
 
     private static void Enviar(string nombre, CustomEvent evento)
     {
-        if (MOSTRAR_EN_CONSOLA) Debug.Log("[Analytics] " + nombre);
+        // Se escribe el evento CON SUS PARAMETROS, asi se puede verificar en la Consola
+        // que los datos salen bien aunque todavia no se hayan subido.
+        if (MOSTRAR_EN_CONSOLA) Debug.Log("[Analytics] " + Describir(nombre, evento));
 
         if (Application.isEditor && !EnviarDesdeElEditor) return;
 
@@ -274,6 +276,19 @@ public static class AnalyticsJuego
         }
 
         Grabar(nombre, evento);
+    }
+
+    // Arma el texto "Evento Muerte. nombreZona: Zona 3, causaMuerte: Pinchos, ..."
+    private static string Describir(string nombre, CustomEvent evento)
+    {
+        string texto = "Evento " + nombre + ".";
+
+        foreach (KeyValuePair<string, object> p in evento)
+        {
+            texto += " " + p.Key + ": " + p.Value + ",";
+        }
+
+        return texto.TrimEnd(',');
     }
 
     private static void Grabar(string nombre, CustomEvent evento)

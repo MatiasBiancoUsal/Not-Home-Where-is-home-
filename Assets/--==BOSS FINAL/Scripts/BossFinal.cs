@@ -480,8 +480,15 @@ public class BossFinal : MonoBehaviour
 
         if (puntoDeReaparicion != null && pc != null)
         {
+            // Auto Sync Transforms esta apagado: hay que mover el cuerpo fisico tambien,
+            // si no la fisica la devuelve a donde estaba.
             pc.transform.position = puntoDeReaparicion.position;
-            if (pc.rb != null) pc.rb.linearVelocity = Vector2.zero;
+            if (pc.rb != null)
+            {
+                pc.rb.position = puntoDeReaparicion.position;
+                pc.rb.linearVelocity = Vector2.zero;
+            }
+            Physics2D.SyncTransforms();
         }
         else if (puntoDeReaparicion == null)
         {

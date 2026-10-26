@@ -98,8 +98,15 @@ public static class PuntoDeReaparicion
         PlayerController pc = Object.FindFirstObjectByType<PlayerController>();
         if (pc == null) return;
 
+        // Auto Sync Transforms esta apagado: hay que mover el cuerpo fisico tambien,
+        // si no la fisica la devuelve a donde estaba puesta en la escena.
         pc.transform.position = posicion;
-        if (pc.rb != null) pc.rb.linearVelocity = Vector2.zero;
+        if (pc.rb != null)
+        {
+            pc.rb.position = posicion;
+            pc.rb.linearVelocity = Vector2.zero;
+        }
+        Physics2D.SyncTransforms();
     }
 
     private static void PrepararCheckpoints(Scene escena)

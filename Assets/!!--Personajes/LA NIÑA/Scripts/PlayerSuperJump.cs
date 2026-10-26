@@ -94,8 +94,20 @@ public class PlayerSuperJump : MonoBehaviour
 
         if (isPreparing)
         {
-            // Soltar W o quedarse sin piso: cancela seco, SIN animacion de salida.
-            if (holdUp < umbralW || !playerController.jump.IsGrounded)
+            // Soltar W: deja de cargar y hace la animacion de SALIDA, asi la niña se
+            // "desinfla" en vez de volver de golpe al idle.
+            if (holdUp < umbralW)
+            {
+                isPreparing = false;
+                chargeTimer = 0f;
+                isExpiring = true;
+                expireTimer = duracionCaduca;
+                return;
+            }
+
+            // Quedarse sin piso (se cayo de la plataforma mientras cargaba): cancela seco,
+            // sin animacion de salida, porque en el aire tiene que verse la de caida.
+            if (!playerController.jump.IsGrounded)
             {
                 isPreparing = false;
                 chargeTimer = 0f;
