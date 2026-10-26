@@ -12003,6 +12003,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plat Normal 3 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4238284734901456536, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
+      propertyPath: m_Size.x
+      value: 9.505207
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238284734901456536, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9337487
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238284734901456536, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.10739684
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238284734901456536, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.2896937
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23043,11 +23059,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1894797818857822172, guid: 72438d7cee9aff548aa31a8beb326786, type: 3}
       propertyPath: m_Size.x
-      value: 11
+      value: 10.536573
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894797818857822172, guid: 72438d7cee9aff548aa31a8beb326786, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0016642
       objectReference: {fileID: 0}
     - target: {fileID: 1894797818857822172, guid: 72438d7cee9aff548aa31a8beb326786, type: 3}
       propertyPath: m_Offset.x
-      value: 0.1
+      value: -0.028730154
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894797818857822172, guid: 72438d7cee9aff548aa31a8beb326786, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.70970035
       objectReference: {fileID: 0}
     - target: {fileID: 2255037309395259389, guid: 72438d7cee9aff548aa31a8beb326786, type: 3}
       propertyPath: m_Name
@@ -38577,7 +38601,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.052070275, y: 0.19094849}
+  m_Offset: {x: -0.06467204, y: 0.19094849}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -38587,7 +38611,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1041405, y: 7.730857}
+  m_Size: {x: 0.8706559, y: 7.730857}
   m_EdgeRadius: 0
 --- !u!212 &842505557
 SpriteRenderer:
@@ -53030,9 +53054,9 @@ GameObject:
   - component: {fileID: 1108744069}
   - component: {fileID: 1108744071}
   - component: {fileID: 1108744070}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71205,6 +71229,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8953649
       objectReference: {fileID: 0}
+    - target: {fileID: 9045786391231128478, guid: 146d639a005a96c4c9c4ea6376b33bd5, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9310454
+      objectReference: {fileID: 0}
+    - target: {fileID: 9045786391231128478, guid: 146d639a005a96c4c9c4ea6376b33bd5, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.055524826
+      objectReference: {fileID: 0}
+    - target: {fileID: 9045786391231128478, guid: 146d639a005a96c4c9c4ea6376b33bd5, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.2083421
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -76253,11 +76289,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.cajaTitulo.x
-      value: 832.7
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.cajaTitulo.y
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.colorBorde.b
@@ -76273,7 +76309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.tamanoTitulo
-      value: 79.6
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.tamanoPanel.x
@@ -76301,11 +76337,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 0c052c739437a4410bed16638d727157, type: 2}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.posicionTitulo.x
-      value: -69.8
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.posicionTitulo.y
-      value: 66.8
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 945835398121334754, guid: 318268247d8b1544383688292c9e6624, type: 3}
       propertyPath: estiloCartel.tipografiaTitulo
@@ -105147,6 +105183,22 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -976857241
       objectReference: {fileID: 0}
+    - target: {fileID: 5342153404862640010, guid: ea52401546af9427ea89311738d415e6, type: 3}
+      propertyPath: m_Size.x
+      value: 8.204761
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342153404862640010, guid: ea52401546af9427ea89311738d415e6, type: 3}
+      propertyPath: m_Size.y
+      value: 10.410218
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342153404862640010, guid: ea52401546af9427ea89311738d415e6, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.025289059
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342153404862640010, guid: ea52401546af9427ea89311738d415e6, type: 3}
+      propertyPath: m_Offset.y
+      value: 2.6909623
+      objectReference: {fileID: 0}
     - target: {fileID: 5461738796815294261, guid: ea52401546af9427ea89311738d415e6, type: 3}
       propertyPath: m_Color.b
       value: 0.3443396
@@ -105450,6 +105502,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544281554069623927, guid: dec77bcd3a981fa4399f3f2d9604f7f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602074219360804361, guid: dec77bcd3a981fa4399f3f2d9604f7f9, type: 3}
+      propertyPath: activeKnockBack
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8721099878720038520, guid: dec77bcd3a981fa4399f3f2d9604f7f9, type: 3}
@@ -106889,7 +106945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 187249062389106760, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -22.679976
+      value: -24.15
       objectReference: {fileID: 0}
     - target: {fileID: 187249062389106760, guid: 1971e1c7ac4134349975cea6e9c2f176, type: 3}
       propertyPath: m_LocalPosition.z

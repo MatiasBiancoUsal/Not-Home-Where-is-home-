@@ -494,6 +494,16 @@ public class CartelHabilidadUI : MonoBehaviour
         AplicarRect(icono.rectTransform, estilo.posicionImagen, estilo.tamanoImagen);
         AplicarTexto(titulo, estilo.tipografiaTitulo, estilo.tamanoTitulo, estilo.colorTitulo,
             estilo.posicionTitulo, estilo.cajaTitulo, estilo.estiloTitulo);
+
+        // Los avisos como "PUNTOS INSUFICIENTES" son bastante mas largos que los
+        // nombres de habilidades. Los mantenemos en una sola linea y dejamos que TMP
+        // reduzca la fuente si hiciera falta, para que nunca invadan la ilustracion ni
+        // bajen sobre la descripcion.
+        titulo.textWrappingMode = TextWrappingModes.NoWrap;
+        titulo.enableAutoSizing = true;
+        titulo.fontSizeMin = Mathf.Min(28f, estilo.tamanoTitulo);
+        titulo.fontSizeMax = estilo.tamanoTitulo;
+
         AplicarTexto(descripcion, estilo.tipografiaDescripcion, estilo.tamanoDescripcion, estilo.colorDescripcion,
             estilo.posicionDescripcion, estilo.cajaDescripcion, estilo.estiloDescripcion);
         AplicarTexto(ayudaCerrar, estilo.tipografiaAyuda, estilo.tamanoAyuda, estilo.colorAyuda,
