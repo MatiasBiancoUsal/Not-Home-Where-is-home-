@@ -12,27 +12,30 @@ otra computadora: alcanza con decirle "leé PENDIENTES.md").
 El código ya manda los 6 eventos. Están en
 `Assets/ScriptsGeneralesEscenas/Analytics/AnalyticsJuego.cs`.
 
-### ❌ El problema encontrado
+### ✅ El problema encontrado (ya resuelto el 26/10/2026)
 
-En el dashboard de Unity el evento está creado como **`DesbloquearHabilidades`** (plural)
-pero el juego manda **`DesbloquearHabilidad`** (singular). Unity lo descarta y muestra:
+En el dashboard el evento estaba creado como **`DesbloquearHabilidades`** (plural) pero el
+juego manda **`DesbloquearHabilidad`** (singular), así que Unity lo descartaba:
 
 > *DesbloquearHabilidad failed to import because the event schema was not found.*
 
-**Arreglo:** en Event Manager, en ese cartel naranja, apretar **"Create Event"** — crea el
-evento con el nombre y los parámetros que el juego ya mandó. El `DesbloquearHabilidades`
-viejo no se puede borrar; se deja desactivado (Enabled en off).
+Se creó el evento en singular desde el botón "Create Event" del cartel de error (toma los
+parámetros del evento que ya había llegado) y se **desactivó** el viejo en plural (Unity no
+deja borrar eventos, solo apagarlos).
 
 ### Estado de los 6 eventos
 
 | Evento | En el dashboard |
 |---|---|
 | PartidaIniciada | ✅ |
-| EntrarZona | ✅ |
+| EntrarZona | ✅ (ya llegaron 2 eventos reales) |
 | Muerte | ✅ (ya llegó 1 evento real) |
-| DesbloquearHabilidad | ❌ está como `DesbloquearHabilidades` |
+| DesbloquearHabilidad | ✅ creado y habilitado |
 | PuntosInsuficientes | ✅ |
 | JuegoTerminado | ✅ |
+
+Queda **probar los 6 jugando** (ver "Cómo probar" más abajo) y confirmar que suben los
+contadores de "Valid Events".
 
 ### Parámetros que manda el juego (tienen que coincidir EXACTO)
 
@@ -80,14 +83,17 @@ Las otras 16 están bien.
 
 ## 3. Tilemaps — que no camine a los brincos
 
-Falta **Composite Collider 2D + Rigidbody 2D (Static)** y, en el Tilemap Collider 2D,
-`Composite Operation = Merge` y `Extrusion Factor = 0.01`. En el Composite,
-`Geometry Type = Polygons`. Zonas 2 y 3 están bien hechas y sirven de modelo.
+**Correr `Not Home → Tilemaps → Arreglar los colliders (que camine liso)`** y listo: lo
+hace solo en las 6 zonas.
 
-- Zona 1: `Zona1_Modulo_2x2_Tilemap` y `Plataformas TileMap` (a esta le falta solo el Composite).
-- Zona 4: `Zona1_Modulo_2x2_Tilemap` (el Tilemap grande ya está hecho).
-- Zona 5: `Tilemap`.
-- Zona 6: `Tilemap` — tiene todo, solo falta poner `Composite Operation = Merge`.
+El Tilemap Collider 2D hace una cajita por tile y la niña se engancha en las juntas (por
+eso se le dispara la animación de salto al caminar). El comando le pone a cada tilemap de
+piso un **Composite Collider 2D** (que suelda todas las cajitas en un contorno continuo)
+más un **Rigidbody 2D en Static**, y deja el Tilemap Collider en `Composite Operation =
+Merge` con `Extrusion Factor = 0.01`.
+
+Solo toca tilemaps que ya tienen Tilemap Collider 2D y están en la capa Ground, así no le
+agrega colliders a la decoración.
 
 ---
 
@@ -106,6 +112,7 @@ Falta **Composite Collider 2D + Rigidbody 2D (Static)** y, en el Tilemap Collide
 - **Puertas → Revisar la llegada (que entre caminando)**.
 - **Carteles → Copiar el diseño de la flor modelo a todas las zonas** — toma
   `Zona 3 > FlorDash` como modelo y deja todos los carteles iguales.
+- **Tilemaps → Arreglar los colliders (que camine liso)**.
 - **Analytics → Mandar eventos desde el editor (PRUEBA)**.
 
 Atajos de testeo (solo en el editor): **H** desbloquea las habilidades de la zona,
