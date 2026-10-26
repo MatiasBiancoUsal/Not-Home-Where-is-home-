@@ -854,7 +854,9 @@ public class TransicionZonas : MonoBehaviour
         PlayerController pc = jugador != null ? jugador : BuscarPlayer();
         if (pc == null || ajustes == null) return false;
 
-        if (FaltaHabilidadDeLaZonaActual(pc)) return true;
+        // Falta la habilidad de esta zona: no se puede AVANZAR. Volver a una zona anterior
+        // sigue permitido, para no dejar al jugador encerrado.
+        if (FaltaHabilidadDeLaZonaActual(pc) && !EsVolverAtras(escenaDestino)) return true;
 
         if (string.IsNullOrEmpty(ajustes.zonaBloqueada) ||
             escenaDestino != ajustes.zonaBloqueada ||
@@ -868,6 +870,17 @@ public class TransicionZonas : MonoBehaviour
             if (!pc.TieneHabilidad(h)) return true;
         }
         return false;
+    }
+
+    // ¿Esta puerta lleva a una zona ANTERIOR? (Zona 4 -> Zona 2, por ejemplo)
+    private bool EsVolverAtras(string escenaDestino)
+    {
+        if (ajustes == null || !ajustes.permitirVolverAtrasSinHabilidad) return false;
+
+        int actual = DesbloquearHabilidadesPorZona.NumeroDeZona(SceneManager.GetActiveScene().name);
+        int destino = DesbloquearHabilidadesPorZona.NumeroDeZona(escenaDestino);
+
+        return actual > 0 && destino > 0 && destino < actual;
     }
 
     private bool FaltaHabilidadDeLaZonaActual(PlayerController pc)

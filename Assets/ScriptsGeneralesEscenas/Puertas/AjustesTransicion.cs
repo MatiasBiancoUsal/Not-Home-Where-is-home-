@@ -190,6 +190,10 @@ public class AjustesTransicion : ScriptableObject
     [Tooltip("Si esta activo, ninguna puerta deja salir de la zona actual hasta que la niña " +
              "haya recogido la habilidad correspondiente de la lista de abajo.")]
     public bool bloquearSalidaSinHabilidadDeLaZona = true;
+    [Tooltip("Activo (recomendado): aunque falte la habilidad de la zona, SIEMPRE se puede VOLVER " +
+             "a una zona anterior. Si lo destildas, al entrar a una zona quedas encerrado hasta " +
+             "conseguir su habilidad (ni para atras se puede).")]
+    public bool permitirVolverAtrasSinHabilidad = true;
     [Tooltip("Una habilidad por zona, en orden: el primer elemento es Zona 1, el segundo Zona 2, etc.")]
     public PlayerController.Habilidad[] habilidadDeCadaZona =
     {
