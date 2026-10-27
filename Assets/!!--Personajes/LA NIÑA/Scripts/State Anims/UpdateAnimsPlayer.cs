@@ -99,11 +99,15 @@ public class UpdateAnimsPlayer : MonoBehaviour
         // Los colliders de los Tilemaps pueden informar un frame en el aire al cruzar una
         // unión, aunque el personaje solamente esté caminando. Un salto real tiene una
         // velocidad vertical clara, por lo que no queda oculto por esta tolerancia.
-        bool visuallyGrounded = playerController.jump.IsGrounded ||
-                                (playerController.jump.coyoteCounter > 0f &&
-                                 Mathf.Abs(playerController.rb.linearVelocity.y) < 0.5f) ||
-                                (!playerController.jump.HasJumped &&
-                                 playerController.rb.linearVelocity.y >= -0.5f);
+        // El supersalto se impulsa desde PlayerSuperJump y no usa la marca HasJumped
+        // del salto normal. Mientras esté activo debe considerarse en el aire para que
+        // el Animator pueda entrar al estado 19 en vez de volver a Idle/Run.
+        bool visuallyGrounded = !playerController.superJump.IsSuperJumping &&
+                                (playerController.jump.IsGrounded ||
+                                 (playerController.jump.coyoteCounter > 0f &&
+                                  Mathf.Abs(playerController.rb.linearVelocity.y) < 0.5f) ||
+                                 (!playerController.jump.HasJumped &&
+                                  playerController.rb.linearVelocity.y >= -0.5f));
 
         // actualizacion animaciones de salto
         if (!visuallyGrounded)
