@@ -56,6 +56,12 @@ public class IntroDeZona : MonoBehaviour
              "para no dejar al jugador trabado.")]
     public float segundosMaximosCayendo = 15f;
 
+    [Header("La caida del principio")]
+    [Tooltip("Si la niña quedo APOYADA en el piso al cargar la escena, la subimos esta cantidad para " +
+             "que la intro se vea igual: cae y recien ahi aparece el nombre de la zona. 0 = no tocarla " +
+             "(si la dejaste a proposito en el aire en la escena, no hace falta).")]
+    [Min(0f)] public float alturaDeCaida = 6f;
+
     [Header("Animaciones (valores del parametro stateAnim del Animator)")]
     public int animIdle = 1;
     public int animCaer = 4;
@@ -142,7 +148,22 @@ public class IntroDeZona : MonoBehaviour
 
         if (soloUnaVezPorPartida) ProgresoJuego.MarcarMostrado(claveGuardado);
 
-        StartCoroutine(Rutina());
+        StartCoroutine(EsperarAlTutorialYArrancar());
+    }
+
+    // El tutorial de paginas congela el juego hasta que el jugador aprieta ESPACIO. Si la
+    // intro arrancara igual, el nombre de la zona aparecia POR DEBAJO de los carteles y la
+    // caida se la perdia. Asi que esperamos a que el tutorial termine de salir.
+    private IEnumerator EsperarAlTutorialYArrancar()
+    {
+        while (TutorialInicialPaginas.EnPantalla)
+        {
+            yield return null;
+        }
+
+        SubirSiEstaEnElPiso();
+
+        yield return Rutina();
     }
 
     // ============================================================
@@ -150,6 +171,26 @@ public class IntroDeZona : MonoBehaviour
     //  Los pasos en orden: caer, tocar el piso, mostrar el nombre de la zona,
     //  mostrar el cartel del tutorial y recien ahi devolver el control.
     // ============================================================
+
+    // Si la niña esta parada en el piso no habria caida que ver. La levantamos un poco,
+    // moviendo tambien el cuerpo fisico (Auto Sync Transforms esta apagado).
+    private void SubirSiEstaEnElPiso()
+    {
+        if (alturaDeCaida <= 0f || jugador == null || jugador.jump == null) return;
+
+        jugador.jump.CheckGround();
+        if (!jugador.jump.IsGrounded) return; // ya estaba en el aire: la dejamos como esta
+
+        Vector3 arriba = jugador.transform.position + new Vector3(0f, alturaDeCaida, 0f);
+
+        jugador.transform.position = arriba;
+        if (jugador.rb != null)
+        {
+            jugador.rb.position = arriba;
+            jugador.rb.linearVelocity = Vector2.zero;
+        }
+        Physics2D.SyncTransforms();
+    }
 
     private IEnumerator Rutina()
     {

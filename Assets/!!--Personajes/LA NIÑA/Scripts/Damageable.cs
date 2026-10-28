@@ -13,6 +13,12 @@ public class Damageable : MonoBehaviour
     [Header("KnockBack")]
     public bool activeKnockBack = true; // esta variable determina si el efecto de knockback aplica a este gameobject
     public float knockBackDuration = 0.2f; // cuanto dura el efecto de knockback
+
+    [Tooltip("Capas que FRENAN el knockback (el piso y las paredes). Sin esto los enemigos " +
+             "kinematicos atraviesan las paredes al salir despedidos.")]
+    public LayerMask capasQueFrenanElKnockback = 1 << 3; // layer 3 = Ground
+    [Tooltip("Cuanto antes de la pared se frena, para que no quede la mitad del cuerpo adentro.")]
+    [Min(0f)] public float margenContraLaPared = 0.1f;
     public bool IsKnockedBack { get; private set; }
 
     // Flash
@@ -138,10 +144,51 @@ public class Damageable : MonoBehaviour
         // kinematic no responde a AddForce, seteamos velocidad directamente
         rb.linearVelocity = new Vector2(dirX * force, rb.linearVelocity.y);
 
-        yield return new WaitForSeconds(duration);
+        // Los enemigos son KINEMATIC: la fisica no los frena contra las paredes, asi que
+        // salen despedidos y las atraviesan. Vamos mirando si hay pared en el camino y,
+        // si la hay, los frenamos nosotros.
+        float restante = duration;
+        while (restante > 0f)
+        {
+            if (HayParedHacia(dirX))
+            {
+                rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+                break;
+            }
+
+            restante -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (restante > 0f) yield return new WaitForSeconds(restante);
 
         rb.linearVelocity = Vector2.zero;
         IsKnockedBack = false;
+    }
+
+    // Mira si hay pared pegada del lado hacia el que sale despedido.
+    private bool HayParedHacia(float dirX)
+    {
+        if (capasQueFrenanElKnockback == 0) return false;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col == null) return false;
+
+        Bounds caja = col.bounds;
+        Vector2 desde = caja.center;
+        float alcance = caja.extents.x + margenContraLaPared;
+
+        // Tres rayos (arriba, centro, abajo) para que no se cuele por una esquina.
+        for (int i = -1; i <= 1; i++)
+        {
+            Vector2 origen = desde + new Vector2(0f, i * caja.extents.y * 0.6f);
+            if (Physics2D.Raycast(origen, new Vector2(dirX, 0f), alcance, capasQueFrenanElKnockback))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     IEnumerator FlashEffect()

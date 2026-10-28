@@ -100,6 +100,19 @@ public class TutorialInicialPaginas : MonoBehaviour
         if (!Application.isPlaying) ArmarVisuales();
     }
 
+    // Mientras esto es true el jugador todavia esta mirando la presentacion y el tutorial:
+    // el juego esta congelado y NADA de la zona tiene que arrancar. Lo mira la IntroDeZona
+    // para no largar la caida ni el cartel del nombre por debajo de los carteles.
+    public static bool EnPantalla { get; private set; }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ReiniciarStatics()
+    {
+        // Reload Domain esta apagado: los static se arrastran entre sesiones de Play.
+        EnPantalla = false;
+        mostrarEnProximaCarga = false;
+    }
+
     private void Start()
     {
         if (!Application.isPlaying) return;
@@ -110,6 +123,7 @@ public class TutorialInicialPaginas : MonoBehaviour
             return;
         }
 
+        EnPantalla = true;
         mostrarEnProximaCarga = false;
         BuscarPaginas();
         ConfigurarBotones();
@@ -447,6 +461,10 @@ public class TutorialInicialPaginas : MonoBehaviour
             StartCoroutine(CambiarVolumen(musicaDelJuego, 0f, volumenMusicaOriginal, fadeInMusicaDelJuego));
             musicaDelJuegoSilenciada = false;
         }
+
+        // Recien aca el juego es del jugador: la IntroDeZona puede largar la caida y el
+        // cartel con el nombre de la zona.
+        EnPantalla = false;
 
         // 3) El juego aparece desde el negro.
         yield return CambiarAlpha(grupoNegro, 1f, 0f, volverDelNegro);

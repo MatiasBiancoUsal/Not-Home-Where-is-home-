@@ -41,6 +41,14 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("El titulo del cartel que sale cuando todavia no te alcanzan los puntos.")]
     [SerializeField] private string tituloSinPuntos = "PUNTOS INSUFICIENTES";
 
+    [Tooltip("La niña atraviesa la flor en vez de quedarse parada encima. Dejalo activo: si se " +
+             "queda apoyada en la flor, el juego cree que esta en el aire y no le sale el salto.")]
+    [SerializeField] private bool atravesablePorLaNina = true;
+
+    [Tooltip("Aviso que aparece abajo al agarrar la habilidad, para que sepa que ademas quedo " +
+             "guardada la posicion. Vacio = no muestra nada.")]
+    [SerializeField] private string mensajeDePosicionGuardada = "posicion guardada";
+
     [Header("Como queda la flor una vez recogida")]
     [Tooltip("Sprite de la flor ABIERTA. Si lo dejas vacio, se congela sola en el ultimo frame de la animacion (que es lo que suele quedar bien). Llenalo solo si querés otro dibujo.")]
     [SerializeField] private Sprite spriteFlorAbierta;
@@ -166,8 +174,38 @@ public class ActivarFlor : MonoBehaviour
         AsignarCartelDeHabilidad();
     }
 
+    // La flor tiene un collider SOLIDO ademas del trigger. Ese collido no esta en la capa
+    // Ground, asi que si la niña cae encima queda apoyada en el aire: no la detecta como
+    // piso y se le queda la animacion de salto puesta para siempre.
+    //
+    // La solucion es que la niña lo atraviese: resbala por la flor y sigue cayendo hasta
+    // el piso de verdad.
+    private void DejarQueLaNiñaLaAtraviese()
+    {
+        if (!atravesablePorLaNina) return;
+
+        PlayerController player = FindFirstObjectByType<PlayerController>();
+        if (player == null) return;
+
+        Collider2D[] delPlayer = player.GetComponentsInChildren<Collider2D>(true);
+        Collider2D[] mios = GetComponentsInChildren<Collider2D>(true);
+
+        foreach (Collider2D mio in mios)
+        {
+            if (mio == null || mio.isTrigger) continue; // el trigger tiene que seguir funcionando
+
+            foreach (Collider2D suyo in delPlayer)
+            {
+                if (suyo == null || suyo.isTrigger) continue;
+                Physics2D.IgnoreCollision(mio, suyo);
+            }
+        }
+    }
+
     private void Start()
     {
+        DejarQueLaNiñaLaAtraviese();
+
         if (!ProgresoJuego.YaMostrado(ClaveProgreso())) return;
 
         // Ya la agarramos en otra vuelta. Por defecto la dejamos ABIERTA en el escenario;
@@ -279,6 +317,10 @@ public class ActivarFlor : MonoBehaviour
         // Se busca el piso desde el centro del dibujo (el pivote puede estar justo en el piso).
         Vector2 centroFlor = spriteRenderer != null ? (Vector2)spriteRenderer.bounds.center : (Vector2)transform.position + Vector2.up;
         PuntoDeReaparicion.GuardarEnElPiso(gameObject.scene.name, centroFlor, player);
+
+        // Que el jugador sepa que la flor tambien le guardo la posicion.
+        AvisoEnPantalla.Mostrar(mensajeDePosicionGuardada);
+
         ReproducirSFX(sonidoAlRecoger, volumenAlRecoger);
         ActivarBloqueoTemporal(player);
 

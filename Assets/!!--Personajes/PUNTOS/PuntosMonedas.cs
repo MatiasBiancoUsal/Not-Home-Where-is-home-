@@ -12,6 +12,9 @@ public class Coleccionable : MonoBehaviour
     [Tooltip("Cuanto dura la animacion de recolectado antes de que la moneda desaparezca.")]
     public float duracionAnimRecolectado = 0.52f;
 
+    [Tooltip("Muestra un '+1' o '+10' que sube y se desvanece donde estaba la moneda.")]
+    public bool mostrarPuntosFlotantes = true;
+
     [Header("Sonido de recolectado")]
     [Tooltip("Suena al agarrar la moneda. Cada prefab (1PUNTO, 10PUNTOS) tiene el suyo. Se puede dejar vacio.")]
     public AudioClip sonidoRecolectado;
@@ -46,6 +49,9 @@ public class Coleccionable : MonoBehaviour
             // corta cuando la moneda se destruye.
             if (sonidoRecolectado != null && AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX(sonidoRecolectado, volumenSonido);
+
+            // El "+10" que sube y se desvanece donde estaba la moneda.
+            if (mostrarPuntosFlotantes) PuntosFlotantes.Mostrar(puntos, transform.position);
 
             StartCoroutine(SecuenciaRecolectado());
         }

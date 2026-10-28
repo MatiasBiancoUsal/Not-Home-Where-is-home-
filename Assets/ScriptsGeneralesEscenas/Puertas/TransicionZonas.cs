@@ -162,6 +162,16 @@ public class TransicionZonas : MonoBehaviour
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 9000; // por encima de todo: HUD, pausa, cinematicas
 
+        // SIN ESTO el canvas trabaja en pixeles fijos: el cartel con el nombre de la zona
+        // se ve del mismo tamaño en pixeles sea cual sea la pantalla, asi que en la ventana
+        // chica de itch.io queda GIGANTE y cortado. Con el escalador, el cartel ocupa
+        // siempre la misma proporcion de pantalla que en el editor.
+        CanvasScaler escalador = canvasGo.AddComponent<CanvasScaler>();
+        escalador.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        escalador.referenceResolution = new Vector2(1920f, 1080f);
+        escalador.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        escalador.matchWidthOrHeight = 0.5f; // reparte entre ancho y alto: aguanta pantallas anchas y altas
+
         // El DEGRADADO va primero: se dibuja DEBAJO del negro de la transicion,
         // asi cuando arranca el fundido lo tapa por completo.
         GameObject degradadoGo = new GameObject("DegradadoCercania");
@@ -208,8 +218,13 @@ public class TransicionZonas : MonoBehaviour
         cartel = cartelGo.AddComponent<TextMeshProUGUI>();
         cartel.raycastTarget = false;
         cartel.alignment = TextAlignmentOptions.Center;
-        cartel.enableWordWrapping = true;
+        cartel.textWrappingMode = TextWrappingModes.Normal;
         cartel.text = "";
+
+        // Si aun asi un nombre largo no entra, que se achique solo en vez de cortarse.
+        cartel.enableAutoSizing = true;
+        cartel.fontSizeMin = 24f;
+        cartel.overflowMode = TextOverflowModes.Overflow;
 
         // Ancho de casi toda la pantalla, centrado verticalmente (despues lo corre el ajuste).
         RectTransform rt = cartel.rectTransform;
@@ -684,6 +699,10 @@ public class TransicionZonas : MonoBehaviour
     {
         // Estilo (se lee cada vez, asi se puede tocar en vivo desde el Inspector).
         if (ajustes.fuenteDelCartel != null) cartel.font = ajustes.fuenteDelCartel;
+
+        // Con el auto-size prendido, el tamaño del Inspector es el MAXIMO: el cartel usa
+        // ese si entra, y se achica solo si el nombre es largo o la pantalla es chica.
+        cartel.fontSizeMax = ajustes.tamanioDeLetra;
         cartel.fontSize = ajustes.tamanioDeLetra;
         cartel.text = texto;
 
