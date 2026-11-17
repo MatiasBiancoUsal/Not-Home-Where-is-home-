@@ -14,9 +14,9 @@ using UnityEngine;
 // ============================================================
 public class Checkpoint : MonoBehaviour
 {
-    [Tooltip("Sonido al activarlo (opcional). Hay uno en Assets/Sonidos/Player/HintsStarsLite/Checkpoint 2.")]
     [Tooltip("Aviso que aparece abajo en pantalla al activarlo. Vacio = no muestra nada.")]
     public string mensajeAlActivar = "checkpoint guardado";
+    [Tooltip("Sonido al activarlo (opcional). Hay uno en Assets/Sonidos/Player/HintsStarsLite/Checkpoint 2.")]
     public AudioClip sonidoAlActivar;
     [Range(0f, 1f)] public float volumen = 0.7f;
     [Tooltip("Distancia maxima para buscar el piso debajo del checkpoint.")]
