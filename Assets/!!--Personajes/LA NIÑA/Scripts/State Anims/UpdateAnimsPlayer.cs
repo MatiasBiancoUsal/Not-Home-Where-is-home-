@@ -5,14 +5,58 @@ public class UpdateAnimsPlayer : MonoBehaviour
     private PlayerController playerController;
     private AnimationManager animationManager;
 
+    [Header("Levantarse despues de agacharse")]
+    [Tooltip("Segundos que dura la animacion de levantarse (es la de agacharse al reves). " +
+             "El clip dura 0.4 segundos: si lo cambias, cambia tambien este numero.")]
+    [SerializeField] private float duracionLevantarse = 0.4f;
+
+    // Para saber en que momento SOLTO la S y arrancar la animacion de levantarse.
+    private bool estabaAgachada;
+    private float tiempoLevantandose;
+
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
         animationManager = new AnimationManager();
     }
 
+    // Quieta, en el piso y manteniendo S (o la flecha abajo). Es la misma condicion que usa
+    // CamaraMirarAbajo, asi la camara baja y la niña se agacha al mismo tiempo.
+    private bool EstaAgachada()
+    {
+        if (playerController.movement.IsMoving) return false;
+        if (playerController.jump == null || !playerController.jump.IsGrounded) return false;
+        if (playerController.controles == null) return false;
+
+        float abajo = playerController.controles.Player.Move.ReadValue<Vector2>().y;
+        return abajo <= -0.5f;
+    }
+
+    // Mientras se levanta no puede estar haciendo ninguna otra cosa: si ataca, trepa,
+    // dashea, salta o se pone a caminar, la animacion de levantarse se corta.
+    private bool PuedeLevantarse()
+    {
+        if (playerController.attacks.IsAttack) return false;
+        if (playerController.climb.IsClimbing) return false;
+        if (playerController.dash.IsDash) return false;
+        if (playerController.movement.IsMoving) return false;
+        if (playerController.jump == null || !playerController.jump.IsGrounded) return false;
+        return true;
+    }
+
     public void UpdateAnimations()
     {
+        // LEVANTARSE: en el frame en el que suelta la S arrancamos el contador. La
+        // animacion es la misma de agacharse pero con los dibujos al reves, asi parece
+        // que se vuelve a parar en vez de saltar de golpe al idle.
+        bool agachada = EstaAgachada();
+
+        if (estabaAgachada && !agachada) tiempoLevantandose = duracionLevantarse;
+        estabaAgachada = agachada;
+
+        if (tiempoLevantandose > 0f) tiempoLevantandose -= Time.deltaTime;
+        if (!PuedeLevantarse()) tiempoLevantandose = 0f;
+
         // Actualizar animaciones de ataque
         if (playerController.attacks.IsAttack)
         {
@@ -136,6 +180,24 @@ public class UpdateAnimsPlayer : MonoBehaviour
             }
 
             return; // evita otras animaciones
+        }
+
+        // AGACHADA: quieta en el piso manteniendo S (la misma tecla con la que la camara
+        // mira hacia abajo). Usa la animacion de agacharse que ya existia para esconderse
+        // del boss final.
+        if (agachada)
+        {
+            tiempoLevantandose = 0f;
+            animationManager.SetState(new CrouchPlayerStateAnim(playerController.animPlayer));
+            return;
+        }
+
+        // LEVANTANDOSE: acaba de soltar la S. Durante lo que dura el clip mostramos la
+        // animacion al reves y recien despues vuelve al idle.
+        if (tiempoLevantandose > 0f)
+        {
+            animationManager.SetState(new CrouchStandUpPlayerStateAnim(playerController.animPlayer));
+            return;
         }
 
         // actualizacion animaciones de movimiento

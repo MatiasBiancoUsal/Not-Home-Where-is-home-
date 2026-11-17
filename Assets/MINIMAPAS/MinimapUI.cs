@@ -137,10 +137,8 @@ public class MinimapUI : MonoBehaviour
             return;
         }
 
-        if (isOpen && Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            CloseMinimap();
-        }
+        // ESC ya NO cierra el mapa: en itch.io el navegador se queda esa tecla para salir de
+        // pantalla completa, asi que el juego ni la ve. El mapa se cierra con TAB o M.
     }
 
     public void ToggleMinimap()

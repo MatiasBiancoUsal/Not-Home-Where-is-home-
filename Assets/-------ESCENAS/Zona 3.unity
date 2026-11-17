@@ -412,6 +412,10 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.x
       value: 3.17
@@ -3756,6 +3760,22 @@ PrefabInstance:
       propertyPath: markerSprite
       value: 
       objectReference: {fileID: -6579983684364879789, guid: cb8803d2560ed664b85389a75219a66a, type: 3}
+    - target: {fileID: 1723077433213623723, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+      propertyPath: exactWorldMax.x
+      value: 45.48671
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723077433213623723, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+      propertyPath: exactWorldMax.y
+      value: 123.16002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723077433213623723, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+      propertyPath: exactWorldMin.x
+      value: -175.41864
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723077433213623723, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
+      propertyPath: exactWorldMin.y
+      value: -191.17827
+      objectReference: {fileID: 0}
     - target: {fileID: 1723077433213623723, guid: 67da57d792107834cb6a7ac4197f0b5e, type: 3}
       propertyPath: nombreDelSimbolo
       value: "Simbolo_ni\xF1a_0"
@@ -62952,6 +62972,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BloqueAplastante1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 5253252377007597019, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: hurtBoxSize.x
       value: 1.92
@@ -72573,13 +72597,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 221639242}
   m_SourcePrefab: {fileID: 100100000, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
 --- !u!4 &221639240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
   m_PrefabInstance: {fileID: 221639239}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &221639241 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+  m_PrefabInstance: {fileID: 221639239}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &221639242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221639241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d044a68eab6e44a700bc1dec4f3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamaraMirarAbajo
+  distancia: 4.5
+  velocidad: 3
+  esperaAntesDeBajar: 0.35
+  soloEnElPiso: 1
+  velocidadMaximaParaMirar: 0.6
 --- !u!1 &223875492
 GameObject:
   m_ObjectHideFlags: 0
@@ -109253,6 +109302,10 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4491606039486132124, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: hurtBoxSize.x
       value: 3.17
@@ -137011,7 +137064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: velocidadCaida
-      value: 3.5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: delayAntesDeCaer
@@ -148068,7 +148121,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: velocidadCaida
-      value: 3.5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: delayAntesDeCaer
@@ -182350,7 +182403,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: velocidadCaida
-      value: 3.5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: delayAntesDeCaer

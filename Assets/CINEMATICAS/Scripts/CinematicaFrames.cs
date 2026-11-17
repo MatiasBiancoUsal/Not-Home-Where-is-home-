@@ -50,7 +50,7 @@ public class FrameCinematica
 
 public class CinematicaFrames : MonoBehaviour
 {
-    // Lo usa el PauseMenuManager para que ESC no abra la pausa durante la cinematica.
+    // Lo usa el PauseMenuManager para que la P no abra la pausa durante la cinematica.
     public static bool EnCurso { get; private set; }
 
     // Aviso de codigo para quienes necesitan confirmar que la cinematica REALMENTE termino.

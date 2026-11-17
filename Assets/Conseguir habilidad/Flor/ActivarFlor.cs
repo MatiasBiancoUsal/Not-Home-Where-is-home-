@@ -37,7 +37,7 @@ public class ActivarFlor : MonoBehaviour
     [Tooltip("Todo en minuscula menos los nombres de habilidad y las teclas: asi esas resaltan. " +
              "Ojo con los numeros, la tipografia del juego no los tiene.")]
     [SerializeField] private string tituloDeLaPregunta = "¿CANJEAR PUNTOS?";
-    [SerializeField] private string textoDeLaPregunta = "ESPACIO o ENTER para canjear    -    ESC para cancelar";
+    [SerializeField] private string textoDeLaPregunta = "ESPACIO o ENTER para canjear    -    X para cancelar";
     [Tooltip("El titulo del cartel que sale cuando todavia no te alcanzan los puntos.")]
     [SerializeField] private string tituloSinPuntos = "PUNTOS INSUFICIENTES";
 

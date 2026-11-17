@@ -920,19 +920,19 @@ PrefabInstance:
       objectReference: {fileID: -6579983684364879789, guid: cb8803d2560ed664b85389a75219a66a, type: 3}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.x
-      value: 101.48793
+      value: 98.015625
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.y
-      value: 81.30247
+      value: 78.75001
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.x
-      value: -76.26402
+      value: -98.015594
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.y
-      value: -38.787346
+      value: -38.964844
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: nombreDelSimbolo
@@ -33683,6 +33683,10 @@ PrefabInstance:
       value: BloqueAplastante1
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
       value: -6.11
       objectReference: {fileID: 0}
@@ -33829,6 +33833,10 @@ PrefabInstance:
     - target: {fileID: 1917065041390613000, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_GravityScale
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y
@@ -47218,6 +47226,10 @@ PrefabInstance:
     - target: {fileID: 3830088287823488855, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: m_Name
       value: BloqueAplastante1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
@@ -101317,13 +101329,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1852826720}
   m_SourcePrefab: {fileID: 100100000, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
 --- !u!4 &1852826718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
   m_PrefabInstance: {fileID: 1852826717}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1852826719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+  m_PrefabInstance: {fileID: 1852826717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1852826720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852826719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d044a68eab6e44a700bc1dec4f3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamaraMirarAbajo
+  distancia: 4.5
+  velocidad: 3
+  esperaAntesDeBajar: 0.35
+  soloEnElPiso: 1
+  velocidadMaximaParaMirar: 0.6
 --- !u!1 &1853692357
 GameObject:
   m_ObjectHideFlags: 0
@@ -103182,6 +103219,10 @@ PrefabInstance:
     - target: {fileID: 1917065041390613000, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: m_GravityScale
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y

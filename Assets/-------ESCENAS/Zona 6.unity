@@ -7512,6 +7512,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y
       value: -5.07
       objectReference: {fileID: 0}
@@ -9383,19 +9387,19 @@ PrefabInstance:
       objectReference: {fileID: -6579983684364879789, guid: cb8803d2560ed664b85389a75219a66a, type: 3}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.x
-      value: 15.520966
+      value: 19.015625
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.y
-      value: 47.99518
+      value: 29.75
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.x
-      value: -432.46805
+      value: -357.0156
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.y
-      value: -241.34073
+      value: -242.96484
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: nombreDelSimbolo
@@ -97459,6 +97463,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y
       value: -5.07
       objectReference: {fileID: 0}
@@ -98950,6 +98958,10 @@ PrefabInstance:
       value: BloqueAplastante1 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
       value: -11.89
       objectReference: {fileID: 0}
@@ -99961,6 +99973,10 @@ PrefabInstance:
       value: BloqueAplastante1
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
       value: -11.89
       objectReference: {fileID: 0}
@@ -100671,36 +100687,36 @@ MonoBehaviour:
   frames:
   - nombre: Frame 1
     imagen: {fileID: -3396323099419536359, guid: 343f58ade47eabc4a916ae990fcb31a8, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: Frame 2
     imagen: {fileID: 7861971022690904932, guid: 4cfe42e10177f4c49ae66ac5f1c4ec17, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 8300000, guid: 1916972b0254443a2ac996968e38335c, type: 3}
     volumenSonido: 1
     retrasoSonido: 0
   - nombre: Frame 3
     imagen: {fileID: -6223971281706803508, guid: e97f4cd1bd5d4db45bc96b6a5f281644, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: Frame 4
     imagen: {fileID: 127299777157827040, guid: ae5b97f077c08044a8034bcc113dbcb4, type: 3}
-    duracion: 2.5
-    fadeAlSiguiente: 0.3
+    duracion: 1.5
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 8300000, guid: 76adc3bada8ddff4bbd042635fed2f7d, type: 3}
     volumenSonido: 1
     retrasoSonido: 0
   - nombre: Frame 5
     imagen: {fileID: -1955405948882925227, guid: da0d8eb195c9695408b7b26ebeb2d1f1, type: 3}
-    duracion: 3
-    fadeAlSiguiente: 0.3
+    duracion: 1.8
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
@@ -100709,13 +100725,13 @@ MonoBehaviour:
   imagenB: {fileID: 2135810016}
   animacionDeEncuentroDelOsito: 0
   diagnosticarLaAnimacion: 0
-  esperaConElJuegoCongelado: 1
-  fadeAlNegro: 0.7
-  esperaEnNegro: 0.4
-  fadeAparecerPrimerFrame: 0.8
-  esperaAntesDeSalir: 0.4
-  fadeUltimoFrameANegro: 0.8
-  fadeVolverAlJuego: 0.8
+  esperaConElJuegoCongelado: 0.6
+  fadeAlNegro: 0.42
+  esperaEnNegro: 0.24
+  fadeAparecerPrimerFrame: 0.48
+  esperaAntesDeSalir: 0.24
+  fadeUltimoFrameANegro: 0.48
+  fadeVolverAlJuego: 0.48
   congelarTiempo: 1
   playerController: {fileID: 1483908509}
   ocultarDuranteCine: []
@@ -101088,6 +101104,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: tamanoDeteccion.x
       value: 4.5
@@ -105134,6 +105154,10 @@ PrefabInstance:
       value: BloqueAplastante1 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: offsetDeteccion.y
       value: -11.89
       objectReference: {fileID: 0}
@@ -105404,6 +105428,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
   activeKnockBack: 1
   knockBackDuration: 0.2
+  capasQueFrenanElKnockback:
+    serializedVersion: 2
+    m_Bits: 8
+  margenContraLaPared: 0.1
   activeFlash: 1
   flashDuration: 0.1
   flashMaterial: {fileID: 0}
@@ -148737,99 +148765,99 @@ MonoBehaviour:
   frames:
   - nombre: frame1
     imagen: {fileID: 1311759897171067441, guid: 1d3f3894900999046aaba9445f9d954f, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame2
     imagen: {fileID: 6723305051496782874, guid: 926c86b3fad30e6449154aa9c7a7ee42, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame3
     imagen: {fileID: 6640838161124048499, guid: a40313148436de14299b74fa5f910208, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame4
     imagen: {fileID: -5604109822842418531, guid: 38e2a98d290fc474ba03c869e8adf437, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame5
     imagen: {fileID: -6623190761368982361, guid: fb135b9a21f5f6647ba3de5be238f4a5, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame6
     imagen: {fileID: -898046903571914615, guid: 9d8510938d9e56849ae0a1ff5073bf2b, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame7
     imagen: {fileID: -693154205597620788, guid: 7968e5b18bf2d6b4bb8b14670935f1f1, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 8300000, guid: d238c26f673cb4fe1a445d682d817ed8, type: 3}
     volumenSonido: 1
     retrasoSonido: 0
   - nombre: frame8
     imagen: {fileID: 7914863571945379686, guid: 67e81a827e185f142b9b528974fe34fa, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame9
     imagen: {fileID: -1815215309651238888, guid: 5f96e9f0587fbf7479ba4fdafd0c8484, type: 3}
-    duracion: 3
-    fadeAlSiguiente: 0.3
+    duracion: 1.8
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame10
     imagen: {fileID: 5557270394635496036, guid: 534723e07c728f542bc06370823d698c, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame11
     imagen: {fileID: 6194487314859150012, guid: 2cc6d17e36e11c042befd0fd50af9eae, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame12
     imagen: {fileID: 8475508089554096827, guid: a9cd662b2cd1cfb4e8794c8d7640582d, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
   - nombre: frame13
     imagen: {fileID: -1777432805901299729, guid: 7de961f3619e17648a2216c413c65673, type: 3}
-    duracion: 2
-    fadeAlSiguiente: 0.3
+    duracion: 1.2
+    fadeAlSiguiente: 0.18
     sonido: {fileID: 8300000, guid: e28fb3702129d459a8ce276357d6a2d8, type: 3}
     volumenSonido: 1
     retrasoSonido: 0
   - nombre: frame14
     imagen: {fileID: -1966888865470920081, guid: a7298d1c57d899749852cc3c0d9766e0, type: 3}
-    duracion: 2.5
-    fadeAlSiguiente: 1
+    duracion: 1.5
+    fadeAlSiguiente: 0.6
     sonido: {fileID: 0}
     volumenSonido: 0
     retrasoSonido: 0
@@ -148838,13 +148866,13 @@ MonoBehaviour:
   imagenB: {fileID: 1351330434}
   animacionDeEncuentroDelOsito: 0
   diagnosticarLaAnimacion: 0
-  esperaConElJuegoCongelado: 1
-  fadeAlNegro: 0.7
-  esperaEnNegro: 0.4
-  fadeAparecerPrimerFrame: 0.8
-  esperaAntesDeSalir: 0.4
-  fadeUltimoFrameANegro: 0.8
-  fadeVolverAlJuego: 0.8
+  esperaConElJuegoCongelado: 0.6
+  fadeAlNegro: 0.42
+  esperaEnNegro: 0.24
+  fadeAparecerPrimerFrame: 0.48
+  esperaAntesDeSalir: 0.24
+  fadeUltimoFrameANegro: 0.48
+  fadeVolverAlJuego: 0.48
   congelarTiempo: 1
   playerController: {fileID: 1483908509}
   ocultarDuranteCine: []
@@ -149257,6 +149285,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y
       value: -5.07
@@ -165254,6 +165286,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2026900098}
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: offsetDeteccion.y
       value: -5.07
       objectReference: {fileID: 0}
@@ -165647,8 +165683,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1881073646}
   m_SourcePrefab: {fileID: 100100000, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+--- !u!1 &1881073645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+  m_PrefabInstance: {fileID: 1881073644}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1881073646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881073645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d044a68eab6e44a700bc1dec4f3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamaraMirarAbajo
+  distancia: 4.5
+  velocidad: 3
+  esperaAntesDeBajar: 0.35
+  soloEnElPiso: 1
+  velocidadMaximaParaMirar: 0.6
 --- !u!1001 &1882036968
 PrefabInstance:
   m_ObjectHideFlags: 0

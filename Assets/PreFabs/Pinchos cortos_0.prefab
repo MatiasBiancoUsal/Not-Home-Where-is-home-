@@ -52,6 +52,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  mostrarGizmo: 1
+  causaDeMuerte: 
   damageCoolDown: 0.5
 --- !u!1 &7849372393907065972
 GameObject:
@@ -136,7 +138,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7366845807985162953, guid: 28f37b755db48b049be4f58010de11c0, type: 3}
+  m_Sprite: {fileID: -410086312117598389, guid: 1771a0e14ee954abbad26e242fae825d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -160,6 +162,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
   activeKnockBack: 0
   knockBackDuration: 0.2
+  capasQueFrenanElKnockback:
+    serializedVersion: 2
+    m_Bits: 8
+  margenContraLaPared: 0.1
   activeFlash: 0
   flashDuration: 0.1
   flashMaterial: {fileID: 0}

@@ -20,7 +20,13 @@ public class PauseMenuManager : MonoBehaviour
 
     private bool isPaused = false;
 
-    // PANTALLA COMPLETA: en el navegador, ESC siempre saca de pantalla completa y el juego
+    [Header("Pantalla completa")]
+    [Tooltip("Activo: si el juego pierde la pantalla completa (por ejemplo porque el jugador apreto " +
+             "ESC en itch.io) se abre la pausa sola, y al darle resume vuelve a pantalla completa.\n\n" +
+             "Desactivo (recomendado): salir de pantalla completa no abre nada. La pausa es SOLO con la P.")]
+    [SerializeField] private bool pausarAlSalirDePantallaCompleta = false;
+
+    // En el navegador, ESC siempre saca de pantalla completa y el juego
     // ni se entera de la tecla. Por eso, si se pierde la pantalla completa, pausamos solos,
     // y al volver con "resume" la recuperamos (el navegador solo deja hacerlo con un clic).
     private bool estabaEnPantallaCompleta;
@@ -47,32 +53,42 @@ public class PauseMenuManager : MonoBehaviour
         bool perdioPantallaCompleta = estabaEnPantallaCompleta && !Screen.fullScreen;
         estabaEnPantallaCompleta = Screen.fullScreen;
 
-        // Si el mapa esta abierto, ESC lo maneja MinimapUI. LastClosedFrame evita
-        // que este mismo ESC abra la pausa inmediatamente despues de cerrarlo.
-        if (minimapUI != null &&
-            (minimapUI.IsOpen || minimapUI.LastClosedFrame == Time.frameCount))
+        // Si el mapa se acaba de cerrar en este mismo frame, no abrimos la pausa de rebote.
+        if (minimapUI != null && minimapUI.LastClosedFrame == Time.frameCount)
         {
             return;
         }
 
-        // Durante una cinematica, ESC tampoco abre la pausa (la cinematica ya congela el juego
-        // y el menu de pausa le devolveria el timeScale a 1 en el medio).
+        // Durante una cinematica no se puede pausar: la cinematica ya congela el juego
+        // y el menu de pausa le devolveria el timeScale a 1 en el medio.
         if (CinematicaFrames.EnCurso)
         {
             return;
         }
 
-        if (perdioPantallaCompleta && !isPaused)
+        // Solo si esta activado en el Inspector: perder la pantalla completa abre la pausa.
+        if (pausarAlSalirDePantallaCompleta && perdioPantallaCompleta && !isPaused)
         {
             recuperarPantallaCompleta = true;
             PauseGame();
             return;
         }
 
-        // ESC o P SOLO pausan o despausan. NO van al Main Menu. La P sirve en pantalla
-        // completa, donde el ESC lo usa el navegador para salir.
-        if (Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame)
+        // La P es la UNICA tecla que pausa o despausa. NO va al Main Menu.
+        //
+        // ESC a proposito NO pausa: el juego se publica en itch.io y ahi el navegador usa
+        // ESC para salir de pantalla completa. Si ESC tambien pausara, cada vez que el
+        // jugador saliera de pantalla completa se le abriria el menu encima.
+        if (Keyboard.current.pKey.wasPressedThisFrame)
         {
+            // Si el mapa esta abierto, la P lo cierra primero: asi el menu de pausa no
+            // aparece encima del mapa.
+            if (!isPaused && minimapUI != null && minimapUI.IsOpen)
+            {
+                minimapUI.CloseMinimap();
+                return;
+            }
+
             TogglePause();
         }
     }

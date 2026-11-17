@@ -279,7 +279,7 @@ public class CartelHabilidadUI : MonoBehaviour
     }
 
     // Igual que Mostrar, pero el cartel es una PREGUNTA: ESPACIO o ENTER aceptan,
-    // ESC cancela. Lo usa la flor para preguntar si querés canjear tus puntos.
+    // la X cancela. Lo usa la flor para preguntar si querés canjear tus puntos.
     public static bool Preguntar(Sprite imagen, Sprite imagenMarco, string textoTitulo, string textoDescripcion,
                                  string textoAyuda, bool pausa, EstiloCartelHabilidad estilo,
                                  System.Action alAceptar, System.Action alCancelar,
@@ -638,12 +638,15 @@ public class CartelHabilidadUI : MonoBehaviour
         bool acepta = Keyboard.current.spaceKey.wasPressedThisFrame ||
                       Keyboard.current.enterKey.wasPressedThisFrame ||
                       Keyboard.current.numpadEnterKey.wasPressedThisFrame;
-        bool cancela = Keyboard.current.escapeKey.wasPressedThisFrame;
+        // La X cancela. ESC tambien, pero solo sirve fuera del navegador: en itch.io el
+        // navegador se queda la tecla para salir de pantalla completa y el juego ni la ve.
+        bool cancela = Keyboard.current.xKey.wasPressedThisFrame ||
+                       Keyboard.current.escapeKey.wasPressedThisFrame;
 
         bool apreto = acepta || cancela;
         if (!apreto) return;
 
-        // Si es una PREGUNTA, la tecla decide: ESPACIO/ENTER acepta, ESC cancela.
+        // Si es una PREGUNTA, la tecla decide: ESPACIO/ENTER acepta, X cancela.
         if (preguntando && sePuedeCerrar)
         {
             System.Action respuesta = acepta ? alAceptar : alCancelar;

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 // Va EN la imagen "BotonMenuPausa" (canvas CANVATODO). Al pasar el mouse SUENA el hover, y al
-// clickear SUENA el click y se ABRE el menu de pausa. ESC sigue abriendolo igual (PauseMenuManager).
+// clickear SUENA el click y se ABRE el menu de pausa. La tecla P hace lo mismo (PauseMenuManager).
 // Usa los MISMOS 2 sonidos que el menu de inicio (asignalos en hoverSound / clickSound).
 //
 // Requisitos en el editor:

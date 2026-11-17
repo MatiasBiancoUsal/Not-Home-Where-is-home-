@@ -6827,19 +6827,19 @@ PrefabInstance:
       objectReference: {fileID: -6579983684364879789, guid: cb8803d2560ed664b85389a75219a66a, type: 3}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.x
-      value: 165.44615
+      value: 127.015594
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMax.y
-      value: 29.663536
+      value: 33.75
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.x
-      value: -81.107285
+      value: -67.015594
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: exactWorldMin.y
-      value: -90.73256
+      value: -85.96484
       objectReference: {fileID: 0}
     - target: {fileID: 3529098733536677873, guid: 4e13a48901a3549fcb0eb0ea6d282c67, type: 3}
       propertyPath: nombreDelSimbolo
@@ -18186,7 +18186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: velocidadCaida
-      value: 5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: delayAntesDeCaer
@@ -27566,13 +27566,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 936267556}
   m_SourcePrefab: {fileID: 100100000, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
 --- !u!4 &936267554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5336980088018230991, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
   m_PrefabInstance: {fileID: 936267553}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &936267555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4851695300654886782, guid: 6abad4f87ef33459ca021d55b6f289d9, type: 3}
+  m_PrefabInstance: {fileID: 936267553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &936267556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936267555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d044a68eab6e44a700bc1dec4f3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CamaraMirarAbajo
+  distancia: 4.5
+  velocidad: 3
+  esperaAntesDeBajar: 0.35
+  soloEnElPiso: 1
+  velocidadMaximaParaMirar: 0.6
 --- !u!1001 &939405411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28249,6 +28274,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1962007096}
     m_Modifications:
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: delayAntesDeCaer
       value: 0.14
@@ -77019,6 +77048,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1962007096}
     m_Modifications:
     - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
+      propertyPath: velocidadCaida
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954433081656207117, guid: 1cb8eafd90961463aaff5ead5249d9f6, type: 3}
       propertyPath: delayAntesDeCaer
       value: 0.14
       objectReference: {fileID: 0}
@@ -77210,7 +77243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: velocidadCaida
-      value: 5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4560797127741831676, guid: ecafa7c47f98e4310a1113afae7904fd, type: 3}
       propertyPath: delayAntesDeCaer
