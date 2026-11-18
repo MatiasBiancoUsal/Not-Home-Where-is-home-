@@ -89,7 +89,7 @@ public class DesaparecerAlTerminarCinematica : MonoBehaviour
 
         if (sonidoAlDesaparecer != null)
         {
-            AudioSource.PlayClipAtPoint(sonidoAlDesaparecer, transform.position, volumen);
+            AudioManager.Instance?.PlaySFX(sonidoAlDesaparecer, volumen);
         }
 
         StartCoroutine(RutinaDesvanecido());

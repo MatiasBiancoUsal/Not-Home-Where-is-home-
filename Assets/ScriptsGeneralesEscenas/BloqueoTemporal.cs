@@ -143,7 +143,7 @@ public class BloqueoTemporal : MonoBehaviour
 
         if (sonidoAlAbrirse != null)
         {
-            AudioSource.PlayClipAtPoint(sonidoAlAbrirse, transform.position, volumen);
+            AudioManager.Instance?.PlaySFX(sonidoAlAbrirse, volumen);
         }
 
         // TERCERA RED DE SEGURIDAD: el desvanecido necesita que el objeto este prendido.

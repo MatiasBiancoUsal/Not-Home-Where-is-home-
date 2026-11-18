@@ -155,6 +155,11 @@ public class MinimapUI : MonoBehaviour
 
     public void OpenMinimap()
     {
+        // No apilar el mapa sobre una pausa, cinematica o freeze de impacto:
+        // guardaria timeScale = 0 y al cerrarlo dejaria el juego congelado.
+        // El boton del menu de pausa ya restaura el tiempo antes de abrir el mapa.
+        if (CinematicaFrames.EnCurso || Time.timeScale <= 0f) return;
+
         if (isOpen)
         {
             return;

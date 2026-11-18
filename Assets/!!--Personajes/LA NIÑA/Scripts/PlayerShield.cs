@@ -62,14 +62,6 @@ public class PlayerShield : MonoBehaviour
     [Tooltip("Si tiene duracion, tambien parpadea durante estos ultimos segundos. 0 = nunca.")]
     public float parpadearUltimosSegundos = 3f;
 
-    [Header("Sonidos")]
-    [Tooltip("Se puede dejar vacio. Si no hay AudioSource en el player, se crea uno solo.")]
-    public AudioSource audioSource;
-    public AudioClip sonidoActivar;
-    public AudioClip sonidoGolpeFrenado;
-    public AudioClip sonidoRotura;
-    [Range(0f, 1f)] public float volumen = 1f;
-
     [Header("Testing")]
     [Tooltip("Ignora el cooldown, para poder probar el escudo sin esperar. Acordate de apagarlo.")]
     public bool ignorarCooldown = false;
@@ -114,15 +106,7 @@ public class PlayerShield : MonoBehaviour
         playerAudio = GetComponent<PlayerAudio>();
 
         // El visual vive en un hijo. Lo buscamos incluso si esta desactivado.
-        visual = GetComponentInChildren<ShieldVisual>(true);
-
-        if (audioSource == null) audioSource = GetComponent<AudioSource>();
-        if (audioSource == null && (sonidoActivar != null || sonidoGolpeFrenado != null || sonidoRotura != null))
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.playOnAwake = false;
-        }
-    }
+        visual = GetComponentInChildren<ShieldVisual>(true);    }
 
     private void Update()
     {
@@ -192,7 +176,6 @@ public class PlayerShield : MonoBehaviour
         }
 
         if (playerAudio != null) playerAudio.ReproducirEscudoActivar();
-        else Sonar(sonidoActivar);
 
         if (mostrarLogs) Debug.Log("[Escudo] Activado. Aguanta " + golpesQueAguanta + " golpes.");
         return true;
@@ -226,7 +209,6 @@ public class PlayerShield : MonoBehaviour
         if (mostrarLogs) Debug.Log("[Escudo] Golpe frenado " + golpesRecibidos + "/" + golpesQueAguanta);
 
         if (playerAudio != null) playerAudio.ReproducirEscudoGolpe();
-        else Sonar(sonidoGolpeFrenado);
 
         // Se rompio: este era el ultimo golpe que aguantaba.
         if (golpesRecibidos >= golpesQueAguanta)
@@ -270,7 +252,6 @@ public class PlayerShield : MonoBehaviour
         if (visual != null) visual.Romper();
 
         if (playerAudio != null) playerAudio.ReproducirEscudoRomper();
-        else Sonar(sonidoRotura);
 
         if (sacudirCamaraAlRomper) CameraShaker.Instance?.ShakeShieldBreak();
         if (freezeFrame) StartCoroutine(FreezeFrame());
@@ -298,12 +279,6 @@ public class PlayerShield : MonoBehaviour
         yield return new WaitForSecondsRealtime(freezeDuracion);
 
         if (Time.timeScale == 0f) Time.timeScale = original;
-    }
-
-    private void Sonar(AudioClip clip)
-    {
-        if (clip == null || audioSource == null) return;
-        audioSource.PlayOneShot(clip, volumen);
     }
 
     // Para el menu de pausa / cambio de escena: deja todo limpio.

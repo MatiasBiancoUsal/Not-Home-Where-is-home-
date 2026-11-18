@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-[RequireComponent(typeof(AudioSource))]
 public class BotonConSonido : MonoBehaviour, IPointerEnterHandler
 {
     [Header("Sonidos")]
@@ -21,19 +20,6 @@ public class BotonConSonido : MonoBehaviour, IPointerEnterHandler
     [Header("Delay opcional")]
     [SerializeField] private float extraDelay = 0.05f;
 
-    private AudioSource audioSource;
-    private Button button;
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-        button = GetComponent<Button>();
-
-        audioSource.playOnAwake = false;
-        audioSource.loop = false;
-        audioSource.spatialBlend = 0f;
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         PlayHover();
@@ -43,7 +29,7 @@ public class BotonConSonido : MonoBehaviour, IPointerEnterHandler
     {
         if (hoverSound != null)
         {
-            audioSource.PlayOneShot(hoverSound, hoverVolume);
+            AudioManager.Instance?.PlaySFX(hoverSound, hoverVolume);
         }
     }
 
@@ -51,7 +37,7 @@ public class BotonConSonido : MonoBehaviour, IPointerEnterHandler
     {
         if (clickSound != null)
         {
-            audioSource.PlayOneShot(clickSound, clickVolume);
+            AudioManager.Instance?.PlaySFX(clickSound, clickVolume);
         }
     }
 
